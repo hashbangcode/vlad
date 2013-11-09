@@ -1,4 +1,5 @@
 Vagrant Ansible Drupal development
+==================================
 
 This includes the following technologies:
 * MySQL
@@ -29,6 +30,7 @@ Once done use the following to throw everything away:
 
     vagrant destroy
 
-This box was originally developed by Phil Norton ([@philipnorton42](http://www.twitter.com/philipnorton42)) for use with the site [#! code](www.hashbangcode.com)
+This box was originally developed by Phil Norton ([@philipnorton42](http://www.twitter.com/philipnorton42)) for use with the site [#! code](www.hashbangcode.com).
 
-Thanks to Mike Bell for some of the Vagrant configuration settings.
+Thanks to [Mike Bell](http://mikebell.io/) for some of the Vagrant configuration settings.
+Thanks to [Michael Heap](http://michaelheap.com/) for introducing me to Ansible.
