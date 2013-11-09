@@ -1,0 +1,59 @@
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+*~
+.DS_Store*
+.project
+.settings
+ehthumbs.db
+Icon?
+Thumbs.db
+.svn
+.directory
+
+# IDE generated files #
+######################
+.project
+.settings
+*.bbprojectd
+*.sublime-project
+*.sublime-workspace
+*.tmproj
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+*.swp
+*~.nib
+nbproject
+.komodotools
+.idea
+
+# DRUPAL #
+######################
+files
+build/
+settings.php
+sites.php
+dev.settings.php
+
+# Codeception #
+###############
+tests/tests/_log
