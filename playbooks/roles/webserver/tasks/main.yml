@@ -1,0 +1,9 @@
+---
+- include: apache2.yml
+- include: php.yml
+- include: git.yml
+- include: varnish.yml
+- include: drush.yml
+- include: munin.yml
+- include: css.yml
+- include: xdebug.yml

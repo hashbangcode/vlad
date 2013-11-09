@@ -1,0 +1,74 @@
+---
+- name: MySQL | install mysql packages
+  apt: pkg={{ item }} state=installed
+  sudo: true
+  with_items:    
+   - mysql-client
+   - mysql-common
+   - mysql-server
+   - python-mysqldb
+   
+- name: MySQL | create MySQL configuration file
+  action: template src=mysql.my.cnf.j2 dest=/etc/my.cnf
+  sudo: true
+  notify: 
+  - restart mysql
+              
+- name: MySQL | get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  sudo: true              
+              
+- name: MySQL | add mysql to iptables
+  command: iptables -A INPUT -p tcp --dport {{ mysql_port }} -j  ACCEPT
+  sudo: true
+  when: iptablesrules.stdout.find("mysql") == -1
+  notify:
+   - save iptables  
+         
+
+
+#
+# MySQL database setup, this does the equivalent of mysql_secure_installation.
+#
+# Distribution independent.
+#
+
+- name: MySQL | Set the root password.
+  mysql_user: name=root password={{ mysql_root_password }} host=localhost
+
+- name: MySQL | Config for easy access as root user
+  template: src=mysql_root.my.cnf.j2 dest=/root/.my.cnf
+  only_if: "'{{ user }}' == 'root'"
+
+- name: MySQL | Config for easy access as root user
+  template: src=mysql_root.my.cnf.j2 dest=/home/{{ user }}/.my.cnf
+  only_if: "'{{ user }}' != 'root'"
+
+- name: MySQL | Delete anonymous MySQL server user for {{ server_hostname }}
+  mysql_user: name="" host="{{ server_hostname }}" state="absent" host=localhost login_user=root login_password={{ mysql_root_password }}
+
+- name: MySQL | Delete anonymous MySQL server user for localhost
+  mysql_user: name="" state="absent" host=localhost login_user=root login_password={{ mysql_root_password }}
+
+- name: MySQL | Secure the MySQL root user for IPV6 localhost (::1)
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="::1" host=localhost login_user=root login_password={{ mysql_root_password }}
+
+- name: MySQL | Secure the MySQL root user for IPV4 localhost (127.0.0.1)
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="127.0.0.1" host=localhost login_user=root login_password={{ mysql_root_password }}
+
+- name: MySQL | Secure the MySQL root user for localhost domain (localhost)
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="localhost" host=localhost login_user=root login_password={{ mysql_root_password }}
+
+- name: MySQL | Secure the MySQL root user for {{ server_hostname }} domain
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" host=localhost login_user=root login_password={{ mysql_root_password }}
+
+- name: MySQL | Remove the MySQL test database
+  mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
+  
+         
+- name: MySQL | create application database
+  mysql_db: name={{ dbname }} state=present login_password={{ mysql_root_password }} login_user=root
+
+- name: MySQL | create application database user
+  mysql_user: name={{ dbuser }} password={{ dbpass }} priv=*.*:ALL host='%' state=present  login_password={{ mysql_root_password }} login_user=root

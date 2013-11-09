@@ -1,0 +1,4 @@
+---  
+- name: Sudoers | update sudoers file and validate
+  template: src=sudoers.j2 dest=/etc/sudoers validate="visudo -cf %s"
+  sudo: true

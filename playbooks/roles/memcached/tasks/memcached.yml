@@ -1,0 +1,25 @@
+---
+- name: Memcached | Install packages
+  apt: pkg=$item state=installed
+  sudo: true
+  with_items:
+    # This is 3.0.4 in Ubuntu, which is listed as 'beta' on the PECL page.
+    # Right now in our testing, we want to use 2.x.
+    - php5-memcached
+    - memcached
+  tags: memcached
+
+- name: Memcached | Config file
+  template: src=memcached.conf.j2 dest=/etc/memcached.conf
+  tags: memcached
+  sudo: true
+
+#- name: Memcached | PECL Library install
+#  shell: printf "yes\n" | pecl install memcache creates=/usr/lib/php5/20090626/memcache.so
+#  tags: memcached
+#  sudo: true
+
+- name: Memcached | Config file for the PHP memcache extension
+  template: src=php_apache2_memcached.ini.j2 dest=/etc/php5/apache2/conf.d/memcache.ini
+  tags: memcached
+  sudo: true

@@ -1,0 +1,34 @@
+---
+- name: Apache | install apache2 packages
+  apt: pkg={{ item }} state=installed
+  sudo: true
+  with_items:
+   - apache2
+   - apache2-mpm-prefork
+   - apache2-utils
+
+- name: Apache | set up log directory
+  command: mkdir -p /var/www/{{ apache_hostname }}/logs
+  sudo: true
+
+- name: Apache | disable default site
+  command: a2dissite default
+  sudo: true
+
+- name: Apache | add custom configuration
+  template: src=apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
+  sudo: true
+
+- name: Apache | change port configuration
+  template: src=apache_ports.j2 dest=/etc/apache2/ports.conf
+  sudo: true
+
+- name: Apache | add vhost
+  template: src=apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ apache_hostname }}
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: Apache | enable mod rewrite module
+  command: a2enmod rewrite
+  sudo: true

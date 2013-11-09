@@ -1,0 +1,24 @@
+---
+- name: Drush | add drush pear channels
+  action: command pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+  sudo: true
+
+- name: Drush | force upgrade of Console_Getopt
+  command: pear upgrade --force Console_Getopt
+  sudo: true
+  
+- name: Drush | force upgrate of pear
+  command: pear upgrade --force pear
+  sudo: true
+
+- name: Drush | upgrade all pear other packages
+  command: pear upgrade-all
+  sudo: true
+
+- name: Drush | install drush
+  command: pear install drush/drush creates=/usr/bin/drush
+  sudo: true
+
+- name: Drush | run drush once to finalise install
+  action: command drush
+  sudo: true

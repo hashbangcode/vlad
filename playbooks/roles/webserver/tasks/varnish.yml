@@ -1,0 +1,14 @@
+---
+- name: Varnish | install varnish
+  apt: pkg=varnish state=installed
+  sudo: true
+  
+- name: Varnish | add varnish vcl
+  template: src=varnish_defaultvcl.j2 dest=/etc/varnish/default.vcl
+  sudo: true
+  
+- name: Varnish | add varnish config
+  template: src=varnish_config.j2 dest=/etc/default/varnish
+  sudo: true
+  notify:
+   - restart varnish

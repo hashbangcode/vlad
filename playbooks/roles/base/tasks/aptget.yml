@@ -1,0 +1,11 @@
+---
+- name: apt-get | apt-get update
+  apt: update_cache=yes
+  sudo: true
+
+- name: apt-get | ensure core packages are installed
+  apt: pkg={{ item }} state=installed
+  sudo: true
+  with_items:
+    - ssh-import-id
+    - unzip

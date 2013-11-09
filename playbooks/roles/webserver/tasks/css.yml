@@ -1,0 +1,25 @@
+---
+- name: CSS | Install rubygems package
+  apt: pkg=rubygems state=installed
+  sudo: true
+  tags: css
+
+- name: CSS | Install SASS
+  command: gem install sass creates=/usr/local/bin/sass
+  sudo: true
+  tags: css
+
+- name: CSS | Install Susy
+  command: gem install susy
+  sudo: true
+  tags: css
+
+- name: CSS | Install Compass
+  command: gem install compass creates=/usr/local/bin/compass
+  sudo: true
+  tags: css
+
+- name: CSS | Install Respond-to
+  command: gem install respond-to
+  sudo: true
+  tags: css
