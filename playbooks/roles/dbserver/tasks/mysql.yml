@@ -7,7 +7,8 @@
    - mysql-common
    - mysql-server
    - python-mysqldb
-   
+
+# set up mysql variables
 - name: MySQL | create MySQL configuration file
   action: template src=mysql.my.cnf.j2 dest=/etc/my.cnf
   sudo: true
@@ -27,13 +28,7 @@
    - save iptables  
          
 
-
-#
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
-#
-# Distribution independent.
-#
-
 - name: MySQL | Set the root password.
   mysql_user: name=root password={{ mysql_root_password }} host=localhost
 
@@ -66,7 +61,7 @@
 - name: MySQL | Remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
   
-         
+# set up default database
 - name: MySQL | create application database
   mysql_db: name={{ dbname }} state=present login_password={{ mysql_root_password }} login_user=root
 

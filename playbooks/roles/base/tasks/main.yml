@@ -1,4 +1,4 @@
 ---
 - include: aptget.yml
 - include: sudoers.yml
-#- include: ssh_config.yml
+- include: ssh_config.yml
