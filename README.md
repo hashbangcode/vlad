@@ -2,6 +2,7 @@ Vagrant Ansible Drupal development
 ==================================
 
 This includes the following technologies:
+
 * MySQL
 * Apache2
 * PHP
