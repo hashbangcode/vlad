@@ -57,3 +57,9 @@ dev.settings.php
 # Codeception #
 ###############
 tests/tests/_log
+
+# Vagrant specific files #
+##########################
+.vagrant
+vagrant_ansible_inventory_drupaldev
+vagrant_ansible_inventory_*
