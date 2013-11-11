@@ -35,3 +35,5 @@ This box was originally developed by Phil Norton ([@philipnorton42](http://www.t
 
 Thanks to [Mike Bell](http://mikebell.io/) for some of the Vagrant configuration settings.
 Thanks to [Michael Heap](http://michaelheap.com/) for introducing me to Ansible.
+
+All feedback very much appreciated :)
