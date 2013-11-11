@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # Configure virtual machine options.
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
   config.vm.box = "drupaldev"
   config.vm.network :private_network, ip: "192.168.100.100"
   config.vm.hostname = "drupaldev"
