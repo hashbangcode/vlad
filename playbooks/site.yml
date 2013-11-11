@@ -39,7 +39,7 @@
    mysql_root_password: sdfds87643y5thgfd
    server_hostname: drupaldev
    dbname: drupaldev
-   dbuser: hashbang
+   dbuser: drupaldevuser
    dbpass: wibble
     
    # my.cnf
