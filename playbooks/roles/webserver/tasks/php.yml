@@ -13,7 +13,10 @@
    - php5-mysql
    - php5-xmlrpc
    - php-soap
-        
+   - php5-curl
+  notify:
+    - restart apache2
+   
 - name: PHP | change php apache2 memory_limit
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^memory_limit = " insertafter="^#memory_limit = " line="memory_limit = {{ php_memory_limit }}"
   sudo: true
