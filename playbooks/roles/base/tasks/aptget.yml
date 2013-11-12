@@ -1,6 +1,6 @@
 ---
 - name: apt-get | apt-get update
-  apt: update_cache=yes
+  apt: update_cache=yes cache_valid_time=3600
   sudo: true
 
 - name: apt-get | ensure core packages are installed
