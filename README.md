@@ -21,7 +21,8 @@ To get up and running use the following:
     vagrant up
 
 By adding the following rule to your hosts file you can view the sites test file using www.drupal.local
-192.168.100.100 www.drupal.local
+    
+    192.168.100.100 www.drupal.local
 
 To access the vagrant box use:
 
