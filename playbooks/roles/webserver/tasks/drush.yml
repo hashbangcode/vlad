@@ -21,7 +21,6 @@
 
 - name: Drush | run drush once to finalise install
   command: drush
-  sudo: true
 
 - name: Drush | get site audit drush extension tar file
   command: wget http://ftp.drupal.org/files/projects/site_audit-7.x-1.5.tar.gz chdir=~/.drush
