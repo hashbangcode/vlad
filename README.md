@@ -8,12 +8,13 @@ This includes the following technologies:
 * PHP
 * Varnish
 * Git
-* Drush
+* Drush (with the site audit module)
 * Munin
 * Xdebug
 * SASS
 * Sendmail
 * Memcached
+* Adminer
 
 Prerequesites
 -------------
