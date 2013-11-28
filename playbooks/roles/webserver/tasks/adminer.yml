@@ -1,0 +1,16 @@
+---
+- name: Adminer | create adminer directory
+  command: mkdir adminer chdir=/var/www creates=/var/www/adminer
+  sudo: true
+
+- name: Adminer | copy adminer
+  copy: src=adminer/adminer-3.7.1.php dest=/var/www/adminer/adminer-3.7.1.php
+  sudo: true
+
+- name: Adminer | copy adminer stylesheet
+  copy: src=adminer/adminer.css dest=/var/www/adminer/adminer.css
+  sudo: true
+
+- name: Adminer | copy index.php configuration file into place
+  template: src=adminer/index.j2 dest=/var/www/adminer/index.php
+  sudo: true

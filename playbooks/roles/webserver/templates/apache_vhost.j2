@@ -12,6 +12,14 @@
     allow from all
   </Directory>
 
+  Alias /adminer/ "/var/www/adminer"
+  <Directory "/var/www/adminer">
+    Options FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+  </Directory>
+
   ErrorLog /var/www/{{ apache_hostname }}/logs/error.log
 
   LogLevel warn
