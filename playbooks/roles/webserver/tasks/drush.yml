@@ -1,6 +1,6 @@
 ---
 - name: Drush | add drush pear channels
-  action: command pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+  command: pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
   sudo: true
 
 - name: Drush | force upgrade of Console_Getopt
@@ -26,9 +26,9 @@
 - name: Drush | run drush once as current user to finalise install
   command: drush
   
-  
 - name: Drush | download the site audit module
   command: drush dl site_audit chdir=~/.drush
+  sudo: true
   
 - name: Drush | clear drush cache
   command: drush cc all 
