@@ -27,7 +27,7 @@
   command: drush
   
 - name: Drush | download the site audit module
-  command: drush dl site_audit chdir=~/.drush
+  command: drush dl site_audit chdir=~/.drush creates=~/.drush/site_audit
   sudo: true
   
 - name: Drush | clear drush cache
