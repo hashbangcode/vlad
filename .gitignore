@@ -48,7 +48,6 @@ nbproject
 
 # DRUPAL #
 ######################
-files
 build/
 settings.php
 sites.php
