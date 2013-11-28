@@ -15,9 +15,26 @@ This includes the following technologies:
 * Sendmail
 * Memcached
 
-To get up and running use the following:
+Prerequesites
+-------------
 
-    vagrant init
+* Vagrant (currently only VirtualBox tested)
+* Ansible
+
+To install Ansible use the following commands (tested on OSx):
+
+    sudo easy_install pip
+    sudo pip install ansible
+
+Then install the Vagrant Ansible plugin
+
+    vagrant plugin install ansible
+
+Usage
+-----
+
+If you already have the needed elements then you can run it. To get up and running use the following:
+
     vagrant up
 
 By adding the following rule to your hosts file you can view the sites test file using www.drupal.local
@@ -31,6 +48,9 @@ To access the vagrant box use:
 Once done use the following to throw everything away:
 
     vagrant destroy
+
+Notices
+-------
 
 This box was originally developed by Phil Norton ([@philipnorton42](http://www.twitter.com/philipnorton42)) for use with the site [#! code](www.hashbangcode.com).
 
