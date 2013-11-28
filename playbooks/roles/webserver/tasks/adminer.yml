@@ -14,3 +14,7 @@
 - name: Adminer | copy index.php configuration file into place
   template: src=adminer/index.j2 dest=/var/www/adminer/index.php
   sudo: true
+
+- name: Adminer | ensure adminer directory permissions
+  command: chmod -R 777 adminer chdir=/var/www
+  sudo: true
