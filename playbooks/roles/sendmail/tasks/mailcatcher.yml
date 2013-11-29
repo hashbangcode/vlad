@@ -1,0 +1,26 @@
+---
+- name: MailCatcher | install MailCatcher prerequisite packages
+  apt: pkg={{ item }} state=installed
+  sudo: true
+  with_items:
+    - libsqlite3-dev
+    - ruby-dev
+
+  #gem: name=mailcatcher state=latest
+- name: MailCatcher | install MailCatcher
+  command: gem install mailcatcher --no-rdoc --no-ri
+  sudo: true
+
+- name: MailCatcher | change php sendmail_path setting
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^sendmail_path = " insertafter="^#sendmail_path = " line="sendmail_path = /usr/bin/env catchmail"
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: MailCatcher | change php cli sendmail_path setting
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^sendmail_path = " insertafter="^#sendmail_path = " line="sendmail_path = /usr/bin/env catchmail"
+  sudo: true
+
+- name: MailCatcher | run MailCatcher with no ip address restrictions
+  command: mailcatcher --ip=0.0.0.0
+  sudo: true
