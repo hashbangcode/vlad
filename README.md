@@ -50,6 +50,16 @@ Once done use the following to throw everything away:
 
     vagrant destroy
 
+Additional
+----------
+
+You can access MailCatcher via the following URL:
+http://www.drupal.local:1080/
+
+You can access Adminer via the following URL:
+http://www.drupal.local/adminer/
+
+
 Notices
 -------
 
