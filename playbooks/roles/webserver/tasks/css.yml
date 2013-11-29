@@ -10,7 +10,7 @@
   tags: css
 
 - name: CSS | Install Susy
-  command: gem install susy
+  gem: name=susy state=present
   sudo: true
   tags: css
 
@@ -20,6 +20,6 @@
   tags: css
 
 - name: CSS | Install Respond-to
-  command: gem install respond-to
+  gem: name=respond-to state=present
   sudo: true
   tags: css

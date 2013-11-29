@@ -4,7 +4,7 @@
   sudo: true
 
 - name: Adminer | copy adminer
-  copy: src=adminer/adminer-3.7.1.php dest=/var/www/adminer/adminer-3.7.1.php
+  copy: src=adminer/adminer-3.7.1-en.php dest=/var/www/adminer/adminer-3.7.1-en.php
   sudo: true
 
 - name: Adminer | copy adminer stylesheet
