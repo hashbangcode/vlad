@@ -20,6 +20,14 @@
     Allow from all
   </Directory>
 
+  Alias /xhprof/ "/var/www/xhprof_html/xhprof_html/"
+  <Directory "/var/www/xhprof_html/xhprof_html/">
+    Options FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+  </Directory>
+
   ErrorLog /var/www/{{ apache_hostname }}/logs/error.log
 
   LogLevel warn

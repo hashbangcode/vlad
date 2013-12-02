@@ -2,8 +2,8 @@
 - hosts: all
   roles:
     - base
+    - dbserver  
     - webserver
-    - dbserver
     - memcached
     - sendmail
   vars:
