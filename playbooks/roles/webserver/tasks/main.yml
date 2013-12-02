@@ -8,3 +8,4 @@
 - include: munin.yml
 - include: css.yml
 - include: xdebug.yml
+- include: xhprof.xml

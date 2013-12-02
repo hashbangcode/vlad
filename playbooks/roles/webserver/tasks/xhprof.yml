@@ -1,0 +1,26 @@
+---
+- name: Xhprof | install prerequisites
+  apt: pkg={{ item }} state=installed
+  sudo: true
+  with_items:
+   - graphviz
+   - gcc
+   - make
+
+- name: Xhprof | install xhprof
+  command: pecl config-set preferred_state beta
+  command: pecl install xhprof
+  command: pecl config-set preferred_state stable
+  sudo: true
+
+- name: Xhprof | setup xhprof ini files
+  template: src=xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: Xhprof | get xhprof_html package
+
+- name: Xhprof | check last lines of virtual host for Xhprof include
+
+- name: Xhprof | add virtual server item if include not found
