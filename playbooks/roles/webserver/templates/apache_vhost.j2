@@ -29,10 +29,10 @@
 
     <IfModule mod_rewrite.c>
       RewriteEngine On
+      RewriteBase /xhprof/
       RewriteCond %{SERVER_PORT} ^80$
-      RewriteRule ^xhprof/(.*)?$ http://%{SERVER_NAME}:8080/xhprof/ [R=301,NC,L]
+      RewriteRule ^.*$ http://%{SERVER_NAME}:8080/xhprof/ [R=301,L]
     </IfModule>
-
   </Directory>
 
   ErrorLog /var/www/{{ apache_hostname }}/logs/error.log

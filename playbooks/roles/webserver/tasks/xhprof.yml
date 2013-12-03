@@ -51,9 +51,9 @@
   sudo: true  
   
 - name: Xhprof | run SQL install script
-  command: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
-  ignore_errors: yes  
-  
+  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
+  sudo: true
+
 - name: Xhprof | add virtual server item if include not found
   lineinfile: dest=/etc/apache2/sites-enabled/{{ apache_hostname }} regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
   with_items:
