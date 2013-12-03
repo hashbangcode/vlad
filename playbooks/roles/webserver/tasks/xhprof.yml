@@ -39,7 +39,7 @@
   mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
   
 - name: Xhprof | copy SQL install script
-  copy: src=xhprof/install.sql dest=/var/www/xhprof_html/install.sql
+  copy: src=xhprof/install.mysql dest=/var/www/xhprof_html/install.sql
   sudo: true
   
 - name: Xhprof | copy configuration file
