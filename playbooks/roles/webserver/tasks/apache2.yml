@@ -32,3 +32,5 @@
 - name: Apache | enable mod rewrite module
   command: a2enmod rewrite
   sudo: true
+  notify:
+    - restart apache2
