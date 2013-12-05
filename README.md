@@ -15,12 +15,13 @@ This includes the following technologies:
 * Sendmail
 * Memcached
 * Adminer
+* XHProf
 
 Prerequesites
 -------------
 
 * Vagrant (currently only VirtualBox tested)
-* Ansible
+* Ansible (with the Vagrant Ansible Pluigin)
 
 To install Ansible use the following commands (tested on OSx):
 
@@ -59,6 +60,8 @@ http://www.drupal.local:1080/
 You can access Adminer via the following URL:
 http://www.drupal.local/adminer/
 
+You can access XHProf via the following URL:
+http://www.drupal.local/xhprof/
 
 Notices
 -------
