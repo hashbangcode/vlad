@@ -11,7 +11,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "drupaldev"
   config.vm.network :private_network, ip: "192.168.100.100"
   config.vm.hostname = "drupaldev"
-  
+
+  # Allow caching to be used (see the vagrant-cachier plugin)
+  config.cache.auto_detect = true
+
   # Configure virtual machine setup.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
