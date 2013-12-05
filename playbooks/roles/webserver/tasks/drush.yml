@@ -6,7 +6,7 @@
 - name: Drush | force upgrade of Console_Getopt
   command: pear upgrade --force Console_Getopt
   sudo: true
-  
+
 - name: Drush | force upgrate of pear
   command: pear upgrade --force pear
   sudo: true
@@ -25,10 +25,18 @@
 
 - name: Drush | run drush once as current user to finalise install
   command: drush
-  
+
 - name: Drush | download the site audit module
   command: drush dl site_audit chdir=~/.drush creates=~/.drush/site_audit
   sudo: true
-  
+
 - name: Drush | clear drush cache
   command: drush cc all 
+
+- name: Drush | copy drush/Drupal installation script
+  template: src=drupal_install.j2 dest=/var/www/drupal_install.sh
+  sudo: true
+
+- name: Drush | set drush/Drupal installation script to executable
+  command: chmod +x /var/www/drupal_install.sh
+  sudo: true
