@@ -47,6 +47,8 @@ To access the vagrant box use:
 
     vagrant ssh
 
+To install Drupal on the box log in (using 'vagrant ssh') and run the script /var/www/drupal_install.sh. The admin username is 'admin' and the password is 'password'.
+
 Once done use the following to throw everything away:
 
     vagrant destroy
