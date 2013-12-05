@@ -1,4 +1,4 @@
-CREATE TABLE `details` (
+CREATE TABLE IF NOT EXISTS `details` (
  `id` char(17) NOT NULL,
  `url` varchar(255) default NULL,
  `c_url` varchar(255) default NULL,
