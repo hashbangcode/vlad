@@ -5,15 +5,22 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  
+
+  boxipaddress = "192.168.100.100"
+
   # Configure virtual machine options.
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
   config.vm.box = "drupaldev"
-  config.vm.network :private_network, ip: "192.168.100.100"
+  config.vm.network :private_network, ip: boxipaddress
   config.vm.hostname = "drupaldev"
 
   # Allow caching to be used (see the vagrant-cachier plugin)
-  config.cache.auto_detect = true
+  if defined? VagrantPlugins::Cachier
+    config.cache.auto_detect = true
+    config.cache.enable :apt
+    config.cache.enable :gem
+    config.cache.enable_nfs  = true
+  end
 
   # Configure virtual machine setup.
   config.vm.provider :virtualbox do |v|
@@ -29,12 +36,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     :nfs => nfs_setting
 
   # SSH Set up.
-  #config.ssh.port = 8888
-  #config.vm.network :forwarded_port,
-  #  guest: 22,
-  #  host: 8888,
-  #  id: "ssh",
-  #  auto_correct: true
   config.ssh.forward_agent = true
 
   # Set up port forwarding
@@ -52,9 +53,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbooks/site.yml"
     ansible.host_key_checking = false
-    ansible.raw_arguments = '--extra-vars="user=vagrant"'
-    # Optionally allow verbose output.
-    #ansible.raw_arguments = '--extra-vars="user=vagrant"', "-vvvv"
+    ansible.extra_vars = {user:"vagrant"}
+    # Optionally allow verbose output from ansible.
+    #ansible.verbose = 'extra'
   end
 
 end
