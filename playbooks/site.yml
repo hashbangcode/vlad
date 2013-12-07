@@ -15,8 +15,8 @@
    #php
    php_memory_limit: 512M
    php_max_execution_time: 60
-   php_post_max_size: 20M
-   php_upload_max_filesize: 20M
+   php_post_max_size: 100M
+   php_upload_max_filesize: 100M
    php_max_execution_time: 90
    php_display_errors: Off
    php_display_startup_errors: Off
