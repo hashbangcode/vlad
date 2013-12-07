@@ -32,6 +32,10 @@ Then install the Vagrant Ansible plugin
 
     vagrant plugin install ansible
 
+You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests.
+
+    vagrant plugin install vagrant-cachier
+
 Usage
 -----
 
@@ -64,6 +68,8 @@ http://www.drupal.local/adminer/
 
 You can access XHProf via the following URL:
 http://www.drupal.local/xhprof/
+
+You'll need to kick off XHProf on your site using "?_profile=1"
 
 Notices
 -------
