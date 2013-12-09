@@ -1,0 +1,8 @@
+---
+- name: Phing | add phing pear channel
+  command: pear channel-discover pear.phing.info creates=/usr/share/php/.channels/pear.phing.info.reg
+  sudo: true
+
+- name: Phing | install phing
+  command: pear install --alldeps phing/phing
+  sudo: true

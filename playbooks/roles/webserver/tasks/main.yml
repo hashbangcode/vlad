@@ -5,6 +5,7 @@
 - include: git.yml
 - include: varnish.yml
 - include: drush.yml
+- include: phing.yml
 - include: munin.yml
 - include: css.yml
 - include: xdebug.yml
