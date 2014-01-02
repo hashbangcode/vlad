@@ -34,11 +34,11 @@
 
 - name: MySQL | Config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/root/.my.cnf
-  only_if: "'{{ user }}' == 'root'"
+  when: "'{{ user }}' == 'root'"
 
 - name: MySQL | Config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/home/{{ user }}/.my.cnf
-  only_if: "'{{ user }}' != 'root'"
+  when: "'{{ user }}' != 'root'"
 
 - name: MySQL | Delete anonymous MySQL server user for {{ server_hostname }}
   mysql_user: name="" host="{{ server_hostname }}" state="absent" host=localhost login_user=root login_password={{ mysql_root_password }}
