@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.host_key_checking = false
     ansible.extra_vars = {user:"vagrant"}
     # Optionally allow verbose output from ansible.
-    #ansible.verbose = 'extra'
+    #ansible.verbose = 'vvvv'
   end
 
 end
