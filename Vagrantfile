@@ -1,6 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Vlad - Vagrant LAMP Ansible Drupal
+# A Drupal development platform in a box, with everything you would need to develop Drupal websites.
+# See the readme file (README.md) for more information.
+# Contribute to this project at : https://bitbucket.org/philipnorton42/vagrant-ansible-drupal-dev
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -9,10 +14,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   boxipaddress = "192.168.100.100"
 
   # Configure virtual machine options.
-  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
-  config.vm.box = "drupaldev"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  #config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
+  config.vm.box = "vlad"
+  config.vm.hostname = "vlad"
+
   config.vm.network :private_network, ip: boxipaddress
-  config.vm.hostname = "drupaldev"
 
   # Allow caching to be used (see the vagrant-cachier plugin)
   if defined? VagrantPlugins::Cachier
@@ -46,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     auto_correct: true
 
   # Set machine name.
-  config.vm.define :drupaldev do |t|
+  config.vm.define :vlad do |t|
   end
 
   # Provision with ansible.
@@ -55,7 +62,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.host_key_checking = false
     ansible.extra_vars = {user:"vagrant"}
     # Optionally allow verbose output from ansible.
-    #ansible.verbose = 'vvvv'
+    ansible.verbose = 'vvvv'
   end
 
 end

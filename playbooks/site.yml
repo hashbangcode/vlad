@@ -37,9 +37,9 @@
    #mysql
    mysql_port: 3306
    mysql_root_password: sdfds87643y5thgfd
-   server_hostname: drupaldev
-   dbname: drupaldev
-   dbuser: drupaldevuser
+   server_hostname: vlad
+   dbname: vladdb
+   dbuser: vlad
    dbpass: wibble
     
    # my.cnf

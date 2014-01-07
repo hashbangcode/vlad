@@ -1,5 +1,7 @@
-Vagrant Ansible Drupal development
+Vlad - Vagrant LAMP Ansible Drupal
 ==================================
+
+A Drupal development platform in a box, with everything you would need to develop Drupal websites.
 
 This includes the following technologies:
 
@@ -8,7 +10,7 @@ This includes the following technologies:
 * PHP
 * Varnish
 * Git
-* Drush (with the site audit module)
+* Drush (with the 'site audit' and 'hacked!' modules)
 * Munin
 * Xdebug
 * SASS
@@ -78,5 +80,7 @@ This box was originally developed by Phil Norton ([@philipnorton42](http://www.t
 
 Thanks to [Mike Bell](http://mikebell.io/) for some of the Vagrant configuration settings.
 Thanks to [Michael Heap](http://michaelheap.com/) for introducing me to Ansible.
+
+Feel free to use this project in your own Drupal builds.
 
 All feedback very much appreciated :)

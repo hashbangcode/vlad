@@ -30,6 +30,10 @@
   command: drush dl site_audit chdir=~/.drush creates=~/.drush/site_audit
   sudo: true
 
+- name: Drush | download the hacked! module
+  command: drush dl hacked chdir=~/.drush creates=~/.drush/hacked
+  sudo: true
+
 - name: Drush | clear drush cache
   command: drush cc all 
 
