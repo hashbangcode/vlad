@@ -79,4 +79,5 @@
 
 - name: PHP | Install Composer
   shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+  sudo: true
 

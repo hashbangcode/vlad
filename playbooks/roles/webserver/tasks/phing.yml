@@ -4,5 +4,5 @@
   sudo: true
 
 - name: Phing | install phing
-  command: pear install --alldeps phing/phing
+  command: pear install --alldeps phing/phing creates=/usr/share/php/phing
   sudo: true
