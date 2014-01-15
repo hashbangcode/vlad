@@ -10,3 +10,4 @@
     - ssh-import-id
     - unzip
     - curl
+    - atop

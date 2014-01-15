@@ -6,9 +6,9 @@
 #
 # See the man page for details on how to write a sudoers file.
 #
-Defaults        env_reset
-Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-#Defaults        env_keep+=SSH_AUTH_SOCK
+Defaults	env_reset
+Defaults	exempt_group=admin
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Host alias specification
 
@@ -17,14 +17,14 @@ Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/
 # Cmnd alias specification
 
 # User privilege specification
-root    ALL=(ALL:ALL) ALL
-root All=NOPASSWD:/usr/bin/apt-get,/usr/sbin/service,/sbin/iptables,/sbin/iptables-save,/bin/chown,/bin/chmod,/usr/bin/phing,/bin/ln,/usr/bin/drush,/usr/bin/gem
+root	ALL=(ALL:ALL) ALL
+vagrant All=NOPASSWD:/usr/bin/apt-get,/usr/sbin/service,/sbin/iptables,/sbin/iptables-save,/bin/chown,/bin/chmod,/usr/bin/phing,/bin/ln,/usr/bin/drush,/usr/bin/gem
 
 # Members of the admin group may gain root privileges
-%admin ALL=(ALL) ALL
+%admin ALL=(ALL) NOPASSWD:ALL
 
 # Allow members of group sudo to execute any command
-%sudo   ALL=(ALL:ALL) ALL
+%sudo	ALL=(ALL:ALL) ALL
 
 # See sudoers(5) for more information on "#include" directives:
 
