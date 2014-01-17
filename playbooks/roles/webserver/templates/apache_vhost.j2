@@ -1,11 +1,11 @@
 <VirtualHost *:{{ http_port }}>
   ServerAdmin {{ apache_admin_mail }}
   ServerName {{ apache_hostname }}
-  ServerAlias {{ apache_hostname_nonwww }}
+  ServerAlias {{ apache_hostname_alias }}
 
-  DocumentRoot /var/www/{{ apache_hostname }}/docroot
+  DocumentRoot /var/www/site/docroot
 
-  <Directory /var/www/{{ apache_hostname }}/docroot>
+  <Directory /var/www/site/docroot>
     Options FollowSymLinks MultiViews
     AllowOverride All
     Order allow,deny
@@ -35,8 +35,8 @@
     </IfModule>
   </Directory>
 
-  ErrorLog /var/www/{{ apache_hostname }}/logs/error.log
+  ErrorLog /var/www/site/logs/error.log
 
   LogLevel warn
-  CustomLog /var/www/{{ apache_hostname }}/logs/access.log combined
+  CustomLog /var/www/site/logs/access.log combined
 </VirtualHost>

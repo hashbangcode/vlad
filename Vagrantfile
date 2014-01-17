@@ -37,7 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Set up NFS drive.
   nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
   config.vm.synced_folder "./docroot",
-    "/var/www/www.drupal.local/docroot", 
+    "/var/www/site/docroot", 
     id: "vagrant-root",
     :nfs => nfs_setting
 
