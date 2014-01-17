@@ -1,0 +1,38 @@
+---
+#general
+http_port: 8080
+user: vagrant
+
+#php
+php_memory_limit: 512M
+php_max_execution_time: 60
+php_post_max_size: 100M
+php_upload_max_filesize: 100M
+php_max_execution_time: 90
+php_display_errors: Off
+php_display_startup_errors: Off
+php_html_errors: On
+php_date_timezone: Europe/London
+
+#php apc
+apc_rfc1867: '1'
+apc_shm_size: '256M'
+apc_shm_segments: '1'
+apc_num_files_hint: '0'
+
+#mysql
+mysql_port: 3306
+mysql_root_password: sdfds87643y5thgfd
+server_hostname: vlad
+dbname: vladdb
+dbuser: vlad
+dbpass: wibble
+
+# my.cnf
+mysql_max_allowed_packet: 128M
+innodb_file_per_table: innodb_file_per_table
+mysql_character_set_server: utf8
+mysql_collation_server: utf8_general_ci
+
+#ssh
+ssh_port: 22

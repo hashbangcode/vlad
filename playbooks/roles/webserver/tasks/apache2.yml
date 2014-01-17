@@ -7,8 +7,8 @@
    - apache2-mpm-prefork
    - apache2-utils
 
-- name: Apache | set up log directory
-  command: mkdir -p /var/www/{{ apache_hostname }}/logs
+- name: Apache | set up directories (with logs directory)
+  command: mkdir -p /var/www/site/logs
   sudo: true
 
 - name: Apache | disable default site
