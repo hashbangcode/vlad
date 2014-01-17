@@ -1,0 +1,10 @@
+---
+- name: save iptables
+  command: iptables-save
+  sudo: true
+  notify:
+   - restart iptables
+
+- name: restart iptables
+  service: iptables state=restarted
+  sudo: true
