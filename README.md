@@ -18,6 +18,7 @@ This includes the following technologies:
 * Memcached
 * Adminer
 * XHProf
+* Solr (Version 4)
 
 Prerequesites
 -------------
@@ -70,8 +71,9 @@ http://www.drupal.local/adminer/
 
 You can access XHProf via the following URL:
 http://www.drupal.local/xhprof/
-
 You'll need to kick off XHProf on your site using "?_profile=1"
+
+Solr can be viewed and configured through the Tomcat6 server via http://www.drupal.local:8081/solr. A default collection of 'vlad' has been created and is available at http://www.drupal.local:8081/solr/vlad. This Solr server uses the default configuration available for Solr 4 from the [search_api_solr](https://drupal.org/project/search_api_solr) module.
 
 Notices
 -------
