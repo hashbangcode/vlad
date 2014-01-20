@@ -25,7 +25,7 @@
   sudo: true
   when: iptablesrules.stdout.find("mysql") == -1
   notify:
-   - save iptables  
+   - save iptables
          
 
 # MySQL database setup, this does the equivalent of mysql_secure_installation.

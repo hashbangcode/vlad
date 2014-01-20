@@ -16,7 +16,7 @@
   sudo: true
 
 - name: Munin | add munin iptables
-  command: iptables -A INPUT -p tcp --dport 4949 -s {{ external_ip_address }} -j ACCEPT
+  command: iptables -A INPUT -p tcp --dport 4949 -s {{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }} -j ACCEPT
   sudo: true
   when: iptablesrules.stdout.find("munin") == -1
   notify:

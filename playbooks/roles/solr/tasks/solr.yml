@@ -152,41 +152,41 @@
   sudo: true
   notify:
    - restart tomcat6
-#
-#- name: Solr | make the lib/contrib directory for the extension to live in
-#  command: mkdir -p /home/solr/lib/contrib/ creates=/home/solr/lib/contrib/
-#  sudo: true
-#
-#- name: Solr | copy the needed class directories over
-#  command: cp -r /home/{{ user }}/solr-4.6.0/contrib/{{ item }} /home/solr/lib/contrib/{{ item }} creates=/home/solr/lib/contrib/{{ item }}
-#  with_items:
-#    - analysis-extras
-#    - clustering
-#    - dataimporthandler
-#    - extraction
-#    - langid
-#    - uima
-#    - velocity
-#  sudo: true
-#
-#- name: Solr | ensure tomcat/Solr directory has correct owner
-#  command: chown tomcat:tomcat -R /home/solr
-#  sudo: true
 
-#- name: Solr | copy the solr config file
-#  copy: src=solr/solrconfig.xml dest=/home/solr/vlad/conf/solrconfig.xml owner=tomcat group=tomcat mode=0644
-#  sudo: true
-##  notify:
-##   - restart tomcat6
-#
-##- name: Solr | copy the solr schema file
-##  copy: src=solr/synonyms.txt dest=/home/solr/vlad/conf/synonyms.txt owner=tomcat group=tomcat mode=0644
-##  sudo: true
-##  notify:
-##   - restart tomcat6
-#
-##- name: Solr | copy the solr schema file
-##  copy: src=schema.xml dest=/home/solr/vlad/conf/schema.xml owner=tomcat group=tomcat mode=0644
-##  sudo: true
-##  notify:
-##   - restart tomcat6
+- name: Solr | make the lib/contrib directory for the extension to live in
+  command: mkdir -p /home/solr/lib/contrib/ creates=/home/solr/lib/contrib/
+  sudo: true
+
+- name: Solr | copy the needed class directories over
+  command: cp -r /home/{{ user }}/solr-4.6.0/contrib/{{ item }} /home/solr/lib/contrib/{{ item }} creates=/home/solr/lib/contrib/{{ item }}
+  with_items:
+    - analysis-extras
+    - clustering
+    - dataimporthandler
+    - extraction
+    - langid
+    - uima
+    - velocity
+  sudo: true
+
+- name: Solr | ensure tomcat/Solr directory has correct owner
+  command: chown tomcat6:tomcat6 -R /home/solr
+  sudo: true
+
+- name: Solr | copy the solr config file
+  copy: src=solr/solrconfig.xml dest=/home/solr/vlad/conf/solrconfig.xml owner=tomcat6 group=tomcat6 mode=0644
+  sudo: true
+  notify:
+   - restart tomcat6
+
+- name: Solr | copy the solr schema file
+  copy: src=solr/synonyms.txt dest=/home/solr/vlad/conf/synonyms.txt owner=tomcat6 group=tomcat6 mode=0644
+  sudo: true
+  notify:
+   - restart tomcat6
+
+- name: Solr | copy the solr schema file
+  copy: src=solr/schema.xml dest=/home/solr/vlad/conf/schema.xml owner=tomcat6 group=tomcat6 mode=0644
+  sudo: true
+  notify:
+   - restart tomcat6
