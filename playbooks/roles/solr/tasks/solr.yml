@@ -1,6 +1,4 @@
 ---
-# largley compiled from https://drupal.org/node/2148299
-# also http://andres.jaimes.net/878/setup-lucene-solr-centos-tomcat/
 - name: Solr | install java and tomcat packages
   yum: pkg={{ item }} state=installed
   sudo: true
