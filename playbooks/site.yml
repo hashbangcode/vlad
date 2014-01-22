@@ -2,11 +2,11 @@
 - hosts: all
   roles:
     - base
-    - dbserver 
-    - solr
+    - dbserver
     - webserver
     - memcached
     - sendmail
+    - solr
   vars:
     #apache
     apache_hostname: 'www.drupal.local'

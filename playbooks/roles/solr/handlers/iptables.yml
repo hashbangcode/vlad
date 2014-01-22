@@ -6,5 +6,5 @@
    - restart iptables
 
 - name: restart iptables
-  service: iptables state=restarted
+  service: name=iptables state=restarted
   sudo: true

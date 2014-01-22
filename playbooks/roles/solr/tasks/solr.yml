@@ -130,6 +130,10 @@
   with_items: solrjarfiles.stdout_lines
   sudo: true
 
+- name: Solr | force restart of tomcat6
+  service: name=tomcat6 state=restarted
+  sudo: true
+
 - name: Solr | copy the web.xml tomcat solr integration file
   copy: src=tomcat/web.xml dest=/var/lib/tomcat6/webapps/solr/WEB-INF/web.xml
   sudo: true
