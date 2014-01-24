@@ -121,10 +121,6 @@
   shell: ls -1 /home/{{ user }}/solr-4.6.0/dist/ | grep .jar
   register: solrjarfiles
 
-##- name: Solr | make the lib/dist directory for the jar files to live in
-##  command: mkdir -p /home/solr/lib/dist/ creates=/home/solr/lib/dist/
-##  sudo: true
-
 - name: Solr | copy solr lib files
   command: cp /home/{{ user }}/solr-4.6.0/dist/{{ item }} /home/solr/lib/{{ item }} creates=/home/solr/lib/{{ item }}
   with_items: solrjarfiles.stdout_lines
@@ -132,6 +128,10 @@
 
 - name: Solr | force restart of tomcat6
   service: name=tomcat6 state=restarted
+  sudo: true
+
+- name: Solr | add WEB-INF directory
+  command: mkdir -p /var/lib/tomcat6/webapps/solr/WEB-INF/
   sudo: true
 
 - name: Solr | copy the web.xml tomcat solr integration file
