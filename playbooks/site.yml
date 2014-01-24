@@ -2,8 +2,9 @@
 - hosts: all
   roles:
     - base
-    - dbserver
-    - webserver
+    - mysql
+    - apache
+    - varnish
     - memcached
     - sendmail
     - solr

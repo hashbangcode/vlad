@@ -1,7 +1,6 @@
 ---
 #general
 http_port: 8080
-user: vagrant
 
 #php
 php_memory_limit: 512M

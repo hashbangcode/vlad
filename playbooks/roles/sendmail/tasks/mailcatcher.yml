@@ -6,7 +6,6 @@
     - libsqlite3-dev
     - ruby-dev
 
-  #gem: name=mailcatcher state=latest
 - name: MailCatcher | install MailCatcher
   command: gem install mailcatcher --no-rdoc --no-ri
   sudo: true

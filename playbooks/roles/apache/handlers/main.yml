@@ -1,5 +1,4 @@
 ---
 - include: apache2.yml
 - include: munin.yml
-- include: varnish.yml
 - include: iptables.yml

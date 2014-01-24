@@ -1,12 +1,10 @@
 ---
-- include: adminer.yml
 - include: apache2.yml
 - include: php.yml
-- include: git.yml
-- include: varnish.yml
 - include: drush.yml
 - include: phing.yml
 - include: munin.yml
 - include: css.yml
 - include: xdebug.yml
 - include: xhprof.yml
+- include: adminer.yml
