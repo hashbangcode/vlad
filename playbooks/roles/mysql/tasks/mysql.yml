@@ -14,19 +14,18 @@
   sudo: true
   notify: 
   - restart mysql
-              
+
 - name: MySQL | get iptables rules
   shell: iptables -L
   register: iptablesrules
-  sudo: true              
-              
+  sudo: true
+
 - name: MySQL | add mysql to iptables
   command: iptables -A INPUT -p tcp --dport {{ mysql_port }} -j  ACCEPT
   sudo: true
   when: iptablesrules.stdout.find("mysql") == -1
   notify:
    - save iptables
-         
 
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
 - name: MySQL | Set the root password.
