@@ -1,0 +1,4 @@
+---
+- name: save iptables
+  command: iptables-save
+  sudo: true
