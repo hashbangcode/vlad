@@ -20,7 +20,7 @@
   sudo: true
 
 - name: Xhprof | setup xhprof ini files
-  template: src=xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
+  template: src=xhprof/xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
   sudo: true
   notify:
     - restart apache2
@@ -43,7 +43,7 @@
   sudo: true
   
 - name: Xhprof | copy configuration file
-  template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
+  template: src=xhprof/xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
   sudo: true
   
 - name: Xhprof | ensure Xhprof directory permissions

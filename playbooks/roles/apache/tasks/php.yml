@@ -72,7 +72,7 @@
     - restart apache2
     
 - name: PHP | Change APC configuration file apc.ini
-  template: src=php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
+  template: src=php/php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
   sudo: true
   notify:
     - restart apache2

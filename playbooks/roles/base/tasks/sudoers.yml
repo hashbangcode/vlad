@@ -1,4 +1,0 @@
----  
-- name: Sudoers | update sudoers file and validate
-  copy: src=sudoers dest=/etc/sudoers
-  sudo: true

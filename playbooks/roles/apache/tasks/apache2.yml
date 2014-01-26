@@ -16,15 +16,15 @@
   sudo: true
 
 - name: Apache | add custom configuration
-  template: src=apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
+  template: src=apache/apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
   sudo: true
 
 - name: Apache | change port configuration
-  template: src=apache_ports.j2 dest=/etc/apache2/ports.conf
+  template: src=apache/apache_ports.j2 dest=/etc/apache2/ports.conf
   sudo: true
 
 - name: Apache | add vhost
-  template: src=apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ apache_hostname }}
+  template: src=apache/apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ apache_hostname }}
   sudo: true
   notify:
     - restart apache2

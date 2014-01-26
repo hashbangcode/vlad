@@ -3,7 +3,6 @@
 - include: php.yml
 - include: drush.yml
 - include: phing.yml
-- include: munin.yml
 - include: css.yml
 - include: xdebug.yml
 - include: xhprof.yml
