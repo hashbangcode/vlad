@@ -14,7 +14,7 @@
    - restart varnish
 
 - name: Varnish | force secret file
-   copy: src=secret.txt dest=/etc/varnish/secret
-   sudo: true
-   notify:
-    - restart varnish
+  copy: src=secret.txt dest=/etc/varnish/secret
+  sudo: true
+  notify:
+  - restart varnish
