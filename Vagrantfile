@@ -9,6 +9,7 @@
 # Configuration
 boxipaddress = "192.168.100.100"
 boxname = "vlad"
+hostname = "fuck.local"
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -62,7 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = "playbooks/local.yml"
     ansible.host_key_checking = false
     ansible.ask_sudo_pass = true
-    ansible.extra_vars = {local_ip_address:boxipaddress}
+    ansible.extra_vars = {local_ip_address:boxipaddress,apache_hostname:hostname}
     # Optionally allow verbose output from ansible.
     # ansible.verbose = 'vvvv'
   end
@@ -71,7 +72,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbooks/site.yml"
     ansible.host_key_checking = false
-    ansible.extra_vars = {user:"vagrant"}
+    ansible.extra_vars = {user:"vagrant",apache_hostname:hostname}
     # Optionally allow verbose output from ansible.
     # ansible.verbose = 'vvvv'
   end
