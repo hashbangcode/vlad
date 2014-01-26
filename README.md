@@ -46,9 +46,7 @@ If you already have the needed elements then you can run it. To get up and runni
 
     vagrant up
 
-By adding the following rule to your hosts file you can view the sites test file using www.drupal.local
-    
-    192.168.100.100 www.drupal.local
+You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local ansible action will add an entry to your hosts file so you don't need to alter it.
 
 To access the vagrant box use:
 
@@ -64,24 +62,25 @@ Additional
 ----------
 
 You can access MailCatcher via the following URL:
-http://www.drupal.local:1080/
+[http://www.drupal.local:1080/](http://www.drupal.local:1080/)
 
 You can access Adminer via the following URL:
-http://www.drupal.local/adminer/
+[http://www.drupal.local/adminer/](http://www.drupal.local/adminer/)
 
 You can access XHProf via the following URL:
-http://www.drupal.local/xhprof/
-You'll need to kick off XHProf on your site using "?_profile=1"
+[http://www.drupal.local/xhprof/](http://www.drupal.local/xhprof/)
+You'll need to kick off XHProf on your site using "?_profile=1" at the end of the URL. Like this: [http://www.drupal.local/?_profil=1](http://www.drupal.local/?_profile=1).
 
-Solr can be viewed and configured through the Tomcat6 server via http://www.drupal.local:8081/solr. A default collection of 'vlad' has been created and is available at http://www.drupal.local:8081/solr/vlad. This Solr server uses the default configuration available for Solr 4 from the [search_api_solr](https://drupal.org/project/search_api_solr) module.
+Solr can be viewed and configured through the Tomcat6 server via [http://www.drupal.local:8081/solr](http://www.drupal.local:8081/solr). A default collection of 'vlad' has been created and is available at [http://www.drupal.local:8081/solr/vlad](http://www.drupal.local:8081/solr/vlad). This Solr server uses the default configuration available for Solr 4 from the [search_api_solr](https://drupal.org/project/search_api_solr) module.
 
 Notices
 -------
 
-This box was originally developed by Phil Norton ([@philipnorton42](http://www.twitter.com/philipnorton42)) for use with the site [#! code](www.hashbangcode.com).
+This box was originally developed by Phil Norton ([@philipnorton42](http://www.twitter.com/philipnorton42)) for use with the site [#! code](http://www.hashbangcode.com/).
 
 Thanks to [Mike Bell](http://mikebell.io/) for some of the Vagrant configuration settings.
 Thanks to [Michael Heap](http://michaelheap.com/) for introducing me to Ansible.
+Thanks to [Jeremy Coates](http://www.twitter.com/phpcodemonkey) for the local action tip for hosts file updating.
 
 Feel free to use this project in your own Drupal builds.
 
