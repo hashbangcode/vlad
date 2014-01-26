@@ -61,6 +61,8 @@ Once done use the following to throw everything away:
 Additional
 ----------
 
+The default IP address of the Vagrant box is 192.168.100.100.
+
 You can access MailCatcher via the following URL:
 [http://www.drupal.local:1080/](http://www.drupal.local:1080/)
 
@@ -68,7 +70,7 @@ You can access Adminer via the following URL:
 [http://www.drupal.local/adminer/](http://www.drupal.local/adminer/)
 
 You can access XHProf via the following URL:
-[http://www.drupal.local/xhprof/](http://www.drupal.local/xhprof/)
+[http://www.drupal.local/xhprof/](http://www.drupal.local/xhprof/)e
 You'll need to kick off XHProf on your site using "?_profile=1" at the end of the URL. Like this: [http://www.drupal.local/?_profil=1](http://www.drupal.local/?_profile=1).
 
 Solr can be viewed and configured through the Tomcat6 server via [http://www.drupal.local:8081/solr](http://www.drupal.local:8081/solr). A default collection of 'vlad' has been created and is available at [http://www.drupal.local:8081/solr/vlad](http://www.drupal.local:8081/solr/vlad). This Solr server uses the default configuration available for Solr 4 from the [search_api_solr](https://drupal.org/project/search_api_solr) module.
