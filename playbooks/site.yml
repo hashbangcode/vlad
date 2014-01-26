@@ -8,8 +8,9 @@
     - memcached
     - sendmail
     - solr
+    - munin
   vars:
     #apache
-    apache_hostname: 'www.drupal.local'
-    apache_hostname_alias: 'drupal.local'
+    apache_hostname: 'drupal.local'
+    apache_hostname_alias: 'www.{{ apache_hostname }}'
     apache_admin_mail: 'test@example.com'
