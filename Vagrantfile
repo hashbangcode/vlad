@@ -9,7 +9,7 @@
 # Configuration
 boxipaddress = "192.168.100.100"
 boxname = "vlad"
-hostname = "fuck.local"
+hostname = "drupal.local"
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
