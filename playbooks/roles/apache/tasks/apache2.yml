@@ -24,7 +24,7 @@
   sudo: true
 
 - name: Apache | add vhost
-  template: src=apache/apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ apache_hostname }}
+  template: src=apache/apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ apache_hostname }}.conf
   sudo: true
   notify:
     - restart apache2

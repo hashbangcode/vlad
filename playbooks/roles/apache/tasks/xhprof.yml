@@ -31,7 +31,7 @@
   sudo: true
 
 - name: Xhprof | check virtual host for Xhprof include
-  command: cat /etc/apache2/sites-enabled/{{ apache_hostname }}
+  command: cat /etc/apache2/sites-enabled/{{ apache_hostname }}.conf
   register: xhprof_include_present
   sudo: true
 
@@ -55,11 +55,17 @@
   sudo: true
 
 - name: Xhprof | add virtual server item if include not found
-  lineinfile: dest=/etc/apache2/sites-enabled/{{ apache_hostname }} regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
+  lineinfile: dest=/etc/apache2/sites-enabled/{{ apache_hostname }}.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
   with_items:
     - '  php_value auto_prepend_file /var/www/xhprof_html/external/header.php'
     - '</VirtualHost>'
   when: xhprof_include_present.stdout.find('auto_prepend') == -1
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: Xhprof | add vhost
+  template: src=xhprof/apache_xhprof_vhost.j2 dest=/etc/apache2/sites-enabled/xhprof.{{ apache_hostname }}.conf
   sudo: true
   notify:
     - restart apache2

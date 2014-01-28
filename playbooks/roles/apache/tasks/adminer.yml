@@ -18,3 +18,9 @@
 - name: Adminer | ensure adminer directory permissions
   command: chmod -R 777 adminer chdir=/var/www
   sudo: true
+
+- name: Apache | add vhost
+  template: src=adminer/apache_adminer_vhost.j2 dest=/etc/apache2/sites-enabled/adminer.{{ apache_hostname }}.conf
+  sudo: true
+  notify:
+    - restart apache2

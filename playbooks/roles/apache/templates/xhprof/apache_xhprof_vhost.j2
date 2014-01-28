@@ -1,0 +1,25 @@
+<VirtualHost *:{{ http_port }}>
+  ServerAdmin {{ apache_admin_mail }}
+  ServerName xhprof.{{ apache_hostname }}
+
+  DocumentRoot /var/www/xhprof_html/xhprof_html
+
+  <Directory "/var/www/xhprof_html/xhprof_html/">
+    Options FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+
+    <IfModule mod_rewrite.c>
+      RewriteEngine On
+      RewriteBase /xhprof/
+      RewriteCond %{SERVER_PORT} ^80$
+      RewriteRule ^.*$ http://%{SERVER_NAME}:8080/ [R=301,L]
+    </IfModule>
+  </Directory>
+
+  ErrorLog /var/www/site/logs/error.log
+
+  LogLevel warn
+  CustomLog /var/www/site/logs/access.log combined
+</VirtualHost>

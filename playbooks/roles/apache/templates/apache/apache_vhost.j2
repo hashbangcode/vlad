@@ -12,29 +12,6 @@
     allow from all
   </Directory>
 
-  Alias /adminer/ "/var/www/adminer/"
-  <Directory "/var/www/adminer/">
-    Options FollowSymLinks MultiViews
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-  </Directory>
-
-  Alias /xhprof/ "/var/www/xhprof_html/xhprof_html/"
-  <Directory "/var/www/xhprof_html/xhprof_html/">
-    Options FollowSymLinks MultiViews
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-
-    <IfModule mod_rewrite.c>
-      RewriteEngine On
-      RewriteBase /xhprof/
-      RewriteCond %{SERVER_PORT} ^80$
-      RewriteRule ^.*$ http://%{SERVER_NAME}:8080/xhprof/ [R=301,L]
-    </IfModule>
-  </Directory>
-
   ErrorLog /var/www/site/logs/error.log
 
   LogLevel warn
