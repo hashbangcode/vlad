@@ -20,10 +20,10 @@
         <h3><a href="http://www.drupal.local:1080/" title="MailCatcher">MailCatcher</a></h3>
         <p>MailCatcher is a program that intercepts all emails sent by PHP and shows them on this web page.</p>
 
-        <h3><a href="http://www.drupal.local/adminer/" title="Adminer">Adminer</a></h3>
+        <h3><a href="http://adminer.drupal.local/" title="Adminer">Adminer</a></h3>
         <p>Adminer is a mini database management software, written in PHP.</p>
 
-        <h3><a href="http://www.drupal.local/xhprof/" title="">XHProf</a></h3>
+        <h3><a href="http://xhprof.drupal.local/" title="">XHProf</a></h3>
         <p>XHProf is a performance monitoring program that shows detailed execution stats of PHP page loads. In order to
             use XHProf you'll need to append the URL with "_profile=1" (i.e.
             <a href="http://www.drupal.local/?_profile=1" title="Run XHPRof profiler">http://www.drupal.local/?_profile=1</a>).</p>
