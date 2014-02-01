@@ -15,6 +15,7 @@ This includes the following technologies:
 * Xdebug
 * SASS
 * Sendmail
+* Mailcatcher
 * Memcached
 * Adminer
 * XHProf
@@ -46,7 +47,7 @@ If you already have the needed elements then you can run it. To get up and runni
 
     vagrant up
 
-You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local ansible action will add an entry to your hosts file for the IP address 192.168.100.100 so you don't need to alter it.
+You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local Ansible action will add an entry to your hosts file for the IP address 192.168.100.100 so you don't need to alter it.
 
 To access the vagrant box use:
 
@@ -63,11 +64,18 @@ Additional
 
 The default IP address of the Vagrant box is 192.168.100.100.
 
-You can access MailCatcher via the following URL:
+Mailcatcher is installed as a default mail server for PHP and will therefore intercept all email sent through any website installed on the Vagrant guest. You can access MailCatcher via the following URL:
 [http://www.drupal.local:1080/](http://www.drupal.local:1080/)
 
 You can access Adminer via the following URL:
 [http://adminer.drupal.local/](http://adminer.drupal.local/)
+
+Adminer will automatically log you into the database when you open it. The local MySQL user details are as follows:
+Username: vlad
+Password: wibble
+
+Xdebug has been configured to allow code profiling. You can activate this using the XDEBUG_PROFILE=true parameter ar the end of the URL. Like this: [http://www.drupal.local/?XDEBUG_PROFILE=true](http://www.drupal.local/?XDEBUG_PROFILE=true).
+The profile output can be found in the directory /tmp/xdebug_profiles on the Vagrant guest.
 
 You can access XHProf via the following URL:
 [http://xhprof.drupal.local/](http://xhprof.drupal.local/)

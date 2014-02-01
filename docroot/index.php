@@ -13,7 +13,8 @@
       <p>If you are seeing this page then you have set up the Vagrant Drupal server correctly.</p>
 
       <p>Rather than giving you a copy of Drupal out of the box it is up to you to install Drupal yourself. You can
-          install Drupal 7 by logging into the box (using 'vagrans ssh') and running the script '/var/www/drupal_install.sh'.</p>
+          install Drupal 7 by logging into the box (using 'vagrans ssh') and running the script '/var/www/drupal_install.sh'.
+          The username of the site is 'admin' and the password is 'password'.</p>
 
       <h2>Some helpful links.</h2>
         <p>You can access some additional programs using the following URL's.</p>
