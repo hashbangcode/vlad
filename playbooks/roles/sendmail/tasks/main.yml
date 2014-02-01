@@ -1,3 +1,2 @@
 ---
 - include: sendmail.yml
-- include: mailcatcher.yml
