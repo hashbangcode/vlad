@@ -1,4 +1,10 @@
 ---
+- name: CSS | install css packages
+  apt: pkg={{ item }} state=installed
+  sudo: true
+  with_items:
+   - node-less
+
 - name: CSS | Install rubygems package
   apt: pkg=rubygems state=installed
   sudo: true
