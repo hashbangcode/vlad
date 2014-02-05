@@ -24,19 +24,24 @@ This includes the following technologies:
 Prerequesites
 -------------
 
-* Vagrant (currently only VirtualBox tested)
+* Vagrant 1.4+ (currently only tested with the VirtualBox provider)
+* If you are using VirtualBox then you will need VirtualBox 4.3+
 * Ansible (with the Vagrant Ansible Pluigin)
 
-To install Ansible use the following commands (tested on OSx):
+Ansible doesn't currently run on Windows so Vlad will only work on Linux or OSX system.
+
+To install Ansible use the following commands:
 
     sudo easy_install pip
     sudo pip install ansible
 
-Then install the Vagrant Ansible plugin
+You may have to install some prerequisite python packages first:
 
-    vagrant plugin install ansible
+    sudo pip install paramiko PyYAML jinja2 httplib2 markupsafe
 
-You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests.
+Vagrant 1.4+ comes with the Ansible provisioning tool included so there is no need to install extra plugins.
+
+You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests, which speeds reprovisioning up.
 
     vagrant plugin install vagrant-cachier
 
