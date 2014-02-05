@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_GET['username']) && !isset($_GET['file'])) {
-  header('Location: http://' . $_SERVER['SERVER_NAME'] . ':8080/?username={{ dbuser }}&db={{ dbname }}');
+  header('Location: http://' . $_SERVER['SERVER_NAME'] . ':{{ http_port }}/?username={{ dbuser }}&db={{ dbname }}');
 }
 
 header("Pragma: no-cache");
