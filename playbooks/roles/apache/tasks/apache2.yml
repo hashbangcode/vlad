@@ -8,7 +8,7 @@
    - apache2-utils
 
 - name: Apache | set up directories (with logs directory)
-  command: mkdir -p /var/www/site/logs
+  file: path=/var/www/site/logs state=directory recurse=yes
   sudo: true
 
 - name: Apache | disable default site
