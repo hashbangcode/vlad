@@ -7,7 +7,7 @@
     - varnish
     - memcached
     - mailcatcher
-    #- sendmail
+    - sendmail
     - solr
     - munin
   vars:
