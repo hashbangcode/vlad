@@ -1,0 +1,8 @@
+rm -rf /var/www/site/docroot/.* /var/www/site/docroot/*
+git clone --branch 8.x http://git.drupal.org/project/drupal.git /var/www/site/docroot
+cp /var/www/site/docroot/sites/default/default.settings.php /var/www/site/docroot/sites/default/settings.php
+mkdir /var/www/site/docroot/modules/contrib
+mkdir /var/www/site/docroot/modules/custom
+chmod -R 777 /var/www/site/docroot
+cd /var/www/site/docroot
+/home/vagrant/drush/drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes

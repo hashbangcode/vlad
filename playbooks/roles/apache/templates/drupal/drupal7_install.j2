@@ -3,7 +3,7 @@ drush dl --drupal-project-rename=docroot --yes
 cp docroot/sites/default/default.settings.php docroot/sites/default/settings.php
 mkdir docroot/sites/default/files
 mkdir docroot/sites/all/modules/contrib
-mkdir docroot/sites/all/modules/custom sites/all/modules/admin
+mkdir docroot/sites/all/modules/custom
 cd docroot
 drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
 drush dis overlay --yes

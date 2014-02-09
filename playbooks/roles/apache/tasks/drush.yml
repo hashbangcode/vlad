@@ -37,10 +37,34 @@
 - name: Drush | clear drush cache
   command: drush cc all 
 
-- name: Drush | copy drush/Drupal installation script
-  template: src=drupal_install.j2 dest=/var/www/drupal_install.sh
+- name: Drush | copy drush/Drupal 7 installation script
+  template: src=drupal/drupal7_install.j2 dest=/var/www/drupal7_install.sh
   sudo: true
 
-- name: Drush | set drush/Drupal installation script to executable
-  command: chmod +x /var/www/drupal_install.sh
+- name: Drush | set drush/Drupal 7 installation script to executable
+  command: chmod +x /var/www/drupal7_install.sh
   sudo: true
+
+- name: Drush | copy drush/Drupal 8 installation script
+  template: src=drupal/drupal8_install.j2 dest=/var/www/drupal8_install.sh
+  sudo: true
+
+- name: Drush | set drush/Drupal 8 installation script to executable
+  command: chmod +x /var/www/drupal8_install.sh
+  sudo: true
+
+- name: Drush | get latest version of Drush
+  git: repo=https://github.com/drush-ops/drush.git dest=~/drush
+
+- name: Drush | set drush to executable
+  command: chmod u+x drush chdir=~/drush
+
+- name: Drush | add drush-master alias to .bashrc file
+  lineinfile: dest=~/.bashrc state=present line='alias drush-master=/home/vagrant/drush/drush'
+
+- name: Drush | run composer install in drush
+  command: composer install chdir=~/drush creates=~/drush/composer.lock
+
+#chmod u+x /home/vagrant/drush/drush
+#alias drush-master=/home/vagrant/drush/drush
+#composer install
