@@ -88,6 +88,13 @@ You'll need to kick off XHProf on your site using "?_profile=1" at the end of th
 
 Solr can be viewed and configured through the Tomcat6 server via [http://www.drupal.local:8081/solr](http://www.drupal.local:8081/solr). A default collection of 'vlad' has been created and is available at [http://www.drupal.local:8081/solr/vlad](http://www.drupal.local:8081/solr/vlad). This Solr server uses the default configuration available for Solr 4 from the [search_api_solr](https://drupal.org/project/search_api_solr) module.
 
+Running Ansible Outside Vagrant
+-------------------------------
+
+During the setup process a file called host.ini will be created in the main Vlad directory. This file contains all the information Ansible needs to interact with the Vagrant box. If you want to run the Ansible playbook outside of Vagrant you can run the following command.
+
+ansible-playbook -i host.ini  playbooks/site.yml
+
 Notices
 -------
 
