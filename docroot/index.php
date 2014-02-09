@@ -12,9 +12,11 @@
     <article>
       <p>If you are seeing this page then you have set up the Vagrant Drupal server correctly.</p>
 
-      <p>Rather than giving you a copy of Drupal out of the box it is up to you to install Drupal yourself. You can
-          install Drupal 7 by logging into the box (using 'vagrans ssh') and running the script '/var/www/drupal_install.sh'.
-          The username of the site is 'admin' and the password is 'password'.</p>
+      <p>Rather than giving you a copy of Drupal out of the box it is up to you to install Drupal yourself. To install
+        Drupal 7 on the box log in (using 'vagrant ssh') and run the script /var/www/drupal7_install.sh. To clone the
+        latest version of Drupal 8 and install you can run the script /var/www/drupal8_install.sh. The admin username
+        for both Drupal installs is 'admin' and the password is 'password'. For best results you should run these
+        scripts with sudo.</p>
 
       <h2>Some helpful links.</h2>
         <p>You can access some additional programs using the following URL's.</p>
