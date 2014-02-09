@@ -58,7 +58,7 @@ To access the vagrant box use:
 
     vagrant ssh
 
-To install Drupal on the box log in (using 'vagrant ssh') and run the script /var/www/drupal_install.sh. The admin username is 'admin' and the password is 'password'.
+To install Drupal 7 on the box log in (using 'vagrant ssh') and run the script /var/www/drupal7_install.sh. To clone the latest version of Drupal 8 and install you can run the script /var/www/drupal8_install.sh. The admin username for both Drupal installs is 'admin' and the password is 'password'. For best results you should run these scripts with sudo.
 
 Once done use the following to throw everything away:
 
