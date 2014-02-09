@@ -6,6 +6,7 @@
    - graphviz
    - gcc
    - make
+   - python-mysqldb
 
 - name: Xhprof | set pecl preferred state to beta
   command: pecl config-set preferred_state beta creates=/usr/lib/php5/20090626/xhprof.so
