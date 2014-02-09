@@ -60,5 +60,9 @@ tests/tests/_log
 # Vagrant specific files #
 ##########################
 .vagrant
-vagrant_ansible_inventory_vlad
 vagrant_ansible_inventory_*
+
+# Vlas specific files #
+#######################
+host.ini
+vagrant_ansible_inventory_vlad

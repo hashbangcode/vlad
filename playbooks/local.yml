@@ -9,6 +9,10 @@
   - name: local actions | print hostname
     local_action: debug var=apache_hostname
 
+  - name: local actions | write local hosts file
+    template: src=templates/host.j2 dest=../host.ini
+    delegate_to: 127.0.0.1
+
   - name: local actions | remove reference of host from local hosts file
     lineinfile:
         dest=/etc/hosts
