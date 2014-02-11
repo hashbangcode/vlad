@@ -35,3 +35,6 @@ mysql_collation_server: utf8_general_ci
 
 #ssh
 ssh_port: 22
+
+# varnish
+varnish_memory: 512
