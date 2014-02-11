@@ -1,26 +1,32 @@
 ---
 - name: Adminer | create adminer directory
   command: mkdir adminer chdir=/var/www creates=/var/www/adminer
+  tags: adminer
   sudo: true
 
 - name: Adminer | copy adminer
   copy: src=adminer/adminer-3.7.1-en.php dest=/var/www/adminer/adminer-3.7.1-en.php
+  tags: adminer
   sudo: true
 
 - name: Adminer | copy adminer stylesheet
   copy: src=adminer/adminer.css dest=/var/www/adminer/adminer.css
+  tags: adminer
   sudo: true
 
 - name: Adminer | copy index.php configuration file into place
   template: src=adminer/index.j2 dest=/var/www/adminer/index.php
+  tags: adminer
   sudo: true
 
 - name: Adminer | ensure adminer directory permissions
   command: chmod -R 777 adminer chdir=/var/www
+  tags: adminer
   sudo: true
 
 - name: Apache | add vhost
   template: src=adminer/apache_adminer_vhost.j2 dest=/etc/apache2/sites-enabled/adminer.{{ apache_hostname }}.conf
+  tags: adminer
   sudo: true
   notify:
     - restart apache2

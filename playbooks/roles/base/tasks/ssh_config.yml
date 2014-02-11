@@ -1,4 +1,5 @@
 ---  
-- name: ssh config | add ssh config file
+- name: SSH Config | add ssh config file
   template: src=ssh_config.j2 dest=/etc/ssh/sshd_config
+  tags: ssh
   sudo: true

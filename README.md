@@ -95,7 +95,11 @@ Running Ansible Outside Vagrant
 
 During the setup process a file called host.ini will be created in the main Vlad directory. This file contains all the information Ansible needs to interact with the Vagrant box. If you want to run the Ansible playbook outside of Vagrant you can run the following command.
 
-ansible-playbook -i host.ini  playbooks/site.yml
+    ansible-playbook -i host.ini playbooks/site.yml
+
+Tags have been included into the playbooks to allow different parts to be run individually. For example to (re)run the varnish playbook use the following command.
+
+    ansible-playbook -i host.ini -t varnish playbooks/site.yml
 
 Notices
 -------
