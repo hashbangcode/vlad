@@ -41,7 +41,7 @@
    - restart tomcat6
 
 - name: Solr | force (re)start of tomcat6
-  command: service tomcat6 restart
+  service: name=tomcat6 state=restarted
   tags: solr
   sudo: true
 
@@ -208,7 +208,7 @@
     - velocity
 
 - name: Solr | ensure tomcat/Solr directory has correct owner
-  command: chown tomcat6:tomcat6 -R /home/solr
+  file: path=/home/solr owner=tomcat6 group=tomcat6 recurse=yes
   tags: solr
   sudo: true
 

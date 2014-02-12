@@ -1,6 +1,6 @@
 ---
 - name: Adminer | create adminer directory
-  command: mkdir adminer chdir=/var/www creates=/var/www/adminer
+  file: path=/var/www/adminer state=directory
   tags: adminer
   sudo: true
 

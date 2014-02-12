@@ -57,7 +57,7 @@
   sudo: true
   
 - name: Xhprof | ensure Xhprof directory permissions
-  command: chmod -R 777 xhprof_html chdir=/var/www
+  file: path=/var/www/xhprof mode=0777 recurse=yes
   tags: xhprof
   sudo: true
   
