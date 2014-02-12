@@ -1,11 +1,12 @@
 ---
 - name: MailCatcher | install MailCatcher prerequisite packages
   apt: pkg={{ item }} state=installed
-  tags: mailcatcher
-  sudo: true
   with_items:
+    - rubygems
     - libsqlite3-dev
     - ruby-dev
+  tags: mailcatcher
+  sudo: true
 
 - name: MailCatcher | install MailCatcher
   command: gem install mailcatcher --no-rdoc --no-ri
