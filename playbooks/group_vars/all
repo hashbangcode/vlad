@@ -13,6 +13,11 @@ php_display_startup_errors: Off
 php_html_errors: On
 php_date_timezone: Europe/London
 
+#apache
+apache_hostname: 'drupal.local'
+apache_hostname_alias: 'www.{{ apache_hostname }}'
+apache_admin_mail: 'test@example.com'
+
 #php apc
 apc_rfc1867: '1'
 apc_shm_size: '256M'
