@@ -101,6 +101,8 @@ Tags have been included into the playbooks to allow different parts to be run in
 
     ansible-playbook -i host.ini -t varnish playbooks/site.yml
 
+Possible tags are: adminer,apache2,aptget,css,drush,local,mailcatcher,memcached,munin,mysql,phing,php,sendmail,solr,ssh,varnish,xdebug,xhprof
+
 Notices
 -------
 
