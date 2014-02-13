@@ -5,6 +5,8 @@
     - role: mysql
     - role: php
     - role: apache
+    - role: adminer
+    - role: xhprof
     - role: varnish
     - role: memcached
     - role: mailcatcher

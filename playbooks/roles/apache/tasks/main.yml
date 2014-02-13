@@ -1,4 +1,2 @@
 ---
-- include: apache2.yml
-- include: xhprof.yml
-- include: adminer.yml
+- include: apache.yml
