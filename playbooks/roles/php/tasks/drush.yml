@@ -19,6 +19,11 @@
   tags: drush
   sudo: true
 
+- name: Drush | clear pear cache before installing drush
+  command: pear clear-cache
+  tags: drush
+  sudo: true
+
 - name: Drush | install drush
   command: pear install drush/drush creates=/usr/bin/drush
   tags: drush
