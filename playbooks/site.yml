@@ -1,17 +1,16 @@
 ---
 - hosts: all
   roles:
-    - base
-    - mysql
-    - apache
-    - varnish
-    - memcached
-    - mailcatcher
-    - sendmail
-    - solr
-    - munin
-  vars:
-    #apache
-    apache_hostname: 'drupal.local'
-    apache_hostname_alias: 'www.{{ apache_hostname }}'
-    apache_admin_mail: 'test@example.com'
+    - role: base
+    - role: mysql
+    - role: php
+    - role: apache
+    - role: adminer
+    - role: xhprof
+    - role: varnish
+    - role: memcached
+    - role: mailcatcher
+    - role: sendmail
+    - role: solr
+    - role: munin
+    - role: css

@@ -25,7 +25,7 @@
   sudo: true
 
 - name: Xhprof | setup xhprof ini files
-  template: src=xhprof/xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
+  template: src=xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
   tags: xhprof
   sudo: true
   notify:
@@ -47,17 +47,17 @@
   tags: xhprof
 
 - name: Xhprof | copy SQL install script
-  copy: src=xhprof/install.mysql dest=/var/www/xhprof_html/install.sql
+  copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
   tags: xhprof
   sudo: true
   
 - name: Xhprof | copy configuration file
-  template: src=xhprof/xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
+  template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
   tags: xhprof
   sudo: true
   
 - name: Xhprof | ensure Xhprof directory permissions
-  command: chmod -R 777 xhprof_html chdir=/var/www
+  file: path=/var/www/xhprof mode=0777 recurse=yes
   tags: xhprof
   sudo: true
   
@@ -78,7 +78,7 @@
     - restart apache2
 
 - name: Xhprof | add vhost
-  template: src=xhprof/apache_xhprof_vhost.j2 dest=/etc/apache2/sites-enabled/xhprof.{{ apache_hostname }}.conf
+  template: src=apache_xhprof_vhost.j2 dest=/etc/apache2/sites-enabled/xhprof.{{ apache_hostname }}.conf
   tags: xhprof
   sudo: true
   notify:

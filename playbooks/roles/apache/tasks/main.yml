@@ -1,9 +1,2 @@
 ---
-- include: apache2.yml
-- include: php.yml
-- include: drush.yml
-- include: phing.yml
-- include: css.yml
-- include: xdebug.yml
-- include: xhprof.yml
-- include: adminer.yml
+- include: apache.yml
