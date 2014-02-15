@@ -22,12 +22,12 @@
   tags: drush
 
 - name: Drush | download the site audit module
-  command: drush dl site_audit chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
+  command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
   tags: drush
   sudo: true
 
 - name: Drush | download the hacked! module
-  command: drush dl hacked chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/hacked
+  command: drush dl hacked --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/hacked
   tags: drush
   sudo: true
 
