@@ -105,7 +105,7 @@ To run multiple tags just use a comma separated list of tags like this:
 
     ansible-playbook -i host.ini -t varnish,apache playbooks/site.yml
 
-Possible tags are: adminer,apache2,aptget,css,drush,local,mailcatcher,memcached,munin,mysql,phing,php,sendmail,solr,ssh,varnish,xdebug,xhprof
+Possible tags are: adminer,apache2,aptget,css,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,php,sendmail,solr,ssh,varnish,xdebug,xhprof
 
 Notices
 -------

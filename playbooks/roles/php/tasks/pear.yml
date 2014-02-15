@@ -1,0 +1,15 @@
+---
+- name: PEAR | force upgrade of pear
+  command: pear upgrade --force pear
+  tags: pear
+  sudo: true
+
+- name: PEAR | upgrade all pear other packages
+  command: pear upgrade-all
+  tags: pear
+  sudo: true
+
+- name: PEAR | clear pear cache
+  command: pear clear-cache
+  tags: pear
+  sudo: true
