@@ -103,7 +103,7 @@ Tags have been included into the playbooks to allow different parts to be run in
 
 To run multiple tags just use a comma separated list of tags like this:
 
-    ansible-playbook -i host.ini -t varnish,apache playbooks/site.yml
+    ansible-playbook -i host.ini -t varnish,apache2 playbooks/site.yml
 
 Possible tags are: adminer,apache2,aptget,css,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,php,sendmail,solr,ssh,varnish,xdebug,xhprof
 
