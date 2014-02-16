@@ -1,3 +1,2 @@
 ---
-- include: iptables.yml
 - include: mysql.yml
