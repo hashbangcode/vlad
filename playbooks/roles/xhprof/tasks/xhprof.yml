@@ -57,12 +57,6 @@
   tags: xhprof
   sudo: true
 
-- name: Xhprof | check virtual host for Xhprof include
-  command: cat /etc/apache2/sites-enabled/{{ apache_hostname }}.conf
-  register: xhprof_include_present
-  tags: xhprof
-  sudo: true
-
 - name: Xhprof | create xhprof_html application database
   mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
   tags: xhprof
@@ -85,6 +79,13 @@
 - name: Xhprof | run SQL install script
   shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
   tags: xhprof
+  sudo: true
+
+- name: Xhprof | check virtual host for Xhprof include
+  command: cat /etc/apache2/sites-enabled/{{ apache_hostname }}.conf
+  register: xhprof_include_present
+  tags: xhprof
+  always_run: yes
   sudo: true
 
 - name: Xhprof | add virtual server item if include not found

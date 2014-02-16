@@ -46,9 +46,10 @@
   sudo: true
 
 - name: Solr | get iptables rules
-  shell: /sbin/iptables -L
+  shell: iptables -L
   register: iptablesrules
   tags: solr
+  always_run: yes
   sudo: true
 
 - name: Solr | add apache iptable rule

@@ -16,6 +16,7 @@
   shell: iptables -L
   register: iptablesrules
   tags: munin
+  always_run: yes
   sudo: true
 
 - name: Munin | add munin iptables

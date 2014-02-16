@@ -21,6 +21,7 @@
   shell: iptables -L
   register: iptablesrules
   tags: mysql
+  always_run: yes
   sudo: true
 
 - name: MySQL | add mysql to iptables
