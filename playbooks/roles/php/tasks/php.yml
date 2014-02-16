@@ -1,6 +1,21 @@
 ---
+- name: PHP | install php 5.4 prerequisite python packages
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  with_items:
+   - python-pycurl
+   - python-software-properties
+  tags: php
+  sudo: true
+  when: php_version == '5.4'
+
+- name: PHP | add php 5.4 repository
+  apt_repository: repo=ppa:ondrej/php5-oldstable
+  tags: php
+  sudo: yes
+  when: php_version == '5.4'
+
 - name: PHP | install php packages
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
    - php-apc
    - php-pear
@@ -17,14 +32,14 @@
   sudo: true
   notify:
     - restart apache2
-   
+
 - name: PHP | change php apache2 memory_limit
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^memory_limit = " insertafter="^#memory_limit = " line="memory_limit = {{ php_memory_limit }}"
   tags: php
   sudo: true
   notify:
     - restart apache2
-  
+
 - name: PHP | change php apache2 max_execution_time
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^max_execution_time = " insertafter="^#max_execution_time = " line="max_execution_time = {{ php_max_execution_time }}"
   tags: php
@@ -66,23 +81,32 @@
   sudo: true
   notify:
     - restart apache2
- 
+
 - name: PHP | change php apache2 html_errors
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^html_errors = " insertafter="^#html_errors = " line="html_errors = {{ php_html_errors }}"
   tags: php
   sudo: true
   notify:
     - restart apache2
- 
+
 - name: PHP | change php apache2 date_timezone
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^date_timezone = " insertafter="^#date_timezone = " line="date_timezone = {{ php_date_timezone }}"
   tags: php
   sudo: true
   notify:
     - restart apache2
-    
+
 - name: PHP | Change APC configuration file apc.ini
   template: src=php/php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
+  when: php_version != '5.4'
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: PHP | Change APC configuration file apc.ini
+  template: src=php/php_apache2_apc.ini.j2 dest=/etc/php5/mods-available/apc.ini
+  when: php_version == '5.4'
   tags: php
   sudo: true
   notify:

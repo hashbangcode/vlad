@@ -1,5 +1,8 @@
 ---
 - hosts: all
+  pre_tasks:
+    - fail: msg="PHP Version is invalid"
+      when: php_version != "5.3" and php_version != "5.4"
   roles:
     - role: base
     - role: mysql
@@ -14,3 +17,6 @@
     - role: solr
     - role: munin
     - role: css
+  vars:
+    # PHP Version, can be one of "5.3" or "5.4", ansible will error when the wrong version is used.
+    php_version: "5.3"

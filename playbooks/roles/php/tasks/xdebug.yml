@@ -7,13 +7,26 @@
 
 - name: Xdebug | Get first line of /etc/php5/apache2/conf.d/xdebug.ini
   command: head -n 1 /etc/php5/apache2/conf.d/xdebug.ini
-  when: xdebug_installed.changed
+  when: xdebug_installed.changed and php_version == '5.3'
   register: xdebug_first_line
   tags: xdebug
   sudo: true
 
 - name: Xdebug | Update xdebug configuration file.
   template: src=php/php_apache2_xdebug.ini.j2 dest=/etc/php5/apache2/conf.d/xdebug.ini
-  when: xdebug_installed.changed
+  when: xdebug_installed.changed and php_version == '5.3'
+  tags: xdebug
+  sudo: true
+
+- name: Xdebug | Get first line of /etc/php5/apache2/conf.d/xdebug.ini
+  command: head -n 1 /etc/php5/mods-available/xdebug.ini
+  when: xdebug_installed.changed and php_version == '5.4'
+  register: xdebug_first_line
+  tags: xdebug
+  sudo: true
+
+- name: Xdebug | Update xdebug configuration file.
+  template: src=php/php_apache2_xdebug.ini.j2 dest=/etc/php5/mods-available/xdebug.ini
+  when: xdebug_installed.changed and php_version == '5.4'
   tags: xdebug
   sudo: true
