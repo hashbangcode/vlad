@@ -31,17 +31,17 @@
   tags: drush
 
 - name: Drush | get latest version of Drush
-  git: repo=https://github.com/drush-ops/drush.git dest=/home/{{ user }}/drush
+  git: repo=https://github.com/drush-ops/drush.git dest=/home/{{ user }}/drush-master
   tags: drush
 
 - name: Drush | set drush to executable
-  command: chmod u+x drush chdir=~/drush
+  command: chmod u+x drush chdir=/home/{{ user }}/drush-master
   tags: drush
 
 - name: Drush | add drush-master alias to .bashrc file
-  lineinfile: dest=~/.bashrc state=present line='alias drush-master=/home/vagrant/drush/drush'
+  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush-master=/home/{{ user }}/drush-master/drush'
   tags: drush
 
 - name: Drush | run composer install in drush
-  command: composer install chdir=/home/{{ user }}/drush creates=/home/{{ user }}/drush/composer.lock
+  command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/composer.lock
   tags: drush
