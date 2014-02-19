@@ -25,7 +25,7 @@
   sudo: true
 
 - name: MySQL | add mysql to iptables
-  command: iptables -A INPUT -p tcp --dport {{ mysql_port }} -j  ACCEPT
+  command: iptables -A INPUT -p tcp --dport {{ mysql_port }} -j  ACCEPT  -m comment --comment "mysql"
   tags: mysql
   sudo: true
   when: iptablesrules.stdout.find("mysql") == -1
