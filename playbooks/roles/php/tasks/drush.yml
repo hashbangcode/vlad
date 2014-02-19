@@ -12,11 +12,6 @@
   tags: drush
   sudo: true
 
-#- name: Drush | run drush once to finalise install
-#  command: drush
-#  tags: drush
-#  sudo: true
-
 - name: Drush | run drush once as current user to finalise install
   command: drush
   tags: drush
