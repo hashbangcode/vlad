@@ -28,7 +28,7 @@
    - save iptables
 
 - name: Munin | add munin to startup
-  command: update-rc.d munin-node defaults
+  command: update-rc.d munin-node defaults creates=/etc/rc0.d/K20munin-node
   tags: munin
   sudo: true
   notify:
