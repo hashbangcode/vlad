@@ -23,26 +23,26 @@
 # - To install a component set it to "y".
 # - To leave a component out of the install set the value to "n".
 
-  mysql_install: "n"
+  mysql_install: "y"
 
-  apache_install: "n"
+  apache_install: "y"
 
   php_install: "y"
 
-  adminer_install: "n"
+  adminer_install: "y"
 
-  xhprof_install: "n"
+  xhprof_install: "y"
 
-  varnish_install: "n"
+  varnish_install: "y"
 
-  memcached_install: "n"
+  memcached_install: "y"
 
-  mailcatcher_install: "n"
+  mailcatcher_install: "y"
 
-  sendmail_install: "n"
+  sendmail_install: "y"
 
-  solr_install: "n"
+  solr_install: "y"
 
   munin_install: "y"
 
-  css_install: "n"
+  css_install: "y"
