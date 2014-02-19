@@ -1,0 +1,48 @@
+---
+#  _________________________
+# < Vlad configuration file >
+#  -------------------------
+#         \   ^__^
+#          \  (oo)\_______
+#             (__)\       )\/\
+#                 ||----w |
+#                 ||     ||
+#
+# Change settings here to control how Vlad sets up your box.
+
+# PHP Version, can be one of "5.3" or "5.4", ansible will error when the wrong version is used.
+  php_version: "5.3"
+
+# HTTP port for the web server
+  http_port: 8080
+
+# HTTP port for the Varnish cache
+  varnish_http_port: 80
+
+# Several install parameters follow:
+# - To install a component set it to "y".
+# - To leave a component out of the install set the value to "n".
+
+  mysql_install: "n"
+
+  apache_install: "n"
+
+  php_install: "y"
+
+  adminer_install: "n"
+
+  xhprof_install: "n"
+
+  varnish_install: "n"
+
+  memcached_install: "n"
+
+  mailcatcher_install: "n"
+
+  sendmail_install: "n"
+
+  solr_install: "n"
+
+  munin_install: "y"
+
+  css_install: "n"

@@ -1,0 +1,5 @@
+---
+- name: Test | Apache is installed
+  shell: apache2 -v
+  when: apache_install is defined and apache_install == "y"
+  tags: test

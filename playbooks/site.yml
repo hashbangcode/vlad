@@ -1,24 +1,49 @@
 ---
 - hosts: all
+  vars_files:
+    - ../settings.yml
   pre_tasks:
     - fail: msg="PHP Version is invalid"
-      when: php_version != "5.3" and php_version != "5.4"
+      when: php_version is defined and php_version != "5.3" and php_version != "5.4"
   roles:
     - role: base
+
     - role: mysql
+      when: mysql_install is defined and mysql_install == "y"
+
     - role: php
+      when: php_install is defined and php_install == "y"
+
     - role: apache
+      when: apache_install is defined and apache_install == "y"
+
     - role: adminer
+      when: adminer_install is defined and adminer_install == "y"
+
     - role: xhprof
+      when: xhprof_install is defined and xhprof_install == "y"
+
     - role: varnish
+      when: varnish_install is defined and varnish_install == "y"
+
     - role: memcached
+      when: memcached_install is defined and memcached_install == "y"
+
     - role: mailcatcher
+      when: mailcatcher_install is defined and mailcatcher_install == "y"
+
     - role: sendmail
+      when: sendmail_install is defined and sendmail_install == "y"
+
     - role: solr
+      when: solr_install is defined and solr_install == "y"
+
     - role: munin
+      when: munin_install is defined and munin_install == "y"
+
     - role: css
-  vars:
-    # PHP Version, can be one of "5.3" or "5.4", ansible will error when the wrong version is used.
-    php_version: "5.3"
+      when: css_install is defined and css_install == "y"
+  post_tasks:
+    - include: tests/main.yml
   handlers:
-  - include: common/handlers/main.yml
+    - include: common/handlers/main.yml

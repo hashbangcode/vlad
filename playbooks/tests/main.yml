@@ -1,0 +1,3 @@
+---
+- include: php_test.yml
+- include: apache_test.yml
