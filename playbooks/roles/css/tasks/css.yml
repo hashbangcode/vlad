@@ -1,5 +1,5 @@
 ---
-- name: CSS | install css packages
+- name: CSS | Install css packages
   apt: pkg={{ item }} state=installed
   tags: css
   sudo: true
@@ -12,26 +12,26 @@
   sudo: true
 
 - name: CSS | Install rake
-  gem: name=rake state=present
+  command: gem install rake creates=/usr/local/bin/rake
   tags: css
   sudo: true
 
 - name: CSS | Install SASS
-  gem: name=sass state=present
+  command: gem install sass creates=/usr/local/bin/sass
   tags: css
   sudo: true
 
 - name: CSS | Install Susy
-  gem: name=susy state=present
+  command: gem install susy creates=/usr/local/bin/susy
   tags: css
   sudo: true
 
 - name: CSS | Install Compass
-  gem: name=compass state=present
+  command: gem install compass
   tags: css
   sudo: true
 
 - name: CSS | Install Respond-to
-  gem: name=respond-to state=present
+  command: gem install respond-to
   tags: css
   sudo: true
