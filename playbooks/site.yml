@@ -29,6 +29,9 @@
     - role: memcached
       when: memcached_install is defined and memcached_install == "y"
 
+    - role: redis
+      when: redis_install is defined and redis_install == "y"
+
     - role: mailcatcher
       when: mailcatcher_install is defined and mailcatcher_install == "y"
 
