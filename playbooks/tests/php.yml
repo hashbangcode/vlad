@@ -6,6 +6,12 @@
   tags: test
 
 - name: Test | Drush is installed
+  shell: composer
+  when: php_install is defined and php_install == "y"
+  always_run: yes
+  tags: test
+
+- name: Test | Drush is installed
   shell: drush
   when: php_install is defined and php_install == "y"
   always_run: yes
