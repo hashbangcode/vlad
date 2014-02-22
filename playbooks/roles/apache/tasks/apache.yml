@@ -33,7 +33,7 @@
   when: ansible_os_family == "Debian"
 
 - name: Apache | add vhost
-  template: src=apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ apache_hostname }}.conf
+  template: src=apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
   tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"

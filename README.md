@@ -17,9 +17,12 @@ This includes the following technologies:
 * Sendmail
 * Mailcatcher
 * Memcached
+* Redis
 * Adminer
 * XHProf
 * Solr (Version 4)
+
+Many of these items can be turned on and off via a settings file.
 
 Prerequesites
 -------------
@@ -105,7 +108,35 @@ To run multiple tags just use a comma separated list of tags like this:
 
     ansible-playbook -i host.ini -t varnish,apache2 playbooks/site.yml
 
-Possible tags are: adminer,apache2,aptget,css,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,php,sendmail,solr,ssh,varnish,xdebug,xhprof
+Possible tags are: adminer,apache2,aptget,css,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,php,redis,sendmail,solr,test,ssh,varnish,xdebug,xhprof
+
+Settings
+--------
+
+A file called settings.yml is used to configure the Vagrant box. This allows you to control everything but the IP address of the box.
+
+For example, to install Solr on the box go into the settings file and change the solr_install parameter from this:
+
+    solr_install: "n"
+
+To this:
+
+    solr_install: "y"
+
+The default behaviour of the box is to install a Varnish server that proxies an Apache HTTP server. By turning on and off the software install on the machine and configuring the ports used it is possible to create a settings file that has the setup you want.
+
+Testing
+-------
+
+Before running the install Vlad does a couple of checks to make sure that it has the settings it needs to run the rest of the install process.
+
+Once Ansible has set up the box a testing task is run. This checks to ensure that everything that was selected to be installed has been.
+
+These tests were added partly to give confidence that the box has been setup correctly, and also to allow for new future development work to progress without having to manually check that things still work every time a change is made.
+
+It is possible to run the tests manually by using the 'test' tag like this:
+
+    ansible-playbook -i host.ini -t test playbooks/site.yml
 
 Notices
 -------

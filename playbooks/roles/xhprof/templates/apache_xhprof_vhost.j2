@@ -1,6 +1,6 @@
 <VirtualHost *:{{ http_port }}>
-  ServerAdmin {{ apache_admin_mail }}
-  ServerName xhprof.{{ apache_hostname }}
+  ServerAdmin {{ admin_mail }}
+  ServerName xhprof.{{ webserver_hostname }}
 
   DocumentRoot /var/www/xhprof_html/xhprof_html
 

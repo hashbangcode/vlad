@@ -1,6 +1,6 @@
 <VirtualHost *:{{ http_port }}>
-  ServerAdmin {{ apache_admin_mail }}
-  ServerName adminer.{{ apache_hostname }}
+  ServerAdmin {{ admin_mail }}
+  ServerName adminer.{{ webserver_hostname }}
 
   DocumentRoot /var/www/adminer
 

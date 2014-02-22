@@ -10,14 +10,8 @@
 #
 # Change settings here to control how Vlad sets up your box.
 
-# PHP Version, can be one of "5.3" or "5.4", ansible will error when the wrong version is used.
-  php_version: "5.3"
-
-# HTTP port for the web server
-  http_port: 8080
-
-# HTTP port for the Varnish cache
-  varnish_http_port: 80
+  webserver_hostname: 'drupal.local'
+  webserver_hostname_alias: 'www.{{ webserver_hostname }}'
 
 # Several install parameters follow:
 # - To install a component set it to "y".
@@ -37,7 +31,7 @@
 
   memcached_install: "n"
 
-  redis_install: "n"
+  redis_install: "y"
 
   mailcatcher_install: "y"
 
@@ -45,11 +39,25 @@
 
   solr_install: "n"
 
-  munin_install: "y"
+  munin_install: "n"
 
   css_install: "y"
 
-  #php
+# HTTP port for the web server
+  http_port: 8080
+
+# HTTP port for the Varnish cache
+  varnish_http_port: 80
+
+# Administration email (used in instances when a server email is needed)
+  admin_mail: 'test@example.com'
+
+# PHP Settings
+
+# PHP Version, can be one of "5.3" or "5.4", ansible will error when the wrong version is used.
+  php_version: "5.3"
+
+# php.ini settings
   php_memory_limit: 512M
   php_max_execution_time: 60
   php_post_max_size: 100M
@@ -59,9 +67,6 @@
   php_display_startup_errors: Off
   php_html_errors: On
   php_date_timezone: Europe/London
-
-  #apache
-  apache_admin_mail: 'test@example.com'
 
   #php apc
   apc_rfc1867: '1'

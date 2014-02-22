@@ -1,7 +1,7 @@
 <VirtualHost *:{{ http_port }}>
-  ServerAdmin {{ apache_admin_mail }}
-  ServerName {{ apache_hostname }}
-  ServerAlias {{ apache_hostname_alias }}
+  ServerAdmin {{ admin_mail }}
+  ServerName {{ webserver_hostname }}
+  ServerAlias {{ webserver_hostname_alias }}
 
   DocumentRoot /var/www/site/docroot
 
