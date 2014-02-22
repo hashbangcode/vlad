@@ -33,19 +33,19 @@
 
   xhprof_install: "y"
 
-  varnish_install: "n"
+  varnish_install: "y"
 
   memcached_install: "n"
 
   redis_install: "n"
 
-  mailcatcher_install: "n"
+  mailcatcher_install: "y"
 
-  sendmail_install: "n"
+  sendmail_install: "y"
 
   solr_install: "n"
 
-  munin_install: "n"
+  munin_install: "y"
 
   css_install: "y"
 
