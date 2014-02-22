@@ -9,13 +9,14 @@
     AllowOverride All
     Order allow,deny
     Allow from all
-
+     {% if http_port != 80 %}
     <IfModule mod_rewrite.c>
       RewriteEngine On
       RewriteBase /
       RewriteCond %{SERVER_PORT} ^80$
       RewriteRule ^.*$ http://%{SERVER_NAME}:{{ http_port }}/ [R=301,L]
     </IfModule>
+    {% endif %}
   </Directory>
 
   ErrorLog /var/www/site/logs/error.log
