@@ -1,3 +1,8 @@
 ---
-- include: php_test.yml
-- include: apache_test.yml
+- include: php.yml
+- include: apache.yml
+- include: varnish.yml
+- include: mysql.yml
+- include: css.yml
+- include: redis.yml
+- include: hosts.yml
