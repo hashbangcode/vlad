@@ -31,7 +31,7 @@
 
   memcached_install: "n"
 
-  redis_install: "y"
+  redis_install: "n"
 
   mailcatcher_install: "y"
 
