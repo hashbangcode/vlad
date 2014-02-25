@@ -102,6 +102,6 @@
     - restart apache2
 
 - name: Xhprof | ensure Xhprof directory permissions
-  file: path=/var/www/xhprof mode=0777 recurse=yes
+  file: path=/var/www/xhprof_html mode=0777 recurse=yes
   tags: xhprof
   sudo: true
