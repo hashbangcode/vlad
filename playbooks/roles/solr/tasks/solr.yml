@@ -100,25 +100,25 @@
   with_items: slf4jfiles.stdout_lines
 
 - name: Solr | download Solr
-  command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.6.0/solr-4.6.0.tgz creates=/home/{{ user }}/solr-4.6.0.tgz
+  command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.7.0/solr-4.7.0.tgz creates=/home/{{ user }}/solr-4.7.0.tgz
   tags: solr
 
 - name: Solr | extract Solr
-  command: tar -zxf /home/{{ user }}/solr-4.6.0.tgz creates=/home/{{ user }}/solr-4.6.0
+  command: tar -zxf /home/{{ user }}/solr-4.7.0.tgz creates=/home/{{ user }}/solr-4.7.0
   tags: solr
 
 - name: Solr | copy Solr war file
-  command: cp /home/{{ user }}/solr-4.6.0/dist/solr-4.6.0.war /var/lib/tomcat6/webapps/solr.war creates=/var/lib/tomcat6/webapps/solr.war
+  command: cp /home/{{ user }}/solr-4.7.0/dist/solr-4.7.0.war /var/lib/tomcat6/webapps/solr.war creates=/var/lib/tomcat6/webapps/solr.war
   tags: solr
   sudo: true
 
 - name: Solr | list solr files (in order to copy)
-  command: ls -1 /home/{{ user }}/solr-4.6.0/example/solr/
+  command: ls -1 /home/{{ user }}/solr-4.7.0/example/solr/
   register: solrfiles 
   tags: solr
 
 - name: Solr | copy Solr instance
-  command: cp -ar /home/{{ user }}/solr-4.6.0/example/solr/{{ item }} /home/solr creates=/home/solr/{{ item }}
+  command: cp -ar /home/{{ user }}/solr-4.7.0/example/solr/{{ item }} /home/solr creates=/home/solr/{{ item }}
   tags: solr
   sudo: true
   with_items: solrfiles.stdout_lines
@@ -144,12 +144,12 @@
   sudo: true
 
 - name: Solr | list all jar files that are part of solr (in order to copy)
-  shell: ls -1 /home/{{ user }}/solr-4.6.0/dist/ | grep .jar
+  shell: ls -1 /home/{{ user }}/solr-4.7.0/dist/ | grep .jar
   register: solrjarfiles
   tags: solr
 
 - name: Solr | copy solr lib files
-  command: cp /home/{{ user }}/solr-4.6.0/dist/{{ item }} /home/solr/lib/{{ item }} creates=/home/solr/lib/{{ item }}
+  command: cp /home/{{ user }}/solr-4.7.0/dist/{{ item }} /home/solr/lib/{{ item }} creates=/home/solr/lib/{{ item }}
   with_items: solrjarfiles.stdout_lines
   tags: solr
   sudo: true
@@ -196,7 +196,7 @@
   sudo: true
 
 - name: Solr | copy the needed class directories over
-  command: cp -r /home/{{ user }}/solr-4.6.0/contrib/{{ item }} /home/solr/lib/contrib/{{ item }} creates=/home/solr/lib/contrib/{{ item }}
+  command: cp -r /home/{{ user }}/solr-4.7.0/contrib/{{ item }} /home/solr/lib/contrib/{{ item }} creates=/home/solr/lib/contrib/{{ item }}
   tags: solr
   sudo: true
   with_items:
