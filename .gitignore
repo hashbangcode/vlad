@@ -1,20 +1,3 @@
-# Packages #
-############
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
-
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
-
 # OS generated files #
 ######################
 *~
@@ -53,16 +36,13 @@ settings.php
 sites.php
 dev.settings.php
 
-# Codeception #
-###############
-tests/tests/_log
-
 # Vagrant specific files #
 ##########################
 .vagrant
 vagrant_ansible_inventory_*
 
-# Vlas specific files #
+# Vlad specific files #
 #######################
 host.ini
 vagrant_ansible_inventory_vlad
+ansible.log
