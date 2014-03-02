@@ -46,3 +46,4 @@ vagrant_ansible_inventory_*
 host.ini
 vagrant_ansible_inventory_vlad
 ansible.log
+docroot/*
