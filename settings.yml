@@ -55,7 +55,7 @@
 # PHP Settings
 
 # PHP Version, can be one of "5.3" or "5.4", ansible will error when the wrong version is used.
-  php_version: "5.3"
+  php_version: "5.4"
 
 # php.ini settings
   php_memory_limit: 512M
