@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Allow caching to be used (see the vagrant-cachier plugin)
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :machine
-    config.cache.enable_nfs  = true
+    config.cache.synced_folder_opts = { type: :nfs }
     config.cache.auto_detect = false
     config.cache.enable :apt
     #config.cache.enable :gem
