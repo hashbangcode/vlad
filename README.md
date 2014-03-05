@@ -13,7 +13,7 @@ This includes the following technologies:
 * Drush (with the 'site audit' and 'hacked!' modules)
 * Munin
 * Xdebug
-* SASS
+* Sass
 * Sendmail
 * Mailcatcher
 * Memcached

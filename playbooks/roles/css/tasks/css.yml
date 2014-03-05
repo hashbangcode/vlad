@@ -16,7 +16,7 @@
   tags: css
   sudo: true
 
-- name: CSS | Install SASS
+- name: CSS | Install Sass
   command: gem install sass creates=/usr/local/bin/sass
   tags: css
   sudo: true
