@@ -17,31 +17,26 @@
 # - To install a component set it to "y".
 # - To leave a component out of the install set the value to "n".
 
+  adminer_install: "y"
+  apache_install: "y"
+  
+  css_install: "y"
+  
+  mailcatcher_install: "y"
+  memcached_install: "n"
+  munin_install: "n"
   mysql_install: "y"
 
-  apache_install: "y"
-
   php_install: "y"
-
-  adminer_install: "y"
-
-  xhprof_install: "y"
-
-  varnish_install: "y"
-
-  memcached_install: "n"
-
+  
   redis_install: "n"
-
-  mailcatcher_install: "y"
-
+  
   sendmail_install: "y"
-
   solr_install: "n"
 
-  munin_install: "n"
-
-  css_install: "y"
+  varnish_install: "y"  
+  
+  xhprof_install: "y"  
 
 # HTTP port for the web server
   http_port: 8080
