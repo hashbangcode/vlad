@@ -1,11 +1,13 @@
 ---
 - name: Memcached | Install packages
   apt: pkg={{ item }} state=installed
-  sudo: true
   with_items:
-    - php5-memcached
     - memcached
+    - php5-memcached
   tags: memcached
+  sudo: true
+  notify:
+      - restart apache2
 
 - name: Memcached | Config file
   template: src=memcached.conf.j2 dest=/etc/memcached.conf

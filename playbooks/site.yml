@@ -44,8 +44,8 @@
     - role: munin
       when: munin_install is defined and munin_install == "y"
 
-    - role: css
-      when: css_install is defined and css_install == "y"
+    - role: ruby
+      when: ruby_install is defined and ruby_install == "y"
   post_tasks:
     - name: Move default index.php file into docroot directory.
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
