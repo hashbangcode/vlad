@@ -4,17 +4,7 @@
   when: ruby_install is defined and ruby_install == "y"
   tags: test
 
-- name: Test | rake is installed
-  shell: rake --version
-  when: ruby_install is defined and ruby_install == "y"
-  tags: test
-
 - name: Test | rvm is installed
   shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm -v
-  when: ruby_install is defined and ruby_install == "y"
-  tags: test
-
-- name: Test | bundler installed
-  shell: bundle --version
   when: ruby_install is defined and ruby_install == "y"
   tags: test
