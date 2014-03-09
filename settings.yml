@@ -21,7 +21,7 @@
 
   apache_install: "y"
 
-  css_install: "y"
+  ruby_install: "y"
 
   mailcatcher_install: "y"
 
