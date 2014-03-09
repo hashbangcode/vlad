@@ -1,10 +1,20 @@
 ---
-- name: Test | less is installed
-  shell: less --version
-  when: css_install is defined and css_install == "y"
+- name: Test | ruby is installed
+  shell: ruby -v
+  when: ruby_install is defined and ruby_install == "y"
   tags: test
 
-- name: Test | sass is installed
-  shell: sass -v
-  when: css_install is defined and css_install == "y"
+- name: Test | rake is installed
+  shell: rake --version
+  when: ruby_install is defined and ruby_install == "y"
+  tags: test
+
+- name: Test | rvm is installed
+  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm -v
+  when: ruby_install is defined and ruby_install == "y"
+  tags: test
+
+- name: Test | bundler installed
+  shell: bundle --version
+  when: ruby_install is defined and ruby_install == "y"
   tags: test
