@@ -13,7 +13,7 @@ This includes the following technologies:
 * Drush (with the 'site audit' and 'hacked!' modules)
 * Munin
 * Xdebug
-* Sass
+* Ruby (with RVM, rake and Bundler)
 * Sendmail
 * Mailcatcher
 * Memcached
@@ -108,7 +108,7 @@ To run multiple tags just use a comma separated list of tags like this:
 
     ansible-playbook -i host.ini -t varnish,apache2 playbooks/site.yml
 
-Possible tags are: adminer,apache2,aptget,css,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,php,redis,sendmail,solr,test,ssh,varnish,xdebug,xhprof
+Possible tags are: adminer,apache2,aptget,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,php,rake,redis,sendmail,solr,test,ssh,varnish,xdebug,xhprof
 
 Settings
 --------
