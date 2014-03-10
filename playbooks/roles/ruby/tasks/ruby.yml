@@ -1,6 +1,6 @@
 ---
 - name: Ruby | Install RVM
-  shell: curl -L https://get.rvm.io | bash -s stable --ruby
+  shell: curl -L https://get.rvm.io | bash -s stable --ruby={{ ruby_version }}
   tags: ruby
 
 - name: Ruby | Add RVM to bash profile

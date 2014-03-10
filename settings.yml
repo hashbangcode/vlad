@@ -93,3 +93,9 @@
 
   # varnish
   varnish_memory: 512
+
+  # Ruby settings
+
+  # *Initial* Ruby version to be installed by RVM.
+  # Note that further Ruby versions can be installed via RVM.
+  ruby_version: "1.9.3"
