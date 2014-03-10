@@ -1,14 +1,4 @@
 ---
-- name: Ruby | Install rubygems package
-  apt: pkg=rubygems state=installed
-  tags: ruby
-  sudo: true
-
-- name: Ruby | Install rake
-  command: gem install rake creates=/usr/local/bin/rake
-  tags: ruby
-  sudo: true
-
 - name: Ruby | Install RVM
   shell: curl -L https://get.rvm.io | bash -s stable --ruby
   tags: ruby
@@ -19,8 +9,3 @@
     state=present
     line='[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"'
   tags: ruby
-
-- name: Ruby | install bundler
-  command: gem install bundler
-  tags: ruby
-  sudo: true

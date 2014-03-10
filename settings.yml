@@ -39,9 +39,9 @@
 
   solr_install: "n"
 
-  varnish_install: "y"  
+  varnish_install: "y"
 
-  xhprof_install: "y"  
+  xhprof_install: "y"
 
 # HTTP port for the web server
   http_port: 8080
