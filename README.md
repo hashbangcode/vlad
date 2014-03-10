@@ -21,6 +21,8 @@ This includes the following technologies:
 * Adminer
 * XHProf
 * Solr (Version 4)
+* Node.js (including npm)
+* ImageMagick
 
 Many of these items can be turned on and off via a settings file.
 

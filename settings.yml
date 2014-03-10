@@ -21,7 +21,7 @@
 
   apache_install: "y"
 
-  ruby_install: "y"
+  imagemagick_install: "n"
 
   mailcatcher_install: "y"
 
@@ -31,9 +31,13 @@
 
   mysql_install: "y"
 
+  node_install: "n"
+
   php_install: "y"
 
   redis_install: "n"
+
+  ruby_install: "y"
 
   sendmail_install: "y"
 

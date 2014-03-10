@@ -46,6 +46,12 @@
 
     - role: ruby
       when: ruby_install is defined and ruby_install == "y"
+
+    - role: node
+      when: node_install is defined and node_install == "y"
+
+    - role: imagemagick
+      when: imagemagick_install is defined and imagemagick_install == "y"
   post_tasks:
     - name: Move default index.php file into docroot directory.
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
