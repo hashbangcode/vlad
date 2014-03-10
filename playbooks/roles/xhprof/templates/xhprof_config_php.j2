@@ -10,7 +10,7 @@ $_xhprof['dbname'] = 'xhprof';
 $_xhprof['dbadapter'] = 'Pdo';
 $_xhprof['servername'] = 'Vlad';
 $_xhprof['namespace'] = 'myapp';
-$_xhprof['url'] = 'http://{{ webserver_hostname }}:8080/xhprof/';
+$_xhprof['url'] = 'http://xhprof.{{ webserver_hostname }}/';
 /*
  * MySQL/MySQLi/PDO ONLY
  * Switch to JSON for better performance and support for larger profiler data sets.
@@ -42,7 +42,6 @@ $exceptionURLs = array();
 
 $exceptionPostURLs = array();
 $exceptionPostURLs[] = "login";
-
 
 $_xhprof['display'] = false;
 $_xhprof['doprofile'] = false;
