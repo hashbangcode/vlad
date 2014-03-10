@@ -62,7 +62,6 @@
   php_max_execution_time: 60
   php_post_max_size: 100M
   php_upload_max_filesize: 100M
-  php_max_execution_time: 90
   php_display_errors: Off
   php_display_startup_errors: Off
   php_html_errors: On
