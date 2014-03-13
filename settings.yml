@@ -35,6 +35,8 @@
 
   php_install: "y"
 
+  pimpmylog_install: "y"
+
   redis_install: "n"
 
   ruby_install: "y"

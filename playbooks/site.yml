@@ -23,6 +23,9 @@
     - role: xhprof
       when: xhprof_install is defined and xhprof_install == "y"
 
+    - role: pimpmylog
+      when: pimpmylog_install is defined and pimpmylog_install == "y"
+
     - role: varnish
       when: varnish_install is defined and varnish_install == "y"
 

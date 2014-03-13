@@ -23,6 +23,7 @@ This includes the following technologies:
 * Solr (Version 4)
 * Node.js (including npm)
 * ImageMagick
+* PimpMyLog
 
 Many of these items can be turned on and off via a settings file.
 
@@ -91,6 +92,9 @@ You can access XHProf via the following URL:
 [http://xhprof.drupal.local/](http://xhprof.drupal.local/)
 You'll need to kick off XHProf on your site using "?_profile=1" at the end of the URL. Like this: [http://www.drupal.local/?_profile=1](http://www.drupal.local/?_profile=1).
 
+You can access PimpMyLog via the following URL:
+[http://logs.drupal.local/](http://logs.drupal.local/)
+
 Solr can be viewed and configured through the Tomcat6 server via [http://www.drupal.local:8081/solr](http://www.drupal.local:8081/solr). A default collection of 'vlad' has been created and is available at [http://www.drupal.local:8081/solr/vlad](http://www.drupal.local:8081/solr/vlad). This Solr server uses the default configuration available for Solr 4 from the [search_api_solr](https://drupal.org/project/search_api_solr) module.
 
 The Varnish secret key for the box is 04788b22-e179-4579-aac7-f3541fb40391, you will need this when using the Vagrant modules.
@@ -110,7 +114,7 @@ To run multiple tags just use a comma separated list of tags like this:
 
     ansible-playbook -i host.ini -t varnish,apache2 playbooks/site.yml
 
-Possible tags are: adminer,apache2,aptget,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,php,redis,sendmail,solr,test,ssh,varnish,xdebug,xhprof
+Possible tags are: adminer,apache2,aptget,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,pimpmylog,php,redis,sendmail,solr,test,ssh,varnish,xdebug,xhprof
 
 Settings
 --------

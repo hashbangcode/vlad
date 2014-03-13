@@ -14,7 +14,7 @@
     lineinfile:
         dest=/etc/hosts
         state=absent
-        regexp='.*?\s{{ webserver_hostname }} www.{{ webserver_hostname }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }}'
+        regexp='.*?\s{{ webserver_hostname }} www.{{ webserver_hostname }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     sudo: true
 
@@ -22,6 +22,6 @@
     lineinfile:
         dest=/etc/hosts
         state=present
-        line='{{ ansible_eth1.ipv4.address }} {{ webserver_hostname }} www.{{ webserver_hostname }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }}'
+        line='{{ ansible_eth1.ipv4.address }} {{ webserver_hostname }} www.{{ webserver_hostname }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     sudo: true
