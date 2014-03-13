@@ -51,24 +51,40 @@ You can also install the Vagrant Cachier plugin in order to cache apt-get and ge
 
     vagrant plugin install vagrant-cachier
 
+If you already have the needed elements then you can get started.
+
 Usage
 -----
 
-If you already have the needed elements then you can run it. To get up and running use the following:
+When you first download Vlad you will be unable to do anything with it as the system requires the use of a Vagrantfile and a settings.yml file. Rename the example.Vagrantfile to Vagrantfile and example.settings.yml file to settings.yml. This renaming process is intended to allow you to update your version of Vlad without overwriting your current project files or settings.
+
+With the Vagrantfile and settings.yml file in place you can get up and running use the following command:
 
     vagrant up
 
-You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local Ansible action will add an entry to your hosts file for the IP address 192.168.100.100 so you don't need to alter it.
+Setting up the box takes a few minutes but there is plenty out output to look at whilst Ansible runs through the provisioning steps. You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local Ansible action will add an entry to your hosts file for the default IP address 192.168.100.100 so you don't need to alter it.
 
-To access the vagrant box use:
+Note: You will be asked for your sudo password on two separate occasions. The first is used by Vagrant to setup a NFS share and the second is used by Ansible to alter your local hosts file.
+
+To access the vagrant box use the following command:
 
     vagrant ssh
 
-To install Drupal 7 on the box log in (using 'vagrant ssh') and run the script /var/www/drupal7_install.sh. To clone the latest version of Drupal 8 and install you can run the script /var/www/drupal8_install.sh. The admin username for both Drupal installs is 'admin' and the password is 'password'. For best results you should run these scripts with sudo.
+To install Drupal 7 on the box log in (using 'vagrant ssh') and run the script /var/www/drupal7_install.sh. To clone the latest version of Drupal 8 and install you can run the script /var/www/drupal8_install.sh. The admin username for both Drupal installs is 'admin' and the password is 'password'.
 
-Once done use the following to throw everything away:
+If you have changed any of the settings and want to re-provision the box then run the following command:
+
+    vagrant provision
+
+To temporarily shutdown the box use the following command:
+
+    vagrant halt
+
+To delete the box and the data it contains run the following command:
 
     vagrant destroy
+
+When you run 'vagrant up' again you will get back the original box.
 
 Additional
 ----------
@@ -92,7 +108,7 @@ You can access XHProf via the following URL:
 [http://xhprof.drupal.local/](http://xhprof.drupal.local/)
 You'll need to kick off XHProf on your site using "?_profile=1" at the end of the URL. Like this: [http://www.drupal.local/?_profile=1](http://www.drupal.local/?_profile=1).
 
-You can access PimpMyLog via the following URL:
+You can access PimpMyLog and view log data via the following URL:
 [http://logs.drupal.local/](http://logs.drupal.local/)
 
 Solr can be viewed and configured through the Tomcat6 server via [http://www.drupal.local:8081/solr](http://www.drupal.local:8081/solr). A default collection of 'vlad' has been created and is available at [http://www.drupal.local:8081/solr/vlad](http://www.drupal.local:8081/solr/vlad). This Solr server uses the default configuration available for Solr 4 from the [search_api_solr](https://drupal.org/project/search_api_solr) module.
@@ -143,6 +159,11 @@ These tests were added partly to give confidence that the box has been setup cor
 It is possible to run the tests manually by using the 'test' tag like this:
 
     ansible-playbook -i host.ini -t test playbooks/site.yml
+
+Wiki
+----
+
+Find out more about Vlad and how to contribute via the Wiki pages at <a href="https://bitbucket.org/philipnorton42/vlad/wiki/" title="Vlad Wiki">https://bitbucket.org/philipnorton42/vlad/wiki/</a>.
 
 Notices
 -------

@@ -39,7 +39,7 @@
 
   redis_install: "n"
 
-  ruby_install: "y"
+  ruby_install: "n"
 
   sendmail_install: "y"
 

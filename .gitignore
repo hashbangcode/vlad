@@ -47,3 +47,5 @@ host.ini
 vagrant_ansible_inventory_vlad
 ansible.log
 docroot/*
+settings.yml
+Vagrantfile
