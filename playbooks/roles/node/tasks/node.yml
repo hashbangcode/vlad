@@ -16,3 +16,14 @@
   apt: pkg=nodejs
   sudo: true
   tags: node
+
+- name: Node | Set local node prefix
+  template: src=npmrc.j2 dest=/home/{{ user }}/.npmrc
+  tags: node
+
+- name: Node | Set local node path in bash profile
+  lineinfile:
+    dest=/home/{{ user }}/.bashrc
+    state=present
+    line='export PATH=$HOME/.node/bin:$PATH'
+  tags: node
