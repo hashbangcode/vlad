@@ -180,11 +180,11 @@
   sudo: true
 
 - name: Solr | get Drupal solr integration
-  git: repo=http://git.drupal.org/project/search_api_solr.git version=7.x-1.3 dest=/home/{{ user }}/search_api_solr
+  git: repo=http://git.drupal.org/project/{{ drupal_solr_package }}.git version=7.x-1.3 dest=/home/{{ user }}/drupal_solr
   tags: solr
 
 - name: Solr | copy Drupal Solr config into Solr
-  shell: cp -r /home/{{ user }}/search_api_solr/solr-conf/4.x/. /home/solr/vlad/conf/
+  shell: cp -r /home/{{ user }}/drupal_solr/solr-conf/4.x/. /home/solr/vlad/conf/
   tags: solr
   sudo: true
   notify:
