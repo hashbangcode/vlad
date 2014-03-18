@@ -5,6 +5,9 @@
   pre_tasks:
     - fail: msg="PHP Version is invalid"
       when: php_version is defined and php_version != "5.3" and php_version != "5.4"
+
+    - fail: msg="Solr Drupal module is invalid"
+      when: drupal_solr_package is defined and drupal_solr_package != "search_api_solr" and drupal_solr_package != "apachesolr"
   roles:
     - role: base
 
