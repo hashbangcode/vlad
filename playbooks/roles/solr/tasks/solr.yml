@@ -45,6 +45,13 @@
   tags: solr
   sudo: true
 
+- name: Solr | copy the tomcat6 users file
+  copy: src=tomcat/tomcat-users.xml dest=/etc/tomcat6/tomcat-users.xml owner=tomcat6 group=tomcat6 mode=0644
+  tags: solr
+  sudo: true
+  notify:
+   - restart tomcat6
+
 - name: Solr | get iptables rules
   shell: iptables -L
   register: iptablesrules
@@ -186,6 +193,15 @@
 - name: Solr | copy Drupal Solr config into Solr
   shell: cp -r /home/{{ user }}/drupal_solr/solr-conf/4.x/. /home/solr/vlad/conf/
   tags: solr
+  when: drupal_solr_package == "search_api_solr"
+  sudo: true
+  notify:
+   - restart tomcat6
+
+- name: Solr | copy Drupal Solr config into Solr
+  shell: cp -r /home/{{ user }}/drupal_solr/solr-conf/solr-4.x/. /home/solr/vlad/conf/
+  tags: solr
+  when: drupal_solr_package == "apachesolr"
   sudo: true
   notify:
    - restart tomcat6
@@ -221,14 +237,14 @@
    - restart tomcat6
 
 - name: Solr | copy the solr schema file
-  copy: src=solr/synonyms.txt dest=/home/solr/vlad/conf/synonyms.txt owner=tomcat6 group=tomcat6 mode=0644
+  copy: src=solr/schema.xml dest=/home/solr/vlad/conf/schema.xml owner=tomcat6 group=tomcat6 mode=0644
   tags: solr
   sudo: true
   notify:
    - restart tomcat6
 
 - name: Solr | copy the solr schema file
-  copy: src=solr/schema.xml dest=/home/solr/vlad/conf/schema.xml owner=tomcat6 group=tomcat6 mode=0644
+  copy: src=solr/synonyms.txt dest=/home/solr/vlad/conf/synonyms.txt owner=tomcat6 group=tomcat6 mode=0644
   tags: solr
   sudo: true
   notify:
