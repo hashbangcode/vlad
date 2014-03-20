@@ -38,9 +38,6 @@
     - role: redis
       when: redis_install is defined and redis_install == "y"
 
-    - role: mailcatcher
-      when: mailcatcher_install is defined and mailcatcher_install == "y"
-
     - role: sendmail
       when: sendmail_install is defined and sendmail_install == "y"
 
@@ -52,6 +49,9 @@
 
     - role: ruby
       when: ruby_install is defined and ruby_install == "y"
+
+    - role: mailcatcher
+      when: mailcatcher_install is defined and mailcatcher_install == "y"
 
     - role: node
       when: node_install is defined and node_install == "y"
