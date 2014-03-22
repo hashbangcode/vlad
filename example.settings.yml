@@ -109,3 +109,5 @@
   # Select which Solr module to install
   # accepted values are 'search_api_solr' or 'apachesolr'
   drupal_solr_package: "apachesolr"
+  # Local hosts file location
+  hosts_file_location: "/etc/hosts"
