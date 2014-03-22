@@ -10,7 +10,7 @@
 
 - name: MailCatcher | Install MailCatcher with RVM (part 1 of 2)
   shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm default@mailcatcher --create do gem install mailcatcher  --no-rdoc --no-ri
-  when: ruby_install is defined and ruby_install == "y" s
+  when: ruby_install is defined and ruby_install == "y"
   tags: mailcatcher
   sudo: true
 
