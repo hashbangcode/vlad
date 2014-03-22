@@ -6,21 +6,21 @@
   - name: local actions | print hostname
     local_action: debug var=webserver_hostname
 
-  - name: local actions | write local hosts file
+  - name: local actions | write local hosts.ini file
     template: src=templates/host.j2 dest=../host.ini
     delegate_to: 127.0.0.1
 
   - name: local actions | remove reference of host from local hosts file
     lineinfile:
-        dest={{ hosts_location }}
+        dest='{{ hosts_file_location }}'
         state=absent
         regexp='.*?\s{{ webserver_hostname }} www.{{ webserver_hostname }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     sudo: true
 
-  - name: local actions | add reference of host from local hosts file
+  - name: local actions | add reference of host to local hosts file
     lineinfile:
-        dest={{ hosts_location }}
+        dest='{{ hosts_file_location }}'
         state=present
         line='{{ ansible_eth1.ipv4.address }} {{ webserver_hostname }} www.{{ webserver_hostname }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
