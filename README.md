@@ -32,7 +32,7 @@ Prerequesites
 
 * Vagrant 1.4+ (currently only tested with the VirtualBox provider)
 * If you are using VirtualBox then you will need VirtualBox 4.3+
-* Ansible (with the Vagrant Ansible Pluigin)
+* Ansible (with the Vagrant Ansible Plugin)
 
 Ansible doesn't currently run on Windows so Vlad will only work on Linux or OSX system.
 
@@ -163,7 +163,7 @@ It is possible to run the tests manually by using the 'test' tag like this:
 Wiki
 ----
 
-Find out more about Vlad and how to contribute via the Wiki pages at <a href="https://bitbucket.org/philipnorton42/vlad/wiki/" title="Vlad Wiki">https://bitbucket.org/philipnorton42/vlad/wiki/</a>.
+Find out more about Vlad and how to contribute via the Wiki pages at [https://bitbucket.org/philipnorton42/vlad/wiki](https://bitbucket.org/philipnorton42/vlad/wiki).
 
 Notices
 -------
