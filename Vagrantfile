@@ -6,9 +6,13 @@
 # See the readme file (README.md) for more information.
 # Contribute to this project at : https://bitbucket.org/philipnorton42/vlad
 
+# Include config from settings.yml
+require 'yaml'
+vconfig = YAML::load_file("settings.yml")
+
 # Configuration
-boxipaddress = "192.168.100.100"
-boxname = "vlad"
+boxipaddress = vconfig['boxipaddress']
+boxname = vconfig['boxname']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
