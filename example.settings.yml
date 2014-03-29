@@ -12,6 +12,8 @@
 
   webserver_hostname: 'drupal.local'
   webserver_hostname_alias: 'www.{{ webserver_hostname }}'
+  boxipaddress: "192.168.100.100"
+  boxname: "vlad"
 
 # Several install parameters follow:
 # - To install a component set it to "y".
