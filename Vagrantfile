@@ -52,13 +52,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # SSH Set up.
   config.ssh.forward_agent = true
 
-  # Set up port forwarding
-  config.vm.network :forwarded_port, 
-    guest: 3306,
-    host: 3306,
-    id: "mysql",
-    auto_correct: true
-
   # Set machine name.
   config.vm.define :vlad do |t|
   end
