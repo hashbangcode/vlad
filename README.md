@@ -27,7 +27,7 @@ This includes the following technologies:
 
 Many of these items can be turned on and off via a settings file.
 
-Prerequesites
+Prerequisites
 -------------
 
 * Vagrant 1.4+ (currently only tested with the VirtualBox provider)
@@ -58,7 +58,7 @@ Usage
 
 When you first download Vlad you will be unable to do anything with it as the system requires the use of a settings.yml file. Rename the example.settings.yml file to settings.yml and tweak the settings.yml file to suit your needs. This renaming process is intended to allow you to update your version of Vlad without overwriting your current project files or settings.
 
-Our of the box you will get the following options:
+Out of the box you will get the following options:
 
     webserver_hostname: 'drupal.local'
     webserver_hostname_alias: 'www.{{ webserver_hostname }}'
@@ -70,7 +70,7 @@ Our of the box you will get the following options:
 
 Tweak the above settings if you want to create a separate project that uses Vlad as a template.
 
-With the settings.yml file in place you can get up and running use the following command:
+With the settings.yml file in place you can get up and running using the following command:
 
     vagrant up
 
