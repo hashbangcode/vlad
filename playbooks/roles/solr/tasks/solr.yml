@@ -135,7 +135,7 @@
   tags: solr
   sudo: true
 
-- name: Solr | Remove the collection1 collection if it is still there
+- name: Solr | remove the collection1 collection if it is still there
   file: path=/home/solr/collection1 state=absent
   tags: solr
   sudo: true
@@ -206,8 +206,24 @@
   notify:
    - restart tomcat6
 
+- name: Solr | get patch for apachesolr solrconfig.xml file
+  command: wget https://drupal.org/files/2107417-2.patch creates=/home/{{ user }}/2107417-2.patch
+  tags: solr
+  when: drupal_solr_package == "apachesolr"
+  sudo: true
+  notify:
+   - restart tomcat6
+
+- name: Solr | patch apachesolr solrconfig.xml file
+  command: patch /home/solr/vlad/conf/solrconfig.xml /home/{{ user }}/2107417-2.patch
+  tags: solr
+  when: drupal_solr_package == "apachesolr"
+  sudo: true
+  notify:
+   - restart tomcat6
+
 - name: Solr | make the lib/contrib directory for the extension to live in
-  command: mkdir -p /home/solr/lib/contrib/ creates=/home/solr/lib/contrib/
+  command: mkdir -p /home/solr/lib/contrib/ creates=/home/solr/lib/contrib/8
   tags: solr
   sudo: true
 
@@ -228,24 +244,3 @@
   file: path=/home/solr owner=tomcat6 group=tomcat6 recurse=yes
   tags: solr
   sudo: true
-
-- name: Solr | copy the solr config file
-  copy: src=solr/solrconfig.xml dest=/home/solr/vlad/conf/solrconfig.xml owner=tomcat6 group=tomcat6 mode=0644
-  tags: solr
-  sudo: true
-  notify:
-   - restart tomcat6
-
-- name: Solr | copy the solr schema file
-  copy: src=solr/schema.xml dest=/home/solr/vlad/conf/schema.xml owner=tomcat6 group=tomcat6 mode=0644
-  tags: solr
-  sudo: true
-  notify:
-   - restart tomcat6
-
-- name: Solr | copy the solr schema file
-  copy: src=solr/synonyms.txt dest=/home/solr/vlad/conf/synonyms.txt owner=tomcat6 group=tomcat6 mode=0644
-  tags: solr
-  sudo: true
-  notify:
-   - restart tomcat6
