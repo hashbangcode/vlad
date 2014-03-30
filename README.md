@@ -56,9 +56,21 @@ If you already have the needed elements then you can get started.
 Usage
 -----
 
-When you first download Vlad you will be unable to do anything with it as the system requires the use of a Vagrantfile and a settings.yml file. Rename the example.Vagrantfile to Vagrantfile and example.settings.yml file to settings.yml. This renaming process is intended to allow you to update your version of Vlad without overwriting your current project files or settings.
+When you first download Vlad you will be unable to do anything with it as the system requires the use of a settings.yml file. Rename the example.settings.yml file to settings.yml and tweak the settings.yml file to suit your needs. This renaming process is intended to allow you to update your version of Vlad without overwriting your current project files or settings.
 
-With the Vagrantfile and settings.yml file in place you can get up and running use the following command:
+Our of the box you will get the following options:
+
+    webserver_hostname: 'drupal.local'
+    webserver_hostname_alias: 'www.{{ webserver_hostname }}'
+
+    # Vagrantfile configuration
+
+    boxipaddress: "192.168.100.100"
+    boxname: "vlad"
+
+Tweak the above settings if you want to create a separate project that uses Vlad as a template.
+
+With the settings.yml file in place you can get up and running use the following command:
 
     vagrant up
 
