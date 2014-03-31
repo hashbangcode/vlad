@@ -36,6 +36,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #config.cache.enable :npm
   end
 
+  # Add an Ansible playbooks that executes when the box is destroyed to clear things up.
+  if Vagrant.has_plugin?("vagrant-triggers")
+    config.trigger.before :destroy, { :execute => "ansible-playbook -i host.ini --ask-sudo-pass playbooks/local_destroy.yml", :stdout => true }
+  end
+
   # Configure virtual machine setup.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
