@@ -3,6 +3,11 @@
   vars_files:
     - ../settings.yml
   tasks:
+  - name: local actions destroy | dump vlad database
+    mysql_db: name=vladdb state=dump target=/var/www/site/docroot/dump.sql.gz login_password={{ mysql_root_password }} login_user=root
+    when: mysql_install is defined and mysql_install == "y"
+    sudo: true
+
   - name: local actions destroy | delete local hosts.ini file
     file: path=../host.ini state=absent
     delegate_to: 127.0.0.1
@@ -14,4 +19,3 @@
         regexp='.*?\s{{ webserver_hostname }} www.{{ webserver_hostname }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     sudo: true
-
