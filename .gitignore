@@ -46,5 +46,10 @@ vagrant_ansible_inventory_*
 host.ini
 vagrant_ansible_inventory_vlad
 ansible.log
-docroot/*
 settings.yml
+
+# Default & common shared folder names #
+########################################
+docroot/*
+www/*
+public_html/*
