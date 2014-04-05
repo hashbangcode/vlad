@@ -1,5 +1,0 @@
----
-- name: Custom | Create drush-backups directory
-  file: path=/var/www/site/drush-backups state=directory
-  tags: custom
-  sudo: true
