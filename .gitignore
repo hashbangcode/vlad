@@ -49,7 +49,7 @@ ansible.log
 settings.yml
 playbooks/project/tasks
 playbooks/project/templates
-!playbooks/project/*/examples
+!playbooks/project/*/examples/*
 !playbooks/project/*/README.md
 
 # Default & common shared folder names #
