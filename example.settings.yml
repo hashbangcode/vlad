@@ -56,6 +56,7 @@
   xhprof_install: "y"
 
 # Provision with custom playbooks
+# Custom paybooks are to be added to playbooks/roles/custom
   custom_provision: "n"
 
 # HTTP port for the web server

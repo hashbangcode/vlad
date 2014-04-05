@@ -3,5 +3,5 @@
 
 # @TODO As it stands, a test playbook for this role would need to be added to the git repo (best avoided). Can tests be driven by roles perhaps?
 
-- include: common.yml
-- include: project.yml
+- include: mkdirs.yml
+- include: drush-aliases.yml
