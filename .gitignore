@@ -47,7 +47,10 @@ host.ini
 vagrant_ansible_inventory_vlad
 ansible.log
 settings.yml
-playbooks/project/*
+playbooks/roles/project/tasks
+playbooks/roles/project/templates
+!playbooks/roles/project/*/examples/*
+!playbooks/roles/project/*/README.md
 
 # Default & common shared folder names #
 ########################################
