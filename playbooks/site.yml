@@ -58,6 +58,10 @@
 
     - role: imagemagick
       when: imagemagick_install is defined and imagemagick_install == "y"
+
+    - role: project
+      when: project_provision is defined and project_provision == "y"
+
   post_tasks:
     - name: Move default index.php file into docroot directory.
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
