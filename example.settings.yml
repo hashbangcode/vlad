@@ -55,8 +55,8 @@
 
   xhprof_install: "y"
 
-# Project specific custom playbook
-  project_provision: "n"
+# Provision with custom playbooks
+  custom_provision: "n"
 
 # HTTP port for the web server
   http_port: 8080
