@@ -47,8 +47,8 @@ host.ini
 vagrant_ansible_inventory_vlad
 ansible.log
 settings.yml
-playbooks/project/tasks/*
-playbooks/project/templates/*
+playbooks/project/tasks
+playbooks/project/templates
 !playbooks/project/*/examples
 !playbooks/project/*/README.md
 
