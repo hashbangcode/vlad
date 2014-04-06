@@ -1,0 +1,26 @@
+# Files to exclude when rsyncing Vlad files to an existing project
+
+# OS
+.DS_Store
+
+# IDE
+.idea
+
+# Vlad
+.git
+.gitignore
+.vagrant
+ansible.log
+host.ini
+settings.yml
+vlad-rsync
+
+# Site shared folder
+docroot
+www
+public_html
+htdocs
+
+# Aux shared folder
+aux/db_io/*
+aux/rsync/*
