@@ -15,7 +15,7 @@
   sudo: true
 
 - name: Memcached | PECL Library install
-  shell: printf "yes\n" | pecl install memcache creates=/usr/lib/php5/20090626/memcache.so
+  shell: printf "yes\n" | pecl install memcache creates=/usr/lib/php5/20100525/memcache.so
   tags: memcached
   sudo: true
   notify:
