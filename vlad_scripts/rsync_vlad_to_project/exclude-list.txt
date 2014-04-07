@@ -46,7 +46,7 @@ host.ini
 vagrant_ansible_inventory_vlad
 ansible.log
 settings.yml
-vlad-rsync
+vlad-scripts/rsync_vlad_to_project
 
 # Vlad: site shared folder (default & common names)
 # ===========================================================
