@@ -1,3 +1,3 @@
-#tmp
+# Tmp
 
-Use this directory to assist any custom playbooks/scripts that need to move files to and/or from guest to host but don't need to persistently store those files.
+This directory is shared between the host & guest and is intended to be used for temporarily storing files - normally to aid other processes.
