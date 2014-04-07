@@ -4,3 +4,4 @@
 aux/README.md
 aux/db_io/README.md
 aux/rsync/README.md
+aux/tmp/README.md
