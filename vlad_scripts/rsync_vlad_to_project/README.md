@@ -2,9 +2,10 @@
 
 ## Description
 
-Use this script to copy Vlad's files from a source directory to a new or existing project directory.
+Use this script (````vlad-rsync.sh````) to copy Vlad's files from this directory to a new or existing project directory.
 Unnecessary files will not be copied (.git and so on). See the exclude & include lists beside this script for further details.
 
+### BEWARE!
 Any old Vlad files found at the destination path that are no longer required will be deleted.
 
 ## Usage
