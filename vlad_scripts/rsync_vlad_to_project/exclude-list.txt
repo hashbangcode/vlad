@@ -60,3 +60,8 @@ htdocs
 aux/db_io/*
 aux/rsync/*
 aux/tmp/*
+
+# Vlad: custom role
+# ===========================================================
+playbooks/roles/custom/tasks/*
+playbooks/roles/custom/templates/*
