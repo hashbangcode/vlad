@@ -6,6 +6,10 @@
 # See the readme file (README.md) for more information.
 # Contribute to this project at : https://bitbucket.org/philipnorton42/vlad
 
+# Find the current vagrant directory.
+vagrant_dir = File.expand_path(File.dirname(__FILE__))
+vlad_hosts_file = vagrant_dir + '/host.ini'
+
 # Include config from settings.yml
 require 'yaml'
 vconfig = YAML::load_file("settings.yml")
@@ -38,7 +42,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Add an Ansible playbooks that executes when the box is destroyed to clear things up.
   if Vagrant.has_plugin?("vagrant-triggers")
-    config.trigger.before :destroy, { :execute => "ansible-playbook -i host.ini --ask-sudo-pass playbooks/local_destroy.yml", :stdout => true }
+    if File.exist?(vlad_hosts_file)
+      config.trigger.before :destroy, { :execute => "ansible-playbook -i host.ini --ask-sudo-pass playbooks/local_destroy.yml", :stdout => true }
+    end
   end
 
   # Configure virtual machine setup.
