@@ -1,0 +1,5 @@
+---
+# To re-run the playbooks in the 'custom' role use: ansible-playbook -i host.ini -t custom playbooks/site.yml
+
+- include: mkdirs.yml
+- include: drush-aliases.yml

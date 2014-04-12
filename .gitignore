@@ -29,7 +29,7 @@ nbproject
 .komodotools
 .idea
 
-# DRUPAL #
+# Drupal #
 ######################
 build/
 settings.php
@@ -47,9 +47,21 @@ host.ini
 vagrant_ansible_inventory_vlad
 ansible.log
 settings.yml
+playbooks-custom/custom/*
+!playbooks-custom/custom/example
+!playbooks-custom/custom/README.md
 
-# Default & common shared folder names #
-########################################
+# Default & common shared web root folder names #
+#################################################
 docroot/*
 www/*
 public_html/*
+htdocs/*
+
+# Aux shared folder #
+#####################
+aux/*
+!aux/README.md
+!aux/*/README.md
+
+
