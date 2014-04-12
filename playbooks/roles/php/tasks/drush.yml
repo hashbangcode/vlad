@@ -26,6 +26,11 @@
   tags: drush
   sudo: true
 
+- name: Drush | download the Coder module
+  command: drush dl coder --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
+  tags: drush
+  sudo: true
+
 - name: Drush | clear drush cache
   command: drush cc all 
   tags: drush
