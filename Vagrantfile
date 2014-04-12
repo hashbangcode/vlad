@@ -49,11 +49,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Set up NFS drive.
   nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
+
+  # Setup synced folder for site files
   config.vm.synced_folder vconfig['host_synced_folder'],
     "/var/www/site/docroot", 
     id: "vagrant-root",
     :nfs => nfs_setting,
     create: true
+
+  # Setup auxiliary synced folder
+  config.vm.synced_folder "aux",
+    "/var/www/site/aux",
+    id: "vagrant-root",
+    :nfs => nfs_setting
 
   # SSH Set up.
   config.ssh.forward_agent = true
