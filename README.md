@@ -51,7 +51,7 @@ You can also install the Vagrant Cachier plugin in order to cache apt-get and ge
 
     vagrant plugin install vagrant-cachier
 
-To support deprovisioning you also need to install the Vagrant Triggers plugin
+To support deprovisioning you also need to install the Vagrant Triggers plugin.
 
 If you already have the needed elements then you can get started.
 
