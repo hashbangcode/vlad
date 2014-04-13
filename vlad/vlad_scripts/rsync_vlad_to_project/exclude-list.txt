@@ -1,0 +1,67 @@
+# Files to exclude when rsyncing files to an existing project
+# ===========================================================
+
+
+# OS
+# ===========================================================
+*~
+.DS_Store*
+.project
+.settings
+ehthumbs.db
+Icon?
+Thumbs.db
+.svn
+.directory
+
+# IDE
+# ===========================================================
+.project
+.settings
+*.bbprojectd
+*.sublime-project
+*.sublime-workspace
+*.tmproj
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+*.swp
+*~.nib
+nbproject
+.komodotools
+.idea
+
+# Vagrant & Ansible
+# ===========================================================
+.vagrant
+vagrant_ansible_inventory_*
+
+# Vlad
+# ===========================================================
+.git
+.gitignore
+host.ini
+vagrant_ansible_inventory_vlad
+ansible.log
+settings.yml
+vlad-scripts/rsync_vlad_to_project
+
+# Vlad: site shared folder (default & common names)
+# ===========================================================
+docroot
+www
+public_html
+htdocs
+
+# Vlad: aux shared folder
+# ===========================================================
+aux/db_io/*
+aux/rsync/*
+aux/tmp/*
+
+# Vlad: custom role
+# ===========================================================
+playbooks/roles/custom/tasks/*
+playbooks/roles/custom/templates/*

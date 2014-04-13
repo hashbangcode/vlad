@@ -55,6 +55,10 @@
 
   xhprof_install: "y"
 
+# Provision with custom playbooks
+# Custom paybooks are to be added to playbooks/roles/custom
+  custom_provision: "n"
+
 # HTTP port for the web server
   http_port: 8080
 
@@ -119,3 +123,6 @@
 # Default location on *nix hosts is '/etc/hosts'
 # Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local'
   hosts_file_location: "/etc/hosts"
+
+# Redis Port
+  redit_port: 6379

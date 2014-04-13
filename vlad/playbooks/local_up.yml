@@ -1,10 +1,11 @@
 ---
 - hosts: all
+  gather_facts: False
   vars_files:
-    - ../settings.yml
+    - ../../settings.yml
   tasks:
-  - name: local actions | print hostname
-    local_action: debug var=webserver_hostname
+  - fail: msg="The system may not be provisioned according to the CMDB status."
+    when: local_ip_address is not defined
 
   - name: local actions | write local hosts.ini file
     template: src=templates/host.j2 dest=../host.ini
@@ -22,6 +23,6 @@
     lineinfile:
         dest='{{ hosts_file_location }}'
         state=present
-        line='{{ ansible_eth1.ipv4.address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
+        line='{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     sudo: true
