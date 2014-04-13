@@ -1,0 +1,8 @@
+---
+- include: php.yml
+- include: apache.yml
+- include: varnish.yml
+- include: mysql.yml
+- include: ruby.yml
+- include: redis.yml
+- include: hosts.yml

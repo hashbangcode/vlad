@@ -1,0 +1,35 @@
+---
+- name: Munin | install munin
+  apt: pkg={{ item }} state=installed
+  tags: munin
+  sudo: true
+  with_items:
+   - munin-common
+   - munin-node
+
+- name: Munin | add munin node config
+  template: src=munin_node.j2 dest=/etc/munin/munin-node.conf
+  tags: munin
+  sudo: true
+
+- name: Munin | get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  tags: munin
+  always_run: yes
+  sudo: true
+
+- name: Munin | add munin iptables
+  command: iptables -A INPUT -p tcp --dport 4949 -s {{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }} -j ACCEPT -m comment --comment "munin"
+  tags: munin
+  sudo: true
+  when: iptablesrules.stdout.find("munin") == -1
+  notify:
+   - save iptables
+
+- name: Munin | add munin to startup
+  command: update-rc.d munin-node defaults creates=/etc/rc0.d/K20munin-node
+  tags: munin
+  sudo: true
+  notify:
+   - restart munin-node

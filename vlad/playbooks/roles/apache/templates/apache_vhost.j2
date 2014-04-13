@@ -1,0 +1,20 @@
+<VirtualHost *:{{ http_port }}>
+  ServerAdmin {{ admin_mail }}
+  ServerName {{ webserver_hostname }}
+  ServerAlias {{ webserver_hostname_alias }}
+  ServerAlias *.vagrantshare.com
+
+  DocumentRoot /var/www/site/docroot
+
+  <Directory /var/www/site/docroot>
+    Options FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  ErrorLog /var/www/site/logs/error.log
+
+  LogLevel warn
+  CustomLog /var/www/site/logs/access.log combined
+</VirtualHost>

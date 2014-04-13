@@ -1,0 +1,107 @@
+---
+- name: Xhprof | install prerequisites
+  apt: pkg={{ item }} state=installed
+  with_items:
+   - graphviz
+   - gcc
+   - make
+   - python-mysqldb
+  tags: xhprof
+  sudo: true
+
+- name: Xhprof | set pecl preferred state to beta
+  command: pecl config-set preferred_state beta creates=/usr/lib/php5/20090626/xhprof.so
+  tags: xhprof
+  when: php_version == '5.3'
+  sudo: true
+
+- name: Xhprof | install xhprof
+  command: pecl install xhprof creates=/usr/lib/php5/20090626/xhprof.so
+  tags: xhprof
+  when: php_version == '5.3'
+  sudo: true
+
+- name: Xhprof | set pecl preferred state to stable
+  command: pecl config-set preferred_state stable creates=/usr/lib/php5/20090626/xhprof.so
+  tags: xhprof
+  when: php_version == '5.3'
+  sudo: true
+
+- name: Xhprof | set pecl preferred state to beta
+  command: pecl config-set preferred_state beta creates=/usr/lib/php5/20100525/xhprof.so
+  tags: xhprof
+  when: php_version == '5.4'
+  sudo: true
+
+- name: Xhprof | install xhprof
+  command: pecl install xhprof creates=/usr/lib/php5/20100525/xhprof.so
+  tags: xhprof
+  when: php_version == '5.4'
+  sudo: true
+
+- name: Xhprof | set pecl preferred state to stable
+  command: pecl config-set preferred_state stable creates=/usr/lib/php5/20100525/xhprof.so
+  tags: xhprof
+  when: php_version == '5.4'
+  sudo: true
+
+- name: Xhprof | setup xhprof ini files
+  template: src=xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
+  tags: xhprof
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: Xhprof | get xhprof_html package
+  git: repo=https://github.com/preinheimer/xhprof dest=/var/www/xhprof_html
+  tags: xhprof
+  sudo: true
+
+- name: Xhprof | create xhprof_html application database
+  mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
+  tags: xhprof
+
+- name: Xhprof | copy SQL install script
+  copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
+  tags: xhprof
+  sudo: true
+  
+- name: Xhprof | copy configuration file
+  template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
+  tags: xhprof
+  sudo: true
+
+- name: Xhprof | run SQL install script
+  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
+  tags: xhprof
+  sudo: true
+
+- name: Xhprof | check virtual host for Xhprof include
+  command: cat /etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
+  register: xhprof_include_present
+  tags: xhprof
+  always_run: yes
+  sudo: true
+
+- name: Xhprof | add virtual server item if include not found
+  lineinfile: dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
+  with_items:
+    - '  php_value auto_prepend_file /var/www/xhprof_html/external/header.php'
+    - '</VirtualHost>'
+  when: xhprof_include_present.stdout.find('auto_prepend') == -1
+  tags: xhprof
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: Xhprof | add vhost
+  template: src=apache_xhprof_vhost.j2 dest=/etc/apache2/sites-enabled/xhprof.{{ webserver_hostname }}.conf
+  tags: xhprof
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: Xhprof | ensure Xhprof directory permissions
+  file: path=/var/www/xhprof_html mode=0777 recurse=yes
+  tags: xhprof
+  sudo: true

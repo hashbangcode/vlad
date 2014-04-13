@@ -1,0 +1,18 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+port={{ mysql_port }}
+max_allowed_packet={{ mysql_max_allowed_packet }}
+
+{{ innodb_file_per_table }}
+character_set_server={{ mysql_character_set_server }}
+collation_server={{ mysql_collation_server }}
+
+bind-address=0.0.0.0
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

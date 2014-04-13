@@ -1,0 +1,10 @@
+---
+- name: Test | RVM is installed
+  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm -v
+  when: ruby_install is defined and ruby_install == "y"
+  tags: test
+
+- name: Test | Ruby is installed
+  shell: ruby -v
+  when: ruby_install is defined and ruby_install == "y"
+  tags: test

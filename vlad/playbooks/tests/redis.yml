@@ -1,0 +1,5 @@
+---
+- name: Test | MySQL is installed
+  shell: redis-cli ping
+  when: redis_install is defined and redis_install == "y"
+  tags: test

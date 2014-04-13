@@ -1,0 +1,7 @@
+---
+- name: Sendmail | Install sendmail packages
+  apt: pkg={{ item }} state=installed
+  tags: sendmail
+  sudo: true
+  with_items:
+    - sendmail

@@ -1,0 +1,7 @@
+---
+- include: php.yml
+- include: pear.yml
+- include: drush.yml
+- include: drupal_install.yml
+- include: phing.yml
+- include: xdebug.yml

@@ -1,0 +1,11 @@
+{{ xdebug_first_line.stdout }}
+
+xdebug.remote_enable=1
+xdebug.remote_port=9000
+xdebug.remote_handler="dbgp"
+xdebug.remote_connect_back = 1
+
+xdebug.profiler_enable=0
+xdebug.profiler_output_dir=/tmp/xdebug_profiles
+xdebug.profiler_enable_trigger=1
+xdebug.profiler_output_name=cachegrind.out.%p

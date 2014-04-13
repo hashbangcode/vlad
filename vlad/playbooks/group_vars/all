@@ -1,0 +1,4 @@
+---
+user: vagrant
+
+ssh_port: 22

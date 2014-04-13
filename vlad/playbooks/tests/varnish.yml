@@ -1,0 +1,6 @@
+---
+- name: Test | Vanish is installed
+  shell: varnishstat -1
+  when: varnish_install is defined and varnish_install == "y"
+  always_run: yes
+  tags: test

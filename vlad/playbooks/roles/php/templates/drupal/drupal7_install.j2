@@ -1,0 +1,20 @@
+# Move into the site directory.
+cd /var/www/site/
+
+# Download the latest stable drupal version into docroot.
+drush dl --drupal-project-rename=docroot --yes
+
+# Create a settings.php file.
+cp docroot/sites/default/default.settings.php docroot/sites/default/settings.php
+
+# Create some directories.
+mkdir docroot/sites/default/files
+mkdir docroot/sites/all/modules/contrib
+mkdir docroot/sites/all/modules/custom
+
+# Install Drupal using drush.
+cd docroot
+drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
+
+# Disable the overlay module.
+drush dis overlay --yes

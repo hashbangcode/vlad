@@ -1,0 +1,4 @@
+---
+- include: aptget.yml
+- include: ssh_config.yml
+- include: localactions.yml
