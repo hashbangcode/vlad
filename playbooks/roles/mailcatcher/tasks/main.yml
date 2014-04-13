@@ -1,6 +1,0 @@
----
-- include: mailcatcher.yml
-  when: ruby_install is not defined or ruby_install == "n"
-
-- include: mailcatcher_rvm.yml
-  when: ruby_install is defined and ruby_install == "y"

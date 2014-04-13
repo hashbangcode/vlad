@@ -1,5 +1,0 @@
----
-- name: Test | MySQL is installed
-  shell: mysql --version
-  when: mysql_install is defined and mysql_install == "y"
-  tags: test
