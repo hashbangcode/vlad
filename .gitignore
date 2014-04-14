@@ -43,13 +43,13 @@ vagrant_ansible_inventory_*
 
 # Vlad specific files #
 #######################
-host.ini
+vlad/host.ini
 vagrant_ansible_inventory_vlad
-ansible.log
+vlad/ansible.log
 settings.yml
-playbooks-custom/custom/*
-!playbooks-custom/custom/example
-!playbooks-custom/custom/README.md
+vlad/playbooks-custom/custom/*
+!vlad/playbooks-custom/custom/example
+!vlad/playbooks-custom/custom/README.md
 
 # Default & common shared web root folder names #
 #################################################
@@ -63,5 +63,3 @@ htdocs/*
 aux/*
 !aux/README.md
 !aux/*/README.md
-
-
