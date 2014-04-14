@@ -1,5 +1,10 @@
 # Vlad to project rsync script
 
+
+## IMPORTANT - PLEASE READ
+
+Vlad is still under heavy development and as such, the effects of running this script may change between versions. Only run this script to update your projects if you are aware of recent changes in Vlad. If you're unsure, backup your destination project before running this script.
+
 ## Description
 
 Use this script (````vlad-rsync.sh````) to copy Vlad's files from this directory to a new or existing project directory.
