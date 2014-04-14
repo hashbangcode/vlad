@@ -1,7 +1,6 @@
 # Files to include when rsyncing Vlad files to an existing project (that may otherwise be excluded)
 
 # Aux shared folder
-aux/README.md
 aux/db_io/README.md
 aux/rsync/README.md
 aux/tmp/README.md
