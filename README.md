@@ -34,7 +34,7 @@ Prerequisites
 * If you are using VirtualBox then you will need VirtualBox 4.3+
 * Ansible (with the Vagrant Ansible Plugin)
 
-Ansible doesn't currently run on Windows so Vlad will only work on Linux or OSX system.
+Note that Ansible doesn't currently run on Windows so Vlad will only work on Linux or OSX systems.
 
 To install Ansible use the following commands:
 
@@ -47,9 +47,11 @@ You may have to install some prerequisite python packages first:
 
 Vagrant 1.4+ comes with the Ansible provisioning tool included so there is no need to install extra plugins.
 
-You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests, which speeds reprovisioning up.
+You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests, which speeds up reprovisioning.
 
     vagrant plugin install vagrant-cachier
+
+To support deprovisioning you also need to install the Vagrant Triggers plugin
 
 If you already have the needed elements then you can get started.
 
@@ -76,7 +78,7 @@ With the settings.yml file in place you can get up and running using the followi
 
 Setting up the box takes a few minutes but there is plenty out output to look at whilst Ansible runs through the provisioning steps. You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local Ansible action will add an entry to your hosts file for the default IP address 192.168.100.100 so you don't need to alter it.
 
-Note: You will be asked for your sudo password on two separate occasions. The first is used by Vagrant to setup a NFS share and the second is used by Ansible to alter your local hosts file.
+Note: You will be asked for your sudo password on two separate occasions. The first is used by Vagrant to setup a NFS share and the second is used by Ansible to alter your local hosts file so that you can easily access the box via a web browser.
 
 To access the vagrant box use the following command:
 
@@ -88,6 +90,10 @@ If you have changed any of the settings and want to re-provision the box then ru
 
     vagrant provision
 
+If you change any Vagrant settings (e.g. changing the memory in the box) you'll need to reload the box with the following command:
+
+    vagrant reload
+
 To temporarily shutdown the box use the following command:
 
     vagrant halt
@@ -97,6 +103,21 @@ To delete the box and the data it contains run the following command:
     vagrant destroy
 
 When you run 'vagrant up' again you will get back the original box.
+
+Settings
+--------
+
+A file called settings.yml is used to configure the Vagrant box. This allows you to control everything but the IP address of the box.
+
+For example, to install Solr on the box go into the settings file and change the solr_install parameter from this:
+
+    solr_install: "n"
+
+To this:
+
+    solr_install: "y"
+
+The default behaviour of the box is to install a Varnish server that proxies an Apache HTTP server. By turning on and off the software install on the machine and configuring the ports used it is possible to create a settings file that has the setup you want.
 
 Additional
 ----------
@@ -127,65 +148,7 @@ Solr can be viewed and configured through the Tomcat6 server via [http://www.dru
 
 The Varnish secret key for the box is 04788b22-e179-4579-aac7-f3541fb40391, you will need this when using the Vagrant modules.
 
-Running Ansible Outside Vagrant
--------------------------------
-
-During the setup process a file called host.ini will be created in the main Vlad directory. This file contains all the information Ansible needs to interact with the Vagrant box. If you want to run the Ansible playbook outside of Vagrant you can run the following command.
-
-    ansible-playbook -i host.ini playbooks/site.yml
-
-Tags have been included into the playbooks to allow different parts to be run individually. For example to (re)run the varnish playbook use the following command.
-
-    ansible-playbook -i host.ini -t varnish playbooks/site.yml
-
-To run multiple tags just use a comma separated list of tags like this:
-
-    ansible-playbook -i host.ini -t varnish,apache2 playbooks/site.yml
-
-Possible tags are: adminer,apache2,aptget,drupalinstall,drush,local,mailcatcher,memcached,munin,mysql,pear,phing,pimpmylog,php,redis,sendmail,solr,test,ssh,varnish,xdebug,xhprof
-
-Settings
---------
-
-A file called settings.yml is used to configure the Vagrant box. This allows you to control everything but the IP address of the box.
-
-For example, to install Solr on the box go into the settings file and change the solr_install parameter from this:
-
-    solr_install: "n"
-
-To this:
-
-    solr_install: "y"
-
-The default behaviour of the box is to install a Varnish server that proxies an Apache HTTP server. By turning on and off the software install on the machine and configuring the ports used it is possible to create a settings file that has the setup you want.
-
-Testing
--------
-
-Before running the install Vlad does a couple of checks to make sure that it has the settings it needs to run the rest of the install process.
-
-Once Ansible has set up the box a testing task is run. This checks to ensure that everything that was selected to be installed has been.
-
-These tests were added partly to give confidence that the box has been setup correctly, and also to allow for new future development work to progress without having to manually check that things still work every time a change is made.
-
-It is possible to run the tests manually by using the 'test' tag like this:
-
-    ansible-playbook -i host.ini -t test playbooks/site.yml
-
 Wiki
 ----
 
 Find out more about Vlad and how to contribute via the Wiki pages at [https://bitbucket.org/philipnorton42/vlad/wiki](https://bitbucket.org/philipnorton42/vlad/wiki).
-
-Notices
--------
-
-This box was originally developed by Phil Norton ([@philipnorton42](http://www.twitter.com/philipnorton42)) for use with the site [#! code](http://www.hashbangcode.com/).
-
-Thanks to [Mike Bell](http://mikebell.io/) for some of the Vagrant configuration settings.
-Thanks to [Michael Heap](http://michaelheap.com/) for introducing me to Ansible.
-Thanks to [Jeremy Coates](http://www.twitter.com/phpcodemonkey) for the local action tip for hosts file updating.
-
-Feel free to use this project in your own Drupal builds.
-
-All feedback very much appreciated :)
