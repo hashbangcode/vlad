@@ -61,8 +61,8 @@ aux/*
 !aux/README.md
 !aux/*/README.md
 
-# Custom roles #
-################
+# Custom playbooks #
+####################
 vlad/playbooks-custom/*
 !vlad/playbooks-custom/example
 !vlad/playbooks-custom/example.main.yml
