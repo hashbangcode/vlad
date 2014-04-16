@@ -65,5 +65,5 @@ aux/*
 ################
 vlad/playbooks-custom/*
 !vlad/playbooks-custom/example
-!vlad/playbooks-custom/example.site.yml
+!vlad/playbooks-custom/example.main.yml
 !vlad/playbooks-custom/README.md

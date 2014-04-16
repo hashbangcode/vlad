@@ -1,7 +1,7 @@
-# Custom roles
+# Custom playbooks
 
-Define custom roles in this directory and include them for provisioning in ```site.yml```.
+Create custom playbooks in this directory and include them for provisioning in ```main.yml```.
 
-See ```example.site.yml``` for how to include custom roles (copy and rename this to ```site.yml``` to get going).
+See ```example.main.yml``` for how to include custom playbooks (copy and rename ```example.main.yml``` to ```main.yml``` to get going).
 
-Checkout the ```example``` directory for an example custom role.
+Checkout the ```example``` directory for some example custom playbooks.

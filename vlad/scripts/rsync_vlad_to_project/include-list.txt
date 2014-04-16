@@ -9,5 +9,5 @@ aux/tmp/README.md
 # Vlad: custom roles
 # ===========================================================
 vlad/playbooks-custom/example
-vlad/playbooks-custom/example.site.yml
+vlad/playbooks-custom/example.main.yml
 vlad/playbooks-custom/README.md
