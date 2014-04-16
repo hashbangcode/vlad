@@ -1,5 +1,0 @@
----
-- name: Custom | Create drush aliases file
-  template: src=drush.aliases.drushrc.j2 dest=/home/vagrant/.drush/{{ boxname }}.aliases.drushrc.php
-  tags: custom
-  sudo: true
