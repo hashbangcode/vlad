@@ -1,0 +1,28 @@
+<?php
+
+# @{{ boxname }}.local
+$aliases['local'] = array(
+  'root' => '/var/www/site/docroot',
+  'uri' => '{{ webserver_hostname_alias }}',
+  'path-aliases' => array(
+    '%dump-dir' => '/var/www/site/drush-dumps',
+  ),
+);
+
+# @{{ boxname }}.dev
+$aliases['dev'] = array(
+  'root' => '/home/some-user/dev',
+  'uri' => 'dev.example.com',
+  'remote-host' => '123.123.123.123',
+  'remote-user' => 'some-user',
+  'path-aliases' => array(
+  	'%drush' => '/usr/bin/drush',
+    '%dump-dir' => '/home/some-user/drush-dumps',
+  ),
+  'command-specific' => array(
+    'rsync' => array (
+      'mode' => 'adivvz',
+      'exclude-paths' => 'css:ctools:js:styles:xmlsitemap:.DS_Store:.htaccess',
+    ),
+  ),
+);

@@ -1,0 +1,8 @@
+---
+
+# Creates a Drush aliases file using a Jinja2 template.
+
+- name: Example custom role | Create Drush aliases file
+  template: src=vlad.aliases.drushrc.j2 dest=/home/vagrant/.drush/{{ boxname }}.aliases.drushrc.php
+  tags: custom
+  sudo: true

@@ -1,6 +1,9 @@
 ---
 vars_files:
   - ../../settings.yml
+
+# Include roles here. Roles will be executed in this order.
+
 roles:
-  - role: custom
+  - role: example
     when: custom_provision is defined and custom_provision == "y"

@@ -1,0 +1,6 @@
+---
+
+# Includes playbooks for this role here. Playbooks will be run in this order.
+
+- include: common/mkdirs.yml
+- include: project/drush-aliases.yml
