@@ -61,7 +61,6 @@ aux/db_io/*
 aux/rsync/*
 aux/tmp/*
 
-# Vlad: custom role
+# Vlad: custom roles
 # ===========================================================
-vlad/playbooks-custom/custom/tasks/*
-vlad/playbooks-custom/custom/templates/*
+vlad/playbooks-custom/*
