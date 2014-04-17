@@ -79,14 +79,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Run the destroy playbook upon halting the box
   if Vagrant.has_plugin?("vagrant-triggers")
     if File.exist?(vlad_hosts_file)
-      config.trigger.before :halt, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_destroy.yml", :stdout => true }
+      config.trigger.before :halt, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml", :stdout => true }
     end
   end
 
   # Add an Ansible playbooks that executes when the box is destroyed to clear things up.
   if Vagrant.has_plugin?("vagrant-triggers")
     if File.exist?(vlad_hosts_file)
-      config.trigger.before :destroy, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_destroy.yml", :stdout => true }
+      config.trigger.before :destroy, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml", :stdout => true }
     end
   end
 
