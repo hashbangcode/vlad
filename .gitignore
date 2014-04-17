@@ -64,6 +64,6 @@ aux/*
 # Custom playbooks #
 ####################
 vlad/playbooks-custom/custom/*
-!vlad/playbooks-custom/custom/defaults/main.yml
+!vlad/playbooks-custom/custom/defaults
 !vlad/playbooks-custom/custom/tasks/example.main.yml
 !vlad/playbooks-custom/custom/README.md
