@@ -86,13 +86,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        end
      end
 
-    # Add an Ansible playbook that executes when the box is destroyed to clear things up
-    #if File.exist?(vlad_hosts_file)
-    #  config.trigger.before :destroy, :stdout => true do
-    #    run "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml"
-    #  end
-    #end
-
   end
 
   # Provision vagrant box with Ansible.
