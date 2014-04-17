@@ -1,5 +1,6 @@
 ---
+- name: Custom | debug message
+  debug: msg="Custom playbook has been included successfully."
+  tags: custom
 
-# Include playbooks here. Playbooks will be run in this order.
-
-  - include: example/tasks/main.yml
+# Add your own tasks here.
