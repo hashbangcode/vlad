@@ -61,7 +61,6 @@
 
   post_tasks:
     - include: ../playbooks-custom/main.yml
-      ignore_errors: true
       when: custom_provision is defined and custom_provision == "y"
 
     - name: Move default index.php file into docroot directory.
