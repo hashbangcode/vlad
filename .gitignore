@@ -45,7 +45,7 @@ vagrant_ansible_inventory_*
 #######################
 vlad/host.ini
 vagrant_ansible_inventory_vlad
-vlad/ansible.log
+ansible.log
 settings.yml
 
 # Default & common shared web root folder names #
