@@ -1,0 +1,6 @@
+---
+- name: Custom | debug message
+  debug: msg="Custom playbook has been included successfully."
+  tags: custom
+
+# Add your own tasks here.

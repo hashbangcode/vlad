@@ -90,16 +90,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # Provision local environment with ansible.
-  #config.vm.provision "ansible" do |ansible|
-  #  ansible.playbook = "playbooks/local_up.yml"
-  #  ansible.host_key_checking = false
-  #  ansible.ask_sudo_pass = true
-  #  ansible.extra_vars = {local_ip_address:boxipaddress}
-    # Optionally allow verbose output from ansible.
-    # ansible.verbose = 'vvvv'
-  #end
-
   # Provision vagrant box with ansible.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vlad/playbooks/site.yml"

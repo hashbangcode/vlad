@@ -59,13 +59,14 @@
     - role: imagemagick
       when: imagemagick_install is defined and imagemagick_install == "y"
 
-#    - role: custom
-#      when: custom_provision is defined and custom_provision == "y"
-
   post_tasks:
+    - include: ../playbooks-custom/main.yml
+      when: custom_provision is defined and custom_provision == "y"
+
     - name: Move default index.php file into docroot directory.
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
 
     - include: tests/main.yml
+
   handlers:
     - include: common/handlers/main.yml

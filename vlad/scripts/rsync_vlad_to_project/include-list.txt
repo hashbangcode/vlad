@@ -1,0 +1,12 @@
+# Files to include when rsyncing Vlad files to an existing project (that may otherwise be excluded)
+
+# Vlad: aux shared folder
+# ===========================================================
+aux/db_io/README.md
+aux/rsync/README.md
+aux/tmp/README.md
+
+# Vlad: custom playbooks
+# ===========================================================
+vlad/playbooks-custom/example.main.yml
+vlad/playbooks-custom/README.md

@@ -42,11 +42,11 @@ vagrant_ansible_inventory_*
 # ===========================================================
 .git
 .gitignore
-host.ini
+vlad/host.ini
 vagrant_ansible_inventory_vlad
-ansible.log
+vlad/ansible.log
 settings.yml
-vlad-scripts/rsync_vlad_to_project
+vlad/scripts/rsync_vlad_to_project
 
 # Vlad: site shared folder (default & common names)
 # ===========================================================
@@ -61,7 +61,6 @@ aux/db_io/*
 aux/rsync/*
 aux/tmp/*
 
-# Vlad: custom role
+# Vlad: custom playbooks
 # ===========================================================
-playbooks/roles/custom/tasks/*
-playbooks/roles/custom/templates/*
+vlad/playbooks-custom/*
