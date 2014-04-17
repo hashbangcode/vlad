@@ -6,8 +6,7 @@ aux/db_io/README.md
 aux/rsync/README.md
 aux/tmp/README.md
 
-# Vlad: custom roles
+# Vlad: custom playbooks
 # ===========================================================
-vlad/playbooks-custom/example
 vlad/playbooks-custom/example.main.yml
 vlad/playbooks-custom/README.md
