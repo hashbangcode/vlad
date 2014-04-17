@@ -1,6 +1,0 @@
----
-
-# Include playbooks here. Playbooks will be run in this order.
-
-- include: mkdirs.yml
-- include: drush-aliases.yml
