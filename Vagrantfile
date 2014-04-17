@@ -69,25 +69,30 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :vlad do |t|
   end
 
-  # Run an Ansible playbook on setting the box up
+
   if Vagrant.has_plugin?("vagrant-triggers")
+
+    # Run an Ansible playbook on setting the box up
     if !File.exist?(vlad_hosts_file)
-      config.trigger.before :up, { :execute => 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"', :stdout => true }
+      config.trigger.before :up, :stdout => true, :force => true do
+        run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+      end
     end
-  end
 
-  # Run the halt/destroy playbook upon halting the box
-  if Vagrant.has_plugin?("vagrant-triggers")
-    if File.exist?(vlad_hosts_file)
-      config.trigger.before :halt, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml", :stdout => true }
-    end
-  end
+     # Run the halt/destroy playbook upon halting or destroying the box
+     if File.exist?(vlad_hosts_file)
+       config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
+         run "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml"
+       end
+     end
 
-  # Add an Ansible playbook that executes when the box is destroyed to clear things up
-  if Vagrant.has_plugin?("vagrant-triggers")
-    if File.exist?(vlad_hosts_file)
-      config.trigger.before :destroy, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml", :stdout => true }
-    end
+    # Add an Ansible playbook that executes when the box is destroyed to clear things up
+    #if File.exist?(vlad_hosts_file)
+    #  config.trigger.before :destroy, :stdout => true do
+    #    run "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml"
+    #  end
+    #end
+
   end
 
   # Provision vagrant box with Ansible.
