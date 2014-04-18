@@ -57,8 +57,7 @@ htdocs/*
 
 # Aux shared folder #
 #####################
-aux/*
-!aux/README.md
+aux/*/*
 !aux/*/README.md
 
 # Custom playbooks #

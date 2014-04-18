@@ -59,6 +59,7 @@ htdocs
 # ===========================================================
 aux/db_io/*
 aux/rsync/*
+aux/scripts/*
 aux/tmp/*
 
 # Vlad: custom playbooks
