@@ -45,8 +45,8 @@ vagrant_ansible_inventory_*
 #######################
 vlad/host.ini
 vagrant_ansible_inventory_vlad
-ansible.log
-settings.yml
+vlad/ansible.log
+vlad/settings.yml
 
 # Default & common shared web root folder names #
 #################################################
@@ -63,6 +63,7 @@ aux/*
 
 # Custom playbooks #
 ####################
-vlad/playbooks-custom/*
-!vlad/playbooks-custom/example.main.yml
-!vlad/playbooks-custom/README.md
+vlad/playbooks-custom/custom/*
+!vlad/playbooks-custom/custom/defaults
+!vlad/playbooks-custom/custom/tasks/example.main.yml
+!vlad/playbooks-custom/custom/README.md
