@@ -56,7 +56,7 @@
   xhprof_install: "y"
 
 # Provision with custom playbooks
-# Custom paybooks are to be added to playbooks/roles/custom
+# Copy and rename playbooks-custom/example.main.yml main.yml to use this feature.
   custom_provision: "n"
 
 # HTTP port for the web server

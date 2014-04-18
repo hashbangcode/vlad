@@ -10,9 +10,9 @@
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
 vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
-# Include config from settings.yml
+# Include config from vlad/settings.yml
 require 'yaml'
-vconfig = YAML::load_file("settings.yml")
+vconfig = YAML::load_file("vlad/settings.yml")
 
 # Configuration
 boxipaddress = vconfig['boxipaddress']
@@ -69,28 +69,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :vlad do |t|
   end
 
-  # Rung an Ansible playbook on setting the box up
+
   if Vagrant.has_plugin?("vagrant-triggers")
+
+    # Run an Ansible playbook on setting the box up
     if !File.exist?(vlad_hosts_file)
-      config.trigger.before :up, { :execute => 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"', :stdout => true }
+      config.trigger.before :up, :stdout => true, :force => true do
+        run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+      end
     end
+
+     # Run the halt/destroy playbook upon halting or destroying the box
+     if File.exist?(vlad_hosts_file)
+       config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
+         run "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml"
+       end
+     end
+
   end
 
-  # Run the destroy playbook upon halting the box
-  if Vagrant.has_plugin?("vagrant-triggers")
-    if File.exist?(vlad_hosts_file)
-      config.trigger.before :halt, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_destroy.yml", :stdout => true }
-    end
-  end
-
-  # Add an Ansible playbooks that executes when the box is destroyed to clear things up.
-  if Vagrant.has_plugin?("vagrant-triggers")
-    if File.exist?(vlad_hosts_file)
-      config.trigger.before :destroy, { :execute => "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_destroy.yml", :stdout => true }
-    end
-  end
-
-  # Provision vagrant box with ansible.
+  # Provision vagrant box with Ansible.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vlad/playbooks/site.yml"
     ansible.host_key_checking = false

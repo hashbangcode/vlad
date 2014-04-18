@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars_files:
-    - ../../settings.yml
+    - ../settings.yml
   pre_tasks:
     - fail: msg="PHP Version is invalid"
       when: php_version is defined and php_version != "5.3" and php_version != "5.4"
@@ -59,9 +59,10 @@
     - role: imagemagick
       when: imagemagick_install is defined and imagemagick_install == "y"
 
-  post_tasks:
-    - include: ../playbooks-custom/main.yml
+    - role: ../playbooks-custom/custom
       when: custom_provision is defined and custom_provision == "y"
+
+  post_tasks:
 
     - name: Move default index.php file into docroot directory.
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
