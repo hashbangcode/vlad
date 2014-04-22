@@ -1,6 +1,8 @@
 ---
-- name: Custom | debug message
-  debug: msg="Custom role has been included successfully."
 
-# Add your custom tasks as include statements in this file. The following is an example to get you started.
-#- include custom.yml
+# To run just this playbook use:
+# $ ansible-playbook -i vlad/host.ini -t custom vlad/playbooks/site.yml
+
+# Common
+
+- include: common/mkdirs.yml

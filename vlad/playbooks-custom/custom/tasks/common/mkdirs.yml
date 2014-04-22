@@ -1,0 +1,13 @@
+---
+
+# Create directories outside of docroot/
+
+- name: Custom | Create drush-dumps directory (above docroot)
+  file: path=/var/www/site/drush-dumps state=directory owner=vagrant group=www-data mode=770
+  tags: custom
+  sudo: true
+
+- name: Custom | Create private files directory (above docroot)
+  file: path=/var/www/site/private state=directory owner=vagrant group=www-data mode=770
+  tags: custom
+  sudo: true
