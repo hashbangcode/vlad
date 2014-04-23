@@ -3,6 +3,8 @@
   vars_files:
     - ../settings.yml
   pre_tasks:
+    - debug: msg="Custom role not detected."
+
     - fail: msg="PHP Version is invalid"
       when: php_version is defined and php_version != "5.3" and php_version != "5.4"
 
