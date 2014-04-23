@@ -1,8 +1,0 @@
----
-
-# To run just this playbook use:
-# $ ansible-playbook -i vlad/host.ini -t custom vlad/playbooks/site.yml
-
-# Common
-
-- include: common/mkdirs.yml

@@ -92,7 +92,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vlad/playbooks/site.yml"
     if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
-      ansible.playbook = "vlad/playbooks-custom/site.yml"
+      ansible.playbook = "vlad/playbooks/site-custom.yml"
     end
     ansible.host_key_checking = false
     ansible.extra_vars = {user:"vagrant"}

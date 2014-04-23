@@ -1,0 +1,73 @@
+---
+- hosts: all
+  vars_files:
+    - ../settings.yml
+  pre_tasks:
+    - fail: msg="PHP Version is invalid"
+      when: php_version is defined and php_version != "5.3" and php_version != "5.4"
+
+    - fail: msg="Solr Drupal module is invalid"
+      when: drupal_solr_package is defined and drupal_solr_package != "search_api_solr" and drupal_solr_package != "apachesolr"
+  roles:
+    - role: base
+
+    - role: mysql
+      when: mysql_install is defined and mysql_install == "y"
+
+    - role: php
+      when: php_install is defined and php_install == "y"
+
+    - role: apache
+      when: apache_install is defined and apache_install == "y"
+
+    - role: adminer
+      when: adminer_install is defined and adminer_install == "y"
+
+    - role: xhprof
+      when: xhprof_install is defined and xhprof_install == "y"
+
+    - role: pimpmylog
+      when: pimpmylog_install is defined and pimpmylog_install == "y"
+
+    - role: varnish
+      when: varnish_install is defined and varnish_install == "y"
+
+    - role: memcached
+      when: memcached_install is defined and memcached_install == "y"
+
+    - role: redis
+      when: redis_install is defined and redis_install == "y"
+
+    - role: sendmail
+      when: sendmail_install is defined and sendmail_install == "y"
+
+    - role: solr
+      when: solr_install is defined and solr_install == "y"
+
+    - role: munin
+      when: munin_install is defined and munin_install == "y"
+
+    - role: ruby
+      when: ruby_install is defined and ruby_install == "y"
+
+    - role: mailcatcher
+      when: mailcatcher_install is defined and mailcatcher_install == "y"
+
+    - role: node
+      when: node_install is defined and node_install == "y"
+
+    - role: imagemagick
+      when: imagemagick_install is defined and imagemagick_install == "y"
+
+    - role: ../playbooks-custom/custom
+      when: custom_provision is defined and custom_provision == "y"
+
+  post_tasks:
+
+    - name: Move default index.php file into docroot directory.
+      template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
+
+    - include: tests/main.yml
+
+  handlers:
+    - include: common/handlers/main.yml

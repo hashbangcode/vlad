@@ -1,7 +1,0 @@
----
-- hosts: all
-  vars_files:
-    - ../settings.yml  
-  roles:
-    - role: custom
-      when: custom_provision is defined and custom_provision == "y"

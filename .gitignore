@@ -11,7 +11,7 @@ Thumbs.db
 .directory
 
 # IDE generated files #
-######################
+#######################
 .project
 .settings
 *.bbprojectd
@@ -30,7 +30,7 @@ nbproject
 .idea
 
 # Drupal #
-######################
+##########
 build/
 settings.php
 sites.php
