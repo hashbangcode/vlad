@@ -11,7 +11,7 @@ Thumbs.db
 .directory
 
 # IDE generated files #
-######################
+#######################
 .project
 .settings
 *.bbprojectd
@@ -30,7 +30,7 @@ nbproject
 .idea
 
 # Drupal #
-######################
+##########
 build/
 settings.php
 sites.php
@@ -64,6 +64,4 @@ aux/*
 # Custom playbooks #
 ####################
 vlad/playbooks-custom/custom/*
-!vlad/playbooks-custom/custom/tasks
-!vlad/playbooks-custom/custom/main.yml
 !vlad/playbooks-custom/README.md

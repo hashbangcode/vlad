@@ -3,7 +3,7 @@
   vars_files:
     - ../settings.yml
   pre_tasks:
-    - debug: msg="Custom role not detected."
+    - debug: msg="Custom role detected."
 
     - fail: msg="PHP Version is invalid"
       when: php_version is defined and php_version != "5.3" and php_version != "5.4"
@@ -60,6 +60,9 @@
 
     - role: imagemagick
       when: imagemagick_install is defined and imagemagick_install == "y"
+
+    - role: ../playbooks-custom/custom
+      when: custom_provision is defined and custom_provision == "y"
 
   post_tasks:
 

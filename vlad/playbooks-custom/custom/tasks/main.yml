@@ -1,6 +1,0 @@
----
-- name: Custom | debug message
-  debug: msg="Custom role has been included successfully."
-
-# Add your custom tasks as include statements in this file. The following is an example to get you started.
-#- include custom.yml
