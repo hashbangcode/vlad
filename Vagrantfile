@@ -12,7 +12,7 @@ vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
 # Include config from vlad/settings.yml
 require 'yaml'
-vconfig = YAML::load_file("vlad/settings.yml")
+vconfig = YAML::load_file(vagrant_dir + "/vlad/settings.yml")
 
 # Configuration
 boxipaddress = vconfig['boxipaddress']
