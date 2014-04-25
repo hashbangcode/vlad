@@ -5,6 +5,6 @@
   sudo: yes
 
 - name: Redis | set redis port
-  lineinfile: dest=/etc/redis/redis.conf regexp="^port = " insertafter="^port = " line="port {{ php_max_execution_time }}"
+  lineinfile: dest=/etc/redis/redis.conf regexp="^port = " insertafter="^port = " line="port {{ redis_port }}"
   tags: redis
   sudo: true
