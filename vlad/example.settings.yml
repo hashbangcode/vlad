@@ -125,4 +125,4 @@
   hosts_file_location: "/etc/hosts"
 
 # Redis Port
-  redit_port: 6379
+  redis_port: 6379
