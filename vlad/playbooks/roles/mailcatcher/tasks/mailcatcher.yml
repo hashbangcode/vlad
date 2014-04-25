@@ -9,12 +9,12 @@
   sudo: true
 
 - name: MailCatcher | install MailCatcher normally
-  command: gem install mailcatcher --no-rdoc --no-ri
+  command: gem install mailcatcher --no-rdoc --no-ri creates=/usr/local/bin/mailcatcher
   tags: mailcatcher
   sudo: true
 
-- name: MailCatcher | change php sendmail_path setting
-  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^sendmail_path = " insertafter="^#sendmail_path = " line="sendmail_path = /usr/bin/env catchmail"
+- name: MailCatcher | change php apache sendmail_path setting
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
   when: php_install is defined and php_install == "y"
   tags: mailcatcher
   sudo: true
@@ -22,7 +22,7 @@
     - restart apache2
 
 - name: MailCatcher | change php cli sendmail_path setting
-  lineinfile: dest=/etc/php5/cli/php.ini regexp="^sendmail_path = " insertafter="^#sendmail_path = " line="sendmail_path = /usr/bin/env catchmail"
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
   when: php_install is defined and php_install == "y"
   tags: mailcatcher
   sudo: true
