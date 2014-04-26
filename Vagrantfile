@@ -91,13 +91,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Provision vagrant box with Ansible.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vlad/playbooks/site.yml"
-    if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
-      ansible.playbook = "vlad/playbooks/site-custom.yml"
-    end
     ansible.host_key_checking = false
     ansible.extra_vars = {user:"vagrant"}
     # Optionally allow verbose output from ansible.
     # ansible.verbose = 'vvvv'
-  end  
+  end
+
+  # Run the custom Ansible playbook (if it exists)
+  if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
+    config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "vlad/playbooks/site-custom.yml"
+      ansible.host_key_checking = false
+      ansible.extra_vars = {user:"vagrant"}
+      # Optionally allow verbose output from ansible.
+      # ansible.verbose = 'vvvv'
+    end
+  end
 
 end
