@@ -128,5 +128,5 @@
   redis_port: 6379
 
 # Set the level of verbosity that Ansible will use
-# This can be one of v (default), vv, vvv, or vvvv
-  ansible_verbosity: "v"
+# This can be one of "", "v", "vv", "vvv", or "vvvv"
+  ansible_verbosity: ""
