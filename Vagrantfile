@@ -12,7 +12,7 @@ vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
 # Include config from vlad/settings.yml
 require 'yaml'
-vconfig = YAML::load_file("vlad/settings.yml")
+vconfig = YAML::load_file(vagrant_dir + "/vlad/settings.yml")
 
 # Configuration
 boxipaddress = vconfig['boxipaddress']
@@ -93,8 +93,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = "vlad/playbooks/site.yml"
     ansible.host_key_checking = false
     ansible.extra_vars = {user:"vagrant"}
-    # Optionally allow verbose output from ansible.
-    # ansible.verbose = 'vvvv'
+    if vconfig['ansible_verbosity'] != ''
+      ansible.verbose = vconfig['ansible_verbosity']
+    end
+  end
+
+  # Run the custom Ansible playbook (if it exists)
+  if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
+    config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "vlad/playbooks/site-custom.yml"
+      ansible.host_key_checking = false
+      ansible.extra_vars = {user:"vagrant"}
+      if vconfig['ansible_verbosity'] != ''
+        ansible.verbose = vconfig['ansible_verbosity']
+      end
+    end
   end
 
 end

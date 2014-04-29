@@ -4,10 +4,9 @@
 # ===========================================================
 aux/db_io/README.md
 aux/rsync/README.md
+aux/scripts/README.md
 aux/tmp/README.md
 
 # Vlad: custom playbooks
 # ===========================================================
-vlad/playbooks-custom/custom/defaults/main.yml
-vlad/playbooks-custom/custom/tasks/example.main.yml
-vlad/playbooks-custom/custom/README.md
+vlad/playbooks-custom/README.md

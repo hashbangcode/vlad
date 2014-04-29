@@ -47,3 +47,11 @@
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
+
+- name: Apache | symlink www directory from home directory
+  file: src=/var/www/site/docroot dest=/home/{{ user }}/www state=link
+  tags: apache2
+
+- name: Apache | set default login directory to be /var/www/site/docroot
+  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/site/docroot'
+  tags: apache2

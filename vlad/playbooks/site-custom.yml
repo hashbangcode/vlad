@@ -1,0 +1,11 @@
+---
+- hosts: all
+  vars_files:
+    - ../settings.yml
+  roles:
+
+    - role: ../playbooks-custom/custom
+      when: custom_provision is defined and custom_provision == "y"
+
+  handlers:
+    - include: common/handlers/main.yml
