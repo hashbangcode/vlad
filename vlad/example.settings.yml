@@ -133,4 +133,4 @@
 
 # Import db from file on vagrant up
 # The source file needs to reside at aux/db_io/vlad_up.sql.gz
-  db_import_up: "y"
+  db_import_up: "n"
