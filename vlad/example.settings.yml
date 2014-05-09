@@ -105,6 +105,7 @@
 
 # SSH Settings
   ssh_port: 22
+  use_host_ssh_key: "y"
 
 # Varnish Settings
   varnish_memory: 512
