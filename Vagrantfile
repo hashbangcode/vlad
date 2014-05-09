@@ -57,7 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
 
   # Setup auxiliary synced folder
-  config.vm.synced_folder "./aux",
+  config.vm.synced_folder vagrant_dir + "/aux",
     "/var/www/site/aux",
     id: "vagrant-root",
     :nfs => nfs_setting
@@ -69,20 +69,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :vlad do |t|
   end
 
-
   if Vagrant.has_plugin?("vagrant-triggers")
 
     # Run an Ansible playbook on setting the box up
     if !File.exist?(vlad_hosts_file)
       config.trigger.before :up, :stdout => true, :force => true do
-        run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
       end
     end
 
      # Run the halt/destroy playbook upon halting or destroying the box
      if File.exist?(vlad_hosts_file)
        config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
-         run "ansible-playbook -i vlad/host.ini --ask-sudo-pass vlad/playbooks/local_halt_destroy.yml"
+         run "ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml"
        end
      end
 
@@ -90,7 +89,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Provision vagrant box with Ansible.
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "vlad/playbooks/site.yml"
+    ansible.playbook = vagrant_dir + "/vlad/playbooks/site.yml"
     ansible.host_key_checking = false
     ansible.extra_vars = {user:"vagrant"}
     if vconfig['ansible_verbosity'] != ''
@@ -101,7 +100,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Run the custom Ansible playbook (if it exists)
   if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
     config.vm.provision "ansible" do |ansible|
-      ansible.playbook = "vlad/playbooks/site-custom.yml"
+      ansible.playbook = vagrant_dir + "/vlad/playbooks/site-custom.yml"
       ansible.host_key_checking = false
       ansible.extra_vars = {user:"vagrant"}
       if vconfig['ansible_verbosity'] != ''
