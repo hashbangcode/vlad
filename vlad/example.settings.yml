@@ -130,3 +130,7 @@
 # Set the level of verbosity that Ansible will use
 # This can be one of "", "v", "vv", "vvv", or "vvvv"
   ansible_verbosity: ""
+
+# Import db from file on vagrant up
+# The source file needs to reside at aux/db_io/vlad_up.sql.gz
+  db_import_up: "n"
