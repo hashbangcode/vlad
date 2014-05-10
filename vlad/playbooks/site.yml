@@ -4,7 +4,7 @@
     - ../settings.yml
   pre_tasks:
     - fail: msg="The Apache setup you have selected will make the site inaccessable on port 80"
-      when: varnish_install is defined and varnish_install == "n" and http_port is defined and http_port != "80"
+      when: varnish_install is defined and varnish_install == "n" and http_port is defined and http_port != 80
 
     - fail: msg="PHP Version is invalid"
       when: php_version is defined and php_version != "5.3" and php_version != "5.4"
