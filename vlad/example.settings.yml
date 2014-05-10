@@ -51,7 +51,7 @@
 
   solr_install: "n"
 
-  varnish_install: "y"
+  varnish_install: "y" # If you turn this off then make sure you set the http_port to be 80.
 
   xhprof_install: "y"
 
@@ -59,7 +59,7 @@
 # Copy and rename playbooks-custom/example.main.yml main.yml to use this feature.
   custom_provision: "n"
 
-# HTTP port for the web server
+# HTTP port for the web server. If you have turned off Varnish then you might want to set this to "80"
   http_port: 8080
 
 # HTTP port for the Varnish cache
