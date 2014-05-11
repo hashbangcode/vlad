@@ -26,7 +26,3 @@
         line='{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     sudo: true
-
-  - name: local actions | pass ssh key from host to guest
-    local_action: command ssh-add
-    when: use_host_ssh_key is defined and use_host_ssh_key == "y"
