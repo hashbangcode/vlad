@@ -48,5 +48,5 @@
   tags: drush
 
 - name: Drush | run composer install in drush
-  command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/composer.lock
+  command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/vendor
   tags: drush
