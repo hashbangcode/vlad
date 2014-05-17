@@ -55,12 +55,12 @@ www
 public_html
 htdocs
 
-# Vlad: aux shared folder
+# Vlad: vlad_aux shared folder
 # ===========================================================
-aux/db_io/*
-aux/rsync/*
-aux/scripts/*
-aux/tmp/*
+vlad_aux/db_io/*
+vlad_aux/rsync/*
+vlad_aux/scripts/*
+vlad_aux/tmp/*
 
 # Vlad: custom playbooks
 # ===========================================================
