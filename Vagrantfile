@@ -6,6 +6,16 @@
 # See the readme file (README.md) for more information.
 # Contribute to this project at : https://bitbucket.org/philipnorton42/vlad
 
+# If vagrant-trigger isn't installed then exit
+if !Vagrant.has_plugin?("vagrant-triggers")
+  puts "Vlad requires the plugin 'vagrant-triggers'"
+  puts "This can be installed by running:"
+  puts
+  puts " vagrant plugin install vagrant-triggers"
+  puts
+  exit
+end
+
 # Find the current vagrant directory.
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
 vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
@@ -14,7 +24,7 @@ vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 require 'yaml'
 vconfig = YAML::load_file(vagrant_dir + "/vlad/settings.yml")
 
-# Configuration
+# Set box configuration options
 boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
 
@@ -28,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "vlad"
   config.vm.hostname = boxname
 
-  config.vm.network :private_network, ip: boxipaddress
+  config.vm.network "private_network", ip: boxipaddress
 
   # Allow caching to be used (see the vagrant-cachier plugin)
   if Vagrant.has_plugin?("vagrant-cachier")
@@ -58,39 +68,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # SSH Set up.
   config.ssh.forward_agent = true
 
-  # Set machine name.
-  config.vm.define :vlad do |t|
-  end
-
-  # If vagrant-trigger isn't instaled then exit
-  if !Vagrant.has_plugin?("vagrant-triggers")
-    puts "Vlad requires the plugin 'vagrant-triggers'"
-    puts "This can be installed by running:"
-    puts
-    puts " vagrant plugin install vagrant-triggers"
-    puts
-    exit
-  end
-
   # Run an Ansible playbook on setting the box up
   if !File.exist?(vlad_hosts_file)
     config.trigger.before :up, :stdout => true, :force => true do
+      info "Executing 'up' trigger"
       run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
    # Run the halt/destroy playbook upon halting or destroying the box
-   if File.exist?(vlad_hosts_file)
-     config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
-       run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
-     end
-   end
+  if File.exist?(vlad_hosts_file)
+    config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
+      info "Executing 'halt/destroy' trigger"
+      run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+    end
+  end
 
   # Provision vagrant box with Ansible.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = vagrant_dir + "/vlad/playbooks/site.yml"
-    ansible.host_key_checking = false
-    ansible.extra_vars = {user:"vagrant"}
+    ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
     if vconfig['ansible_verbosity'] != ''
       ansible.verbose = vconfig['ansible_verbosity']
     end
@@ -100,8 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = vagrant_dir + "/vlad/playbooks/site-custom.yml"
-      ansible.host_key_checking = false
-      ansible.extra_vars = {user:"vagrant"}
+      ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       if vconfig['ansible_verbosity'] != ''
         ansible.verbose = vconfig['ansible_verbosity']
       end
