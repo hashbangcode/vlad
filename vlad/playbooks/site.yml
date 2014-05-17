@@ -66,6 +66,7 @@
 
     - name: Move default index.php file into docroot directory.
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
+      when: add_index_file is defined and add_index_file == "y"
 
     - include: tests/main.yml
 

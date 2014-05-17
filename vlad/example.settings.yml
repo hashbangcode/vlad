@@ -134,3 +134,6 @@
 # Import db from file on vagrant up
 # The source file needs to reside at aux/db_io/vlad_up.sql.gz
   db_import_up: "n"
+
+# Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
+  add_index_file: "y"
