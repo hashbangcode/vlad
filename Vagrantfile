@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "vlad"
   config.vm.hostname = boxname
 
-  config.vm.network "private_network", ip: boxipaddress
+  config.vm.network :private_network, ip: boxipaddress
 
   # Allow caching to be used (see the vagrant-cachier plugin)
   if Vagrant.has_plugin?("vagrant-cachier")
@@ -88,6 +88,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = vagrant_dir + "/vlad/playbooks/site.yml"
     ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
+    ansible.host_key_checking = false
+    ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
     if vconfig['ansible_verbosity'] != ''
       ansible.verbose = vconfig['ansible_verbosity']
     end
@@ -98,6 +100,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = vagrant_dir + "/vlad/playbooks/site-custom.yml"
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
+      ansible.host_key_checking = false
+      ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
+      ansible.limit = 'all'
       if vconfig['ansible_verbosity'] != ''
         ansible.verbose = vconfig['ansible_verbosity']
       end
