@@ -13,7 +13,7 @@ This includes the following technologies:
 * Drush (with the 'site audit' and 'hacked!' modules)
 * Munin
 * Xdebug
-* Ruby (via RVM)
+* Ruby (optionally via RVM)
 * Sendmail
 * Mailcatcher
 * Memcached
