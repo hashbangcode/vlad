@@ -37,7 +37,7 @@ sub vcl_recv {
   if (req.url ~ "^/status\.php$" ||
       req.url ~ "^/update\.php" ||
       req.url ~ "^/install\.php" ||
-      req.url ~ "^/batch\.php" ||
+      req.url ~ "^/batch/.*$" ||
       req.url ~ "^/admin" ||
       req.url ~ "^/admin/.*$" ||
       req.url ~ "^/user" ||
