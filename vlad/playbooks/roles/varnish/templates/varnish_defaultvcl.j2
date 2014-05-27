@@ -167,8 +167,6 @@ sub vcl_error {
   #  set obj.http.Location = "http://backup.example.com/";
   #}
 
-   return (deliver);
-
   # Otherwise redirect to the homepage, which will likely be in the cache.
   set obj.http.Content-Type = "text/html; charset=utf-8";
   synthetic {"
