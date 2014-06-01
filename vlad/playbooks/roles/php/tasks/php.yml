@@ -194,6 +194,10 @@
   tags: php
   sudo: true
 
+- name: PHP | Add composer vendor directory to path
+  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='export PATH=$PATH:/home/{{ user }}/.composer/vendor/bin/'
+  tags: php
+
 - name: PHP | Install PECL uploadprogress
   command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
   tags: php
