@@ -6,7 +6,10 @@
 # server.
 backend default {
   .host = "127.0.0.1";
-  .port = "8080";
+  .port = "{{ http_port }}";
+  .connect_timeout = 2s;
+  .first_byte_timeout = 30s;
+  .between_bytes_timeout = 10s;
 }
  
 # Respond to incoming requests.
