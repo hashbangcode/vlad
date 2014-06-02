@@ -76,7 +76,7 @@ With the settings.yml file in place you can get up and running using the followi
 
     vagrant up
 
-Setting up the box takes a few minutes but there is plenty out output to look at whilst Ansible runs through the provisioning steps. You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local Ansible action will add an entry to your hosts file for the default IP address 192.168.100.100 so you don't need to alter it.
+Setting up the box takes a few minutes but there is plenty of output to look at whilst Ansible runs through the provisioning steps. You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local Ansible action will add an entry to your hosts file for the relevant IP address (set via settings.yml).
 
 Note: You will be asked for your sudo password on two separate occasions. The first is used by Vagrant to setup a NFS share and the second is used by Ansible to alter your local hosts file so that you can easily access the box via a web browser.
 
@@ -107,7 +107,7 @@ When you run 'vagrant up' again you will get back the original box.
 Settings
 --------
 
-A file called settings.yml is used to configure the Vagrant box. This allows you to control everything but the IP address of the box.
+A file called settings.yml is used to configure the Vagrant box.
 
 For example, to install Solr on the box go into the settings file and change the solr_install parameter from this:
 
@@ -122,7 +122,7 @@ The default behaviour of the box is to install a Varnish server that proxies an 
 Additional
 ----------
 
-The default IP address of the Vagrant box is 192.168.100.100.
+The default IP address of the Vagrant box is 192.168.100.100 - this can be changed via settings.yml.
 
 Mailcatcher is installed as a default mail server for PHP and will therefore intercept all email sent through any website installed on the Vagrant guest. You can access MailCatcher via the following URL:
 [http://www.drupal.local:1080/](http://www.drupal.local:1080/)
