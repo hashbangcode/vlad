@@ -242,3 +242,17 @@
   file: path=/home/solr owner=tomcat6 group=tomcat6 recurse=yes
   tags: solr
   sudo: true
+
+- name: Solr | fix contrib extraction error in solrconfig.xml file
+  lineinfile: dest=/home/solr/vlad/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/extraction/lib\" />" insertafter="<lib dir=\"../../contrib/extraction/lib\" />" line="<lib dir=\"/home/solr/lib/contrib/extraction/lib\" />"
+  tags: solr
+  sudo: true
+  notify:
+    - restart tomcat6
+
+- name: Solr | fix contrib clustering error in solrconfig.xml file
+  lineinfile: dest=/home/solr/vlad/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/clustering/lib/\" />" insertafter="<lib dir=\"../../contrib/clustering/lib/\" />" line="<lib dir=\"/home/solr/lib/contrib/clustering/lib\" />"
+  tags: solr
+  sudo: true
+  notify:
+    - restart tomcat6
