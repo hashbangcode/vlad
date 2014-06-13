@@ -160,6 +160,10 @@ sub vcl_fetch {
  
   # Allow items to be stale if needed.
   set beresp.grace = 6h;
+
+  # Allow for Ban Lurker support.
+  set beresp.http.x-url = req.url;
+  set beresp.http.x-host = req.http.host;
 }
  
 # In the event of an error, show friendlier messages.
