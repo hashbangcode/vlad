@@ -40,6 +40,11 @@
   notify:
     - restart apache2
 
+- name: Apache | add www-data user to dialout group
+  user: name=www-data groups=dialout append=yes
+  sudo: true
+  tags: apach2
+
 - name: Apache | enable mod rewrite module
   command: a2enmod rewrite creates=/etc/apache2/mods-enabled/rewrite.load
   tags: apache2
