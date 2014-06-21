@@ -31,8 +31,8 @@
 
   - name: local actions | add default identities from host to guest
     local_action: command ssh-add
-    when: use_host_ssh_key is defined and use_host_ssh_key == "y"
+    when: use_host_id is defined and use_host_id == "y"
 
   - name: local actions | add custom identity from host to guest
     local_action: command ssh-add {{ use_host_ssh_key }}
-    when: use_host_ssh_key is defined and use_host_ssh_key != "y" and use_host_ssh_key != "n"
+    when: use_host_id is defined and use_host_id != "y" and use_host_id != "n"

@@ -106,12 +106,11 @@
 # SSH Settings
   ssh_port: 22
 # Add RSA or DSA identity from host to guest on 'vagrant up'.
-# Does not support identites that require a passphrase.
-# Options:
+# Does not support identites that require a passphrase. Options include:
 # "n"       : don't add anything
 # "y"       : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
-# "[file]"  : add a specific file
-  use_host_ssh_key: "n"
+# "[file]"  : add a specific file e.g. "/Users/username/.ssh/my_file"
+  use_host_id: "n"
 
 # Varnish Settings
   varnish_memory: 512
