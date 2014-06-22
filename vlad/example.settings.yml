@@ -83,6 +83,9 @@
   php_html_errors: On
   php_date_timezone: Europe/London
 
+# Install PECL uploadprogress
+  php_pecl_uploadprogress: "y"
+
 # PHP APC Settings
   apc_rfc1867: '1'
   apc_shm_size: '256M'
