@@ -50,10 +50,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #config.cache.enable :npm
   end
 
+  # Set *Vagrant* VM name (e.g. "vlad_myboxname_74826748251406_66388")
+  config.vm.define boxname do |boxname|
+  end
+
   # Configure virtual machine setup.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--memory", 1024]
+    # Set *provider* VM name (e.g. "myboxname_vlad")
+    v.name = boxname + "_vlad"
   end
 
   # Set up NFS drive.
