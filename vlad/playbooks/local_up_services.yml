@@ -1,0 +1,48 @@
+---
+- hosts: all
+  gather_facts: false
+  vars_files:
+    - ../settings.yml
+  tasks:
+  - name: Ensure Varnish is running.
+    service: name=varnish state=restarted
+    sudo: true
+    when: varnish_install is defined and varnish_install == "y"
+
+  - name: Ensure Apache is running.
+    service: name=apache2 state=restarted
+    sudo: true
+    when: apache_install is defined and apache_install == "y"
+
+  - name: Ensure MySQL is running.
+    service: name=mysql state=restarted
+    sudo: true
+    when: mysql_install is defined and mysql_install == "y"
+
+  - name: Ensure Redis is running.
+    service: name=redis-server state=restarted
+    sudo: true
+    when: redis_install is defined and redis_install == "y"
+
+  - name: Ensure Tomcat is running.
+    service: name=tomcat6 state=restarted
+    sudo: true
+    when: solr_install is defined and solr_install == "y"
+
+  - name: Ensure Munin Node is running
+    service: name=munin-node state=restarted
+    sudo: true
+    when: munin_install is defined and munin_install == "y"
+
+  - name: MailCatcher | kill mailcatcher (this is more reliable than using pkill with rvm)
+    command: curl -s -i -v -X DELETE http://127.0.0.1:1080
+    ignore_errors: yes
+    tags: mailcatcher
+    sudo: true
+    when: mailcatcher_install is defined and mailcatcher_install == "y"
+
+  - name: MailCatcher | run MailCatcher with no ip address restrictions
+    shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && mailcatcher --ip=0.0.0.0
+    tags: mailcatcher
+    sudo: true
+    when: mailcatcher_install is defined and mailcatcher_install == "y"
