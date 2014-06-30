@@ -11,6 +11,10 @@
 
     - fail: msg="Solr Drupal module is invalid"
       when: drupal_solr_package is defined and drupal_solr_package != "search_api_solr" and drupal_solr_package != "apachesolr"
+
+    - fail: msg="Ruby is required to install Mailcatcher"
+      when: ruby_install is not defined or ruby_install == "n" and mailcatcher_install is defined and mailcatcher_install == "y"
+
   roles:
     - role: base
 

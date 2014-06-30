@@ -45,7 +45,7 @@
 
   redis_install: "n"
 
-  ruby_install: "n"
+  ruby_install: "y" # Ruby is required by Mailcatcher
 
   sendmail_install: "y"
 
