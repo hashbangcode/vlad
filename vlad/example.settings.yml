@@ -146,3 +146,7 @@
 
 # Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
   add_index_file: "y"
+
+# Git config user credentials (leave empty to skip this step)
+  git_user_name: ""
+  git_user_email: ""
