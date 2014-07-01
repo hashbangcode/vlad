@@ -26,3 +26,13 @@
         line='{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     sudo: true
+
+  # ssh-add
+
+  - name: local actions | add default identities from host to guest
+    local_action: command ssh-add
+    when: use_host_id is defined and use_host_id == "y"
+
+  - name: local actions | add custom identity from host to guest
+    local_action: command ssh-add {{ use_host_ssh_key }}
+    when: use_host_id is defined and use_host_id != "y" and use_host_id != "n"

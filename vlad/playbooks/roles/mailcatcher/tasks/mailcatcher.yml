@@ -8,8 +8,13 @@
   tags: mailcatcher
   sudo: true
 
-- name: MailCatcher | install MailCatcher normally
-  command: gem install mailcatcher --no-rdoc --no-ri creates=/usr/local/bin/mailcatcher
+- name: MailCatcher | Install MailCatcher with RVM (part 1 of 2)
+  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm default@mailcatcher --create do gem install mailcatcher  --no-rdoc --no-ri
+  tags: mailcatcher
+  sudo: true
+
+- name: MailCatcher | Install MailCatcher with RVM (part 2 of 2)
+  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm wrapper default@mailcatcher --no-prefix mailcatcher catchmail
   tags: mailcatcher
   sudo: true
 
@@ -27,13 +32,13 @@
   tags: mailcatcher
   sudo: true
 
-- name: MailCatcher | kill mailcatcher
-  command: pkill mailcatcher
+- name: MailCatcher | kill mailcatcher (this is more reliable than using pkill with rvm)
+  command: curl -s -i -v -X DELETE http://127.0.0.1:1080
   ignore_errors: yes
   tags: mailcatcher
   sudo: true
   
 - name: MailCatcher | run MailCatcher with no ip address restrictions
-  shell: mailcatcher --ip=0.0.0.0
+  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && mailcatcher --ip=0.0.0.0
   tags: mailcatcher
   sudo: true

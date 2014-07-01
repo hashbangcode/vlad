@@ -40,6 +40,11 @@
   notify:
     - restart apache2
 
+- name: Apache | add www-data user to dialout group
+  user: name=www-data groups=dialout append=yes
+  sudo: true
+  tags: apach2
+
 - name: Apache | enable mod rewrite module
   command: a2enmod rewrite creates=/etc/apache2/mods-enabled/rewrite.load
   tags: apache2
@@ -54,4 +59,9 @@
 
 - name: Apache | set default login directory to be /var/www/site/docroot
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/site/docroot'
+  tags: apache2
+
+- name: Apache | add www-data user to dialout group
+  user: name=www-data groups=dialout append=yes
+  sudo: true
   tags: apache2

@@ -55,10 +55,10 @@ www/*
 public_html/*
 htdocs/*
 
-# Aux shared folder #
+# vlad_aux shared folder #
 #####################
-aux/*/*
-!aux/*/README.md
+vlad_aux/*/*
+!vlad_aux/*/README.md
 
 # Custom playbooks #
 ####################

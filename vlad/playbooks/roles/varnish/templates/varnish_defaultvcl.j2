@@ -6,7 +6,10 @@
 # server.
 backend default {
   .host = "127.0.0.1";
-  .port = "8080";
+  .port = "{{ http_port }}";
+  .connect_timeout = 2s;
+  .first_byte_timeout = 30s;
+  .between_bytes_timeout = 10s;
 }
  
 # Respond to incoming requests.
@@ -37,7 +40,7 @@ sub vcl_recv {
   if (req.url ~ "^/status\.php$" ||
       req.url ~ "^/update\.php" ||
       req.url ~ "^/install\.php" ||
-      req.url ~ "^/batch\.php" ||
+      req.url ~ "^/batch/.*$" ||
       req.url ~ "^/admin" ||
       req.url ~ "^/admin/.*$" ||
       req.url ~ "^/user" ||
@@ -157,6 +160,10 @@ sub vcl_fetch {
  
   # Allow items to be stale if needed.
   set beresp.grace = 6h;
+
+  # Allow for Ban Lurker support.
+  set beresp.http.x-url = req.url;
+  set beresp.http.x-host = req.http.host;
 }
  
 # In the event of an error, show friendlier messages.
@@ -166,8 +173,6 @@ sub vcl_error {
   #  set obj.status = 302;
   #  set obj.http.Location = "http://backup.example.com/";
   #}
-
-   return (deliver);
 
   # Otherwise redirect to the homepage, which will likely be in the cache.
   set obj.http.Content-Type = "text/html; charset=utf-8";

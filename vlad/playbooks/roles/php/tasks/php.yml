@@ -194,14 +194,20 @@
   tags: php
   sudo: true
 
+- name: PHP | Add composer vendor directory to path
+  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='export PATH=$PATH:/home/{{ user }}/.composer/vendor/bin/'
+  tags: php
+
 - name: PHP | Install PECL uploadprogress
   command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
   tags: php
   sudo: true
+  when: php_pecl_uploadprogress is defined and php_pecl_uploadprogress == "y"
 
 - name: PHP | add PECL uploadprogress apache php.ini setting
   lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=uploadprogress.so"
   tags: php
   sudo: true
+  when: php_pecl_uploadprogress is defined and php_pecl_uploadprogress == "y"
   notify:
     - restart apache2

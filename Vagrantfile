@@ -50,10 +50,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #config.cache.enable :npm
   end
 
+  # Set *Vagrant* VM name (e.g. "vlad_myboxname_74826748251406_66388")
+  config.vm.define boxname do |boxname|
+  end
+
   # Configure virtual machine setup.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--memory", 1024]
+    # Set *provider* VM name (e.g. "myboxname_vlad")
+    v.name = boxname + "_vlad"
   end
 
   # Set up NFS drive.
@@ -71,7 +77,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Run an Ansible playbook on setting the box up
   if !File.exist?(vlad_hosts_file)
     config.trigger.before :up, :stdout => true, :force => true do
-      info "Executing 'up' trigger"
+      info "Executing 'up' setup trigger"
       run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
@@ -82,6 +88,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       info "Executing 'halt/destroy' trigger"
       run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
+  end
+
+  config.trigger.after :up, :stdout => true, :force => true do
+    info "Executing 'up' services trigger"
+    run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml'
   end
 
   # Provision vagrant box with Ansible.

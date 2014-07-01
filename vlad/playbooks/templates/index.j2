@@ -1,60 +1,348 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Holding Page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Vagrant LAMP Ansible Drupal Documentation</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+      dt { margin-top: 1em; }
+      #phpinfo a:link {color: #000099; text-decoration: none; background-color: #ffffff;}
+      #phpinfo a:hover {text-decoration: underline;}
+      #phpinfo table {border-collapse: collapse;}
+      #phpinfo .center {text-align: center;}
+      #phpinfo .center table { margin-left: auto; margin-right: auto; text-align: left;}
+      #phpinfo .center th { text-align: center !important; }
+      #phpinfo td, #phpinfo th { border: 1px solid #000000; font-size: 75%; vertical-align: baseline;}
+      #phpinfo h1 {font-size: 150%;}
+      #phpinfo h2 {font-size: 125%;}
+      #phpinfo .p {text-align: left;}
+      #phpinfo .e {background-color: #ccccff; font-weight: bold; color: #000000;}
+      #phpinfo .h {background-color: #9999cc; font-weight: bold; color: #000000;}
+      #phpinfo .v {background-color: #cccccc; color: #000000;}
+      #phpinfo .vr {background-color: #cccccc; text-align: right; color: #000000;}
+      #phpinfo img {float: right; border: 0px;}
+      #phpinfo hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #000000;}
+    </style>
 </head>
+
 <body>
-<header>
-  <h1>Vlad : Holding page</h1>
-</header>
-<section>
-  <article>
-    <p>If you are seeing this page then you have set up the Vagrant Drupal server correctly.</p>
 
-    <p>Rather than giving you a copy of Drupal out of the box it is up to you to install Drupal yourself. To install
-      Drupal 7 on the box log in (using 'vagrant ssh') and run the script <em>/var/www/drupal7_install.sh</em>. To clone the
-      latest version of Drupal 8 and install you can run the script <em>/var/www/drupal8_install.sh</em>. The admin username
-      for both Drupal installs is 'admin' and the password is 'password'. For best results you should run these
-      scripts with sudo.</p>
+<div class="container">
+<div class="header">
+    <ul class="nav nav-pills pull-right">
+        <li><a href="https://bitbucket.org/philipnorton42/vlad">Contribute</a></li>
+    </ul>
+    <h3 class="text-muted">Vagrant LAMP Ansible Drupal</h3>
+</div>
 
-    <h2>Some helpful links.</h2>
+<div class="jumbotron">
+    <h1>Local Drupal development in a box</h1>
 
-    <p>You can access some additional programs using the following URL's.</p>
+    <p class="lead">A Drupal development platform in a box, with everything you would need to develop Drupal
+        websites.</p>
+</div>
 
-    <h3><a href="http://{{ webserver_hostname_alias }}:1080/" title="MailCatcher">MailCatcher</a></h3>
+<div class="row">
+    <div class="col-lg-6">
+        <h2>Getting started</h2>
 
-    <p>MailCatcher is a program that intercepts all emails sent by PHP and shows them on this web page.</p>
+        <p>You are now ready to start developing. First you have to install a site.</p>
 
-    <h3><a href="http://adminer.{{ webserver_hostname }}/" title="Adminer">Adminer</a></h3>
+        <h4>Vagrant environment</h4>
 
-    <p>Adminer is a mini database management software, written in PHP.</p>
+        <p>You can login into vdd with:</p>
+            <pre class="prettyprint linenums">
+$ vagrant ssh
+</pre>
 
-    <h3><a href="http://xhprof.{{ webserver_hostname }}/" title="">XHProf</a></h3>
+        <h4>Build a site</h4>
+        <p>Out of the box Vlad is ready to run a Drupal site. Simply put the code in the <var>{{ host_synced_folder }}</var> directory and run either use the <a href="http://{{ webserver_hostname }}">web installer</a> or install the site using drush:</p>
+        <pre class="prettyprint linenums">
+$ cd /var/www/site/{{ host_synced_folder }}
+$ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
+</pre>
 
-    <p>XHProf is a performance monitoring program that shows detailed execution stats of PHP page loads. In order to
-      use XHProf you'll need to append the URL with "_profile=1" (i.e.
-      <a href="http://{{ webserver_hostname_alias }}/?_profile=1" title="Run XHPRof profiler">http://{{ webserver_hostname_alias }}/?_profile=1</a>).
-    </p>
+        <h4>Access the site</h4>
+        <p>Go to <a href="http://{{ webserver_hostname }}">{{ webserver_hostname }}</a> in your browser and the site is rocking.</p>
 
-    <h3><a href="http://{{ webserver_hostname_alias }}:8081/solr" title="Solr Configuration">Solr Configuration</a></h3>
+        <h4>Developing</h4>
+        <p>All your files are actually located on your host machine in the <var>{{ host_synced_folder }}</var>-directory shared by nfs. So you can use your normal tools for development and git on the host machine.</p>
 
-    <p>Solr is a search solution powered by Lucene and served by a Tomcat server. If you have selected Solr to be installed then click on the above address to see the Sorl configuration screens.</p>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Information about the box</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>VLAD Version</th>
+                        <td>0.2.5</td>
+                    </tr>
 
-    <h3>XDebug</h3>
+                    <tr>
+                        <th>Box IP address</th>
 
-    <p>XDebug is a PHP debugging and profiling tool. To use the debugger, point your IDE at this box IP address
-      (192.168.100.100) and use port 9000.</p>
+                        <td>{{ boxipaddress }}</td>
+                    </tr>
 
-    <p>You can also trigger the XDebug profiler by appending "XDEBUG_PROFILE=true" to the URL (i.e.
-      <a href="http://{{ webserver_hostname_alias }}/?XDEBUG_PROFILE=true" title="Run XDebug profiler">http://{{ webserver_hostname_alias }}/?XDEBUG_PROFILE=true</a>).
-    </p>
+                    <tr>
+                        <th>Box name</th>
 
-    <h3><a href="http://logs.{{ webserver_hostname }}/" title="PimpMyLog">PimpMyLog</a></h3>
+                        <td>{{ boxname }}</td>
+                    </tr>
 
-    <p>PimpMyLog is a little PHP tool that displays webserver error logs and is available at <a href="http://logs.{{ webserver_hostname }}/" title="PimpMyLog">logs.{{ webserver_hostname }}</a>.</p>
+                    <tr>
+                        <th>Server e-mail</th>
+                        <td>{{ admin_mail }}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-  </article>
-</section>
+                <h4>Content of box</h4>
+
+                <ul>
+                    <li>MySQL</li>
+                    <li>Apache2</li>
+                    <li>PHP</li>
+                    <li><a href="https://bitbucket.org/philipnorton42/vlad">... and more goodies</a></li>
+                </ul>
+
+                <h4>News</h4>
+
+                <p>Fancy new start page.</p>
+
+                <h4>Contribute</h4>
+
+                <p>Check out the project at <a
+                        href="https://bitbucket.org/philipnorton42/vlad">bitbucket.org/philipnorton42/vlad</a>
+
+                <h4>Feedback</h4>
+
+                <p>Please give feedback in the <a href="https://bitbucket.org/philipnorton42/vlad">issue queue for
+                    VDD</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>FAQ</h2>
+
+            <h3>Questions</h3>
+            <ul>
+                <li><a href="#ssh">How to ssh into the virtual machine?</a></li>
+                <li><a href="#drupal">How to quickly build Drupal 7 and 8?</a></li>
+                <li><a href="#moresites">Can I run more sites on the same box?</a></li>
+                <li><a href="#other-settings">How do I alter the settings for my vagrant box?</a></li>
+            </ul>
+
+            <h3>Answers</h3>
+
+            <h4 id="ssh">How to ssh into the virutal machine?</h4>
+
+            <p>Open your terminal application and change to the directory of your VLAD copy. Then execute the
+                following command.</p>
+            <code>
+                $ vagrant ssh
+            </code>
+
+            <h4 id="drupal">How to quickly install current version of Drupal?</h4>
+
+            <p>Install most current Drupal with either
+            <code>
+                $ sh /var/www/drupal7_install.sh
+            </code>
+
+            or Drupal 8
+            <code>
+                $ sh /var/www/drupal8_install.sh
+            </code>
+
+            <h4 id="moresites">Can I run more sites on the same box?</h4>
+
+            <p>Yes, it is easy to run several sites on the same box. You just put them in different folders in <var>/var/www/site/{{ host_synced_folder }}/</var>.
+                You can create new databases using <a
+                        href="http://adminer.{{ webserver_hostname }}:8080/?username=vlad">Adminer</a></p>
+
+            <h4 id="other-settings">How do I alter the settings for my vagrant box?</h4>
+
+            <p>You can edit your environment byt editing <var>vlad/settings.yml</var>. Remember to apply the updates by running the following command from your vagrant directory:</p>
+        <pre class="prettyprint linenums">
+$ vagrant reload --provision
+</pre>
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Tools</h3>
+                </div>
+                <div class="panel-body">
+
+                    <p>The following tools are also accessible:</p>
+                    <dl>
+                        <dt><a href="http://{{ webserver_hostname }}:1080/">MailCatcher</a></dt>
+
+                        <dd>MailCatcher is a program that intercepts all emails sent by PHP and shows them on this web
+                            page.
+                        </dd>
+
+                        <dt><a href="http://adminer.{{ webserver_hostname }}/">Adminer</a></dt>
+
+                        <dd>Adminer is a mini database management software, written in PHP.</dd>
+
+                        <dt><a href="http://xhprof.{{ webserver_hostname }}/">XHProf</a></dt>
+
+                        <dd>XHProf is a performance monitoring program that shows detailed execution stats of PHP page
+                            loads. In order to
+                            use XHProf you'll need to append the URL with "_profile=1" (i.e.
+                            <a href="http://{{ webserver_hostname }}/?_profile=1">http://{{ webserver_hostname }}/?_profile=1</a>).
+                        </dd>
+
+                        <dt><a href="http://{{ webserver_hostname }}:8081/solr">Solr Configuration</a></dt>
+
+                        <dd>Solr is a search solution powered by Lucene and served by a Tomcat server. If you have
+                            selected Solr to be installed then click on the above address to see the Sorl configuration screens.
+                        </dd>
+
+                        <dt>XDebug</dt>
+
+                        <dd>XDebug is a PHP debugging and profiling tool. To use the debugger, point your IDE at this
+                            box IP address (<var>{{ boxipaddress }}</var>) and use port 9000. >You can also trigger the XDebug profiler by appending
+                            "XDEBUG_PROFILE=true" to the URL (i.e.
+                            <a href="http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true">http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true</a>).
+                        </dd>
+
+                        <dt><a href="http://logs.{{ webserver_hostname }}/">PimpMyLog</a></dt>
+
+                        <dd>PimpMyLog is a little PHP tool that displays webserver error logs and is available at <a
+                                href="http://logs.{{ webserver_hostname }}/" title="PimpMyLog">logs.{{ webserver_hostname }}</a>.
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Technical information</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <h4>PHP {{  php_version }}</h4>
+
+                <p><a href="phpinfo.php">phpinfo()</a> shows the current configuration of PHP.</p>
+
+                <p>Apache is running under the user "data-www" but the user vagrant has write permissions to those
+                    files.</p>
+
+
+            </div>
+
+            <div class="col-lg-6">
+                <h4>MySQL</h4>
+
+                <p>MySQL can be administered with <a href="http://adminer.{{ webserver_hostname }}/">Adminer</a>. But also
+                    directly
+                    through the command line once you ssh into your Vagrant box. To connect
+                    to the MySQL server from your own scripts use the following connection
+                    parameters:</p>
+
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Host</th>
+
+                        <td>localhost</td>
+                    </tr>
+
+                    <tr>
+                        <th>Port</th>
+
+                        <td>{{ mysql_port }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>User</th>
+
+                        <td>{{ dbuser }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Password</th>
+
+                        <td>{{ dbpass }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">phpinfo() output</h3>
+            </div>
+        <div class="panel-body">
+            <div class="col-lg-12" id="phpinfo">
+<?php
+ob_start();
+phpinfo();
+$pinfo = ob_get_contents();
+ob_end_clean();
+
+$pinfo = preg_replace('/^.*<body>(.*)<\/body>.*$/ms', '$1', $pinfo);
+$pinfo = preg_replace_callback('/disable_functions<\/td><td class="v">(.*?)<\/td><td class="v">(.*?)<\/td>/ms',
+  function ($m) {
+    return 'disable_functions</td><td class="v">' . str_replace(',', ', ', $m[1]) . '</td><td class="v">' .  str_replace(',', ', ', $m[2]) . '</td>';
+  }
+  , $pinfo);
+
+echo $pinfo;
+?>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+</div>
+<!-- /container -->
+
 </body>
 </html>
