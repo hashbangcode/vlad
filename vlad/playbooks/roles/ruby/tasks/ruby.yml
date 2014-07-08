@@ -11,3 +11,7 @@
     state=present
     line='[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"'
   tags: ruby
+
+- name: Ruby | Update rubygems via RVM
+  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin rvm rubygems 2.3.0
+  tags: ruby
