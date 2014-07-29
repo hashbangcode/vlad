@@ -62,27 +62,27 @@
   when: "'{{ user }}' != 'root'"
 
 - name: MySQL | Delete anonymous MySQL server user for {{ server_hostname }}
-  mysql_user: name="" host="{{ server_hostname }}" state="absent" host=localhost login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password={{ mysql_root_password }}
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for localhost
-  mysql_user: name="" state="absent" host=localhost login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="" state="absent" host="{{ server_hostname }}" login_user="root" login_password="{{ mysql_root_password }}"
   tags: mysql
 
 - name: MySQL | Secure the MySQL root user for IPV6 localhost (::1)
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="::1" host=localhost login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
   tags: mysql
 
 - name: MySQL | Secure the MySQL root user for IPV4 localhost (127.0.0.1)
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="127.0.0.1" host=localhost login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
   tags: mysql
 
 - name: MySQL | Secure the MySQL root user for localhost domain (localhost)
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="localhost" host=localhost login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
   tags: mysql
 
 - name: MySQL | Secure the MySQL root user for {{ server_hostname }} domain
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" host=localhost login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
   tags: mysql
 
 - name: MySQL | Remove the MySQL test database
