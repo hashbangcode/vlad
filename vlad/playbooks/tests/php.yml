@@ -3,16 +3,25 @@
   shell: php -v
   when: php_install is defined and php_install == "y"
   always_run: yes
+  register: php_result
+  failed_when: "php_result.rc != 0"
+  changed_when: False
   tags: test
 
 - name: Test | Composer is installed
   shell: composer
   when: php_install is defined and php_install == "y"
   always_run: yes
+  register: composer_result
+  failed_when: "composer_result.rc != 0"
+  changed_when: False
   tags: test
 
 - name: Test | Drush is installed
   shell: drush
   when: php_install is defined and php_install == "y"
   always_run: yes
+  register: drush_result
+  failed_when: "drush_result.rc != 0"
+  changed_when: False
   tags: test
