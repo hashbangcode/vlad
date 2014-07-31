@@ -5,7 +5,7 @@
   sudo: true
 
 - name: Drush | set drush/Drupal 7 installation script to executable
-  command: chmod +x /var/www/drupal7_install.sh
+  file: path=/var/www/drupal7_install.sh mode=755
   tags: drupalinstall
   sudo: true
 
@@ -15,6 +15,6 @@
   sudo: true
 
 - name: Drush | set drush/Drupal 8 installation script to executable
-  command: chmod +x /var/www/drupal8_install.sh
+  file: path=/var/www/drupal8_install.sh mode=755
   tags: drupalinstall
   sudo: true
