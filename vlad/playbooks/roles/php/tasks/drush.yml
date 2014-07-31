@@ -33,6 +33,9 @@
 
 - name: Drush | clear drush cache
   command: drush cc all 
+  register: drush_cc_result
+  failed_when: "drush_cc_result.rc != 0"
+  changed_when: False
   tags: drush
 
 - name: Drush | get latest version of Drush
