@@ -18,14 +18,14 @@
   - restart mysql
 
 - name: MySQL | change main settings for skip-external-locking
-  lineinfile: dest=/etc/mysql/my.cnf regexp="^skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"
   tags: mysql
   sudo: true
   notify:
     - restart mysql
 
 - name: MySQL | change main settings for bind-address
-  lineinfile: dest=/etc/mysql/my.cnf regexp="^bind-address" insertafter="bind-address" line="#bind-address"
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?bind-address" insertafter="bind-address" line="#bind-address"
   tags: mysql
   sudo: true
   notify:

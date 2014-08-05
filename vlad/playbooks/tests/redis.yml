@@ -1,5 +1,8 @@
 ---
-- name: Test | MySQL is installed
+- name: Test | Redis is installed
   shell: redis-cli ping
   when: redis_install is defined and redis_install == "y"
+  register: redis_result
+  failed_when: "redis_result.rc != 0"
+  changed_when: False
   tags: test

@@ -2,4 +2,7 @@
 - name: Test | Apache is installed
   shell: apache2 -v
   when: apache_install is defined and apache_install == "y"
+  register: apache_result
+  failed_when: "apache_result.rc != 0"
+  changed_when: False
   tags: test

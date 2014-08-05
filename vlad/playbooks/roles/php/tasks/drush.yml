@@ -4,7 +4,7 @@
   tags: drush
 
 - name: Drush | set drush to executable
-  command: chmod u+x drush chdir=/home/{{ user }}/.composer/vendor/drush/drush
+  file: path=/home/{{ user }}/.composer/vendor/drush/drush mode=775
   tags: drush
 
 - name: Drush | link up the drush command so everyone can run it
@@ -33,6 +33,9 @@
 
 - name: Drush | clear drush cache
   command: drush cc all 
+  register: drush_cc_result
+  failed_when: "drush_cc_result.rc != 0"
+  changed_when: False
   tags: drush
 
 - name: Drush | get latest version of Drush
@@ -40,7 +43,7 @@
   tags: drush
 
 - name: Drush | set drush to executable
-  command: chmod u+x drush chdir=/home/{{ user }}/drush-master
+  file: path=/home/{{ user }}/drush-master mode=775
   tags: drush
 
 - name: Drush | add drush-master alias to .bashrc file

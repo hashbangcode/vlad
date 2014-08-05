@@ -3,4 +3,7 @@
   shell: varnishstat -1
   when: varnish_install is defined and varnish_install == "y"
   always_run: yes
+  register: varnish_result
+  failed_when: "varnish_result.rc != 0"
+  changed_when: False
   tags: test
