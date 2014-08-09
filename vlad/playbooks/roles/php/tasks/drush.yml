@@ -31,6 +31,11 @@
   tags: drush
   sudo: true
 
+- name: Drush | download the Registry Rebuild module
+  command: drush dl registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/root/.drush/registry_rebuild
+  tags: drush
+  sudo: true
+
 - name: Drush | clear drush cache
   command: drush cc all 
   register: drush_cc_result
