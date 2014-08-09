@@ -72,7 +72,7 @@
   sudo: true
 
 - name: Xhprof | run SQL install script
-  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
+  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql creates=/var/lib/mysql/xhprof
   tags: xhprof
   sudo: true
 
