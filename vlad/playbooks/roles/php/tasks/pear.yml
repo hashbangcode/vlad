@@ -6,10 +6,14 @@
 
 - name: PEAR | upgrade all pear other packages
   command: pear upgrade-all
+  register: pear_upgrade_all
+  failed_when: "pear_upgrade_all.rc != 0"
+  changed_when: "'Nothing to upgrade-all' not in pear_upgrade_all.stdout"
   tags: pear
   sudo: true
 
 - name: PEAR | clear pear cache
   command: pear clear-cache
+  changed_when: False
   tags: pear
   sudo: true

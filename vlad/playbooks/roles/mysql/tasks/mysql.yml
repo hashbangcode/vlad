@@ -34,6 +34,8 @@
 - name: MySQL | get iptables rules
   shell: iptables -L
   register: iptablesrules
+  failed_when: "iptablesrules.rc != 0"
+  changed_when: False
   tags: mysql
   always_run: yes
   sudo: true

@@ -35,10 +35,16 @@
 - name: MailCatcher | kill mailcatcher (this is more reliable than using pkill with rvm)
   command: curl -s -i -v -X DELETE http://127.0.0.1:1080
   ignore_errors: yes
+  register: kill_mailcatcher
+  failed_when: "kill_mailcatcher.rc != 0"
+  changed_when: False
   tags: mailcatcher
   sudo: true
   
 - name: MailCatcher | run MailCatcher with no ip address restrictions
   shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && mailcatcher --ip=0.0.0.0
+  register: run_mailcatcher
+  failed_when: "run_mailcatcher.rc != 0"
+  changed_when: False
   tags: mailcatcher
   sudo: true

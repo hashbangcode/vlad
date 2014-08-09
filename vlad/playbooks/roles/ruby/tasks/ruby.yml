@@ -14,4 +14,7 @@
 
 - name: Ruby | Update RubyGems via RVM
   shell: PATH=$PATH:/home/{{ user }}/.rvm/bin rvm rubygems 2.3.0
+  register: rvm_rubygems
+  failed_when: "rvm_rubygems.rc != 0"
+  changed_when: "'skipping installation' not in rvm_rubygems.stdout"
   tags: ruby
