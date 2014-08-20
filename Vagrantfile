@@ -107,9 +107,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Run the custom Ansible playbook (if it exists)
-  if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
+  if File.exist?("../vlad-custom/custom/tasks/main.yml")
     config.vm.provision "ansible" do |ansible|
-      ansible.playbook = vagrant_dir + "/vlad/playbooks/site-custom.yml"
+      ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       ansible.host_key_checking = false
       ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
