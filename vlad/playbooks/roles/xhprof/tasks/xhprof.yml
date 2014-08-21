@@ -72,13 +72,14 @@
   sudo: true
 
 - name: Xhprof | run SQL install script
-  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
+  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql creates=/var/lib/mysql/xhprof
   tags: xhprof
   sudo: true
 
 - name: Xhprof | check virtual host for Xhprof include
   command: cat /etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
   register: xhprof_include_present
+  changed_when: False
   tags: xhprof
   always_run: yes
   sudo: true

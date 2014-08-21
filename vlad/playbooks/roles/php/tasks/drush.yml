@@ -1,6 +1,9 @@
 ---
 - name: Drush | install drush via composer
   command: composer global require drush/drush:6.*
+  register: composer_global_require
+  failed_when: "composer_global_require.rc != 0"
+  changed_when: "'Nothing to install or update' not in composer_global_require.stdout"
   tags: drush
 
 - name: Drush | set drush to executable
@@ -14,10 +17,11 @@
 
 - name: Drush | run drush once as current user to finalise install
   command: drush
+  changed_when: False
   tags: drush
 
 - name: Drush | download the site audit module
-  command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
+  command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/root/.drush/site_audit
   tags: drush
   sudo: true
 
