@@ -59,8 +59,3 @@ htdocs/*
 #####################
 vlad_aux/*/*
 !vlad_aux/*/README.md
-
-# Custom playbooks #
-####################
-vlad/playbooks-custom/custom/*
-!vlad/playbooks-custom/README.md
