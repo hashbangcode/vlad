@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Vagrant LAMP Ansible Drupal Documentation</title>
+    <title>Vlad (Vagrant LAMP Ansible Drupal) Holding Page</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -56,11 +56,11 @@
     <ul class="nav nav-pills pull-right">
         <li><a href="https://bitbucket.org/philipnorton42/vlad">Contribute</a></li>
     </ul>
-    <h3 class="text-muted">Vagrant LAMP Ansible Drupal</h3>
+    <h3 class="text-muted">Vlad (Vagrant LAMP Ansible Drupal)</h3>
 </div>
 
 <div class="jumbotron">
-    <h1>Local Drupal development in a box</h1>
+    <h1>Vlad - Local Drupal development in a box</h1>
 
     <p class="lead">A Drupal development platform in a box, with everything you would need to develop Drupal
         websites.</p>
@@ -69,30 +69,67 @@
 <div class="row">
     <div class="col-lg-6">
         <h2>Getting started</h2>
+        <p>You are now ready to start developing, but you first need to install a site. You can do this by simply
+        replacing everything in the <var>{{ host_synced_folder }}</var> directory or by using one of the two
+        installation scripts provided.</p>
 
-        <p>You are now ready to start developing. First you have to install a site.</p>
-
-        <h4>Vagrant environment</h4>
-
-        <p>You can login into vdd with:</p>
-            <pre class="prettyprint linenums">
-$ vagrant ssh
-</pre>
-
-        <h4>Build a site</h4>
-        <p>Out of the box Vlad is ready to run a Drupal site. Simply put the code in the <var>{{ host_synced_folder }}</var> directory and run either use the <a href="http://{{ webserver_hostname }}">web installer</a> or install the site using drush:</p>
+        <h4>Build your own site</h4>
+        <p>Out of the box Vlad is ready to run a Drupal site. Simply put the code in the <var>{{ host_synced_folder }}</var> directory and run either use the >web installer or install the site using drush:</p>
         <pre class="prettyprint linenums">
 $ cd /var/www/site/{{ host_synced_folder }}
 $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
 </pre>
 
+        <h4>Install scripts</h4>
+        <p>Two installation scripts are available that will download and install Drupal. You need to log into the Vagrant
+        box (using 'vagrant ssh') and run one of the following scripts.</p>
+
+        <p><strong>Drupal 7</strong> can be installed via the following script. This will download the latest copy of
+        Drupal 7 and install it using the Standard profile onto the default database. The Overlay module is uninstalled.</p>
+        <pre class="prettyprint linenums">$ /var/www/drupal7_install.sh</pre>
+
+        <p><strong>Drupal 8</strong> can be installed via the following script. This will clone the latest version of
+        Drupal 8 from the Drupal Git repository and install it using the Standard profile. The upshot of this is that
+        you have a working version of the Drupal Git repository and so you can pull the latest copy and easy write
+        patches.</p>
+        <pre class="prettyprint linenums">$ /var/www/drupal8_install.sh</pre>
+
+        <p>In both cases the user credentials are as follows:</p>
+
+        <table class="table">
+
+          <tbody>
+
+            <tr>
+              <th>User:</th>
+              <td>admin</td>
+            </tr>
+
+            <tr>
+              <th>Password:</th>
+              <td>password</td>
+            </tr>
+
+          </table>
+
+        </table>
+
         <h4>Access the site</h4>
         <p>Go to <a href="http://{{ webserver_hostname }}">{{ webserver_hostname }}</a> in your browser and the site is rocking.</p>
 
         <h4>Developing</h4>
-        <p>All your files are actually located on your host machine in the <var>{{ host_synced_folder }}</var>-directory shared by nfs. So you can use your normal tools for development and git on the host machine.</p>
+        <p>All your files are actually located on your host machine in the <var>{{ host_synced_folder }}</var>-directory
+        shared by nfs. So you can use your normal tools for development and git on the host machine.</p>
+
+        <h4>Vagrant environment</h4>
+
+        <p>You can login into the box using:</p>
+            <pre class="prettyprint linenums">
+$ vagrant ssh
+</pre>
 
     </div>
+
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -103,7 +140,7 @@ $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@loc
                     <tbody>
                     <tr>
                         <th>VLAD Version</th>
-                        <td>0.2.5</td>
+                        <td>0.8.7 dev</td>
                     </tr>
 
                     <tr>
@@ -140,14 +177,81 @@ $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@loc
                 <h4>Feedback</h4>
 
                 <p>Please give feedback in the <a href="https://bitbucket.org/philipnorton42/vlad">issue queue for
-                    VDD</a>.</p>
+                    Vlad</a>.</p>
             </div>
         </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Tools</h3>
+            </div>
+            <div class="panel-body">
+
+                <p>The following tools are also accessible:</p>
+                <dl>
+                    {% if mailcatcher_install == 'y' %}
+                    <dt><a href="http://{{ webserver_hostname }}:1080/">MailCatcher</a></dt>
+
+                    <dd>MailCatcher is a program that intercepts all emails sent by PHP and shows them on this web
+                        page.
+                    </dd>
+                    {% endif %}
+
+                    {% if adminer_install == 'y' %}
+                    <dt><a href="http://adminer.{{ webserver_hostname }}/">Adminer</a></dt>
+
+                    <dd>Adminer is a mini database management software, written in PHP.</dd>
+                    {% endif %}
+
+                    {% if xhprof_install == 'y' %}
+                    <dt><a href="http://xhprof.{{ webserver_hostname }}/">XHProf</a></dt>
+
+                    <dd>XHProf is a performance monitoring program that shows detailed execution stats of PHP page
+                        loads. In order to
+                        use XHProf you'll need to append the URL with "_profile=1" (i.e.
+                        <a href="http://{{ webserver_hostname }}/?_profile=1">http://{{ webserver_hostname }}/?_profile=1</a>).
+                    </dd>
+                    {% endif %}
+
+                    {% if solr_install == 'y' %}
+                    <dt><a href="http://{{ webserver_hostname }}:8081/solr">Solr Configuration</a></dt>
+
+                    <dd>Solr is a search solution powered by Lucene and served by a Tomcat server. If you have
+                        selected Solr to be installed then click on the above address to see the Sorl configuration screens.
+                    </dd>
+                    {% endif %}
+
+                    <dt>XDebug</dt>
+
+                    <dd>XDebug is a PHP debugging and profiling tool. To use the debugger, point your IDE at this
+                        box IP address (<var>{{ boxipaddress }}</var>) and use port 9000. >You can also trigger the XDebug profiler by appending
+                        "XDEBUG_PROFILE=true" to the URL (i.e.
+                        <a href="http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true">http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true</a>).
+                    </dd>
+
+                   {% if pimpmylog_install == 'y' %}
+                    <dt><a href="http://logs.{{ webserver_hostname }}/">PimpMyLog</a></dt>
+
+                    <dd>PimpMyLog is a little PHP tool that displays webserver error logs and is available at <a
+                            href="http://logs.{{ webserver_hostname }}/" title="PimpMyLog">logs.{{ webserver_hostname }}</a>.
+                    </dd>
+                    {% endif %}
+
+                </dl>
+            </div>
+        </div>
+
     </div>
 </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <h2>FAQ</h2>
+
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">FAQ</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
 
             <h3>Questions</h3>
             <ul>
@@ -191,57 +295,6 @@ $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@loc
         <pre class="prettyprint linenums">
 $ vagrant reload --provision
 </pre>
-        </div>
-
-        <div class="col-lg-6">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Tools</h3>
-                </div>
-                <div class="panel-body">
-
-                    <p>The following tools are also accessible:</p>
-                    <dl>
-                        <dt><a href="http://{{ webserver_hostname }}:1080/">MailCatcher</a></dt>
-
-                        <dd>MailCatcher is a program that intercepts all emails sent by PHP and shows them on this web
-                            page.
-                        </dd>
-
-                        <dt><a href="http://adminer.{{ webserver_hostname }}/">Adminer</a></dt>
-
-                        <dd>Adminer is a mini database management software, written in PHP.</dd>
-
-                        <dt><a href="http://xhprof.{{ webserver_hostname }}/">XHProf</a></dt>
-
-                        <dd>XHProf is a performance monitoring program that shows detailed execution stats of PHP page
-                            loads. In order to
-                            use XHProf you'll need to append the URL with "_profile=1" (i.e.
-                            <a href="http://{{ webserver_hostname }}/?_profile=1">http://{{ webserver_hostname }}/?_profile=1</a>).
-                        </dd>
-
-                        <dt><a href="http://{{ webserver_hostname }}:8081/solr">Solr Configuration</a></dt>
-
-                        <dd>Solr is a search solution powered by Lucene and served by a Tomcat server. If you have
-                            selected Solr to be installed then click on the above address to see the Sorl configuration screens.
-                        </dd>
-
-                        <dt>XDebug</dt>
-
-                        <dd>XDebug is a PHP debugging and profiling tool. To use the debugger, point your IDE at this
-                            box IP address (<var>{{ boxipaddress }}</var>) and use port 9000. >You can also trigger the XDebug profiler by appending
-                            "XDEBUG_PROFILE=true" to the URL (i.e.
-                            <a href="http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true">http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true</a>).
-                        </dd>
-
-                        <dt><a href="http://logs.{{ webserver_hostname }}/">PimpMyLog</a></dt>
-
-                        <dd>PimpMyLog is a little PHP tool that displays webserver error logs and is available at <a
-                                href="http://logs.{{ webserver_hostname }}/" title="PimpMyLog">logs.{{ webserver_hostname }}</a>.
-                        </dd>
-                    </dl>
-                </div>
             </div>
         </div>
     </div>
@@ -259,7 +312,6 @@ $ vagrant reload --provision
 
                 <p>Apache is running under the user "data-www" but the user vagrant has write permissions to those
                     files.</p>
-
 
             </div>
 
