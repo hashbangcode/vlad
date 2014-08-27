@@ -45,7 +45,7 @@
 
   redis_install: "n"
 
-  ruby_install: "y" # Ruby is required by Mailcatcher
+  ruby_install: "y" # Ruby is required by MailCatcher
 
   sendmail_install: "y"
 
@@ -56,7 +56,6 @@
   xhprof_install: "y"
 
 # Provision with custom playbooks
-# Copy and rename playbooks-custom/example.main.yml main.yml to use this feature.
   custom_provision: "n"
 
 # HTTP port for the web server. If you have turned off Varnish then you might want to set this to "80"
@@ -117,11 +116,6 @@
 
 # Varnish Settings
   varnish_memory: 512
-
-# Ruby settings
-# *Initial* Ruby version to be installed by RVM
-# Note that further Ruby versions can be installed via RVM
-  ruby_version: "1.9.3"
 
 # Drupal Solr integration
 # Select which Solr module to install

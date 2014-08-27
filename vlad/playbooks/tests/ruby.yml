@@ -1,14 +1,14 @@
 ---
-- name: Test | RVM is installed
-  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm -v
+- name: rbenv is installed
+  command: bash -lc "type rbenv"
   when: ruby_install is defined and ruby_install == "y"
-  register: rvm_result
-  failed_when: "rvm_result.rc != 0"
+  register: rbenv_result
+  failed_when: "rbenv_result.rc != 0"
   changed_when: False
   tags: test
 
 - name: Test | Ruby is installed
-  shell: ruby -v
+  command: bash -lc "ruby -v"
   when: ruby_install is defined and ruby_install == "y"
   register: ruby_result
   failed_when: "ruby_result.rc != 0"

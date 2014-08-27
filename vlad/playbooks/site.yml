@@ -12,7 +12,7 @@
     - fail: msg="Solr Drupal module is invalid"
       when: drupal_solr_package is defined and drupal_solr_package != "search_api_solr" and drupal_solr_package != "apachesolr"
 
-    - fail: msg="Ruby is required to install Mailcatcher"
+    - debug: msg="The 'Ruby' role will be run as it is required to install MailCatcher"
       when: ruby_install is not defined or ruby_install == "n" and mailcatcher_install is defined and mailcatcher_install == "y"
 
   roles:
@@ -54,11 +54,9 @@
     - role: munin
       when: munin_install is defined and munin_install == "y"
 
-    - role: ruby
-      when: ruby_install is defined and ruby_install == "y"
+    - { role: ruby, tags: ["ruby"], when: "ruby_install is defined and ruby_install == 'y'" }
 
-    - role: mailcatcher
-      when: mailcatcher_install is defined and mailcatcher_install == "y"
+    - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install is defined and mailcatcher_install == 'y'" }
 
     - role: node
       when: node_install is defined and node_install == "y"

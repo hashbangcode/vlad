@@ -1,20 +1,54 @@
 ---
-# RVM script will issue an error code despite a successful install, hence the suppression of errors.
-- name: Ruby | Install RVM (and suppress fail)
-  shell: curl -L https://get.rvm.io | bash -s stable --quiet-curl --auto-dotfiles --ruby={{ ruby_version }} creates=/home/{{ user }}/.rvm
-  tags: ruby
-  ignore_errors: true
 
-- name: Ruby | Add RVM to bash profile
-  lineinfile:
-    dest=/home/{{ user }}/.bashrc
-    state=present
-    line='[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"'
-  tags: ruby
+- name: Install rbenv
+  git: repo=https://github.com/sstephenson/rbenv.git
+       dest=/home/{{ user }}/.rbenv
 
-- name: Ruby | Update RubyGems via RVM
-  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin rvm rubygems 2.3.0
-  register: rvm_rubygems
-  failed_when: "rvm_rubygems.rc != 0"
-  changed_when: "'skipping installation' not in rvm_rubygems.stdout"
-  tags: ruby
+- name: Install rbenv plugins
+  git: repo=https://github.com/sstephenson/{{ item }}.git
+       dest=/home/{{ user }}/.rbenv/plugins/{{ item }}
+  with_items:
+    - 'rbenv-gem-rehash'
+    - 'rbenv-gemset'
+    - 'ruby-build'
+
+- name: Add line to .bash_profile (rbenv) (step 1)
+  lineinfile: dest=/home/{{ user }}/.bash_profile
+              line='# rbenv'
+              create=yes
+
+- name: Add line to .bash_profile (rbenv) (step 2)
+  lineinfile: dest=/home/{{ user }}/.bash_profile line='export PATH="$HOME/.rbenv/bin:$PATH"'
+
+- name: Add line to .bash_profile (rbenv) (step 3)
+  lineinfile: dest=/home/{{ user }}/.bash_profile line='eval "$(rbenv init -)"'
+
+# rbenv won't be available until we source ~/.bash_profile
+- name: Source ~/.bash_profile
+  shell: . ~/.bash_profile
+
+# debugging
+#- command: bash -lc "type rbenv"
+
+# The command module gets a fair bit of use below as we need to tell bash to run the command
+# as if we were in a login shell (to make sure rbenv kicks in when required).
+
+- name: Install Ruby {{ default_ruby_version }}
+  command: bash -lc "rbenv install {{ default_ruby_version }}"
+           creates=/home/{{ user }}/.rbenv/versions/{{ default_ruby_version }}
+
+# TODO: Make idempotent
+- name: Set the global version of Ruby to {{ default_ruby_version }}
+  command: bash -lc "rbenv global {{ default_ruby_version }} && rbenv rehash"
+
+# debugging
+#- command: bash -lc "ruby --version"
+
+# TODO: Make idempotent
+- name: Update RubyGems
+  command: bash -lc "gem update --system"
+
+# TODO: Make gem installations via rbenv idempotent
+# Can't use "creates" as the gem version number can change and "creates" doesn't support wildcards :(
+- name: Install Bundler gem to global Ruby version
+  command: bash -lc "gem install bundler"
