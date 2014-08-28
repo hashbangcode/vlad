@@ -5,23 +5,14 @@
     - rubygems
     - libsqlite3-dev
     - ruby-dev
-  tags: mailcatcher
   sudo: true
 
-- name: MailCatcher | Install MailCatcher with RVM (part 1 of 2)
-  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm default@mailcatcher --create do gem install mailcatcher  --no-rdoc --no-ri
-  tags: mailcatcher
-  sudo: true
-
-- name: MailCatcher | Install MailCatcher with RVM (part 2 of 2)
-  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && rvm wrapper default@mailcatcher --no-prefix mailcatcher catchmail
-  tags: mailcatcher
-  sudo: true
+- name: Install MailCatcher with rbenv
+  command: bash -lc "gem install mailcatcher"
 
 - name: MailCatcher | change php apache sendmail_path setting
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
   when: php_install is defined and php_install == "y"
-  tags: mailcatcher
   sudo: true
   notify:
     - restart apache2
@@ -29,22 +20,18 @@
 - name: MailCatcher | change php cli sendmail_path setting
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
   when: php_install is defined and php_install == "y"
-  tags: mailcatcher
   sudo: true
 
-- name: MailCatcher | kill mailcatcher (this is more reliable than using pkill with rvm)
+- name: MailCatcher | kill mailcatcher
   command: curl -s -i -v -X DELETE http://127.0.0.1:1080
   ignore_errors: yes
   register: kill_mailcatcher
   failed_when: "kill_mailcatcher.rc != 0"
   changed_when: False
-  tags: mailcatcher
   sudo: true
-  
+
 - name: MailCatcher | run MailCatcher with no ip address restrictions
-  shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && mailcatcher --ip=0.0.0.0
+  command: bash -lc "mailcatcher --ip=0.0.0.0"
   register: run_mailcatcher
   failed_when: "run_mailcatcher.rc != 0"
   changed_when: False
-  tags: mailcatcher
-  sudo: true
