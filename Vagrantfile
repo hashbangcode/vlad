@@ -40,7 +40,10 @@ settings_file_paths.each do |file_path|
   end
 end
 
-# Create /vlad/loaded_settings.yml for use in Vagrant & Ansible
+# Create /vlad/loaded_settings.yml for use in Vagrant & Ansible (copies found settings file into place)
+puts
+puts "Loading settings file: #{settings_file}"
+puts
 FileUtils.cp(settings_file, vagrant_dir + "/vlad/loaded_settings.yml")
 
 # Include config from settings file
