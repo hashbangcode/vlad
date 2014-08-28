@@ -24,12 +24,20 @@ vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 # Default/fallback settings file
 settings_file = vagrant_dir + "/vlad/example.settings.yml"
 
-# Preferred settings file in order of precedence
-# TODO: Make this DRYer and with better scope for adding further locations later if desired
-if File.exist?(vagrant_dir + "/vlad/settings.yml")
-    settings_file = vagrant_dir + "/vlad/settings.yml"
-elsif File.exist?(parent_dir + "/settings/vlad-settings.yml")
-    settings_file = parent_dir + "/settings/vlad-settings.yml"
+# Preferred settings files in order of precedence
+# Lower array index means higher precedence
+# e.g. settings_file_paths[0] trumps everything
+settings_file_paths = [
+    vagrant_dir + "/vlad/settings.yml",
+    parent_dir + "/settings/vlad-settings.yml"
+    ]
+
+# Loop through settings file paths
+settings_file_paths.each do |file_path|
+  # If settings file exists, assign its path to settings_file
+  if File.exist?(file_path)
+      settings_file = file_path
+  end
 end
 
 # Create /vlad/loaded_settings.yml for use in Vagrant & Ansible
