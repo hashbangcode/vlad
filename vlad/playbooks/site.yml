@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars_files:
-    - ../settings.yml
+    - ../loaded_settings.yml
   pre_tasks:
     - fail: msg="The Apache setup you have selected will make the site inaccessable on port 80"
       when: varnish_install is defined and varnish_install == "n" and http_port is defined and http_port != 80

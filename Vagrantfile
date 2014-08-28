@@ -16,13 +16,28 @@ if !Vagrant.has_plugin?("vagrant-triggers")
   exit
 end
 
-# Find the current vagrant directory.
+# Find the current vagrant directory & create additional vars from it
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
+parent_dir = File.dirname(vagrant_dir)
 vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
-# Include config from vlad/settings.yml
+# Default/fallback settings file
+settings_file = vagrant_dir + "/vlad/example.settings.yml"
+
+# Preferred settings file in order of precedence
+# TODO: Make this DRYer and with better scope for adding further locations later if desired
+if File.exist?(vagrant_dir + "/vlad/settings.yml")
+    settings_file = vagrant_dir + "/vlad/settings.yml"
+elsif File.exist?(parent_dir + "/settings/vlad-settings.yml")
+    settings_file = parent_dir + "/settings/vlad-settings.yml"
+end
+
+# Create /vlad/loaded_settings.yml for use in Vagrant & Ansible
+FileUtils.cp(settings_file, vagrant_dir + "/vlad/loaded_settings.yml")
+
+# Include config from settings file
 require 'yaml'
-vconfig = YAML::load_file(vagrant_dir + "/vlad/settings.yml")
+vconfig = YAML::load_file(vagrant_dir + "/vlad/loaded_settings.yml")
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']

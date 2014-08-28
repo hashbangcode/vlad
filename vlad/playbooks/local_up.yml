@@ -2,7 +2,7 @@
 - hosts: all
   gather_facts: false
   vars_files:
-    - ../settings.yml
+    - ../loaded_settings.yml
   tasks:
   - fail: msg="The system may not be provisioned according to the CMDB status."
     when: local_ip_address is not defined
