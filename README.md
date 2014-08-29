@@ -10,10 +10,12 @@ This includes the following technologies:
 * PHP
 * Varnish
 * Git
-* Drush (with the 'site audit' and 'hacked!' modules)
+* Drush
+* Drush extensions: Site Audit, Hacked! & Registry Rebuild
 * Munin
 * Xdebug
-* Ruby (optionally via RVM)
+* Ruby
+* RVM
 * Sendmail
 * Mailcatcher
 * Memcached
@@ -21,7 +23,7 @@ This includes the following technologies:
 * Adminer
 * XHProf
 * Solr (Version 4)
-* Node.js (including npm)
+* Node.js
 * ImageMagick
 * PimpMyLog
 
@@ -34,7 +36,7 @@ Prerequisites
 * If you are using VirtualBox then you will need VirtualBox 4.3+
 * Ansible (with the Vagrant Ansible Plugin)
 
-Note that Ansible doesn't currently run on Windows so Vlad will only work on Linux or OSX systems.
+Vlad currently only works on Linux or OS X systems (Windows support for Ansible has only recently been added).
 
 To install Ansible use the following commands:
 
