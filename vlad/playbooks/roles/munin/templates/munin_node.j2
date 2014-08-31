@@ -34,8 +34,7 @@ ignore_file \.pod$
 # may repeat the allow line as many times as you'd like
 
 allow ^127\.0\.0\.1$
-allow ^80\.229\.218\.165$
-allow ^192\.168\.1\.104$
+allow ^{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address|replace(".", "\.") }}$
 
 # If you have installed the Net::CIDR perl module, you can use one or more
 # cidr_allow and cidr_deny address/mask patterns.  A connecting client must
