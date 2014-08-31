@@ -6,7 +6,3 @@ vlad_aux/db_io/README.md
 vlad_aux/rsync/README.md
 vlad_aux/scripts/README.md
 vlad_aux/tmp/README.md
-
-# Vlad: custom playbooks
-# ===========================================================
-vlad/playbooks-custom/README.md

@@ -2,7 +2,7 @@
 - hosts: all
   gather_facts: false
   vars_files:
-    - ../settings.yml
+    - ../loaded_settings.yml
   tasks:
   - name: local actions destroy | install python-mysqldb package
     apt: pkg=python-mysqldb state=installed

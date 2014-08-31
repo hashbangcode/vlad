@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars_files:
-    - ../settings.yml
+    - ../loaded_settings.yml
   roles:
 
     - role: vlad-custom

@@ -16,13 +16,39 @@ if !Vagrant.has_plugin?("vagrant-triggers")
   exit
 end
 
-# Find the current vagrant directory.
+# Find the current vagrant directory & create additional vars from it
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
+parent_dir = File.dirname(vagrant_dir)
 vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
-# Include config from vlad/settings.yml
+# Default/fallback settings file
+settings_file = vagrant_dir + "/vlad/example.settings.yml"
+
+# Preferred settings files in order of precedence
+# Lower array index means higher precedence
+# e.g. settings_file_paths[0] trumps everything
+settings_file_paths = [
+    vagrant_dir + "/vlad/settings.yml",
+    parent_dir + "/settings/vlad-settings.yml"
+    ]
+
+# Loop through settings file paths
+settings_file_paths.each do |file_path|
+  # If settings file exists, assign its path to settings_file
+  if File.exist?(file_path)
+      settings_file = file_path
+  end
+end
+
+# Create /vlad/loaded_settings.yml for use in Vagrant & Ansible (copies found settings file into place)
+puts
+puts "Loading settings file: #{settings_file}"
+puts
+FileUtils.cp(settings_file, vagrant_dir + "/vlad/loaded_settings.yml")
+
+# Include config from settings file
 require 'yaml'
-vconfig = YAML::load_file(vagrant_dir + "/vlad/settings.yml")
+vconfig = YAML::load_file(vagrant_dir + "/vlad/loaded_settings.yml")
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
@@ -106,7 +132,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # Run the custom Ansible playbook (if it exists)
+  # Run the custom Ansible playbook (if the custom role exists)
   if File.exist?("../vlad-custom/tasks/main.yml")
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
