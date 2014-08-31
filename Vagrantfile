@@ -132,7 +132,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # Run the custom Ansible playbook (if it exists)
+  # Run the custom Ansible playbook (if the custom role exists)
   if File.exist?("../vlad-custom/tasks/main.yml")
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
