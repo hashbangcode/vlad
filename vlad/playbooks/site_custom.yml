@@ -2,10 +2,9 @@
 - hosts: all
   vars_files:
     - ../loaded_settings.yml
-  roles:
 
-    - role: vlad-custom
-      when: custom_provision is defined and custom_provision == "y"
+  roles:
+    - { role: vlad-custom, tags: ["custom"], when: "custom_provision is defined and custom_provision == 'y'" }
 
   handlers:
     - include: common/handlers/main.yml
