@@ -53,6 +53,7 @@ vconfig = YAML::load_file(vagrant_dir + "/vlad/loaded_settings.yml")
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
+boxwebaddress = vconfig['webserver_hostname']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -119,6 +120,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.trigger.after :up, :stdout => true, :force => true do
     info "Executing 'up' services trigger"
     run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml'
+  end
+
+  config.trigger.after :up, :stdout => true, :force => true do
+    info 'Vlad setup complete, you can now access the site through the address http://www.' + boxwebaddress + '/'
   end
 
   # Provision vagrant box with Ansible.
