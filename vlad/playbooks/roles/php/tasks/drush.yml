@@ -23,22 +23,18 @@
 - name: Drush | download the site audit module
   command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/root/.drush/site_audit
   tags: drush
-  sudo: true
 
 - name: Drush | download the hacked! module
   command: drush dl hacked --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/hacked
   tags: drush
-  sudo: true
 
 - name: Drush | download the Coder module
   command: drush dl coder --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
   tags: drush
-  sudo: true
 
 - name: Drush | download the Registry Rebuild module
-  command: drush dl registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/root/.drush/registry_rebuild
+  command: drush dl registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
   tags: drush
-  sudo: true
 
 - name: Drush | clear drush cache
   command: drush cc all 
