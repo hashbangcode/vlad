@@ -51,8 +51,7 @@
     - role: solr
       when: solr_install is defined and solr_install == "y"
 
-    - role: munin
-      when: munin_install is defined and munin_install == "y"
+    - { role: munin, tags: ["munin"], when: "munin_install is defined and munin_install == 'y'" }
 
     - { role: ruby, tags: ["ruby"], when: "ruby_install is defined and ruby_install == 'y'" }
 
