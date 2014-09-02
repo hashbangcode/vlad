@@ -21,6 +21,8 @@ Vlad expects the custom role to be located at
 Like the other roles that ship with Vlad it should follow the file structure that Ansible expects: 
 [http://docs.ansible.com/playbooks_roles.html#roles](http://docs.ansible.com/playbooks_roles.html#roles)
 
+Your custom role *must* include a default variables file at vars/main.yml (even if it just contains ```---```). Vlad expects expects this file to exist and will use it as a fallback if it cannot locate ```../settings/vlad-custom-settings.yml```.
+
 ### Available variables
 
 All variables defined in Vlad's settings file will be available for use in the custom role.

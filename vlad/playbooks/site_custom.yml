@@ -2,6 +2,7 @@
 - hosts: all
   vars_files:
     - ../loaded_settings.yml
+    - [ "../../../settings/vlad-custom-settings.yml", "../../../vlad-custom/vars/main.yml" ]
 
   roles:
     - { role: vlad-custom, tags: ["custom"], when: "custom_provision is defined and custom_provision == 'y'" }
