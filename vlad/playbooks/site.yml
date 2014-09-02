@@ -42,8 +42,7 @@
     - role: memcached
       when: memcached_install is defined and memcached_install == "y"
 
-    - role: redis
-      when: redis_install is defined and redis_install == "y"
+    - { role: redis, tags: ["redis"], when: "redis_install is defined and redis_install == 'y'" }
 
     - { role: sendmail, tags: ["sendmail"], when: "sendmail_install is defined and sendmail_install == 'y'" }
 
