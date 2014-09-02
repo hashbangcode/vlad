@@ -20,8 +20,7 @@
 
     - { role: mysql, tags: ["mysql"], when: "mysql_install is defined and mysql_install == 'y'" }
 
-    - role: php
-      when: php_install is defined and php_install == "y"
+    - { role: php, when: "php_install is defined and php_install == 'y'" }
 
     - { role: apache, tags: ["apache"], when: "apache_install is defined and apache_install == 'y'" }
 
