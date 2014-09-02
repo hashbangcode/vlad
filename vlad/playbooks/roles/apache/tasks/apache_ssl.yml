@@ -1,7 +1,6 @@
 ---
 - name: Apache | enable ssl module
   command: a2enmod ssl creates=/etc/apache2/mods-enabled/ssl.conf
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
@@ -9,7 +8,6 @@
 
 - name: Apache | add vhost
   template: src=apache_ssl_vhost.j2 dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}_ssl.conf
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
   notify:

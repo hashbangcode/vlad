@@ -24,8 +24,7 @@
     - role: php
       when: php_install is defined and php_install == "y"
 
-    - role: apache
-      when: apache_install is defined and apache_install == "y"
+    - { role: apache, tags: ["apache"], when: "apache_install is defined and apache_install == 'y'" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install is defined and adminer_install == 'y'" }
 
