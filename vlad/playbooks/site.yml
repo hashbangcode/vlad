@@ -30,8 +30,7 @@
     - role: adminer
       when: adminer_install is defined and adminer_install == "y"
 
-    - role: xhprof
-      when: xhprof_install is defined and xhprof_install == "y"
+    - { role: xhprof, tags: ["xhprof"], when: "xhprof_install is defined and xhprof_install == 'y'" }
 
     - { role: pimpmylog, tags: ["pimpmylog"], when: "pimpmylog_install is defined and pimpmylog_install == 'y'" }
 
