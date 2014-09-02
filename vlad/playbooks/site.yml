@@ -39,8 +39,7 @@
     - role: varnish
       when: varnish_install is defined and varnish_install == "y"
 
-    - role: memcached
-      when: memcached_install is defined and memcached_install == "y"
+    - { role: memcached, tags: ["memcached"], when: "memcached_install is defined and memcached_install == 'y'" }
 
     - { role: redis, tags: ["redis"], when: "redis_install is defined and redis_install == 'y'" }
 
