@@ -58,8 +58,7 @@
 
     - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install is defined and mailcatcher_install == 'y'" }
 
-    - role: node
-      when: node_install is defined and node_install == "y"
+    - { role: node, tags: ["node"], when: "node_install is defined and node_install == 'y'" }
 
     - role: imagemagick
       when: imagemagick_install is defined and imagemagick_install == "y"
