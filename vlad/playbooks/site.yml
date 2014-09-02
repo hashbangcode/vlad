@@ -45,8 +45,7 @@
     - role: redis
       when: redis_install is defined and redis_install == "y"
 
-    - role: sendmail
-      when: sendmail_install is defined and sendmail_install == "y"
+    - { role: sendmail, tags: ["sendmail"], when: "sendmail_install is defined and sendmail_install == 'y'" }
 
     - { role: solr, tags: ["solr"], when: "solr_install is defined and solr_install == 'y'" }
 
