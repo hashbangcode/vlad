@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars_files:
-    - ../loaded_settings.yml
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
     - [ "../../../settings/vlad-custom-settings.yml", "../../../vlad-custom/vars/main.yml" ]
 
   roles:

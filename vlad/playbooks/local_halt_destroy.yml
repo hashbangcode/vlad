@@ -2,7 +2,7 @@
 - hosts: all
   gather_facts: false
   vars_files:
-    - ../loaded_settings.yml
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
   tasks:
   - name: local actions destroy | install python-mysqldb package
     apt: pkg=python-mysqldb state=installed
