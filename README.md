@@ -15,7 +15,7 @@ This includes the following technologies:
 * Munin
 * Xdebug
 * Ruby
-* RVM
+* rbenv
 * Sendmail
 * Mailcatcher
 * Memcached
