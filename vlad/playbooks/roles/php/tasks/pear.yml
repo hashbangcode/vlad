@@ -4,7 +4,7 @@
   tags: pear
   sudo: true
 
-- name: PEAR | upgrade all pear other packages
+- name: PEAR | upgrade all other pear packages
   command: pear upgrade-all
   register: pear_upgrade_all
   failed_when: "pear_upgrade_all.rc != 0"
