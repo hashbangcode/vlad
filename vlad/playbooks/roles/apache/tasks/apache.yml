@@ -32,8 +32,16 @@
   sudo: true
   when: ansible_os_family == "Debian"
 
-- name: Apache | add vhost
-  template: src=apache_vhost.j2 dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
+- name: Apache | add vhost for site to sites-available folder
+  template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
+  tags: apache2
+  sudo: true
+  when: ansible_os_family == "Debian"
+  notify:
+    - restart apache2
+
+- name: Apache | enable the new site
+  command: a2ensite {{ webserver_hostname }}.conf
   tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
