@@ -21,7 +21,7 @@
   tags: drush
 
 - name: Drush | download the site audit module
-  command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/root/.drush/site_audit
+  command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
   tags: drush
 
 - name: Drush | download the hacked! module
