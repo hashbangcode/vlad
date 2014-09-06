@@ -7,7 +7,14 @@
     - restart apache2
 
 - name: Apache | add vhost
-  template: src=apache_ssl_vhost.j2 dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}_ssl.conf
+  template: src=apache_ssl_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}_ssl.conf
+  sudo: true
+  when: ansible_os_family == "Debian"
+  notify:
+    - restart apache2
+
+- name: Apache | enable the new site
+  command: a2ensite {{ webserver_hostname }}_ssl.conf
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
