@@ -1,7 +1,6 @@
 ---
 - name: Apache | install apache2 packages
   apt: pkg={{ item }} state=installed
-  tags: apache2
   sudo: true
   with_items:
    - apache2
@@ -11,30 +10,25 @@
 
 - name: Apache | set up directories (with logs directory)
   file: path=/var/www/site/logs state=directory recurse=yes
-  tags: apache2
   sudo: true
 
 - name: Apache | disable default site
   command: a2dissite default removes=/etc/apache2/sites-enabled/default
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
 
 - name: Apache | add custom configuration
   template: src=apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
 
 - name: Apache | change port configuration
   template: src=apache_ports.j2 dest=/etc/apache2/ports.conf
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
 
 - name: Apache | add vhost for site to sites-available folder
   template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
@@ -42,7 +36,6 @@
 
 - name: Apache | enable the new site
   command: a2ensite {{ webserver_hostname }}.conf
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
@@ -51,11 +44,9 @@
 - name: Apache | add www-data user to dialout group
   user: name=www-data groups=dialout append=yes
   sudo: true
-  tags: apache2
 
 - name: Apache | enable mod rewrite module
   command: a2enmod rewrite creates=/etc/apache2/mods-enabled/rewrite.load
-  tags: apache2
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
@@ -63,7 +54,6 @@
 
 - name: Apache | symlink www directory from home directory
   file: src=/var/www/site/docroot dest=/home/{{ user }}/www state=link
-  tags: apache2
 
 - name: Apache | set default login directory to be /var/www/site/docroot
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/site/docroot'
@@ -72,4 +62,3 @@
 - name: Apache | add www-data user to dialout group
   user: name=www-data groups=dialout append=yes
   sudo: true
-  tags: apache2

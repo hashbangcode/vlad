@@ -3,7 +3,6 @@
 - name: Install rbenv
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/home/{{ user }}/.rbenv
-  tags: ruby
 
 - name: Install rbenv plugins
   git: repo=https://github.com/sstephenson/{{ item }}.git
@@ -12,30 +11,24 @@
     - 'rbenv-gem-rehash'
     - 'rbenv-gemset'
     - 'ruby-build'
-  tags: ruby
 
 - name: Add line to .bash_profile (rbenv) (step 1/4)
   lineinfile: dest=/home/{{ user }}/.bash_profile
               line='# rbenv'
               create=yes
-  tags: ruby
 
 - name: Add line to .bash_profile (rbenv) (step 2/4)
   lineinfile: dest=/home/{{ user }}/.bash_profile line='export PATH="$HOME/.rbenv/bin:$PATH"'
-  tags: ruby
 
 - name: Add line to .bash_profile (rbenv) (step 3/4)
   lineinfile: dest=/home/{{ user }}/.bash_profile line='eval "$(rbenv init -)"'
-  tags: ruby
 
 - name: Ensure .bashrc gets loaded as well (rbenv) (step 4/4)
   lineinfile: dest=/home/{{ user }}/.bash_profile line='[ -f $HOME/.bashrc ] && . $HOME/.bashrc'
-  tags: ruby
 
 # rbenv won't be available until we source ~/.bash_profile
 - name: Source /home/{{ user }}/.bash_profile
   command: . ~/.bash_profile executable=/bin/bash
-  tags: ruby
 
 # debugging
 #- command: bash -lc "type rbenv"
@@ -47,12 +40,10 @@
   command: bash -lc "rbenv install {{ default_ruby_version }}"
            creates=/home/{{ user }}/.rbenv/versions/{{ default_ruby_version }}
            executable=/bin/bash
-  tags: ruby
 
 # TODO: Make idempotent
 - name: Set the global version of Ruby to {{ default_ruby_version }}
   command: bash -lc "rbenv global {{ default_ruby_version }} && rbenv rehash"
-  tags: ruby
 
 # debugging
 #- command: bash -lc "ruby --version"
@@ -60,10 +51,8 @@
 # TODO: Make idempotent
 - name: Update RubyGems
   command: bash -lc "gem update --system"
-  tags: ruby
 
 # TODO: Make gem installations via rbenv idempotent
 # Can't use "creates" as the gem version number can change and "creates" doesn't support wildcards :(
 - name: Install Bundler gem to global Ruby version
   command: bash -lc "gem install bundler"
-  tags: ruby

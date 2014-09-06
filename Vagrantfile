@@ -40,15 +40,14 @@ settings_file_paths.each do |file_path|
   end
 end
 
-# Create /vlad/loaded_settings.yml for use in Vagrant & Ansible (copies found settings file into place)
+# Feedback to confirm which settings file Vagrant will use
 puts
 puts "Loading settings file: #{settings_file}"
 puts
-FileUtils.cp(settings_file, vagrant_dir + "/vlad/loaded_settings.yml")
 
 # Include config from settings file
 require 'yaml'
-vconfig = YAML::load_file(vagrant_dir + "/vlad/loaded_settings.yml")
+vconfig = YAML::load_file(settings_file)
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']

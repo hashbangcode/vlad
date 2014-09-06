@@ -2,7 +2,7 @@
 - hosts: all
   gather_facts: false
   vars_files:
-    - ../loaded_settings.yml
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
   tasks:
   - name: Ensure Varnish is running.
     service: name=varnish state=restarted
@@ -34,7 +34,7 @@
     sudo: true
     when: munin_install is defined and munin_install == "y"
 
-  - name: MailCatcher | kill mailcatcher (this is more reliable than using pkill with rvm)
+  - name: MailCatcher | kill mailcatcher
     command: curl -s -i -v -X DELETE http://127.0.0.1:1080
     ignore_errors: yes
     tags: mailcatcher
@@ -42,7 +42,7 @@
     when: mailcatcher_install is defined and mailcatcher_install == "y"
 
   - name: MailCatcher | run MailCatcher with no ip address restrictions
-    shell: PATH=$PATH:/home/{{ user }}/.rvm/bin && mailcatcher --ip=0.0.0.0
+    command: bash -lc "mailcatcher --ip=0.0.0.0"
     tags: mailcatcher
     sudo: true
     when: mailcatcher_install is defined and mailcatcher_install == "y"
