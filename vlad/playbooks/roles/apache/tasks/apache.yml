@@ -1,5 +1,5 @@
 ---
-- name: Apache | install apache2 packages
+- name: install apache2 packages
   apt: pkg={{ item }} state=installed
   sudo: true
   with_items:
@@ -8,57 +8,57 @@
    - apache2-utils
   when: ansible_os_family == "Debian"
 
-- name: Apache | set up directories (with logs directory)
+- name: set up directories (with logs directory)
   file: path=/var/www/site/logs state=directory recurse=yes
   sudo: true
 
-- name: Apache | disable default site
+- name: disable default site
   command: a2dissite default removes=/etc/apache2/sites-enabled/default
   sudo: true
   when: ansible_os_family == "Debian"
 
-- name: Apache | add custom configuration
+- name: add custom configuration
   template: src=apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
   sudo: true
   when: ansible_os_family == "Debian"
 
-- name: Apache | change port configuration
+- name: change port configuration
   template: src=apache_ports.j2 dest=/etc/apache2/ports.conf
   sudo: true
   when: ansible_os_family == "Debian"
 
-- name: Apache | add vhost for site to sites-available folder
+- name: add vhost for site to sites-available folder
   template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
-- name: Apache | enable the new site
-  command: a2ensite {{ webserver_hostname }}.conf
+- name: enable the default site
+  command: a2ensite {{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
-- name: Apache | add www-data user to dialout group
+- name: add www-data user to dialout group
   user: name=www-data groups=dialout append=yes
   sudo: true
 
-- name: Apache | enable mod rewrite module
+- name: enable mod rewrite module
   command: a2enmod rewrite creates=/etc/apache2/mods-enabled/rewrite.load
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
-- name: Apache | symlink www directory from home directory
+- name: symlink www directory from home directory
   file: src=/var/www/site/docroot dest=/home/{{ user }}/www state=link
 
-- name: Apache | set default login directory to be /var/www/site/docroot
+- name: set default login directory to be /var/www/site/docroot
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/site/docroot'
   tags: apache2
 
-- name: Apache | add www-data user to dialout group
+- name: add www-data user to dialout group
   user: name=www-data groups=dialout append=yes
   sudo: true
