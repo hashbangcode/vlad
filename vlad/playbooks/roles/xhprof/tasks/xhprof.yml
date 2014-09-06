@@ -86,6 +86,13 @@
   notify:
     - restart apache2
 
-- name: Xhprof | ensure Xhprof directory permissions
+- name: enable the xhprof site
+  command: a2ensite xhprof.{{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/xhprof.{{ webserver_hostname }}.conf
+  sudo: true
+  when: ansible_os_family == "Debian"
+  notify:
+    - restart apache2
+
+- name: ensure Xhprof directory permissions
   file: path=/var/www/xhprof_html mode=0777 recurse=yes
   sudo: true
