@@ -1,5 +1,5 @@
 ---
-- name: Test | MySQL is installed
+- name: test | MySQL is installed
   shell: mysql --version
   when: mysql_install is defined and mysql_install == "y"
   register: mysql_result

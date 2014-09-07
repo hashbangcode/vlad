@@ -1,5 +1,5 @@
 ---
-- name: Test | Redis is installed
+- name: test | redis is installed
   shell: redis-cli ping
   when: redis_install is defined and redis_install == "y"
   register: redis_result

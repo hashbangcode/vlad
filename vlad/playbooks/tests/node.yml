@@ -1,10 +1,10 @@
 ---
-- name: Test | Node is installed
+- name: test | node is installed
   shell: node -v
   when: node_install is defined and node_install == "y"
   tags: test
 
-- name: Test | npm is installed
+- name: test | npm is installed
   shell: npm -v
   when: node_install is defined and node_install == "y"
   tags: test

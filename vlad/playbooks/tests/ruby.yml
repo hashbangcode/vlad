@@ -1,5 +1,5 @@
 ---
-- name: rbenv is installed
+- name: test | rbenv is installed
   command: bash -lc "type rbenv"
   when: ruby_install is defined and ruby_install == "y"
   register: rbenv_result
@@ -7,7 +7,7 @@
   changed_when: False
   tags: test
 
-- name: Test | Ruby is installed
+- name: test | ruby is installed
   command: bash -lc "ruby -v"
   when: ruby_install is defined and ruby_install == "y"
   register: ruby_result

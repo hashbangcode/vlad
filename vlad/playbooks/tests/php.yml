@@ -1,5 +1,5 @@
 ---
-- name: Test | PHP is installed
+- name: test | PHP is installed
   shell: php -v
   when: php_install is defined and php_install == "y"
   always_run: yes
@@ -8,7 +8,7 @@
   changed_when: False
   tags: test
 
-- name: Test | Composer is installed
+- name: test | composer is installed
   shell: composer
   when: php_install is defined and php_install == "y"
   always_run: yes
@@ -17,7 +17,7 @@
   changed_when: False
   tags: test
 
-- name: Test | Drush is installed
+- name: test | drush is installed
   shell: drush
   when: php_install is defined and php_install == "y"
   always_run: yes
