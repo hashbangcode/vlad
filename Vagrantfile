@@ -53,6 +53,7 @@ vconfig = YAML::load_file(settings_file)
 boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
 boxwebaddress = vconfig['webserver_hostname']
+synced_folder_type = vconfig['synced_folder_type']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -88,14 +89,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.name = boxname + "_vlad"
   end
 
-  # Set up NFS drive.
-  nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
+  if synced_folder_type == 'nfs'
+    # Set up NFS drive.
+    nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
 
-  # Setup synced folder for site files
-  config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", :nfs => true, create: true, id: "vagrant-webroot"
+    # Setup synced folder for site files
+    config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "nfs", create: true, id: "vagrant-webroot"
 
-  # Setup auxiliary synced folder
-  config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", :nfs => true, id: "vagrant-aux"
+    # Setup auxiliary synced folder
+    config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", type: "nfs", id: "vagrant-aux"
+  elsif synced_folder_type == 'rsync'
+    # Setup synced folder for site files
+    config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "rsync", create: true, id: "vagrant-webroot"
+
+    # Setup auxiliary synced folder
+    config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", type: "rsync", id: "vagrant-aux"
+  end
 
   # SSH Set up.
   config.ssh.forward_agent = true

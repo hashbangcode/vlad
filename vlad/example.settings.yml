@@ -144,3 +144,6 @@
 # Git config user credentials (leave empty to skip this step)
   git_user_name: ""
   git_user_email: ""
+
+# Use 'nfs' or 'rsync' for VM file editing in synced folder
+  synced_folder_type: 'nfs'
