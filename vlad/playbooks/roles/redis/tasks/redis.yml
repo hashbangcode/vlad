@@ -1,8 +1,8 @@
 ---
-- name: Redis | Install redis
+- name: install redis
   apt: pkg=redis-server state=installed
   sudo: yes
 
-- name: Redis | set redis port
+- name: set redis port
   lineinfile: dest=/etc/redis/redis.conf regexp="^port = " insertafter="^port = " line="port {{ redis_port }}"
   sudo: true
