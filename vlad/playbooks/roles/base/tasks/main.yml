@@ -1,5 +1,5 @@
 ---
 - include: aptget.yml
-- include: gitconfig.yml
+- include: git.yml
 - include: ssh_config.yml
 - include: localactions.yml

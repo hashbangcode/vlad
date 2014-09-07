@@ -1,10 +1,15 @@
 ---
-- name: Git | Add Git user.name config
+- name: apt-get | apt-get update and ensure core packages are installed
+  apt: pkg=git state=installed update_cache=yes cache_valid_time=3600
+  tags: aptget
+  sudo: true
+
+- name: git | add Git user.name config
   command: git config --global user.name "{{ git_user_name }}"
   tags: git
   when: git_user_name is defined and git_user_name != ""
 
-- name: Git | Add Git user.email config
+- name: git | add Git user.email config
   command: git config --global user.email "{{ git_user_email }}"
   tags: git
   when: git_user_email is defined and git_user_email != ""
