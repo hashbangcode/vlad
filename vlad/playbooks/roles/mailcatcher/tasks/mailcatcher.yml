@@ -1,5 +1,5 @@
 ---
-- name: MailCatcher | install MailCatcher prerequisite packages
+- name: install MailCatcher prerequisite packages
   apt: pkg={{ item }} state=installed
   with_items:
     - rubygems
@@ -10,19 +10,19 @@
 - name: Install MailCatcher with rbenv
   command: bash -lc "gem install mailcatcher"
 
-- name: MailCatcher | change php apache sendmail_path setting
+- name: change php apache sendmail_path setting
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
   when: php_install is defined and php_install == "y"
   sudo: true
   notify:
     - restart apache2
 
-- name: MailCatcher | change php cli sendmail_path setting
+- name: change php cli sendmail_path setting
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
   when: php_install is defined and php_install == "y"
   sudo: true
 
-- name: MailCatcher | kill mailcatcher
+- name: kill mailcatcher
   command: curl -s -i -v -X DELETE http://127.0.0.1:1080
   ignore_errors: yes
   register: kill_mailcatcher
@@ -30,7 +30,7 @@
   changed_when: False
   sudo: true
 
-- name: MailCatcher | run MailCatcher with no ip address restrictions
+- name: run MailCatcher with no ip address restrictions
   command: bash -lc "mailcatcher --ip=0.0.0.0"
   register: run_mailcatcher
   failed_when: "run_mailcatcher.rc != 0"
