@@ -1,21 +1,21 @@
 ---
-- name: Varnish | install varnish
+- name: install varnish
   apt: pkg=varnish state=installed
   sudo: true
 
-- name: Varnish | add varnish vcl
+- name: add varnish vcl
   template: src=varnish_defaultvcl.j2 dest=/etc/varnish/default.vcl
   sudo: true
   notify:
    - restart varnish
 
-- name: Varnish | add varnish config
+- name: add varnish config
   template: src=varnish_config.j2 dest=/etc/default/varnish
   sudo: true
   notify:
    - restart varnish
 
-- name: Varnish | force secret file
+- name: force secret file
   copy: src=secret.txt dest=/etc/varnish/secret
   sudo: true
   notify:
