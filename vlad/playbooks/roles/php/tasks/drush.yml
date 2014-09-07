@@ -1,60 +1,60 @@
 ---
-- name: Drush | install drush via composer
+- name: drush | install drush via composer
   command: composer global require drush/drush:6.*
   register: composer_global_require
   failed_when: "composer_global_require.rc != 0"
   changed_when: "'Nothing to install or update' not in composer_global_require.stdout"
   tags: drush
 
-- name: Drush | set drush to executable
+- name: drush | set drush to executable
   file: path=/home/{{ user }}/.composer/vendor/drush/drush mode=775
   tags: drush
 
-- name: Drush | link up the drush command so everyone can run it
+- name: drush | link up the drush command so everyone can run it
   file: src=/home/{{ user }}/.composer/vendor/drush/drush/drush dest=/usr/bin/drush state=link
   tags: drush
   sudo: true
 
-- name: Drush | run drush once as current user to finalise install
+- name: drush | run drush once as current user to finalise install
   command: drush
   changed_when: False
   tags: drush
 
-- name: Drush | download the site audit module
+- name: drush | download the site audit module
   command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
   tags: drush
 
-- name: Drush | download the hacked! module
+- name: drush | download the hacked! module
   command: drush dl hacked --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/hacked
   tags: drush
 
-- name: Drush | download the Coder module
+- name: drush | download the Coder module
   command: drush dl coder --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
   tags: drush
 
-- name: Drush | download the Registry Rebuild module
+- name: drush | download the Registry Rebuild module
   command: drush dl registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
   tags: drush
 
-- name: Drush | clear drush cache
+- name: drush | clear drush cache
   command: drush cc all 
   register: drush_cc_result
   failed_when: "drush_cc_result.rc != 0"
   changed_when: False
   tags: drush
 
-- name: Drush | get latest version of Drush
+- name: drush | get latest version of Drush
   git: repo=https://github.com/drush-ops/drush.git dest=/home/{{ user }}/drush-master
   tags: drush
 
-- name: Drush | set drush to executable
+- name: drush | set drush to executable
   file: path=/home/{{ user }}/drush-master mode=775
   tags: drush
 
-- name: Drush | add drush-master alias to .bashrc file
+- name: drush | add drush-master alias to .bashrc file
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush-master=/home/{{ user }}/drush-master/drush'
   tags: drush
 
-- name: Drush | run composer install in drush
+- name: drush | run composer install in drush
   command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/vendor
   tags: drush
