@@ -1,26 +1,33 @@
 ---
-- name: Adminer | create adminer directory
+- name: create adminer directory
   file: path=/var/www/adminer state=directory
   sudo: true
 
-- name: Adminer | copy adminer
+- name: copy adminer
   copy: src=adminer-3.7.1-en.php dest=/var/www/adminer/adminer-3.7.1-en.php
   sudo: true
 
-- name: Adminer | copy adminer stylesheet
+- name: copy adminer stylesheet
   copy: src=adminer.css dest=/var/www/adminer/adminer.css
   sudo: true
 
-- name: Adminer | copy index.php configuration file into place
+- name: copy index.php configuration file into place
   template: src=index.j2 dest=/var/www/adminer/index.php
   sudo: true
 
-- name: Adminer | ensure adminer directory permissions
+- name: ensure adminer directory permissions
   file: path=/var/www/adminer mode=0777 recurse=yes
   sudo: true
 
-- name: Apache | add vhost
-  template: src=apache_adminer_vhost.j2 dest=/etc/apache2/sites-enabled/adminer.{{ webserver_hostname }}.conf
+- name: add vhost for adminer
+  template: src=apache_adminer_vhost.j2 dest=/etc/apache2/sites-available/adminer.{{ webserver_hostname }}.conf
   sudo: true
+  notify:
+    - restart apache2
+
+- name: enable the adminer site
+  command: a2ensite adminer.{{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/adminer.{{ webserver_hostname }}.conf
+  sudo: true
+  when: ansible_os_family == "Debian"
   notify:
     - restart apache2
