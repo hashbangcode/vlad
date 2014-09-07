@@ -1,23 +1,23 @@
 ---
 # Needed for apt_repository below
-- name: Node | Install dependencies
+- name: Install dependencies
   apt: pkg=python-pycurl state=latest
   sudo: yes
 
 # Regular apt-get would install an old version of Node that we don't want.
 # This adds a more up to date repository and consequently a later version of Node.
-- name: Node | Add up to date Node repository
+- name: Add up to date Node repository
   apt_repository: repo='ppa:chris-lea/node.js'
   sudo: true
 
-- name: Node | Install Node
+- name: Install Node
   apt: pkg=nodejs
   sudo: true
 
-- name: Node | Set local node prefix
+- name: Set local node prefix
   template: src=npmrc.j2 dest=/home/{{ user }}/.npmrc
 
-- name: Node | Set local node path in bash profile
+- name: Set local node path in bash profile
   lineinfile:
     dest=/home/{{ user }}/.bashrc
     state=present
