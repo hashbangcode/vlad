@@ -27,6 +27,13 @@
   sudo: true
   when: ansible_os_family == "Debian"
 
+- name: disable the apache default site
+  command: a2dissite default removes=/etc/apache2/sites-enabled/000-default
+  sudo: true
+  when: ansible_os_family == "Debian"
+  notify:
+    - restart apache2
+
 - name: add vhost for site to sites-available folder
   template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
   sudo: true
