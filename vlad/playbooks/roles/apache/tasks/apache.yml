@@ -1,11 +1,11 @@
 ---
 - name: install apache2 packages
   apt: pkg={{ item }} state=installed
-  sudo: true
   with_items:
    - apache2
    - apache2-mpm-prefork
    - apache2-utils
+  sudo: true
   when: ansible_os_family == "Debian"
 
 - name: set up directories (with logs directory)
