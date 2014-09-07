@@ -1,20 +1,20 @@
 ---
-- name: Drush | copy drush/Drupal 7 installation script
+- name: drupal install | copy drush/Drupal 7 installation script
   template: src=drupal/drupal7_install.j2 dest=/var/www/drupal7_install.sh
   tags: drupalinstall
   sudo: true
 
-- name: Drush | set drush/Drupal 7 installation script to executable
+- name: drupal install | set drush/Drupal 7 installation script to executable
   file: path=/var/www/drupal7_install.sh mode=755
   tags: drupalinstall
   sudo: true
 
-- name: Drush | copy drush/Drupal 8 installation script
+- name: drupal install | copy drush/Drupal 8 installation script
   template: src=drupal/drupal8_install.j2 dest=/var/www/drupal8_install.sh
   tags: drupalinstall
   sudo: true
 
-- name: Drush | set drush/Drupal 8 installation script to executable
+- name: drupal install | set drush/Drupal 8 installation script to executable
   file: path=/var/www/drupal8_install.sh mode=755
   tags: drupalinstall
   sudo: true
