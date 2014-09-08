@@ -44,5 +44,4 @@
   - name: MailCatcher | run MailCatcher with no ip address restrictions
     command: bash -lc "mailcatcher --ip=0.0.0.0"
     tags: mailcatcher
-    sudo: true
     when: mailcatcher_install is defined and mailcatcher_install == "y"
