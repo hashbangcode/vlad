@@ -61,10 +61,9 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Configure virtual machine options.
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  config.vm.box = "vlad"
-  config.vm.hostname = boxname
+  config.vm.box = "ubuntu/precise64"
 
+  config.vm.hostname = boxname
   config.vm.network :private_network, ip: boxipaddress
 
   # Allow caching to be used (see the vagrant-cachier plugin)
@@ -104,6 +103,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Setup auxiliary synced folder
     config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", type: "rsync", id: "vagrant-aux"
+  else
+    puts "Vlad requires the synced_folder setting to be one of the following:"
+    puts " - nfs"
+    puts " - rsync"
+    puts
+    puts "Please check your settings and try again."
+    exit
   end
 
   # SSH Set up.
