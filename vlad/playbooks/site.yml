@@ -5,6 +5,19 @@
 
   pre_tasks:
 
+    # Run some items to de-provision the box if needed
+
+    - name: ensure Varnish is stopped
+      service: name=varnish state=stopped
+      when: varnish_install is defined and varnish_install == "n"
+      ignore_errors: yes
+      sudo: true
+
+    - name: ensure Varnish is removed
+      apt: pkg=varnish state=absent
+      when: varnish_install is defined and varnish_install == "n"
+      sudo: true
+
     # Run some pre-provisioning tests to ensure the system will function when provisioned.
 
     - fail: msg="The Apache setup you have selected will make the site inaccessable on port 80"
