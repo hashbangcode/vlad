@@ -178,12 +178,14 @@
 - name: get patch for solrconfig.xml file
   command: wget https://drupal.org/files/2107417-2.patch creates=/home/{{ user }}/2107417-2.patch
   sudo: true
+  when: drupal_solr_package == "search_api_solr"
   notify:
    - restart tomcat6
 
 - name: patch solrconfig.xml file
   command: patch /home/solr/vlad/conf/solrconfig.xml /home/{{ user }}/2107417-2.patch
   sudo: true
+  when: drupal_solr_package == "search_api_solr"
   notify:
    - restart tomcat6
 
