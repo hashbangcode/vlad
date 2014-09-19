@@ -60,7 +60,7 @@
   sudo: true
 
 - name: run SQL install script
-  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql creates=/var/lib/mysql/xhprof
+  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
   sudo: true
 
 - name: check virtual host for Xhprof include
