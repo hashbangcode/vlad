@@ -153,4 +153,4 @@ The Varnish secret key for the box is 04788b22-e179-4579-aac7-f3541fb40391, you 
 Wiki
 ----
 
-Find out more about Vlad and how to contribute via the Wiki pages at [https://bitbucket.org/philipnorton42/vlad/wiki](https://bitbucket.org/philipnorton42/vlad/wiki).
+Find out more about Vlad and how to contribute via the Wiki pages at [https://github.com/hashbangcode/vlad/wiki](https://github.com/hashbangcode/vlad/wiki).

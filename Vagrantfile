@@ -4,7 +4,7 @@
 # Vlad - Vagrant LAMP Ansible Drupal
 # A Drupal development platform in a box, with everything you would need to develop Drupal websites.
 # See the readme file (README.md) for more information.
-# Contribute to this project at : https://bitbucket.org/philipnorton42/vlad
+# Contribute to this project at : https://github.com/hashbangcode/vlad
 
 # If vagrant-trigger isn't installed then exit
 if !Vagrant.has_plugin?("vagrant-triggers")
