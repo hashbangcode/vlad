@@ -207,7 +207,7 @@ $ vagrant ssh
                     <dd>XHProf is a performance monitoring program that shows detailed execution stats of PHP page
                         loads. In order to
                         use XHProf you'll need to append the URL with "_profile=1" (i.e.
-                        <a href="http://{{ webserver_hostname }}/?_profile=1">http://{{ webserver_hostname }}/?_profile=1</a>).
+                        <a href="http://{{ webserver_hostname }}:{{ http_port }}/?_profile=1">http://{{ webserver_hostname }}:{{ http_port }}/?_profile=1</a>).
                     </dd>
                     {% endif %}
 

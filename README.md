@@ -141,7 +141,7 @@ The profile output can be found in the directory /tmp/xdebug_profiles on the Vag
 
 You can access XHProf via the following URL:
 [http://xhprof.drupal.local/](http://xhprof.drupal.local/)
-You'll need to kick off XHProf on your site using "?_profile=1" at the end of the URL. Like this: [http://www.drupal.local/?_profile=1](http://www.drupal.local/?_profile=1).
+You'll need to kick off XHProf on your site using "?_profile=1" at the end of the URL. Like this: [http://www.drupal.local:8080/?_profile=1](http://www.drupal.local:8080/?_profile=1) (notice we call the URL using port 8080, the Apache port, to avoid Varnish taking over).
 
 You can access PimpMyLog and view log data via the following URL:
 [http://logs.drupal.local/](http://logs.drupal.local/)
