@@ -2,3 +2,12 @@
 user: vagrant
 
 ssh_port: 22
+
+# Settings files
+# Order is important (left most files are preferred over right most files)
+
+# Vlad settings
+vlad_settings_files: [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
+
+# Vlad custom role settings
+vlad_custom_settings_files: [ "../../../settings/vlad-custom-settings.yml", "../../../vlad-custom/vars/main.yml" ]

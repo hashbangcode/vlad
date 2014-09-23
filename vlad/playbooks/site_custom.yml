@@ -1,8 +1,15 @@
 ---
 - hosts: all
-  vars_files:
-    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
-    - [ "../../../settings/vlad-custom-settings.yml", "../../../vlad-custom/vars/main.yml" ]
+
+  pre_tasks:
+
+  - name: Load Vlad settings file
+    include_vars: "{{ item }}"
+    with_first_found: vlad_settings_files
+
+  - name: Load custom role settings file
+    include_vars: "{{ item }}"
+    with_first_found: vlad_custom_settings_files
 
   roles:
     - { role: vlad-custom, tags: ["custom"], when: "custom_provision is defined and custom_provision == 'y'" }
