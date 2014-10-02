@@ -18,3 +18,8 @@
   file: path=/var/www/drupal8_install.sh mode=755
   tags: drupalinstall
   sudo: true
+
+- name: Drush | copy database settings file
+  template: src=drupal/vlad-db-settings.j2 dest=/var/www/vlad-db-settings.inc
+  tags: drupalinstall
+  sudo: true

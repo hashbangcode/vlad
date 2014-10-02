@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Database settings file.
+ */
+
+if (!isset($databases)) {
+  $databases = array();
+}
+
+$databases['default']['default'] = array(
+  'driver' => 'mysql',
+  'database' => '{{ dbname }}',
+  'username' => '{{ dbuser }}',
+  'password' => '{{ dbpass }}',
+  'host' => '127.0.0.1',
+  'port' => 3306,
+);
