@@ -18,3 +18,8 @@
   command: chmod +x /var/www/drupal8_install.sh
   tags: drupalinstall
   sudo: true
+
+- name: Drush | copy database settings file
+  template: src=drupal/vlad-db-settings.j2 dest=/var/www/vlad-db-settings.inc
+  tags: drupalinstall
+  sudo: true
