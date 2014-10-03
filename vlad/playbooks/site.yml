@@ -1,11 +1,9 @@
 ---
 - hosts: all
+  vars_files:
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
 
   pre_tasks:
-
-    - name: Load Vlad settings file
-      include_vars: "{{ item }}"
-      with_first_found: vlad_settings_files
 
     # Run some items to de-provision the box if needed
 
