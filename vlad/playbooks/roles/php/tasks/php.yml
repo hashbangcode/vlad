@@ -163,6 +163,7 @@
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
   tags: php
   sudo: true
+  when: php_version != '5.3'
   notify:
     - restart apache2
 
@@ -170,6 +171,7 @@
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
   tags: php
   sudo: true
+  when: php_version != '5.3'
   notify:
     - restart apache2
 
