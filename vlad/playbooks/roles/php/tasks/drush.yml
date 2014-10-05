@@ -55,6 +55,10 @@
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush-master=/home/{{ user }}/drush-master/drush'
   tags: drush
 
+- name: drush | add drush7 alias (to fit in with Acquia and Pantheon standards) to .bashrc file
+  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush7=/home/{{ user }}/drush-master/drush'
+  tags: drush
+
 - name: drush | run composer install in drush
   command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/vendor
   tags: drush
