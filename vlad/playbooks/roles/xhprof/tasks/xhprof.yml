@@ -13,9 +13,13 @@
   when: php_version == '5.3'
   sudo: true
 
+- name: check, what PECL xhprof is installed
+  command: pecl list | grep xhprof | wc -l
+  register: pecl_xhprof_installed
+
 - name: install xhprof
   command: pecl install xhprof creates=/usr/lib/php5/20090626/xhprof.so
-  when: php_version == '5.3'
+  when: php_version == '5.3' and pecl_xhprof_installed == 0
   sudo: true
 
 - name: set pecl preferred state to stable
@@ -30,7 +34,7 @@
 
 - name: install xhprof
   command: pecl install xhprof creates=/usr/lib/php5/20100525/xhprof.so
-  when: php_version == '5.4'
+  when: php_version == '5.4' and pecl_xhprof_installed == 0
   sudo: true
 
 - name: set pecl preferred state to stable
