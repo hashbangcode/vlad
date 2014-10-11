@@ -206,11 +206,15 @@
   notify:
     - restart apache2
 
+- name: check, what PECL uploadprogress is installed
+  command: pecl list | grep uploadprogress | wc -l
+  register: pecl_uploadprogress_installed
+
 - name: install PECL uploadprogress
   command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
   tags: php
   sudo: true
-  when: php_pecl_uploadprogress is defined and php_pecl_uploadprogress == "y"
+  when: php_pecl_uploadprogress is defined and php_pecl_uploadprogress == "y" and pecl_uploadprogress_installed == 0
 
 - name: add PECL uploadprogress apache php.ini setting
   lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=uploadprogress.so"
