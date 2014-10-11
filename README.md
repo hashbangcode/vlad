@@ -51,11 +51,11 @@ Then:
 
 Vagrant 1.4+ comes with the Ansible provisioning tool included so there is no need to install extra plugins.
 
-You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests, which speeds up reprovisioning.
+You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests, which speeds up reprovisioning:
 
     vagrant plugin install vagrant-cachier
 
-To support deprovisioning you also need to install the Vagrant Triggers plugin.
+To support deprovisioning you also need to install the Vagrant Triggers plugin:
 
     vagrant plugin install vagrant-triggers
 
