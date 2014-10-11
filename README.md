@@ -40,7 +40,7 @@ Vlad currently only works on Linux or OS X systems (Windows support for Ansible 
 
 To install Ansible use the following commands:
 
-Optionally check prerequisite python packages are installed first:
+(Optional) First check prerequisite python packages are installed:
 
     sudo pip install paramiko PyYAML jinja2 httplib2 markupsafe
 
