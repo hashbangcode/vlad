@@ -40,20 +40,24 @@ Vlad currently only works on Linux or OS X systems (Windows support for Ansible 
 
 To install Ansible use the following commands:
 
-    sudo easy_install pip
-    sudo pip install ansible
-
-You may have to install some prerequisite python packages first:
+(Optional) First check prerequisite python packages are installed:
 
     sudo pip install paramiko PyYAML jinja2 httplib2 markupsafe
 
+Then:
+
+    sudo easy_install pip
+    sudo pip install ansible
+
 Vagrant 1.4+ comes with the Ansible provisioning tool included so there is no need to install extra plugins.
 
-You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests, which speeds up reprovisioning.
+You can also install the Vagrant Cachier plugin in order to cache apt-get and gem requests, which speeds up reprovisioning:
 
     vagrant plugin install vagrant-cachier
 
-To support deprovisioning you also need to install the Vagrant Triggers plugin.
+To support deprovisioning you also need to install the Vagrant Triggers plugin:
+
+    vagrant plugin install vagrant-triggers
 
 If you already have the needed elements then you can get started.
 
