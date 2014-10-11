@@ -27,7 +27,7 @@
 
 # rbenv won't be available until we source ~/.bash_profile
 - name: source ~/.bash_profile
-  command: . ~/.bash_profile executable=/bin/bash
+  command: . /home/{{ user }}/.bash_profile executable=/bin/bash
 
 # debugging
 #- command: bash -lc "type rbenv"
