@@ -1,5 +1,5 @@
 ---
-- name: install packages
+- name: cnstall packages
   apt: pkg={{ item }} state=installed
   with_items:
     - memcached
@@ -12,13 +12,8 @@
   template: src=memcached.conf.j2 dest=/etc/memcached.conf
   sudo: true
 
-- name: check, what PECL uploadprogress is installed
-  command: pecl list | grep memcache | wc -l
-  register: pecl_memcache_installed
-  
 - name: PECL library install
   shell: printf "yes\n" | pecl install memcache creates=/usr/lib/php5/20100525/memcache.so
-  when: pecl_memcache_installed == 0
   sudo: true
   notify:
     - restart apache2

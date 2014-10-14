@@ -18,11 +18,6 @@
     sudo: true
     when: apache_install is defined and apache_install == "y"
 
-  - name: Ensure Memcached is running.
-    service: name=memcached state=restarted
-    sudo: true
-    when: memcached_install is defined and memcached_install == "y"
-
   - name: Ensure MySQL is running.
     service: name=mysql state=restarted
     sudo: true
