@@ -125,7 +125,9 @@
 # Local hosts file location
 # Default location on *nix hosts is '/etc/hosts'
 # Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
-  hosts_file_location: "/etc/hosts"
+#  hosts_file_location: "/etc/hosts"
+# Default location on Windows hosts is 'C:\Windows\System32\drivers\etc\hosts'
+  hosts_file_location: "C:\\Windows\\System32\\drivers\\etc\\hosts"
 
 # Redis Port
   redis_port: 6379
