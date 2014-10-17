@@ -1,5 +1,5 @@
 ---
-- name: cnstall packages
+- name: install packages
   apt: pkg={{ item }} state=installed
   with_items:
     - memcached
@@ -12,12 +12,6 @@
   template: src=memcached.conf.j2 dest=/etc/memcached.conf
   sudo: true
 
-- name: PECL library install
-  shell: printf "yes\n" | pecl install memcache creates=/usr/lib/php5/20100525/memcache.so
-  sudo: true
-  notify:
-    - restart apache2
-  
 - name: config file for the PHP memcache extension
   template: src=php_apache2_memcached.ini.j2 dest=/etc/php5/apache2/conf.d/memcached.ini
   sudo: true

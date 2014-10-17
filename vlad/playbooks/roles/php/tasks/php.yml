@@ -8,26 +8,49 @@
   sudo: true
   when: php_version == '5.4'
 
+- name: install php 5.6 prerequisite python packages
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  with_items:
+   - python-software-properties
+  tags: php
+  sudo: true
+  when: php_version == '5.6'
+
 - name: add php 5.4 repository
   apt_repository: repo=ppa:ondrej/php5-oldstable
   tags: php
   sudo: yes
   when: php_version == '5.4'
 
+- name: add php 5.6 repository
+  apt_repository: repo=ppa:ondrej/php5-5.6
+  tags: php
+  sudo: yes
+  when: php_version == '5.6'
+
 - name: install php packages
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
-   - php-apc
+   - php5-mysql
    - php-pear
    - php5
    - php5-cli
    - php5-common
    - php5-dev
    - php5-gd
-   - php5-mysql
    - php5-xmlrpc
    - php-soap
    - php5-curl
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: install APC package
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+   - php-apc
+  when: php_version == '5.3' or php_version == '5.4'
   tags: php
   sudo: true
   notify:
@@ -177,7 +200,7 @@
 
 - name: change APC configuration file apc.ini
   template: src=php/php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
-  when: php_version != '5.4'
+  when: php_version == '5.3'
   tags: php
   sudo: true
   notify:
@@ -192,12 +215,16 @@
     - restart apache2
 
 - name: install Composer
-  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+  shell: chdir=/home/{{ user }} curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
   tags: php
   sudo: true
 
-- name: add composer vendor directory to path
+- name: add Composer vendor directory to path
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='export PATH=$PATH:/home/{{ user }}/.composer/vendor/bin/'
+  tags: php
+
+- name: initialize Composer metadata
+  command: chdir=/home/{{ user }} composer selfupdate
   tags: php
 
 - name: don't expose php
@@ -206,11 +233,15 @@
   notify:
     - restart apache2
 
+- name: check, what PECL uploadprogress is installed
+  command: pecl list | grep uploadprogress | wc -l
+  register: pecl_uploadprogress_installed
+
 - name: install PECL uploadprogress
-  command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
+  command: pecl -f install uploadprogress
   tags: php
   sudo: true
-  when: php_pecl_uploadprogress is defined and php_pecl_uploadprogress == "y"
+  when: php_pecl_uploadprogress is defined and php_pecl_uploadprogress == "y" and pecl_uploadprogress_installed == 0
 
 - name: add PECL uploadprogress apache php.ini setting
   lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=uploadprogress.so"

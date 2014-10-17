@@ -1,0 +1,27 @@
+--- Tar.php	2014-09-24 13:10:40.503121700 +0000
++++ Tar.php	2014-09-24 13:09:57.092785800 +0000
+@@ -47,21 +47,21 @@
+ if (!function_exists('gzopen') && function_exists('gzopen64')) {
+     function gzopen($filename, $mode, $use_include_path = 0)
+     {
+-        gzopen64($filename, $mode, $use_include_path);
++        return gzopen64($filename, $mode, $use_include_path);
+     }
+ }
+ 
+ if (!function_exists('gztell') && function_exists('gztell64')) {
+     function gztell($zp)
+     {
+-        gztell64($zp);
++        return gztell64($zp);
+     }
+ }
+ 
+ if (!function_exists('gzseek') && function_exists('gzseek64')) {
+     function gzseek($zp, $offset, $whence = SEEK_SET)
+     {
+-        gzseek64($zp, $offset, $whence);
++        return gzseek64($zp, $offset, $whence);
+     }
+ }
+ 
