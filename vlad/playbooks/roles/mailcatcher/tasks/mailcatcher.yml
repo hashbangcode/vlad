@@ -5,6 +5,15 @@
     - rubygems
     - libsqlite3-dev
     - ruby-dev
+  when: vm_box == 'ubuntu/precise64'
+  sudo: true
+
+- name: install MailCatcher prerequisite packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - libsqlite3-dev
+    - ruby
+  when: vm_box == 'ubuntu/trusty64'
   sudo: true
 
 - name: Install MailCatcher with rbenv
