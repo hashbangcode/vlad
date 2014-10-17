@@ -54,6 +54,12 @@ boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
 boxwebaddress = vconfig['webserver_hostname']
 synced_folder_type = vconfig['synced_folder_type']
+box = vconfig['vm_box']
+box_url = vconfig['box_url']
+
+# SMB credentials (Windows only)
+samba_username = vconfig['smb_username']
+samba_password = vconfig['smb_password']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -62,20 +68,11 @@ VAGRANTFILE_API_VERSION = "2"
 require 'rbconfig'
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
-# SMB credentials (in the host machine). These don't quite work, but they are supposed to!
-if is_windows
-	smb_username = vconfig['smb_username']
-	smb_password = vconfig['smb_password']
-end
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Choose your virtual machine
-  # Ubuntu 14.04 (Trusty) 64bit
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-i386-vagrant-disk1.box"
-  config.vm.box = "ubuntu/trusty64"
-  # Ubuntu 12.04 (Precise) 64bit
-  # config.vm.box = "ubuntu/precise64"
+  config.vm.box = box
+  config.vm.box_url = box_url
   
   # Configure virtual machine options.
   config.vm.hostname = boxname
@@ -102,19 +99,33 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Configure virtual machine setup.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-		# Set memory and cpus to 1/4 of the host machine ram and cores
+		# Recommended to set memory to (at least) 1/4 of your host machine RAM
     v.customize ["modifyvm", :id, "--memory", 2048]
-    v.customize ["modifyvm", :id, "--cpus", 6]
+		# Recommended to set cpus to 2 if possible, otherwise comment it out leaving the default (1)
+    v.customize ["modifyvm", :id, "--cpus", 2]
+    v.customize ["modifyvm", :id, "--ioapic", "on"]
     # Set *provider* VM name (e.g. "myboxname_vlad")
-    v.name = boxname + "_vlad"
+    v.name = boxname + "_trusty_on_windows"
   end
 
-  # Setup synced folder for site files
   if is_windows
-	  config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", :type => "smb", create: true, id: "vagrant-webroot", smb_username: smb_username, smb_password: smb_password
+    # Setup synced folder for site files
+	  config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", 
+	  	type: "smb", 
+	  	create: true, 
+	  	id: "vagrant-webroot", 
+	  	smb_username: samba_username, 
+	  	smb_password: samba_password,
+			group: "www-data",
+			# in the mount_options, don't leave any space after the comma!
+			mount_options: ["dir_mode=0775,file_mode=0664"]
     
     # Setup auxiliary synced folder
-    config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", :type => "smb", id: "vagrant-aux", smb_username: smb_username, smb_password: smb_password
+    config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", 
+      type: "smb", 
+      id: "vagrant-aux", 
+    	smb_username: samba_username, 
+    	smb_password: samba_password
   elsif synced_folder_type == 'nfs'
     # Set up NFS drive.
     nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
@@ -131,7 +142,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Setup auxiliary synced folder
     config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", type: "rsync", id: "vagrant-aux"
   else
-    puts "Vlad requires the synced_folder setting to be one of the following:"
+    puts "Vlad in *nix requires the synced_folder setting to be one of the following:"
     puts " - nfs"
     puts " - rsync"
     puts
@@ -147,8 +158,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		info "Executing 'up' setup trigger"
 		if !File.exist?(vlad_hosts_file)
 			if is_windows
-				run "cp " + vagrant_dir + "/vlad/playbooks/templates/host.j2 " + vlad_hosts_file
-				run "echo " + boxipaddress + " " + vconfig['webserver_hostname_alias'] + " adminer." + boxwebaddress + " xhprof." + boxwebaddress + " logs." + boxwebaddress + " >> " + vconfig['hosts_file_location']
+				system("cp " + vagrant_dir + "/vlad/playbooks/templates/host.j2 " + vlad_hosts_file)
+				system("echo # Vlad >> " + vconfig['hosts_file_location'])
+				system("echo " + boxipaddress + " www." + boxwebaddress + " adminer." + boxwebaddress + " xhprof." + boxwebaddress + " logs." + boxwebaddress + " >> " + vconfig['hosts_file_location'])
 	 	  else
       	run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
     	end
@@ -218,20 +230,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         	ansible.verbose = vconfig['ansible_verbosity']
       	end
     	end
-    end
-  end
-
-  # Run the custom Ansible playbook (if the custom role exists)
-  if File.exist?("../vlad-custom/tasks/main.yml")
-    config.vm.provision "ansible" do |ansible|
-      ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
-      ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
-      ansible.host_key_checking = false
-      ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
-      ansible.limit = 'all'
-      if vconfig['ansible_verbosity'] != ''
-        ansible.verbose = vconfig['ansible_verbosity']
-      end
     end
   end
 
