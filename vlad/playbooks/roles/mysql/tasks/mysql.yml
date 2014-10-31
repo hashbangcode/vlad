@@ -82,7 +82,14 @@
 - name: create application database user
   mysql_user: name={{ dbuser }} password={{ dbpass }} priv=*.*:ALL host='%' state=present login_password={{ mysql_root_password }} login_user=root
 
-- name: import database
+# Optional database import
+
+- name: Import database (default source file)
   mysql_db: name={{ dbname }} state=import target=/var/www/site/vlad_aux/db_io/vlad_up.sql.gz login_password={{ mysql_root_password }} login_user=root
   when: db_import_up is defined and db_import_up == "y"
+  ignore_errors: yes
+
+- name: Import database (specified source file)
+  mysql_db: name={{ dbname }} state=import target=/var/www/site/vlad_aux/db_io/{{ db_import_up }} login_password={{ mysql_root_password }} login_user=root
+  when: db_import_up is defined and db_import_up != "y" and db_import_up != "n"
   ignore_errors: yes
