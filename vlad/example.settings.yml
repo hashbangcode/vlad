@@ -53,7 +53,7 @@
 
   varnish_install: "y" # If you turn this off then make sure you set the http_port to be 80.
 
-  xhprof_install: "y"
+  xhprof_install: "n"
 
 # Provision with custom playbooks
   custom_provision: "n"

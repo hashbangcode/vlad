@@ -55,14 +55,20 @@ boxname = vconfig['boxname']
 boxwebaddress = vconfig['webserver_hostname']
 synced_folder_type = vconfig['synced_folder_type']
 
+# Detect the current provider and set a variable.
+if ARGV[1] and (ARGV[1].split('=')[0] == "--provider" or ARGV[2])
+  provider = (ARGV[1].split('=')[1] || ARGV[2])
+else
+  provider = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
+end
+
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Configure virtual machine options.
-  config.vm.box = "ubuntu/precise64"
-
   config.vm.hostname = boxname
   config.vm.network :private_network, ip: boxipaddress
 
@@ -80,13 +86,37 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define boxname do |boxname|
   end
 
-  # Configure virtual machine setup.
-  config.vm.provider :virtualbox do |v|
-    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    v.customize ["modifyvm", :id, "--memory", 1024]
-    # Set *provider* VM name (e.g. "myboxname_vlad")
-    v.name = boxname + "_vlad"
+  if provider == "vmware_fusion"
+
+    # Configure VMWare setup.
+    config.vm.provider "vmware_fusion" do |v|
+      # Add VMWare box.
+      config.vm.box = "hashicorp/precise64"
+
+      v.gui = false
+      v.vmx["memsize"] = "1048"
+      v.vmx["numvcpus"] = "1"
+    end
+
+  else
+
+    # Configure VirtualBox setup.
+    config.vm.provider "virtualbox" do |v|
+
+      # Add a VirtualBox box
+      config.vm.box = "ubuntu/precise64"
+
+      v.gui = false
+
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--memory", 1024]
+      v.customize ["modifyvm", :id, "--cpus", "1"]
+
+      # Set *provider* VM name (e.g. "myboxname_vlad")
+      v.name = boxname + "_vlad"
+    end
   end
+
 
   if synced_folder_type == 'nfs'
     # Set up NFS drive.
