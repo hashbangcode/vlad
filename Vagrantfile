@@ -47,7 +47,9 @@ puts
 
 # Include config from settings file
 require 'yaml'
-vconfig = YAML::load_file(settings_file)
+vdefaults = YAML::load_file("vlad/playbooks/vars/defaults/vagrant.yml")
+vsettings = YAML::load_file(settings_file)
+vconfig = vdefaults.merge vsettings
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
@@ -61,7 +63,6 @@ if ARGV[1] and (ARGV[1].split('=')[0] == "--provider" or ARGV[2])
 else
   provider = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
 end
-
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -102,12 +103,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Configure VirtualBox setup.
     config.vm.provider "virtualbox" do |v|
-
       # Add a VirtualBox box
       config.vm.box = "ubuntu/precise64"
 
       v.gui = false
-
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--memory", 1024]
       v.customize ["modifyvm", :id, "--cpus", "1"]
@@ -116,7 +115,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.name = boxname + "_vlad"
     end
   end
-
 
   if synced_folder_type == 'nfs'
     # Set up NFS drive.

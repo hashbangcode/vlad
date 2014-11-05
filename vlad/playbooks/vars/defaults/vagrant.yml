@@ -1,0 +1,20 @@
+---
+
+# This file should only contain default varables that the Vagrantfile is interested in
+# ------------------------------------------------------------------------------------
+
+# Webserver
+webserver_hostname: 'drupal.local'
+
+# Box
+boxipaddress: "192.168.100.100"
+boxname: "vlad"
+
+# Synced folder path (docroot)
+host_synced_folder: "./docroot"
+# Use 'nfs' or 'rsync' for VM file editing in synced folder
+synced_folder_type: 'nfs'
+
+# Set the level of verbosity that Ansible will use
+# This can be one of "", "v", "vv", "vvv", or "vvvv"
+ansible_verbosity: ""

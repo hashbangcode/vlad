@@ -2,6 +2,7 @@
 - hosts: all
   gather_facts: false
   vars_files:
+    - "./vars/defaults/main.yml"
     - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
 
   tasks:
@@ -46,3 +47,4 @@
     command: bash -lc "mailcatcher --ip=0.0.0.0"
     tags: mailcatcher
     when: mailcatcher_install is defined and mailcatcher_install == "y"
+

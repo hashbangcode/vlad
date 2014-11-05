@@ -1,6 +1,7 @@
 ---
 - hosts: all
   vars_files:
+    - "./vars/defaults/main.yml"
     - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
 
   pre_tasks:

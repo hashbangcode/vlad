@@ -1,0 +1,6 @@
+---
+# HTTP port for the Varnish cache
+varnish_http_port: 80
+
+# Varnish Settings
+varnish_memory: 512
