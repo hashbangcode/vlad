@@ -6,18 +6,18 @@
 # ---------------------------------------------------------------------------------
 
 # Provision with custom playbooks
-  custom_provision: "n"
+custom_provision: "n"
 
 # HTTP port for the web server. If you have turned off Varnish then you might want to set this to "80"
-  http_port: 8080
+http_port: 8080
 
 # Administration email (used in instances when a server email is needed)
-  admin_mail: 'test@example.com'
+admin_mail: 'test@example.com'
 
 # Local hosts file location
 # Default location on *nix hosts is '/etc/hosts'
 # Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
-  hosts_file_location: "/etc/hosts"
+hosts_file_location: "/etc/hosts"
 
 # Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
-  add_index_file: "y"
+add_index_file: "y"
