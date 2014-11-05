@@ -1,7 +1,9 @@
 ---
 - hosts: all
   vars_files:
-    - "./vars/defaults/main.yml"
+    - "./vars/defaults/vagrant.yml"
+    - "./vars/defaults/misc.yml"
+    - "./vars/defaults/install.yml"
     - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
     - [ "../../../settings/vlad-custom-settings.yml", "../../../vlad-custom/vars/main.yml" ]
 
