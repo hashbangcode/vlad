@@ -18,7 +18,7 @@
 
     - name: Ensure Varnish is removed
       apt: pkg=varnish state=absent
-      when: varnish_install is defined and varnish_install == "n"
+      when: varnish_install is defined and varnish_install == "n" ansible_os_family == "Debian"
       sudo: true
 
     # Run some pre-provisioning tests to ensure the system will function when provisioned.
