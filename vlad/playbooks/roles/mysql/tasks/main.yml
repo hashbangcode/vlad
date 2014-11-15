@@ -1,2 +1,6 @@
 ---
-- include: mysql.yml
+- include: debian_mysql.yml
+  when: ansible_os_family == "Debian"
+
+- include: redhat_mysql.yml
+  when: ansible_os_family == "RedHat"

@@ -1,31 +1,23 @@
 ---
 - name: install mysql packages
-  apt: pkg={{ item }} state=installed
+  yum: pkg={{ item }} state=installed
+  when: ansible_os_family == "RedHat"
   sudo: true
-  with_items:    
-   - mysql-client
-   - mysql-common
-   - mysql-server
-   - python-mysqldb
+  with_items:
+    - mysql
+    - mysql-server
+    - MySQL-python
+
+- name: make sure mysql starts
+  command: chkconfig mysqld on
+  sudo: true
 
 # set up mysql variables
 - name: create MySQL configuration file
-  action: template src=mysql.my.cnf.j2 dest=/etc/my.cnf
+  action: template src=redhat_mysql.my.cnf.j2 dest=/etc/my.cnf
   sudo: true
   notify: 
-  - restart mysql
-
-- name: change main settings for skip-external-locking
-  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"
-  sudo: true
-  notify:
-    - restart mysql
-
-- name: change main settings for bind-address
-  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?bind-address" insertafter="bind-address" line="#bind-address"
-  sudo: true
-  notify:
-    - restart mysql
+  - restart mysqld
 
 - name: get iptables rules
   shell: iptables -L
@@ -42,37 +34,41 @@
   notify:
    - save iptables
 
+- name: force restart mysql
+  service: name=mysqld state=restarted
+  sudo: true
+
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
-- name: Set the root password.
+- name: set the root password.
   mysql_user: name=root password={{ mysql_root_password }} host=localhost
 
-- name: Config for easy access as root user
+- name: config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/root/.my.cnf
   when: "'{{ user }}' == 'root'"
 
-- name: Config for easy access as root user
+- name: config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/home/{{ user }}/.my.cnf
   when: "'{{ user }}' != 'root'"
 
-- name: Delete anonymous MySQL server user for {{ server_hostname }}
+- name: delete anonymous MySQL server user for {{ server_hostname }}
   mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password={{ mysql_root_password }}
 
-- name: Delete anonymous MySQL server user for localhost
+- name: delete anonymous MySQL server user for localhost
   mysql_user: name="" state="absent" host="{{ server_hostname }}" login_user="root" login_password="{{ mysql_root_password }}"
 
-- name: Secure the MySQL root user for IPV6 localhost (::1)
+- name: secure the MySQL root user for IPV6 localhost (::1)
   mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
 
-- name: Secure the MySQL root user for IPV4 localhost (127.0.0.1)
+- name: secure the MySQL root user for IPV4 localhost (127.0.0.1)
   mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
 
-- name: Secure the MySQL root user for localhost domain (localhost)
+- name: secure the MySQL root user for localhost domain (localhost)
   mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
 
-- name: Secure the MySQL root user for {{ server_hostname }} domain
+- name: secure the MySQL root user for {{ server_hostname }} domain
   mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
 
-- name: Remove the MySQL test database
+- name: remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
   
 # set up default database
@@ -84,13 +80,13 @@
 
 # Optional database import
 
-- name: Import database (default source file)
+- name: import database (default source file)
   mysql_db: name={{ dbname }} state=import target=/var/www/site/vlad_aux/db_io/vlad_up.sql.gz login_password={{ mysql_root_password }} login_user=root
   when: db_import_up is defined and db_import_up == "y"
   ignore_errors: yes
   tags: mysql_import
 
-- name: Import database (specified source file)
+- name: import database (specified source file)
   mysql_db: name={{ dbname }} state=import target=/var/www/site/vlad_aux/db_io/{{ db_import_up }} login_password={{ mysql_root_password }} login_user=root
   when: db_import_up is defined and db_import_up != "y" and db_import_up != "n"
   ignore_errors: yes
