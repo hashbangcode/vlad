@@ -3,8 +3,15 @@
   command: iptables-save
   sudo: true
   notify:
+   - restart ufw
    - restart iptables
 
-- name: restart iptables
+- name: restart ufw
   service: name=ufw state=restarted
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: restart iptables
+  service: name=iptables state=restarted
+  when: ansible_os_family == "RedHat"
   sudo: true

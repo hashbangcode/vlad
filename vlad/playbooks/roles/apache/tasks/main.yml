@@ -1,3 +1,29 @@
 ---
-- include: apache.yml
-- include: apache_ssl.yml
+- name: set up directories (with logs directory)
+  file: path=/var/www/site/logs state=directory recurse=yes
+  sudo: true
+
+# Include the appropriate OS specific setups.
+- include: debian/apache.yml
+  when: ansible_os_family == "Debian"
+
+- include: debian/apache_ssl.yml
+  when: ansible_os_family == "Debian"
+
+- include: redhat/apache.yml
+  when: ansible_os_family == "RedHat"
+
+- include: redhat/apache_ssl.yml
+  when: ansible_os_family == "RedHat"
+
+# Run some common tasks.
+- name: symlink www directory from home directory
+  file: src=/var/www/site/docroot dest=/home/{{ user }}/www state=link
+
+- name: set default login directory to be /var/www/site/docroot
+  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/site/docroot'
+  tags: apache2
+
+- name: add www-data user to dialout group
+  user: name=www-data groups=dialout append=yes
+  sudo: true

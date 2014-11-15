@@ -2,3 +2,7 @@
 - name: restart apache2
   service: name=apache2 state=restarted
   sudo: true
+
+- name: restart httpd
+  service: name=httpd state=restarted
+  sudo: true

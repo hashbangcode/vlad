@@ -1,0 +1,44 @@
+---
+- name: install apache2 packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+   - apache2
+   - apache2-mpm-prefork
+   - apache2-utils
+  sudo: true
+
+- name: disable the apache default site
+  command: a2dissite default removes=/etc/apache2/sites-enabled/000-default
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: add custom configuration
+  template: src=../../templates/debian/apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
+  sudo: true
+
+- name: change port configuration
+  template: src=../../templates/debian/apache_ports.j2 dest=/etc/apache2/ports.conf
+  sudo: true
+
+- name: add vhost for site to sites-available folder
+  template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: enable the default site
+  command: a2ensite {{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: add www-data user to dialout group
+  user: name=www-data groups=dialout append=yes
+  sudo: true
+
+- name: enable mod rewrite module
+  command: a2enmod rewrite creates=/etc/apache2/mods-enabled/rewrite.load
+  sudo: true
+  notify:
+    - restart apache2
