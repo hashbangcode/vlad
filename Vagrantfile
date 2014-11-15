@@ -56,6 +56,7 @@ boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
 boxwebaddress = vconfig['webserver_hostname']
 synced_folder_type = vconfig['synced_folder_type']
+vlad_os = vconfig['vlad_os']
 
 # Detect the current provider and set a variable.
 if ARGV[1] and (ARGV[1].split('=')[0] == "--provider" or ARGV[2])
@@ -78,7 +79,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :machine
     config.cache.synced_folder_opts = { type: :nfs }
     config.cache.auto_detect = false
-    config.cache.enable :apt
+
+    if vlad_os == "centos65"
+      config.cache.enable :yum
+    else
+      config.cache.enable :apt
+    end
+
     #config.cache.enable :gem
     #config.cache.enable :npm
   end
@@ -103,8 +110,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Configure VirtualBox setup.
     config.vm.provider "virtualbox" do |v|
-      # Add a VirtualBox box
-      config.vm.box = "ubuntu/precise64"
+
+      if vlad_os == "centos65"
+        # Add a Centos VirtualBox box
+        config.vm.box = "hansode/centos-6.5-x86_64"
+      elsif vlad_os == "ubuntu1404"
+        # Add a Ubuntu VirtualBox box
+        config.vm.box = "ubuntu/trusty64"
+      else
+        # Add a Ubuntu VirtualBox box
+        config.vm.box = "ubuntu/precise64"
+      end
 
       v.gui = false
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]

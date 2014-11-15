@@ -149,3 +149,10 @@
 
 # Use 'nfs' or 'rsync' for VM file editing in synced folder
   synced_folder_type: 'nfs'
+
+# The OS that vlad will use. This can be:
+# - "centos65"
+# - "ubuntu12"
+# - "ubuntu14"
+# Defaults to "ubuntu".
+  vlad_os: "ubuntu12"
