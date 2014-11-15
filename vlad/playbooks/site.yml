@@ -18,7 +18,12 @@
 
     - name: Ensure Varnish is removed
       apt: pkg=varnish state=absent
-      when: varnish_install is defined and varnish_install == "n" ansible_os_family == "Debian"
+      when: varnish_install is defined and varnish_install == "n" and ansible_os_family == "Debian"
+      sudo: true
+
+    - name: Ensure Varnish is removed
+      yum: pkg=varnish state=absent
+      when: varnish_install is defined and varnish_install == "n" and ansible_os_family == "RedHat"
       sudo: true
 
     # Run some pre-provisioning tests to ensure the system will function when provisioned.
