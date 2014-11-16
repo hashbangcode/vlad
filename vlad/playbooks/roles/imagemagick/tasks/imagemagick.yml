@@ -1,4 +1,10 @@
 ---
 - name: install ImageMagick
   apt: pkg=imagemagick
+  when: ansible_os_family == "Debian"
+  sudo: yes
+
+- name: install ImageMagick
+  yum: pkg=imagemagick
+  when: ansible_os_family == "RedHat"
   sudo: yes
