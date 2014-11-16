@@ -17,8 +17,8 @@
   notify:
     - restart apache2
 
-- name: enable the pimpmylog site (Redhat)
-  command: a2ensite logs.{{ webserver_hostname }}.conf creates=/etc/httpd/vhosts/logs.{{ webserver_hostname }}.conf
+- name: add vhost for pimpmylog to sites-available folder (Redhat)
+  template: src=apache_pimpmylog_vhost.j2 dest=/etc/apache2/sites-available/logs.{{ webserver_hostname }}.conf
   sudo: true
   when: ansible_os_family == "RedHat"
   notify:
