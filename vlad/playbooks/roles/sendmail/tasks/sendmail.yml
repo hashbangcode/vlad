@@ -1,4 +1,11 @@
 ---
-- name: Install sendmail packages
+- name: install sendmail packages
   apt: pkg=sendmail state=installed
+  when: ansible_os_family == "Debian"
   sudo: true
+
+- name: install sendmail packages
+  yum: pkg=sendmail state=installed
+  when: ansible_os_family == "RedHat"
+  sudo: true
+
