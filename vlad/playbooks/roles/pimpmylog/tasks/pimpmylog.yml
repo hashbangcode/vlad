@@ -3,18 +3,24 @@
   git: repo=https://github.com/potsky/PimpMyLog.git dest=/var/www/pimpmylog update=no
   sudo: true
 
-
-- name: add vhost for pimpmylog to sites-available folder
+- name: add vhost for pimpmylog to sites-available folder (Debian)
   template: src=apache_pimpmylog_vhost.j2 dest=/etc/apache2/sites-available/logs.{{ webserver_hostname }}.conf
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
-- name: enable the pimpmylog site
+- name: enable the pimpmylog site (Debian)
   command: a2ensite logs.{{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/logs.{{ webserver_hostname }}.conf
   sudo: true
   when: ansible_os_family == "Debian"
+  notify:
+    - restart apache2
+
+- name: enable the pimpmylog site (Redhat)
+  command: a2ensite logs.{{ webserver_hostname }}.conf creates=/etc/httpd/vhosts/logs.{{ webserver_hostname }}.conf
+  sudo: true
+  when: ansible_os_family == "RedHat"
   notify:
     - restart apache2
 
