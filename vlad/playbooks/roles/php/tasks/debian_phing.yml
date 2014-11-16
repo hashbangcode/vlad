@@ -22,4 +22,5 @@
 - name: phing | install the VersionControl_Git package (3/3)
   command: pear config-set preferred_state stable creates=/usr/share/php/VersionControl/Git
   tags: phing
-  sudo: true  
+  sudo: true
+

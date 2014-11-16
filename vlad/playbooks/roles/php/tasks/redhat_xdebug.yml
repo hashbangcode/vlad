@@ -1,0 +1,19 @@
+---
+- name: xdebug |  install Xdebug PHP component
+  yum: pkg=php-pecl-xdebug state=installed
+  register: xdebug_installed
+  tags: xdebug
+  sudo: true
+
+- name: xdebug | get first two lines of /etc/php.d/xdebug.ini
+  command: head -n 2 /etc/php.d/xdebug.ini
+  #when: xdebug_installed.changed and php_version == '5.3'
+  register: xdebug_first_line
+  tags: xdebug
+  sudo: true
+
+- name: xdebug | update xdebug configuration file
+  template: src=php/php_apache2_xdebug.ini.j2 dest=/etc/php.d/xdebug.ini
+  #when: xdebug_installed.changed and php_version == '5.3'
+  tags: xdebug
+  sudo: true
