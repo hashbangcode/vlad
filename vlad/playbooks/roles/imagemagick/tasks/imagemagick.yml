@@ -5,6 +5,9 @@
   sudo: yes
 
 - name: install ImageMagick
-  yum: pkg=imagemagick
+  yum: pkg={{ item }} state=installed
   when: ansible_os_family == "RedHat"
-  sudo: yes
+  sudo: true
+  with_items:
+    - ImageMagick
+    - ImageMagick-devel

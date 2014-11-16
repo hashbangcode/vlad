@@ -9,7 +9,7 @@
 
 - name: yum | yum update and ensure core packages are installed
   yum: pkg={{ item }} state=installed
-  tags: aptget
+  tags: yum
   sudo: true
   with_items:
     #- ssh-import-id
