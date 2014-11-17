@@ -5,6 +5,9 @@
 # This file should only contain variables not covered by install.yml, vagrant.yml or any role's vars/main.yml file.
 # -----------------------------------------------------------------------------------------------------------------
 
+# Webserver
+webserver_hostname_alias: 'www.{{ webserver_hostname }}'
+
 # Provision with custom playbooks
 custom_provision: "n"
 
