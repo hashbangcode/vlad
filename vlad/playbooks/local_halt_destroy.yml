@@ -5,6 +5,7 @@
     - "./vars/defaults/vagrant.yml"
     - "./vars/defaults/general.yml"
     - "./vars/defaults/install.yml"
+    - "./roles/mysql/vars/main.yml"
     - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
 
   tasks:
