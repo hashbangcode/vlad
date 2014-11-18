@@ -8,7 +8,7 @@
 
   pre_tasks:
 
-    # Run some items to de-provision the box if needed
+    # Run some tasks to de-provision the box if needed
 
     - name: Ensure Varnish is stopped
       service: name=varnish state=stopped
@@ -36,7 +36,7 @@
         and varnish_http_port == http_port
 
     - name: Check PHP version is valid
-      fail: msg="PHP Version is invalid"
+      fail: msg="PHP version not currently supported by Vlad ({{ php_version }})"
       when: php_version is defined and php_version != "5.3" and php_version != "5.4"
 
     - name: Check specified Solr package
@@ -53,6 +53,7 @@
          and mailcatcher_install == "y"
 
   roles:
+
     - role: base
 
     - { role: mysql, tags: ["mysql"], when: "mysql_install is defined and mysql_install == 'y'" }
@@ -97,4 +98,5 @@
     - include: tests/main.yml
 
   handlers:
+
     - include: common/handlers/main.yml
