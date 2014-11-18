@@ -7,9 +7,9 @@
 - name: git | add Git user.name config
   command: git config --global user.name "{{ git_user_name }}"
   tags: git
-  when: git_user_name is defined and git_user_name != ""
+  when: git_user_name != ""
 
 - name: git | add Git user.email config
   command: git config --global user.email "{{ git_user_email }}"
   tags: git
-  when: git_user_email is defined and git_user_email != ""
+  when: git_user_email != ""

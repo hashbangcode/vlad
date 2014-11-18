@@ -19,7 +19,7 @@
 
 - name: change php cli sendmail_path setting
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
-  when: php_install is defined and php_install == "y"
+  when: php_install == "y"
   sudo: true
 
 - name: kill mailcatcher
