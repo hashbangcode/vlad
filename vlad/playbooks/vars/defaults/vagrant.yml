@@ -14,6 +14,7 @@ boxname: "vlad"
 
 # Synced folder path (docroot)
 host_synced_folder: "./docroot"
+
 # Use 'nfs' or 'rsync' for VM file editing in synced folder
 synced_folder_type: 'nfs'
 
