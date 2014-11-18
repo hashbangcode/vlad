@@ -22,7 +22,7 @@
     ignore_errors: yes
     sudo: true
 
-  - name: local actions destroy | delete local hosts.ini file
+  - name: local actions destroy | delete local host.ini file
     file: path=../host.ini state=absent
     delegate_to: 127.0.0.1
 

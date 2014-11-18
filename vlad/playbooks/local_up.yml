@@ -12,7 +12,7 @@
     fail: msg="The system may not be provisioned according to the CMDB status."
     when: local_ip_address is not defined
 
-  - name: local actions | write local hosts.ini file
+  - name: local actions | write local host.ini file
     template: src=templates/host.j2 dest=../host.ini
     delegate_to: 127.0.0.1
 
