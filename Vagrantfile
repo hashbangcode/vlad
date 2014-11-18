@@ -145,7 +145,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Run an Ansible playbook on setting the box up
   if !File.exist?(vlad_hosts_file)
-    config.trigger.before :up, :stdout => true, :force => true do
+    config.trigger.before [:up, :resume], :stdout => true, :force => true do
       info "Executing 'up' setup trigger"
       run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
