@@ -8,7 +8,9 @@
     - [ "../../../settings/vlad-settings.yml", "../settings.yml", "../example.settings.yml" ]
 
   tasks:
-  - fail: msg="The system may not be provisioned according to the CMDB status."
+
+  - name: local actions | check local ip address is defined
+    fail: msg="The system may not be provisioned according to the CMDB status."
     when: local_ip_address is not defined
 
   - name: local actions | write local hosts.ini file
