@@ -88,7 +88,7 @@
   command: cp -r /home/{{ user }}/slf4j-1.7.7/{{ item }} /usr/share/tomcat6/lib creates=/usr/share/tomcat6/lib/{{ item }}
   sudo: true
   with_items: slf4jfiles.stdout_lines
-  when: "'android' not in item and 'slf4j-log4j12' not in item and 'log4j-over-slf4j' not in item"
+  when: "'android' not in item and 'slf4j-log4j12' not in item and 'log4j-over-slf4j' not in item and 'slf4j-jcl' not in item"
 
 - name: download Solr
   command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.7.2/solr-4.7.2.tgz creates=/home/{{ user }}/solr-4.7.2.tgz
