@@ -1,0 +1,1 @@
+The following variables can be set in the settings.yml file.

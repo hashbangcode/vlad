@@ -1,0 +1,35 @@
+site_name: Vlad
+
+repo_url: https://github.com/hashbangcode/vlad
+site_description: 'Vlad: Vagrant LAMP with Ansible and Drupal.'
+docs_dir: docs
+site_dir: docs_site
+theme: readthedocs
+
+pages:
+- ['index.md', 'Home']
+
+- ['usage/installation.md', 'Usage', 'Installation']
+- ['usage/getting_started.md', 'Usage', 'Getting Started']
+- ['usage/ansible.md', 'Usage', 'Ansible']
+- ['usage/custom_roles.md', 'Usage', 'Custom Roles']
+- ['usage/example_vlad_output.md', 'Usage', 'Example Vlad Output']
+- ['usage/workflow.md', 'Usage', 'Workflow']
+- ['usage/vagrant_share.md', 'Usage', 'Vagrant Share']
+- ['usage/variables.md', 'Usage', 'Variables']
+
+- ['applications/index.md', 'Applications', 'Applications']
+- ['applications/mysql.md', 'Applications', 'MySQL']
+- ['applications/drupal.md', 'Applications', 'Drupal']
+
+- ['contributing/contributing.md', 'Contributing']
+- ['contributing/naming_convention.md', 'Contributing', 'Naming Convention']
+- ['contributing/order_convention.md', 'Contributing', 'Task Order Convention']
+- ['contributing/testing.md', 'Contributing', 'Testing']
+
+- ['project/faq.md', 'Project', 'FAQ']
+- ['project/roadmap.md', 'Project', 'Roadmap']
+- ['project/about.md', 'Project', 'About']
+- ['project/thanks.md', 'Project', 'Thanks']
+- ['project/changelog.md', 'Project', 'Change Log']
+- ['project/licence.md', 'Project', 'Licence']
