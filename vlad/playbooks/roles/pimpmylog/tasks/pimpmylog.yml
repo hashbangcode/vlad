@@ -22,7 +22,7 @@
   sudo: true
   when: ansible_os_family == "RedHat"
   notify:
-    - restart apache2
+    - restart httpd
 
 - name: ensure Pimpmylog directory permissions
   file: path=/var/www/pimpmylog mode=0777 recurse=yes
