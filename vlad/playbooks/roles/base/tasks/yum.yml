@@ -15,6 +15,5 @@
     #- ssh-import-id
     - unzip
     - curl
-    #- atop
     - vim
     - make
