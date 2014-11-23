@@ -33,9 +33,9 @@
   always_run: true
 
 - name: add apache iptable rule
-  command: iptables -I INPUT 1 -p tcp --dport {{ http_port }} -j ACCEPT -m comment --comment "http"
+  command: iptables -I INPUT 1 -p tcp --dport {{ http_port }} -j ACCEPT -m comment --comment "webhost"
   sudo: true
-  when: iptablesrules.stdout.find("http") == -1
+  when: iptablesrules.stdout.find("webhost") == -1
   notify:
    - save iptables
 
