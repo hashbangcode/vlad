@@ -6,5 +6,6 @@
   when: ansible_os_family == "RedHat"
 
 - include: git.yml
+- include: python.yml
 - include: ssh_config.yml
 - include: localactions.yml
