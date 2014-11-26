@@ -1,12 +1,12 @@
 ---
 - name: install java and tomcat packages
-  yum: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=installed
   sudo: true
   with_items:
-   - icedtea-web
+   - openjdk-7-jre
    - tomcat6
-   - tomcat6-webapps
-   - tomcat6-admin-webapps
+   - tomcat6-extras
+   - tomcat6-admin
 
 - name: setup the tomcat users file
   copy: src=tomcat/tomcat-users.xml dest=/etc/tomcat6/tomcat-users.xml
@@ -97,7 +97,7 @@
   command: cp -ar /home/{{ user }}/solr-4.7.2/example/solr/{{ item }} /home/solr creates=/home/solr/{{ item }}
   sudo: true
   with_items: solrfiles.stdout_lines
-
+    
 - name: rename the collection1 directory to vlad
   command: mv /home/solr/collection1 /home/solr/vlad creates=/home/solr/vlad
   sudo: true
