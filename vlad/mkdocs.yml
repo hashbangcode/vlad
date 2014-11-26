@@ -15,10 +15,6 @@ pages:
 - ['usage/custom_roles.md', 'Usage', 'Custom Roles']
 - ['usage/example_vlad_output.md', 'Usage', 'Example Vlad Output']
 - ['usage/workflow.md', 'Usage', 'Workflow']
-- ['usage/scenario1.md', 'Usage', 'Scenario 1']
-- ['usage/scenario2.md', 'Usage', 'Scenario 2']
-
-
 
 - ['usage/vagrant_share.md', 'Usage', 'Vagrant Share']
 - ['usage/variables.md', 'Usage', 'Variables']
