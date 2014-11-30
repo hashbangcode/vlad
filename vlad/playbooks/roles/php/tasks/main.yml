@@ -15,7 +15,7 @@
   when: ansible_os_family == "Debian"
 
 - include: redhat_phing.yml
-  when: ansible_os_family == "Redhat"
+  when: ansible_os_family == "RedHat"
 
 - include: debian_xdebug.yml
   when: ansible_os_family == "Debian"
