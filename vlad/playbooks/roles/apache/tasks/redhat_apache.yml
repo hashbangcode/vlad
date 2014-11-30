@@ -17,11 +17,11 @@
   sudo: true
 
 - name: add vhosts include file
-  template: src=../../templates/redhat/apache_vhosts_conf.j2 dest=/etc/httpd/conf.d/vhosts.conf
+  template: src=redhat_apache_vhosts_conf.j2 dest=/etc/httpd/conf.d/vhosts.conf
   sudo: true
 
 - name: add vhosts file
-  template: src=../../templates/apache_vhost.j2 dest=/etc/httpd/vhosts/{{ webserver_hostname }}.conf
+  template: src=apache_vhost.j2 dest=/etc/httpd/vhosts/{{ webserver_hostname }}.conf
   sudo: true
   notify:
     - restart httpd

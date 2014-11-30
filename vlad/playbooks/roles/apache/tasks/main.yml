@@ -4,16 +4,16 @@
   sudo: true
 
 # Include the appropriate OS specific setups.
-- include: debian/apache.yml
+- include: debian_apache.yml
   when: ansible_os_family == "Debian"
 
-- include: debian/apache_ssl.yml
+- include: debian_apache_ssl.yml
   when: ansible_os_family == "Debian"
 
-- include: redhat/apache.yml
+- include: redhat_apache.yml
   when: ansible_os_family == "RedHat"
 
-- include: redhat/apache_ssl.yml
+- include: redhat_apache_ssl.yml
   when: ansible_os_family == "RedHat"
 
 # Run some common tasks.
