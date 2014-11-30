@@ -10,7 +10,7 @@
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp="^Listen " insertafter="^Listen " line="Listen {{ http_port }}"
   sudo: true
   notify:
-    - restart apache2
+    - restart httpd
 
 - name: set up vhosts include directory
   command: mkdir -p /etc/httpd/vhosts creates=/etc/httpd/vhosts
