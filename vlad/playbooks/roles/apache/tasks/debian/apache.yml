@@ -22,7 +22,7 @@
   sudo: true
 
 - name: add vhost for site to sites-available folder
-  template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
+  template: src=../../templates/apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
   sudo: true
   notify:
     - restart apache2
