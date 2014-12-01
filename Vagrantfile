@@ -95,8 +95,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.box = "hashicorp/precise64"
 
       v.gui = false
-      v.vmx["memsize"] = "1048"
-      v.vmx["numvcpus"] = "1"
+      v.vmx["memsize"] = "vconfig['vm_memory']"
+      v.vmx["numvcpus"] = "vconfig['vm_cpus']"
     end
 
   else
@@ -108,8 +108,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       v.gui = false
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      v.customize ["modifyvm", :id, "--memory", 1024]
-      v.customize ["modifyvm", :id, "--cpus", "1"]
+      v.memory = vconfig['vm_memory']
+      v.cpus = vconfig['vm_cpus']
 
       # Set *provider* VM name (e.g. "myboxname_vlad")
       v.name = boxname + "_vlad"

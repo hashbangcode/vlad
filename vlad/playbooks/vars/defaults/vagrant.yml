@@ -21,3 +21,7 @@ synced_folder_type: 'nfs'
 # Set the level of verbosity that Ansible will use
 # This can be one of "", "v", "vv", "vvv", or "vvvv"
 ansible_verbosity: ""
+
+# CPUs and memory to be allocated to the guest VM from the host machine
+vm_cpus: 1
+vm_memory: 1024
