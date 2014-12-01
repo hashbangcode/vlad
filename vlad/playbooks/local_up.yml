@@ -34,6 +34,8 @@
 
   # ssh-add
 
+  # @TODO: If use_host_id is set to anyhthing other than "n", test for the presence of ~/.ssh/config on the host box. If it's missing, fail or at least feedback.
+
   - name: local actions | add default identities from host to guest
     local_action: command ssh-add
     when: use_host_id == "y"
