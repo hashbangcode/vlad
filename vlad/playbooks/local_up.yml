@@ -41,5 +41,5 @@
     when: use_host_id == "y"
 
   - name: local actions | add custom identity from host to guest
-    local_action: command ssh-add {{ use_host_ssh_key }}
+    local_action: command ssh-add {{ use_host_id }}
     when: use_host_id != "y" and use_host_id != "n"
