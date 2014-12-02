@@ -31,4 +31,4 @@ vm_memory: 1024
 # - "ubuntu12"
 # - "ubuntu14"
 # Defaults to "ubuntu12".
-  vlad_os: "ubuntu12"
+vlad_os: "ubuntu12"
