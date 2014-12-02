@@ -1,7 +1,10 @@
 ---
 - name: get pimpmylog package
-  git: repo=https://github.com/potsky/PimpMyLog.git dest=/var/www/pimpmylog update=no
+  git: repo=https://github.com/potsky/PimpMyLog.git dest=/var/www/pimpmylog update=yes
   sudo: true
+
+- name: ensure that the package isn't effected by mode changes
+  command: git config core.filemode false chdir=/var/www/pimpmylog
 
 - name: add vhost for pimpmylog to sites-available folder (Debian)
   template: src=apache_pimpmylog_vhost.j2 dest=/etc/apache2/sites-available/logs.{{ webserver_hostname }}.conf
@@ -31,3 +34,4 @@
 - name: add configuration file
   copy: src=config.user.json dest=/var/www/pimpmylog/config.user.json
   sudo: true
+
