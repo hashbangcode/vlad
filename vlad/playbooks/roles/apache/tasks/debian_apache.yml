@@ -14,11 +14,11 @@
     - restart apache2
 
 - name: add custom configuration
-  template: src=../../templates/debian/apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
+  template: src=debian_apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
   sudo: true
 
 - name: change port configuration
-  template: src=../../templates/debian/apache_ports.j2 dest=/etc/apache2/ports.conf
+  template: src=debian_apache_ports.j2 dest=/etc/apache2/ports.conf
   sudo: true
 
 - name: add vhost for site to sites-available folder

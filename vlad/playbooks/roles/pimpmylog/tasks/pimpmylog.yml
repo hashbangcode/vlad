@@ -20,7 +20,7 @@
   notify:
     - restart apache2
 
-- name: add vhost for pimpmylog to sites-available folder (Redhat)
+- name: add vhost for pimpmylog to sites-available folder (RedHat)
   template: src=apache_pimpmylog_vhost.j2 dest=/etc/httpd/vhosts/logs.{{ webserver_hostname }}.conf
   sudo: true
   when: ansible_os_family == "RedHat"

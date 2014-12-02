@@ -7,6 +7,17 @@
   sudo: true
   notify:
       - restart apache2
+  when: ansible_os_family == "Debian"
+
+- name: cnstall packages
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - memcached
+    - php-pecl-memcached
+  sudo: true
+  notify:
+      - restart apache2
+  when: ansible_os_family == "RedHat"
 
 - name: config file
   template: src=memcached.conf.j2 dest=/etc/memcached.conf
@@ -22,9 +33,11 @@
   sudo: true
   notify:
     - restart apache2
+  when: ansible_os_family == "Debian"
   
 - name: config file for the PHP memcache extension
   template: src=php_apache2_memcached.ini.j2 dest=/etc/php5/apache2/conf.d/memcached.ini
   sudo: true
   notify:
     - restart apache2
+  when: ansible_os_family == "Debian"

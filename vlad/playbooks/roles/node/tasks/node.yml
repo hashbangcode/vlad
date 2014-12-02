@@ -3,16 +3,24 @@
 - name: install dependencies
   apt: pkg=python-pycurl state=latest
   sudo: yes
+  when: ansible_os_family == "Debian"
 
 # Regular apt-get would install an old version of Node that we don't want.
 # This adds a more up to date repository and consequently a later version of Node.
 - name: add up to date Node repository
-  apt_repository: repo='ppa:chris-lea/node.js'
+  apt_repository: repo='ppa:chris-lea/node.js' state=present update_cache=yes
   sudo: true
+  when: ansible_os_family == "Debian"
 
 - name: install Node
-  apt: pkg=nodejs
+  apt: pkg=nodejs state=latest
   sudo: true
+  when: ansible_os_family == "Debian"
+
+- name: install node via yum
+  yum: name=npm state=latest
+  sudo: true
+  when: ansible_os_family == "RedHat"
 
 - name: set local node prefix
   template: src=npmrc.j2 dest=/home/{{ user }}/.npmrc
