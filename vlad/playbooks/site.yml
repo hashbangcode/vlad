@@ -18,14 +18,19 @@
 
     - name: Ensure Varnish is removed
       apt: pkg=varnish state=absent
-      when: varnish_install == "n"
+      when: varnish_install == "n" and ansible_os_family == "Debian"
+      sudo: true
+
+    - name: Ensure Varnish is removed
+      yum: pkg=varnish state=absent
+      when: varnish_install == "n" and ansible_os_family == "RedHat"
       sudo: true
 
     # Run some pre-provisioning tests to ensure the system will function when provisioned.
 
     - name: Check for incorrect HTTP port if not running Varnish
-      fail: msg="The Apache setup you have selected will make the site inaccessable on port 80"
-      when: varnish_install == "n" and http_port != 80
+      fail: msg="The web server setup you have selected will make the site inaccessable on port 80"
+      when: varnish_install == "n" and http_port is defined and http_port != 80
 
     - name: Check if Varnish & Apache ports match
       fail: msg="The Apache and Varnish ports you have selected are the same and will conflict"

@@ -2,6 +2,19 @@
 - name: install varnish
   apt: pkg=varnish state=installed
   sudo: true
+  when: ansible_os_family == "Debian"
+
+- name: ensure we will install Varnish 3 with yum
+  yum: state=present disable_gpg_check=yes
+       name=https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
+  tags: varnish
+  sudo: true
+  when: ansible_os_family == "RedHat"
+
+- name: install varnish
+  yum: pkg=varnish state=installed
+  sudo: true
+  when: ansible_os_family == "RedHat"
 
 - name: add varnish vcl
   template: src=varnish_defaultvcl.j2 dest=/etc/varnish/default.vcl
@@ -14,9 +27,35 @@
   sudo: true
   notify:
    - restart varnish
+  when: ansible_os_family == "Debian"
+
+- name: add varnish config
+  template: src=varnish_config.j2 dest=/etc/sysconfig/varnish
+  tags: varnish
+  sudo: true
+  notify:
+   - restart varnish
+  when: ansible_os_family == "RedHat"
 
 - name: force secret file
   copy: src=secret.txt dest=/etc/varnish/secret
   sudo: true
   notify:
   - restart varnish
+
+- name: ensure varnish is started
+  service: name=varnish state=started
+  sudo: true
+
+- name: get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  sudo: true
+  always_run: true
+
+- name: add apache iptable rule
+  command: iptables -I INPUT 1 -p tcp --dport {{ varnish_http_port }} -j ACCEPT -m comment --comment "varnish"
+  sudo: true
+  when: iptablesrules.stdout.find("varnish") == -1
+  notify:
+   - save iptables

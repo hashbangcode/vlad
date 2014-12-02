@@ -1,4 +1,4 @@
-# Custom Role
+# Custom Roles
 
 Vlad can run tasks specified within an additional "custom" role defined by you. This can be used to add additional provisioning steps that are unique to a project and/or too opinionated to be contributed back upstream to the Vlad project.
 
