@@ -29,5 +29,8 @@ use_host_id: "n"
 # Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
 hosts_file_location: "/etc/hosts"
 
+# Select weather Vlad should edit the hosts file.
+hosts_file_update: "y"
+
 # Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
 add_index_file: "y"
