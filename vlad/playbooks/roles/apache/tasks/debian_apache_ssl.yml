@@ -6,7 +6,7 @@
     - restart apache2
 
 - name: apache_ssl | add vhost for ssl version of the site
-  template: src=../../templates/debian/apache_ssl_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}_ssl.conf
+  template: src=debian_apache_ssl_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}_ssl.conf
   sudo: true
   notify:
     - restart apache2
