@@ -32,14 +32,27 @@
     delegate_to: 127.0.0.1
     sudo: true
 
-  # ssh-add
+  # SSH identities
 
-  # @TODO: If use_host_id is set to anyhthing other than "n", test for the presence of ~/.ssh/config on the host box. If it's missing, fail or at least feedback.
+  - name: local actions | establish current username on host machine
+    command: whoami
+    register: host_user
+    delegate_to: 127.0.0.1
+
+  - name: local actions | check that ~/.ssh/config exists on host machine
+    stat: path=/Users/{{ host_user.stdout }}/.ssh/config
+    register: ssh_config_file
+    when: use_host_id != "n"
+    delegate_to: 127.0.0.1
+    failed_when: ssh_config_file.stat.exists == false
+
+  # @TODO: Add further test: now that we know that ~/.ssh/config exists on the host, check to see if the string "ForwardAgent yes" appears in it.
+  # Still not bullet proof, but it's *more* bullet proof ;)
 
   - name: local actions | add default identities from host to guest
     local_action: command ssh-add
-    when: use_host_id == "y"
+    when: use_host_id == "y" and ssh_config_file.stat.exists
 
   - name: local actions | add custom identity from host to guest
     local_action: command ssh-add {{ use_host_id }}
-    when: use_host_id != "y" and use_host_id != "n"
+    when: use_host_id != "y" and use_host_id != "n" and ssh_config_file.stat.exists
