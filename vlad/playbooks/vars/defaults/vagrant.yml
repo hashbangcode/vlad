@@ -23,7 +23,7 @@ synced_folder_type: 'nfs'
 ansible_verbosity: ""
 
 # CPUs and memory to be allocated to the guest VM from the host machine
-vm_cpus: 1
+vm_cpus: 2
 vm_memory: 1024
 
 # The OS that vlad will use. This can be:
