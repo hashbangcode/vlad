@@ -94,6 +94,45 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define boxname do |boxname|
   end
 
+  # Calculate "auto" values for CPUs & memory
+  host = RbConfig::CONFIG['host_os']
+  # Give VM 1/4 system memory & access to all CPU cores on the host
+  if host =~ /darwin/
+    auto_cpus = `sysctl -n hw.ncpu`.to_i
+    # sysctl returns Bytes and we need to convert to MB
+    auto_memory = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
+  elsif host =~ /linux/
+    auto_cpus = `nproc`.to_i
+    # meminfo shows KB and we need to convert to MB
+    auto_memory = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+  else
+    # static defaults as fallback (Windows will get this)
+    auto_cpus = 2
+    auto_memory = 1024
+  end
+
+  # Clearer vars
+  settings_cpus = vconfig['vm_cpus']
+  settings_memory = vconfig['vm_memory']
+
+  # CPUs to use
+  if settings_cpus == "auto"
+    # Auto
+    vagrant_cpus = auto_cpus
+  else
+    # Explicit or default
+    vagrant_cpus = settings_cpus
+  end
+
+  # Memory to use
+  if settings_memory == "auto"
+    # Auto
+    vagrant_memory = auto_memory
+  else
+    # Explicit or default
+    vagrant_memory = settings_memory
+  end
+
   if provider == "vmware_fusion"
 
     # Configure VMWare setup.
@@ -102,8 +141,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.box = "hashicorp/precise64"
 
       v.gui = false
-      v.vmx["memsize"] = "vconfig['vm_memory']"
-      v.vmx["numvcpus"] = "vconfig['vm_cpus']"
+      v.vmx["numvcpus"] = "vagrant_cpus"
+      v.vmx["memsize"] = "vagrant_memory"
     end
 
   else
@@ -124,11 +163,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       v.gui = false
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      v.memory = vconfig['vm_memory']
-      v.cpus = vconfig['vm_cpus']
-
       # Set *provider* VM name (e.g. "myboxname_vlad")
       v.name = boxname + "_vlad"
+      v.cpus = vagrant_cpus
+      v.memory = vagrant_memory
+
     end
   end
 
