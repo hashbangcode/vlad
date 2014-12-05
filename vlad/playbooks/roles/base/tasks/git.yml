@@ -1,13 +1,18 @@
 ---
+
 - name: git | install git with apt-get
   apt: pkg=git state=installed update_cache=yes cache_valid_time=3600
-  tags: aptget, git
+  tags:
+      - aptget
+      - git
   when: ansible_os_family == "Debian"
   sudo: true
 
 - name: git | install git with yum
   yum: pkg=git state=installed
-  tags: yum, git
+  tags:
+      - git
+      - yum
   when: ansible_os_family == "RedHat"
   sudo: true
 
