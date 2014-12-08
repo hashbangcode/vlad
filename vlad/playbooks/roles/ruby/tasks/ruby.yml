@@ -1,4 +1,15 @@
 ---
+- name: ensure prerequisite packages are installed
+  yum: pkg={{ item }} state=installed
+  sudo: true
+  with_items:
+    - gcc
+    - openssl-devel
+    - libyaml-devel
+    - readline-devel
+    - zlib-devel
+  when: ansible_os_family == "RedHat"
+
 - name: install rbenv
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/home/{{ user }}/.rbenv
