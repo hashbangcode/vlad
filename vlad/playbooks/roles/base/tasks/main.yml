@@ -1,4 +1,6 @@
 ---
+- include: vm_info.yml
+
 - include: aptget.yml
   when: ansible_os_family == "Debian"
 
@@ -8,4 +10,4 @@
 - include: git.yml
 - include: python.yml
 - include: ssh_config.yml
-- include: localactions.yml
+- include: local_actions.yml

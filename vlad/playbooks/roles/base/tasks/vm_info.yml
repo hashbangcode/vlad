@@ -1,0 +1,8 @@
+---
+
+- name: vm info | create current_build_settings.yml at vlad_ux/tmp/
+  copy: src={{ item }} dest=/var/www/site/vlad_aux/tmp/current_build_settings.yml
+  with_first_found:
+    - ../../../../../../settings/vlad-settings.yml
+    - ../../../../settings.yml
+    - ../../../../example.settings.yml
