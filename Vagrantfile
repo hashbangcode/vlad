@@ -21,8 +21,8 @@ vagrant_dir = File.expand_path(File.dirname(__FILE__))
 parent_dir = File.dirname(vagrant_dir)
 vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
-# Default/fallback settings file
-settings_file = vagrant_dir + "/vlad/example.settings.yml"
+# Initialise settings_file variable
+settings_file = ""
 
 # Preferred settings files in order of precedence
 # Lower array index means higher precedence
@@ -40,16 +40,26 @@ settings_file_paths.each do |file_path|
   end
 end
 
-# Feedback to confirm which settings file Vagrant will use
-puts
-puts "Loading settings file: #{settings_file}"
-puts
-
-# Include config from settings file
+# Get ready to retrieve stuff from YAML files
 require 'yaml'
-vdefaults = YAML::load_file("vlad/playbooks/vars/defaults/vagrant.yml")
-vsettings = YAML::load_file(settings_file)
-vconfig = vdefaults.merge vsettings
+
+if settings_file != ""
+  # Feedback to confirm which Vlad settings file Vagrant will use
+  puts
+  puts "Loading Vlad settings file: #{settings_file}"
+  puts
+  # Include config from settings file and Vlad's default vars
+  vdefaults = YAML::load_file("vlad/playbooks/vars/defaults/vagrant.yml")
+  vsettings = YAML::load_file(settings_file)
+  vconfig = vdefaults.merge vsettings
+else
+  # Feedback
+  puts
+  puts "No Vlad settings file found (will use default settings)."
+  puts
+  # Include config from Vlad's default vars only
+  vconfig = YAML::load_file("vlad/playbooks/vars/defaults/vagrant.yml")
+end
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
