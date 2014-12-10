@@ -6,6 +6,16 @@
     - libsqlite3-dev
     - ruby-dev
   sudo: true
+  when: ansible_os_family == "Debian"
+
+- name: install MailCatcher prerequisite packages
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - rubygems
+    - sqlite-devel
+    - ruby-devel
+  sudo: true
+  when: ansible_os_family == "RedHat"
 
 - name: Install MailCatcher with rbenv
   command: bash -lc "gem install mailcatcher"
