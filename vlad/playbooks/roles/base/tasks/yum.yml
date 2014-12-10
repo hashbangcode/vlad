@@ -13,6 +13,8 @@
   sudo: true
   with_items:
     #- ssh-import-id
+    - gcc
+    - gcc-c++
     - unzip
     - curl
     - vim
