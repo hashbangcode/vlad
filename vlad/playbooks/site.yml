@@ -81,6 +81,8 @@
 
     - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install is defined and imagemagick_install == 'y'" }
 
+    - { role: samba, tags: ["windows"], when: "is_windows is defined and is_windows == 'true'" }
+
   post_tasks:
 
     - name: move default index.php file into docroot directory
