@@ -15,7 +15,7 @@
 
 ANSIBLE_PLAYBOOK=$1
 ANSIBLE_HOSTS=$2
-START_AT_TASK=$3
+TAGS=$3
 
 if [ ! -f /vagrant/$ANSIBLE_PLAYBOOK ]; then
   echo "Cannot find Ansible playbook at $ANSIBLE_PLAYBOOK."
@@ -39,4 +39,4 @@ else
 fi
 
 echo "Running Ansible provisioner defined in Vagrantfile."
-PYTHONUNBUFFERED=1 ansible-playbook -v /vagrant/${ANSIBLE_PLAYBOOK} -i ${ANSIBLE_HOSTS} --start-at-task="$3" --extra-vars "is_windows=true" --connection=local
+ansible-playbook -v /vagrant/${ANSIBLE_PLAYBOOK} -i ${ANSIBLE_HOSTS} --tags="$3" --extra-vars "is_windows=true" --connection=local
