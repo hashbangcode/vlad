@@ -1,8 +1,7 @@
 ---
 - name: get pimpmylog package
-  git: repo=https://github.com/potsky/PimpMyLog.git dest=/var/www/pimpmylog update=no
+  git: repo=https://github.com/potsky/PimpMyLog.git dest=/var/www/pimpmylog depth=1
   sudo: true
-
 
 - name: add vhost for pimpmylog to sites-available folder
   template: src=apache_pimpmylog_vhost.j2 dest=/etc/apache2/sites-available/logs.{{ webserver_hostname }}.conf
@@ -19,7 +18,7 @@
     - restart apache2
 
 - name: ensure Pimpmylog directory permissions
-  file: path=/var/www/pimpmylog mode=0777 recurse=yes
+  file: path=/var/www/pimpmylog mode=0777 state=directory recurse=yes
   sudo: true
 
 - name: add configuration file
