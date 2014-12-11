@@ -82,14 +82,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :machine
 		if is_windows
-    	config.cache.synced_folder_opts = { type: :smb }
+    	config.cache.synced_folder_opts = { type: "smb", smb_username: samba_username, smb_password: samba_password}
   	else
     	config.cache.synced_folder_opts = { type: :nfs }
   	end
     config.cache.auto_detect = false
     config.cache.enable :apt
-    #config.cache.enable :gem
-    #config.cache.enable :npm
   end
 
   # Set *Vagrant* VM name (e.g. "vlad_myboxname_74826748251406_66388")
@@ -104,28 +102,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		# Recommended to set cpus to 2 if possible, otherwise comment it out leaving the default (1)
     v.customize ["modifyvm", :id, "--cpus", 2]
     v.customize ["modifyvm", :id, "--ioapic", "on"]
+    # fix VirtualBox problem with symlinks on shared folders
+    #v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+    # modern chipset
+    v.customize ["modifyvm", :id, "--chipset", "ich9"]
+    # more video memory
+    v.customize ["modifyvm", :id, "--vram", "32"]
     # Set *provider* VM name (e.g. "myboxname_vlad")
     v.name = boxname + "_trusty_on_windows"
   end
 
   if is_windows
-    # Setup synced folder for site files
-	  config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", 
-	  	type: "smb", 
-	  	create: true, 
-	  	id: "vagrant-webroot", 
-	  	smb_username: samba_username, 
-	  	smb_password: samba_password,
-			group: "www-data",
-			# in the mount_options, don't leave any space after the comma!
-			mount_options: ["dir_mode=0775,file_mode=0664"]
-    
     # Setup auxiliary synced folder
     config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", 
       type: "smb", 
       id: "vagrant-aux", 
-    	smb_username: samba_username, 
-    	smb_password: samba_password
+      smb_username: samba_username, 
+      smb_password: samba_password
   elsif synced_folder_type == 'nfs'
     # Set up NFS drive.
     nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
@@ -197,7 +190,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   	# Provisioning configuration for shell script.
   	config.vm.provision "shell" do |sh|
  			sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
-			sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ','
+ 			# run all tags
+      sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ', ' + 'all'
   	end
   else
 	  config.vm.provision "ansible" do |ansible|
