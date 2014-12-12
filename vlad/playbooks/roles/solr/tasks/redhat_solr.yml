@@ -98,8 +98,8 @@
   sudo: true
   with_items: solrfiles.stdout_lines
 
-- name: rename the collection1 directory to vlad
-  command: mv /home/solr/collection1 /home/solr/vlad creates=/home/solr/vlad
+- name: rename the collection1 directory to {{ default_collection_name }}
+  command: mv /home/solr/collection1 /home/solr/{{ default_collection_name }} creates=/home/solr/{{ default_collection_name }}
   sudo: true
 
 - name: remove the collection1 collection if it is still there
@@ -107,7 +107,7 @@
   sudo: true
 
 - name: change the name of the collection
-  lineinfile: dest=/home/solr/vlad/core.properties regexp="^name=" insertafter="^name=" line="name=vlad"
+  lineinfile: dest=/home/solr/{{ default_collection_name }}/core.properties regexp="^name=" insertafter="^name=" line="name={{ default_collection_name }}"
   sudo: true
 
 - name: create a solr lib directory
@@ -139,8 +139,8 @@
   copy: src=tomcat/log4j.properties dest=/usr/share/tomcat6/lib/log4j.properties
   sudo: true
 
-- name: make the vlad data directory
-  command: mkdir /home/solr/vlad/data creates=/home/solr/vlad/data
+- name: make the {{ default_collection_name }} data directory
+  command: mkdir /home/solr/{{ default_collection_name }}/data creates=/home/solr/{{ default_collection_name }}/data
   sudo: true
 
 - name: get Drupal solr integration via search_api_solr
@@ -152,14 +152,14 @@
   when: drupal_solr_package == "apachesolr"
 
 - name: copy Drupal Solr config into Solr
-  shell: cp -r /home/{{ user }}/drupal_solr/solr-conf/4.x/. /home/solr/vlad/conf/
+  shell: cp -r /home/{{ user }}/drupal_solr/solr-conf/4.x/. /home/solr/{{ default_collection_name }}/conf/
   when: drupal_solr_package == "search_api_solr"
   sudo: true
   notify:
    - restart tomcat6
 
 - name: copy Drupal Solr config into Solr
-  shell: cp -r /home/{{ user }}/drupal_solr/solr-conf/solr-4.x/. /home/solr/vlad/conf/
+  shell: cp -r /home/{{ user }}/drupal_solr/solr-conf/solr-4.x/. /home/solr/{{ default_collection_name }}/conf/
   when: drupal_solr_package == "apachesolr"
   sudo: true
   notify:
@@ -186,13 +186,13 @@
   sudo: true
 
 - name: fix contrib extraction error in solrconfig.xml file
-  lineinfile: dest=/home/solr/vlad/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/extraction/lib\" />" insertafter="<lib dir=\"../../contrib/extraction/lib\" />" line="<lib dir=\"/home/solr/lib/contrib/extraction/lib\" />"
+  lineinfile: dest=/home/solr/{{ default_collection_name }}/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/extraction/lib\" />" insertafter="<lib dir=\"../../contrib/extraction/lib\" />" line="<lib dir=\"/home/solr/lib/contrib/extraction/lib\" />"
   sudo: true
   notify:
     - restart tomcat6
 
 - name: fix contrib clustering error in solrconfig.xml file
-  lineinfile: dest=/home/solr/vlad/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/clustering/lib/\" />" insertafter="<lib dir=\"../../contrib/clustering/lib/\" />" line="<lib dir=\"/home/solr/lib/contrib/clustering/lib\" />"
+  lineinfile: dest=/home/solr/{{ default_collection_name }}/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/clustering/lib/\" />" insertafter="<lib dir=\"../../contrib/clustering/lib/\" />" line="<lib dir=\"/home/solr/lib/contrib/clustering/lib\" />"
   sudo: true
   notify:
     - restart tomcat6
