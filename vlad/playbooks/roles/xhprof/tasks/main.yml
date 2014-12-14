@@ -1,2 +1,6 @@
 ---
-- include: xhprof.yml
+- include: debian_xhprof.yml
+  when: ansible_os_family == "Debian"
+
+- include: redhat_xhprof.yml
+  when: ansible_os_family == "RedHat"

@@ -1,5 +1,5 @@
 ---
-- name: install prerequisites
+- name: install prerequisites for Debian
   apt: pkg={{ item }} state=installed
   with_items:
    - graphviz
