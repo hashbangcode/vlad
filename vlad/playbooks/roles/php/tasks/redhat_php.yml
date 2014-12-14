@@ -18,6 +18,7 @@
   yum: pkg={{ item }} state=latest
   with_items:
    - php
+   - php-devel
    - php-apc
    - php-pear
    - php-cli
