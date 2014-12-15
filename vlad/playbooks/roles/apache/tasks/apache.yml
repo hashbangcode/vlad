@@ -61,8 +61,11 @@
   notify:
     - restart apache2
 
+- name: verify/create docroot folder
+  file: path=/var/www/site/docroot state=directory owner=vagrant group=www-data
+
 - name: symlink www directory from home directory
-  file: src=/var/www/site/docroot dest=/home/{{ user }}/www state=link
+  file: src=/var/www/ dest=/home/{{ user }}/www state=link
 
 - name: set default login directory to be /var/www/site/docroot
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/site/docroot'
