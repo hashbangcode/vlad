@@ -29,6 +29,7 @@
    - php-xmlrpc
    - php-soap
    - php-curl
+   - php-pdo
   tags: php
   sudo: true
   notify:
