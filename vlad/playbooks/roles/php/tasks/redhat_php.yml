@@ -91,24 +91,15 @@
   notify:
     - restart httpd
 
-- name: change php apache2 date_timezone
-  lineinfile: dest=/etc/php.ini regexp="^[#|;]?date_timezone =" insertafter="^[#|;]?date_timezone =" line="date_timezone = {{ php_date_timezone }}"
-  tags: php
-  sudo: true
-  notify:
-    - restart httpd
-
-- name: change php apache2 date.timezone (php 5.4+)
+- name: change php apache2 date.timezone
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
   tags: php
   sudo: true
-  when: php_version != '5.3'
   notify:
     - restart httpd
 
 - name: change APC configuration file apc.ini
   template: src=php/redhat_php_apache2_apc.ini.j2 dest=/etc/php.d/apcu.ini
-  when: php_version == '5.4'
   tags: php
   sudo: true
   notify:
