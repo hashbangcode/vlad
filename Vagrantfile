@@ -49,7 +49,7 @@ if settings_file != ""
   puts "Loading Vlad settings file: #{settings_file}"
   puts
   # Include config from settings file and Vlad's default vars
-  vdefaults = YAML::load_file("vlad/playbooks/vars/defaults/vagrant.yml")
+  vdefaults = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
   vsettings = YAML::load_file(settings_file)
   vconfig = vdefaults.merge vsettings
 else
@@ -58,7 +58,7 @@ else
   puts "No Vlad settings file found (will use default settings)."
   puts
   # Include config from Vlad's default vars only
-  vconfig = YAML::load_file("vlad/playbooks/vars/defaults/vagrant.yml")
+  vconfig = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
 end
 
 # Set box configuration options
