@@ -1,18 +1,12 @@
 ---
-#- name: install php 5.4 prerequisite python packages
-#  yum: pkg={{ item }} state=installed
-#  with_items:
-#   - python-pycurl
-#   - python-software-properties
-##  tags: php
-#  sudo: true
-#  when: php_version == '5.4'
+- name: get ius rpm
+  command: wget http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-13.ius.centos6.noarch.rpm
+  tags: php
 
-#- name: add php 5.4 repository
-#  apt_repository: repo=ppa:ondrej/php5-oldstable
-#  tags: php
-#  sudo: yes
-#  when: php_version == '5.4'
+- name: install ius
+  command: rpm -Uvh /home/{{ user }}/ius-release-1.0-13.ius.centos6.noarch.rpm creates=/etc/yum.repos.d/ius.repo
+  tags: php
+  sudo: true
 
 - name: install php packages
   yum: pkg={{ item }} state=latest
@@ -32,6 +26,29 @@
    - php-pdo
   tags: php
   sudo: true
+  when: php_version != '5.4'
+  notify:
+    - restart httpd
+
+- name: install php packages
+  yum: pkg={{ item }} state=latest
+  with_items:
+   - php54
+   - php54-devel
+   - php54-pecl-apc
+   - php54-pear
+   - php54-cli
+   - php54-common
+   - php54-dom
+   - php54-gd
+   - php54-mysql
+   - php54-xmlrpc
+   - php54-soap
+   - php54-curl
+   - php54-pdo
+  tags: php
+  sudo: true
+  when: php_version == '5.4'
   notify:
     - restart httpd
 
