@@ -1,5 +1,4 @@
 ---
-
 - name: get epel rpm
   command: wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm creates=/home/{{ user }}/epel-release-6-8.noarch.rpm
 
@@ -12,7 +11,6 @@
   tags: yum
   sudo: true
   with_items:
-    #- ssh-import-id
     - gcc
     - gcc-c++
     - unzip
