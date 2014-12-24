@@ -39,6 +39,9 @@
   sudo: true
 
 - name: create xhprof_html application database
+  mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
+
+- name: create xhprof_html application database user
   mysql_user: name={{ dbuser }} password={{ dbpass }} priv="xhprof.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root
   with_items:
    - '{{ local_ip_address }}'
