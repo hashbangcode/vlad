@@ -1,5 +1,5 @@
 ---
-- name: cnstall packages
+- name: install packages
   apt: pkg={{ item }} state=installed
   with_items:
     - memcached
@@ -9,7 +9,7 @@
       - restart apache2
   when: ansible_os_family == "Debian"
 
-- name: cnstall packages
+- name: install packages
   yum: pkg={{ item }} state=installed
   with_items:
     - memcached
@@ -17,7 +17,17 @@
   sudo: true
   notify:
       - restart httpd
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" and php_version == '5.3'
+
+- name: cnstall packages (php 5.4)
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - memcached
+    - php54-pecl-memcached
+  sudo: true
+  notify:
+      - restart httpd
+  when: ansible_os_family == "RedHat" and php_version == '5.4'
 
 - name: config file
   template: src=memcached.conf.j2 dest=/etc/memcached.conf
