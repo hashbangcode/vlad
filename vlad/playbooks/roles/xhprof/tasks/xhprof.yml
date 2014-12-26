@@ -8,7 +8,7 @@
    - python-mysqldb
   sudo: true
 
-- name: check, what PECL xhprof is installed
+- name: check what PECL xhprof is installed
   command: pecl list | grep xhprof | wc -l
   register: pecl_xhprof_installed
 
@@ -58,7 +58,7 @@
 - name: copy SQL install script
   copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
   sudo: true
-  
+
 - name: copy configuration file
   template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
   sudo: true
@@ -97,6 +97,6 @@
   notify:
     - restart apache2
 
-- name: ensure Xhprof directory permissions
+- name: ensure xhprof directory permissions
   file: path=/var/www/xhprof_html mode=0777 recurse=yes
   sudo: true
