@@ -64,6 +64,10 @@
    - ::1
    - localhost
 
+- name: ensure directory /var/www/xhprof_html/xhprof_lib exists
+  file: path=/var/www/xhprof_html/xhprof_lib state=directory
+  sudo: true
+
 - name: copy SQL install script
   copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
   sudo: true
@@ -76,7 +80,7 @@
   shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
   sudo: true
 
-- name: check virtual host for Xhprof include
+- name: check virtual host for xhprof include
   command: cat /etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
   register: xhprof_include_present
   changed_when: False
