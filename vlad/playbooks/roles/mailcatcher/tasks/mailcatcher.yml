@@ -42,6 +42,19 @@
   sudo: true
   when: ansible_os_family == "Debian"
 
+- name: get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  sudo: true
+  always_run: true
+
+- name: add mailcatcher web interface iptable rule
+  command: iptables -I INPUT 1 -p tcp --dport 1080 -j ACCEPT -m comment --comment "mailcatcherweb"
+  sudo: true
+  when: iptablesrules.stdout.find("mailcatcherweb") == -1
+  notify:
+   - save iptables
+
 - name: kill mailcatcher
   command: curl -s -i -v -X DELETE http://127.0.0.1:1080
   ignore_errors: yes
@@ -49,6 +62,15 @@
   failed_when: "kill_mailcatcher.rc != 0"
   changed_when: False
   sudo: true
+
+- name: kill mailcatcher (via pid)
+  command: pidof ruby | xargs sudo kill -9
+  ignore_errors: yes
+  register: kill_mailcatcher
+  failed_when: "kill_mailcatcher.rc != 0"
+  changed_when: False
+  sudo: true
+  when: ansible_os_family == "RedHat"
 
 - name: run MailCatcher with no ip address restrictions
   command: bash -lc "mailcatcher --ip=0.0.0.0"
