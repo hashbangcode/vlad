@@ -48,10 +48,10 @@
    - save iptables
 
 - name: download apache commons logging
-  command: wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/commons/logging/binaries/commons-logging-1.2-bin.tar.gz creates=/home/{{ user }}/commons-logging-1.2-bin.tar.gz
+  command: wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/commons/logging/binaries/commons-logging-1.2-bin.tar.gz chdir=/home/{{ user }} creates=/home/{{ user }}/commons-logging-1.2-bin.tar.gz
 
 - name: extract apache commons logging
-  command: tar -zxf commons-logging-1.2-bin.tar.gz creates=/home/{{ user }}/commons-logging-1.2
+  command: tar -zxf commons-logging-1.2-bin.tar.gz chdir=/home/{{ user }} creates=/home/{{ user }}/commons-logging-1.2
   sudo: true
 
 - name: list commons-logging files (in order to copy)
@@ -64,10 +64,10 @@
   with_items: commonsfiles.stdout_lines
 
 - name: download SLF4J
-  command: wget http://www.slf4j.org/dist/slf4j-1.7.7.tar.gz creates=/home/{{ user }}/slf4j-1.7.7.tar.gz
+  command: wget http://www.slf4j.org/dist/slf4j-1.7.7.tar.gz chdir=/home/{{ user }} creates=/home/{{ user }}/slf4j-1.7.7.tar.gz
 
 - name: extract SLF4J
-  command: tar -zxf slf4j-1.7.7.tar.gz creates=/home/{{ user }}/slf4j-1.7.7
+  command: tar -zxf slf4j-1.7.7.tar.gz chdir=/home/{{ user }} creates=/home/{{ user }}/slf4j-1.7.7
 
 - name: list slf4j files (in order to copy)
   command: ls -1 /home/{{ user }}/slf4j-1.7.7/
@@ -80,10 +80,10 @@
   when: "'android' not in item and 'slf4j-log4j12' not in item and 'log4j-over-slf4j' not in item and 'slf4j-jcl' not in item"
 
 - name: download Solr
-  command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.7.2/solr-4.7.2.tgz creates=/home/{{ user }}/solr-4.7.2.tgz
+  command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.7.2/solr-4.7.2.tgz chdir=/home/{{ user }} creates=/home/{{ user }}/solr-4.7.2.tgz
 
 - name: extract Solr
-  command: tar -zxf /home/{{ user }}/solr-4.7.2.tgz creates=/home/{{ user }}/solr-4.7.2
+  command: tar -zxf /home/{{ user }}/solr-4.7.2.tgz chdir=/home/{{ user }} creates=/home/{{ user }}/solr-4.7.2
 
 - name: copy Solr war file
   command: cp /home/{{ user }}/solr-4.7.2/dist/solr-4.7.2.war /var/lib/tomcat6/webapps/solr.war creates=/var/lib/tomcat6/webapps/solr.war
@@ -132,7 +132,7 @@
   sudo: true
 
 - name: copy the web.xml tomcat solr integration file
-  copy: src=tomcat/web.xml dest=/var/lib/tomcat6/webapps/solr/WEB-INF/web.xml
+  copy: src=tomcat/debian_web.xml dest=/var/lib/tomcat6/webapps/solr/WEB-INF/web.xml
   sudo: true
 
 - name: copy the properties file
