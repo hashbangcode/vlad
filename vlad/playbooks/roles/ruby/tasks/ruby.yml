@@ -3,9 +3,7 @@
   yum: pkg={{ item }} state=installed
   sudo: true
   with_items:
-    - gcc
     - openssl-devel
-    - libyaml-devel
     - readline-devel
     - zlib-devel
   when: ansible_os_family == "RedHat"

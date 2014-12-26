@@ -16,7 +16,7 @@
     - php-pecl-memcached
   sudo: true
   notify:
-      - restart apache2
+      - restart httpd
   when: ansible_os_family == "RedHat"
 
 - name: config file

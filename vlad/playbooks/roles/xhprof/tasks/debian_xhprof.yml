@@ -1,5 +1,5 @@
 ---
-- name: install prerequisites
+- name: install prerequisites for Debian
   apt: pkg={{ item }} state=installed
   with_items:
    - graphviz
@@ -84,7 +84,7 @@
   notify:
     - restart apache2
 
-- name: add vhost
+- name: add vhost for xhprof.{{ webserver_hostname }}
   template: src=apache_xhprof_vhost.j2 dest=/etc/apache2/sites-available/xhprof.{{ webserver_hostname }}.conf
   sudo: true
   notify:
