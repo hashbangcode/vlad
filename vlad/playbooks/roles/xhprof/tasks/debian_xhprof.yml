@@ -55,6 +55,15 @@
 - name: create xhprof_html application database
   mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
 
+- name: create xhprof_html application database user
+  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="xhprof.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root
+  with_items:
+   - '{{ local_ip_address }}'
+   - '{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }}'
+   - 127.0.0.1
+   - ::1
+   - localhost
+
 - name: copy SQL install script
   copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
   sudo: true

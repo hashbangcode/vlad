@@ -7,9 +7,8 @@
    - make
    - MySQL-python
   sudo: true
-  when: ansible_os_family == "RedHat"
 
-- name: check, what PECL xhprof is installed
+- name: check what PECL xhprof is installed
   command: pecl list | grep xhprof | wc -l
   register: pecl_xhprof_installed
 
@@ -32,7 +31,7 @@
   template: src=xhprof_ini.j2 dest=/usr/lib64/php/modules/xhprof.ini
   sudo: true
   notify:
-    - restart apache2
+    - restart httpd
 
 - name: get xhprof_html package
   git: repo=https://github.com/preinheimer/xhprof dest=/var/www/xhprof_html update=no
