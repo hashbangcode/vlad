@@ -21,6 +21,8 @@
   command: pecl install xhprof
   when: php_version == '5.4' and pecl_xhprof_installed.stdout == '0'
   sudo: true
+  notify:
+    - restart httpd
 
 - name: set pecl preferred state to stable
   command: pecl config-set preferred_state stable creates=/usr/lib64/php/modules/xhprof.so
@@ -28,7 +30,7 @@
   sudo: true
 
 - name: setup xhprof ini files
-  template: src=xhprof_ini.j2 dest=/usr/lib64/php/modules/xhprof.ini
+  template: src=xhprof_ini.j2 dest=/etc/php.d/xhprof.ini
   sudo: true
   notify:
     - restart httpd
