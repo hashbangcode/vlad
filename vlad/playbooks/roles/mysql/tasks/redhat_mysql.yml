@@ -13,11 +13,11 @@
   sudo: true
 
 ## set up mysql variables
-#- name: create MySQL configuration file
-#  action: template src=redhat_mysql.my.cnf.j2 dest=/etc/my.cnf
-#  sudo: true
-#  notify: 
-#  - restart mysqld
+- name: create MySQL configuration file
+  action: template src=redhat_mysql.my.cnf.j2 dest=/etc/my.cnf
+  sudo: true
+  notify:
+  - restart mysqld
 
 - name: get iptables rules
   shell: iptables -L
