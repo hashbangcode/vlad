@@ -72,7 +72,7 @@
 
 # set up default database
 - name: create application database
-  mysql_db: name={{ dbname }} state=present login_password={{ mysql_root_password }} login_user=root
+  mysql_db: name={{ dbname }} state=present login_password={{ mysql_root_password }} login_user=root collation=utf8_general_ci
 
 - name: create application database user
   mysql_user: name={{ dbuser }} password={{ dbpass }} priv="{{ dbname }}.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
