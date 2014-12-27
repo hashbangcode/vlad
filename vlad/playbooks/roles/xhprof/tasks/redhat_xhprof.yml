@@ -8,8 +8,8 @@
    - MySQL-python
   sudo: true
 
-- name: check what PECL xhprof is installed
-  command: pecl list | grep xhprof | wc -l
+- name: check that PECL xhprof is installed
+  shell: pecl list | grep xhprof | wc -l
   register: pecl_xhprof_installed
 
 - name: set pecl preferred state to beta
@@ -18,8 +18,8 @@
   sudo: true
 
 - name: install xhprof
-  command: pecl install xhprof creates=/usr/lib64/php/modules/xhprof.so
-  when: php_version == '5.4' and pecl_xhprof_installed == 0
+  command: pecl install xhprof
+  when: php_version == '5.4' and pecl_xhprof_installed.stdout == '0'
   sudo: true
 
 - name: set pecl preferred state to stable
