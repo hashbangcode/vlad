@@ -6,7 +6,17 @@
     - libsqlite3-dev
     - ruby-dev
   sudo: true
-  when: ansible_os_family == "Debian"
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
+
+
+- name: install MailCatcher prerequisite packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - rubygems-integration
+    - libsqlite3-dev
+    - ruby-dev
+  sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
 
 - name: install MailCatcher prerequisite packages
   yum: pkg={{ item }} state=installed
