@@ -24,6 +24,7 @@
    - php-soap
    - php-curl
    - php-pdo
+   - php-mbstring
   tags: php
   sudo: true
   when: php_version != '5.4'
@@ -46,6 +47,7 @@
    - php54-soap
    - php54-curl
    - php54-pdo
+   - php54-mbstring
   tags: php
   sudo: true
   when: php_version == '5.4'
