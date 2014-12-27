@@ -14,7 +14,12 @@
   - name: Ensure Apache is running.
     service: name=apache2 state=restarted
     sudo: true
-    when: apache_install == "y"
+    when: apache_install == "y" and ansible_os_family == "Debian"
+
+  - name: Ensure Apache is running.
+    service: name=httpd state=restarted
+    sudo: true
+    when: apache_install == "y" and ansible_os_family == "RedHat"
 
   - name: Ensure MySQL is running.
     service: name=mysql state=restarted
