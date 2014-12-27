@@ -41,7 +41,7 @@
   mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
 
 - name: create xhprof_html application database user
-  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="xhprof.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root
+  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="xhprof.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
   with_items:
    - '{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }}'
    - 127.0.0.1
