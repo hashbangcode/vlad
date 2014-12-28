@@ -33,6 +33,19 @@
   notify:
     - restart apache2
 
+- name: get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  sudo: true
+  always_run: true
+
+- name: add apache iptable rule
+  command: iptables -I INPUT 1 -p tcp --dport {{ http_port }} -j ACCEPT -m comment --comment "webhost"
+  sudo: true
+  when: iptablesrules.stdout.find("webhost") == -1
+  notify:
+   - save iptables
+
 - name: add www-data user to dialout group
   user: name=www-data groups=dialout append=yes
   sudo: true
