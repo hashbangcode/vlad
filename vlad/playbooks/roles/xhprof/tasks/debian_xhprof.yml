@@ -34,8 +34,10 @@
 
 - name: install xhprof
   command: pecl install xhprof creates=/usr/lib/php5/20100525/xhprof.so
-  when: php_version == '5.4' and pecl_xhprof_installed == 0
+  when: php_version == '5.4' and pecl_xhprof_installed.stdout == '0'
   sudo: true
+  notify:
+    - restart apache2
 
 - name: set pecl preferred state to stable
   command: pecl config-set preferred_state stable creates=/usr/lib/php5/20100525/xhprof.so
