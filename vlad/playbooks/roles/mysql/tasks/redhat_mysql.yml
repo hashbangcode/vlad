@@ -13,11 +13,11 @@
   sudo: true
 
 ## set up mysql variables
-#- name: create MySQL configuration file
-#  action: template src=redhat_mysql.my.cnf.j2 dest=/etc/my.cnf
-#  sudo: true
-#  notify: 
-#  - restart mysqld
+- name: create MySQL configuration file
+  action: template src=redhat_mysql.my.cnf.j2 dest=/etc/my.cnf
+  sudo: true
+  notify:
+  - restart mysqld
 
 - name: get iptables rules
   shell: iptables -L
@@ -70,13 +70,13 @@
 - name: remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
 
+# set up default database
 - name: create application database
-  mysql_db: name={{ dbname }} state=present login_password={{ mysql_root_password }} login_user=root
+  mysql_db: name={{ dbname }} state=present login_password={{ mysql_root_password }} login_user=root collation=utf8_general_ci
 
 - name: create application database user
-  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="{{ dbname }}.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root
+  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="{{ dbname }}.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
   with_items:
-   - '{{ local_ip_address }}'
    - '{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }}'
    - 127.0.0.1
    - ::1

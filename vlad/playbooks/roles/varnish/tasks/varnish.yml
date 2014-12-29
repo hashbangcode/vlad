@@ -59,3 +59,7 @@
   when: iptablesrules.stdout.find("varnish") == -1
   notify:
    - save iptables
+
+- name: ensure varnish is running
+  service: name=varnish state=started
+  sudo: true

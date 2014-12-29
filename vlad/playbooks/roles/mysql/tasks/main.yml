@@ -1,4 +1,8 @@
 ---
+- name: get local IPv4 address
+  local_action: setup filter=ansible_default_ipv4
+  register: local_ipv4_address
+
 - include: debian_mysql.yml
   when: ansible_os_family == "Debian"
 

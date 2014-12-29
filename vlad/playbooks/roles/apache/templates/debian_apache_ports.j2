@@ -5,7 +5,9 @@
 # Debian etch). See /usr/share/doc/apache2.2-common/NEWS.Debian.gz and
 # README.Debian.gz
 
+{% if ansible_lsb.major_release|int <= 12 %}
 NameVirtualHost *:{{ http_port }}
+{% endif %}
 Listen {{ http_port }}
 
 <IfModule mod_ssl.c>

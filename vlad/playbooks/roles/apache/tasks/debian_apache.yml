@@ -13,9 +13,20 @@
   notify:
     - restart apache2
 
-- name: add custom configuration
+- name: add custom configuration for ubuntu 12
   template: src=debian_apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
   sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
+
+- name: add custom configuration for ubuntu 14 (1/2)
+  template: src=debian_apache_httpdconf.j2 dest=/etc/apache2/conf-available/http_servername.conf
+  sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
+
+- name: add custom configuration for ubuntu 14 (2/2)
+  command: a2enconf http_servername creates=/etc/apache2/conf-enabled/http_servername.conf
+  sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
 
 - name: change port configuration
   template: src=debian_apache_ports.j2 dest=/etc/apache2/ports.conf
@@ -32,6 +43,19 @@
   sudo: true
   notify:
     - restart apache2
+
+- name: get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  sudo: true
+  always_run: true
+
+- name: add apache iptable rule
+  command: iptables -I INPUT 1 -p tcp --dport {{ http_port }} -j ACCEPT -m comment --comment "webhost"
+  sudo: true
+  when: iptablesrules.stdout.find("webhost") == -1
+  notify:
+   - save iptables
 
 - name: add www-data user to dialout group
   user: name=www-data groups=dialout append=yes

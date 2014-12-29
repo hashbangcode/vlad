@@ -8,8 +8,8 @@
    - python-mysqldb
   sudo: true
 
-- name: check what PECL xhprof is installed
-  command: pecl list | grep xhprof | wc -l
+- name: check that PECL xhprof is installed
+  shell: pecl list | grep xhprof | wc -l
   register: pecl_xhprof_installed
 
 - name: set pecl preferred state to beta
@@ -19,7 +19,7 @@
 
 - name: install xhprof
   command: pecl install xhprof creates=/usr/lib/php5/20090626/xhprof.so
-  when: php_version == '5.3' and pecl_xhprof_installed == 0
+  when: php_version == '5.3' and pecl_xhprof_installed == '0'
   sudo: true
 
 - name: set pecl preferred state to stable
@@ -34,8 +34,10 @@
 
 - name: install xhprof
   command: pecl install xhprof creates=/usr/lib/php5/20100525/xhprof.so
-  when: php_version == '5.4' and pecl_xhprof_installed == 0
+  when: php_version == '5.4' and pecl_xhprof_installed.stdout == '0'
   sudo: true
+  notify:
+    - restart apache2
 
 - name: set pecl preferred state to stable
   command: pecl config-set preferred_state stable creates=/usr/lib/php5/20100525/xhprof.so
@@ -53,12 +55,11 @@
   sudo: true
 
 - name: create xhprof_html application database
-  mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
+  mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root collation=utf8_general_ci
 
 - name: create xhprof_html application database user
-  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="xhprof.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root
+  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="xhprof.*:ALL" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
   with_items:
-   - '{{ local_ip_address }}'
    - '{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }}'
    - 127.0.0.1
    - ::1

@@ -96,8 +96,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.cache.enable :apt
     end
 
-    #config.cache.enable :gem
-    #config.cache.enable :npm
+    config.cache.enable :gem
+    config.cache.enable :npm
   end
 
   # Set *Vagrant* VM name (e.g. "vlad_myboxname_74826748251406_66388")
@@ -163,7 +163,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       if vlad_os == "centos65"
         # Add a Centos VirtualBox box
         config.vm.box = "hansode/centos-6.5-x86_64"
-      elsif vlad_os == "ubuntu1404"
+      elsif vlad_os == "ubuntu14"
         # Add a Ubuntu VirtualBox box
         config.vm.box = "ubuntu/trusty64"
       else

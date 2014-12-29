@@ -48,6 +48,13 @@
       debug: msg="The 'Ruby' role will be run as it is required to install MailCatcher"
       when: ruby_install == "n" and mailcatcher_install == "y"
 
+      # Generate variables to be used in playbooks
+
+    - name: get local IPv4 address
+      local_action: setup filter=ansible_default_ipv4
+      register: local_ipv4_address
+      always_run: yes
+
   roles:
 
     - role: base

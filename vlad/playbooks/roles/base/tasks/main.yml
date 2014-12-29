@@ -10,4 +10,3 @@
 - include: git.yml
 - include: python.yml
 - include: ssh_config.yml
-- include: local_actions.yml
