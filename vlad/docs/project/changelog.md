@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 0.10.0
+==============
+- Added a docs directory, which contains the documentation for the Vlad project.
+- Added multi operating system support.
+- Added CentOS support
+- Added Ubuntu 14 support.
+- Fixed issues in XHProf install.
+- Numerous minor bug fixes, formatting issues and standards updates.
+
 Version 0.9.0
 -------------
 - Updated repository links and documentation to point at github.

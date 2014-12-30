@@ -1,23 +1,24 @@
-# Vlad Installed Applications
+**Vlad Installed Applications**
 
 Vlad can install the following technologies:
 
-- MySQL
+- [MySQL](mysql.md)
 - Apache2
 - PHP
 - Varnish
 - Git
-- Drush (with the 'site audit' and 'hacked!' modules)
-- Munin
-- Xdebug
+- [Drush](drupal.md) (with the 'site audit' and 'hacked!' modules)
+- [Munin](munin.md)
+- [Xdebug](xdebug.md)
 - Ruby (via RVM)
 - Sendmail
 - Mailcatcher
 - Memcached
 - Redis
 - Adminer
-- XHProf
+- [XHProf](xhprof.md)
 - Solr (Version 4)
 - Node.js (including npm)
 - ImageMagick
 - PimpMyLog
+- [Drupal Install Scripts](drupal.md)

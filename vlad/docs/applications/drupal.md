@@ -6,7 +6,12 @@ To install Drupal 7 you need to run the /var/www/drupal7_install.sh script. This
 
 To install Drupal 8 you need to run the /var/www/drupal8_install.sh script. This will pull the latest version of Drupal 8 from the Drupal git repository and install it into the MySQL database available on Vlad.
 
-Both of these scripts will remove anything already in the /var/www/sites/docroot directory (or whatever name you have selected for it) so be careful.
+The super user for each of these Drupal install scripts is as follows:
+
+Username: admin
+Password: password
+
+NOTE: Both of these scripts will remove anything already in the /var/www/sites/docroot directory (or whatever name you have selected for it) so be careful.
 
 # Drush
 
@@ -14,4 +19,8 @@ Vlad comes with both Drush 6 (current) and Drush 7 (dev) versions. This means yo
 
 To run the current version of Drush just using the drush command as you normally would.
 
-To run the dev version of Drush you need to use the 'drush-master' alias.
+    drush status
+
+To run the dev version of Drush you need to use the 'drush-master' alias in the same way as you would normally run Drush.
+
+    drush-master status

@@ -22,6 +22,9 @@ pages:
 - ['applications/index.md', 'Applications', 'Applications']
 - ['applications/mysql.md', 'Applications', 'MySQL']
 - ['applications/drupal.md', 'Applications', 'Drupal']
+- ['applications/xhprof.md', 'Applications', 'XHProf']
+- ['applications/xdebug.md', 'Applications', 'Xdebug']
+- ['applications/munin.md', 'Applications', 'Munin']
 
 - ['contributing/contributing.md', 'Contributing']
 - ['contributing/naming_convention.md', 'Contributing', 'Naming Convention']
