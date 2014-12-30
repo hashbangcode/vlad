@@ -1,152 +1,377 @@
 The following variables can be set in the settings.yml file.
 
 
-## Webserver settings
-  webserver_hostname: 'drupal.local'
-  webserver_hostname_alias: 'www.{{ webserver_hostname }}'
+###Webserver settings
 
-## Vagrantfile configuration
-  boxipaddress: "192.168.100.109"
-  boxname: "vlad"
-  host_synced_folder: "./docroot"
+__webserver_hostname__
 
-# Install components:
-# - To install a component set it to "y".
-# - To leave a component out of the install set the value to "n".
+The hostname of the site you are about to create. By default this is then combined with the variable webserver_hostname_alias to add 'www' to the start.
 
-  adminer_install: "y"
+default value: 'drupal.local'
+ 
+__webserver_hostname_alias__
 
-  apache_install: "y"
+This is the fully qualified name of the server.
 
-  imagemagick_install: "n"
+default value: 'www.{{ webserver_hostname }}'
 
-  mailcatcher_install: "n"
+###Vagrantfile configuration
 
-  memcached_install: "n"
+__boxipaddress__
 
-  munin_install: "n"
+The IP address of the virtual machine.
 
-  mysql_install: "y"
+default value: "192.168.100.100"
 
-  node_install: "n"
+__boxname__
 
-  php_install: "y"
+The name of the box that will be used by Vagrant to label the box inside your virtual machine manager of choice. This will be translated to boxname + "_vlad" in said virtual box manager.
+  
+default value: "vlad"
 
-  pimpmylog_install: "y"
+__host_synced_folder__
 
-  redis_install: "n"
+This is the directory that will be used to server the files from. If this doesn't exist then it will be created.
 
-  ruby_install: "n" # Ruby is required by MailCatcher
+default value: "./docroot"
 
-  sendmail_install: "y"
+###Install components:
 
-  solr_install: "n"
+The server components that will be installed when the box is provisioned.
+- To install a component set it to "y".
+- To leave a component out of the install set the value to "n".
 
-  varnish_install: "n" # If you turn this off then make sure you set the http_port to be 80.
+__adminer_install__
 
-  xhprof_install: "n"
+Install
 
-# Provision with custom playbooks
-  custom_provision: "n"
+default value: "y"
 
-# HTTP port for the web server. If you have turned off Varnish then you might want to set this to "80"
-  http_port: 80
+__apache_install__
 
-# HTTP port for the Varnish cache
-  varnish_http_port: 80
+Install
 
-# Administration email (used in instances when a server email is needed)
-  admin_mail: 'test@example.com'
+default value: "y"
 
-# PHP Settings
-# PHP Version, can be one of "5.3" or "5.4"
-# Vlad will error when a version that isn't understood is used
-  php_version: "5.4"
+__imagemagick_install__
 
-# php.ini settings
-  php_memory_limit: 512M
-  php_max_execution_time: 60
-  php_post_max_size: 100M
-  php_upload_max_filesize: 100M
-  php_display_errors: On
-  php_display_startup_errors: On
-  php_html_errors: On
-  php_date_timezone: Europe/London
+Install
 
-# Install PECL uploadprogress
-  php_pecl_uploadprogress: "y"
+default value: "n"
 
-# PHP APC Settings
-  apc_rfc1867: '1'
-  apc_shm_size: '256M'
-  apc_shm_segments: '1'
-  apc_num_files_hint: '0'
+__mailcatcher_install__
 
-# MySQL Settings
-  mysql_port: 3306
-  mysql_root_password: sdfds87643y5thgfd
-  server_hostname: vlad
-  dbname: vladdb
-  dbuser: vlad
-  dbpass: wibble
+Install
 
-# MySQL my.cnf settings
-  mysql_max_allowed_packet: 128M
-  innodb_file_per_table: innodb_file_per_table
-  mysql_character_set_server: utf8
-  mysql_collation_server: utf8_general_ci
+default value: "y"
 
-# SSH Settings
-  ssh_port: 22
-# Add RSA or DSA identity from host to guest on 'vagrant up'.
-# Does not support identites that require a passphrase. Options include:
-# "n"           : don't add anything
-# "y"           : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
-# "[filename]"  : add a specific file e.g. /Users/username/.ssh/[filename]
-  use_host_id: "n"
+__memcached_install__
+       
+Install
 
-# Varnish Settings
-  varnish_memory: 512
+default value: "n"
 
-# Drupal Solr integration
-# Select which Solr module to install
-# accepted values are 'search_api_solr' or 'apachesolr'
-  drupal_solr_package: "search_api_solr"
+__munin_install__
 
-# Local hosts file location
-# Default location on *nix hosts is '/etc/hosts'
-# Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
-  hosts_file_location: "/etc/hosts"
+Install
 
-# Select weather Vlad should edit the hosts file.
-  hosts_file_update: "y"
+default value: "n"
 
-# Redis Port
-  redis_port: 6379
+__mysql_install__
 
-# Set the level of verbosity that Ansible will use
-# This can be one of "", "v", "vv", "vvv", or "vvvv"
-  ansible_verbosity: ""
+Install
 
-# Import MySQL database from file on 'vagrant up'. Options include:
-# "n"          - don't import anything
-# "y"          - import from vlad_aux/db_io/vlad_up.sql.gz
-# "[filename]" - import from vlad_aux/db_io/[filename] (supports .sql, .bz2 and .gz files)
-  db_import_up: "n"
+default value: "y"
 
-# Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
-  add_index_file: "y"
+__node_install__
+            
+Install
 
-# Git config user credentials (leave empty to skip this step)
-  git_user_name: ""
-  git_user_email: ""
+default value: "n"
 
-# Use 'nfs' or 'rsync' for VM file editing in synced folder
-  synced_folder_type: 'nfs'
+__php_install__
+             
+Install
 
-# The OS that vlad will use. This can be:
-# - "centos65"
-# - "ubuntu12"
-# - "ubuntu14"
-# Defaults to "ubuntu".
-  vlad_os: "centos65"
+default value: "y"
+
+__pimpmylog_install__
+                   
+Install
+
+default value: "y"
+
+__redis_install__
+               
+Install
+
+default value: "n"
+
+__ruby_install__
+              
+Install
+
+default value: "y" # Ruby is required by MailCatcher
+
+__sendmail_install__
+                  
+Install
+
+default value: "y"
+
+__solr_install__
+
+Install
+
+default value: "n"
+
+__varnish_install__
+                 
+Install
+
+default value: "y" # If you turn this off then make sure you set the http_port to be 80.
+
+__xhprof_install__
+                
+Install
+
+default value: "n"
+
+###Provision with custom role
+
+__custom_provision__
+
+Run custom roles. See the [custom roles](../usage/custom_roles.md) section for more information.
+
+default value: "n"
+
+###General HTTP Port Variables
+
+__http_port__
+
+HTTP port for the web server. If you have turned off Varnish then you might want to set this to "80".
+
+default value: 8080
+
+__varnish_http_port__
+
+HTTP port for the Varnish cache.
+
+default value: 80
+
+###Administration email
+
+__admin_mail__
+
+Used in instances when a server email is needed.
+
+default value: 'test@example.com'
+
+###PHP Settings
+
+__php_version__
+
+PHP Version, can be one of "5.3" or "5.4". Vlad will error when a version that isn't understood is used
+
+default value: "5.4"
+
+####php.ini settings
+
+__php_memory_limit__
+
+default value: 512M
+
+__php_max_execution_time__
+
+default value: 60
+
+__php_post_max_size__
+
+default value: 100M
+
+__php_upload_max_filesize__
+
+default value: 100M
+
+__php_display_errors__
+
+default value: On
+
+__php_display_startup_errors__
+
+default value: On
+
+__php_html_errors__
+
+default value: On
+
+__php_date_timezone__
+
+default value: Europe/London
+
+####Install PECL uploadprogress
+
+__php_pecl_uploadprogress__
+
+default value: "y"
+
+####PHP APC Settings
+
+__apc_rfc1867__
+
+default value: '1'
+
+__apc_shm_size__
+
+default value: '256M'
+
+__apc_shm_segments__
+
+default value: '1'
+
+__apc_num_files_hint__
+
+default value: '0'
+
+### MySQL Settings
+__mysql_port__
+
+default value: 3306
+
+__mysql_root_password__
+
+default value: sdfds87643y5thgfd
+
+__server_hostname__
+
+default value: vlad
+
+__dbname__
+
+default value: vladdb
+
+__dbuser__
+
+default value: vlad
+
+__dbpass__
+
+default value: wibble
+
+#### MySQL my.cnf settings
+
+__mysql_max_allowed_packet__
+
+default value: 128M
+
+__innodb_file_per_table__
+
+default value: innodb_file_per_table
+
+__mysql_character_set_server__
+
+default value: utf8
+
+__mysql_collation_server__
+
+default value: utf8_general_ci
+
+### SSH Settings
+
+__ssh_port__
+
+default value: 22
+
+__use_host_id__
+
+Add RSA or DSA identity from host to guest on 'vagrant up'.
+Does not support identites that require a passphrase. Options include:
+- "n"           : don't add anything
+- "y"           : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
+- "[filename]"  : add a specific file e.g. /Users/username/.ssh/[filename]
+
+default value: "n"
+
+### Varnish Settings
+
+__varnish_memory__
+
+default value: 512
+
+###Other Settings
+
+__drupal_solr_package__
+
+Select which Solr module to install accepted values are 'search_api_solr' or 'apachesolr'
+
+default value: "search_api_solr"
+
+__hosts_file_location__
+
+Local hosts file location.
+Default location on *nix hosts is '/etc/hosts'.
+Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'.
+
+default value: "/etc/hosts"
+
+__hosts_file_update__
+
+Select weather Vlad should edit the hosts file.
+
+default value: "y"
+
+__redis_port__
+
+Redis Port
+
+default value: 6379
+
+__ansible_verbosity__
+
+Set the level of verbosity that Ansible will use.
+This can be one of "", "v", "vv", "vvv", or "vvvv".
+
+default value: ""
+
+__db_import_up__
+
+Import MySQL database from file on 'vagrant up'. Options include:
+- "n"          - don't import anything
+- "y"          - import from vlad_aux/db_io/vlad_up.sql.gz
+- "[filename]" - import from vlad_aux/db_io/[filename] (supports .sql, .bz2 and .gz files)
+
+default value: "n"
+
+__add_index_file__
+
+Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
+
+default value: "y"
+
+__synced_folder_type__
+
+Use 'nfs' or 'rsync' for VM file editing in synced folder
+
+default value: 'nfs'
+
+__vlad_os__
+
+The OS that vlad will use. This can be one of the following:
+
+- "centos65"
+- "ubuntu12"
+- "ubuntu14"
+
+default value: "ubuntu12"
+
+###Git config user credentials
+
+Leave these variales empty to skip this step.
+
+__git_user_name__
+
+default value: ""
+
+__git_user_email__
+
+default value: ""
