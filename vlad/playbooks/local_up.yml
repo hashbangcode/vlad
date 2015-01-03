@@ -22,7 +22,7 @@
         state=absent
         regexp='.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
-    when: hosts_file_update == "y"
+    when: hosts_file_update == true
     sudo: true
 
   - name: local actions | add reference of host to local hosts file
@@ -31,7 +31,7 @@
         state=present
         line='{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
-    when: hosts_file_update == "y"
+    when: hosts_file_update == true
     sudo: true
 
   # SSH identities
@@ -39,27 +39,27 @@
   - name: local actions | establish current username on host machine
     command: whoami
     register: host_user
-    when: use_host_id != "n"
+    when: use_host_id != false
     delegate_to: 127.0.0.1
     changed_when: False
 
   - name: local actions | check that ~/.ssh/config exists on host machine
     stat: path=/Users/{{ host_user.stdout }}/.ssh/config
     register: ssh_config_file
-    when: use_host_id != "n"
+    when: use_host_id != false
     delegate_to: 127.0.0.1
     failed_when: ssh_config_file.stat.exists == false
     changed_when: False
 
   - name: local actions | check for "ForwardAgent yes" in ~/.ssh/config
     local_action: command grep "ForwardAgent yes" ~/.ssh/config
-    when: use_host_id != "n"
+    when: use_host_id != false
     changed_when: False
 
   - name: local actions | add default identities from host to guest
     local_action: command ssh-add
-    when: use_host_id == "y"
+    when: use_host_id == true
 
   - name: local actions | add custom identity from host to guest
     local_action: command ssh-add {{ use_host_id }}
-    when: use_host_id != "y" and use_host_id != "n"
+    when: use_host_id != true and use_host_id != false

@@ -12,13 +12,13 @@
   - name: local actions destroy | install python-mysqldb package
     apt: pkg=python-mysqldb state=installed
     tags: mysql
-    when: mysql_install == "y"
+    when: mysql_install == true
     ignore_errors: yes
     sudo: true
 
   - name: local actions destroy | dump vlad database
     mysql_db: name={{ dbname }} state=dump target=/var/www/site/vlad_aux/db_io/vlad_destroy.sql.gz login_password={{ mysql_root_password }} login_user=root
-    when: mysql_install == "y"
+    when: mysql_install == true
     ignore_errors: yes
     sudo: true
 
@@ -32,5 +32,5 @@
         state=absent
         regexp='.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
-    when: hosts_file_update is defined and hosts_file_update == "y"
+    when: hosts_file_update is defined and hosts_file_update == true
     sudo: true

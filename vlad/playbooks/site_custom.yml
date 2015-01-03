@@ -8,7 +8,7 @@
     - [ "../../../settings/vlad-custom-settings.yml", "../../../vlad-custom/vars/main.yml" ]
 
   roles:
-    - { role: vlad-custom, when: "custom_provision == 'y'" }
+    - { role: vlad-custom, when: "custom_provision == true" }
 
   handlers:
     - include: common/handlers/main.yml
