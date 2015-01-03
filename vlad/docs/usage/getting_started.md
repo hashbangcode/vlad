@@ -83,11 +83,11 @@ A file called settings.yml is used to configure the Vagrant box. This allows you
 
 For example, to install Solr on the box go into the settings file and change the solr_install parameter from this:
 
-    solr_install: "n"
+    solr_install: false
 
 To this:
 
-    solr_install: "y"
+    solr_install: true
 
 The default behaviour of the box is to install a Varnish server that proxies an Apache HTTP server. By turning on and off the software install on the machine and configuring the ports used it is possible to create a settings file that has the setup you want.
 

@@ -38,104 +38,104 @@ default value: "./docroot"
 ###Install components:
 
 The server components that will be installed when the box is provisioned.
-- To install a component set it to "y".
-- To leave a component out of the install set the value to "n".
+- To install a component set it to true.
+- To leave a component out of the install set the value to false.
 
 __adminer_install__
 
 Install
 
-default value: "y"
+default value: true
 
 __apache_install__
 
 Install
 
-default value: "y"
+default value: true
 
 __imagemagick_install__
 
 Install
 
-default value: "n"
+default value: false
 
 __mailcatcher_install__
 
 Install
 
-default value: "y"
+default value: true
 
 __memcached_install__
        
 Install
 
-default value: "n"
+default value: false
 
 __munin_install__
 
 Install
 
-default value: "n"
+default value: false
 
 __mysql_install__
 
 Install
 
-default value: "y"
+default value: true
 
 __node_install__
             
 Install
 
-default value: "n"
+default value: false
 
 __php_install__
              
 Install
 
-default value: "y"
+default value: true
 
 __pimpmylog_install__
                    
 Install
 
-default value: "y"
+default value: true
 
 __redis_install__
                
 Install
 
-default value: "n"
+default value: false
 
 __ruby_install__
               
 Install
 
-default value: "y" # Ruby is required by MailCatcher
+default value: true # Ruby is required by MailCatcher
 
 __sendmail_install__
                   
 Install
 
-default value: "y"
+default value: true
 
 __solr_install__
 
 Install
 
-default value: "n"
+default value: false
 
 __varnish_install__
                  
 Install
 
-default value: "y" # If you turn this off then make sure you set the http_port to be 80.
+default value: true # If you turn this off then make sure you set the http_port to be 80.
 
 __xhprof_install__
                 
 Install
 
-default value: "n"
+default value: false
 
 ###Provision with custom role
 
@@ -143,7 +143,7 @@ __custom_provision__
 
 Run custom roles. See the [custom roles](../usage/custom_roles.md) section for more information.
 
-default value: "n"
+default value: false
 
 ###General HTTP Port Variables
 
@@ -213,7 +213,7 @@ default value: Europe/London
 
 __php_pecl_uploadprogress__
 
-default value: "y"
+default value: true
 
 ####PHP APC Settings
 
@@ -286,11 +286,11 @@ __use_host_id__
 
 Add RSA or DSA identity from host to guest on 'vagrant up'.
 Does not support identites that require a passphrase. Options include:
-- "n"           : don't add anything
-- "y"           : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
+- false         : don't add anything
+- true          : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
 - "[filename]"  : add a specific file e.g. /Users/username/.ssh/[filename]
 
-default value: "n"
+default value: false
 
 ### Varnish Settings
 
@@ -318,7 +318,7 @@ __hosts_file_update__
 
 Select weather Vlad should edit the hosts file.
 
-default value: "y"
+default value: true
 
 __redis_port__
 
@@ -336,17 +336,17 @@ default value: ""
 __db_import_up__
 
 Import MySQL database from file on 'vagrant up'. Options include:
-- "n"          - don't import anything
-- "y"          - import from vlad_aux/db_io/vlad_up.sql.gz
+- false          - don't import anything
+- true          - import from vlad_aux/db_io/vlad_up.sql.gz
 - "[filename]" - import from vlad_aux/db_io/[filename] (supports .sql, .bz2 and .gz files)
 
-default value: "n"
+default value: false
 
 __add_index_file__
 
 Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
 
-default value: "y"
+default value: true
 
 __synced_folder_type__
 

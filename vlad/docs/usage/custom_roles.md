@@ -34,7 +34,7 @@ All variables defined in Vlad's settings file will be available for use in the c
 Once you've created a custom role, running it as part of Vagrant's provisioning step is simply a case of setting the following value in Vlad's settings:
 
 ```
-custom_provision: "y"
+custom_provision: true
 ```
 
 The custom role will be run as part of ```vlad/playbooks/site_custom.yml```, _after_ the main Ansible playbook ```vlad/playbooks/site.yml```.
