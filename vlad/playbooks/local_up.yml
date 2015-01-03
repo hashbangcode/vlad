@@ -22,7 +22,7 @@
         state=absent
         regexp='.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
-    when: hosts_file_update == true
+    when: hosts_file_update
     sudo: true
 
   - name: local actions | add reference of host to local hosts file
@@ -31,7 +31,7 @@
         state=present
         line='{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
-    when: hosts_file_update == true
+    when: hosts_file_update
     sudo: true
 
   # SSH identities
@@ -58,7 +58,7 @@
 
   - name: local actions | add default identities from host to guest
     local_action: command ssh-add
-    when: use_host_id == true
+    when: use_host_id
 
   - name: local actions | add custom identity from host to guest
     local_action: command ssh-add {{ use_host_id }}

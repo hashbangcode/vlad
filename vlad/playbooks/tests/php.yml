@@ -1,7 +1,7 @@
 ---
 - name: test | PHP is installed
   shell: php -v
-  when: php_install is defined and php_install == true
+  when: php_install is defined and php_install
   always_run: yes
   register: php_result
   failed_when: "php_result.rc != 0"
@@ -10,7 +10,7 @@
 
 - name: test | composer is installed
   shell: composer
-  when: php_install is defined and php_install == true
+  when: php_install is defined and php_install
   always_run: yes
   register: composer_result
   failed_when: "composer_result.rc != 0"
@@ -19,7 +19,7 @@
 
 - name: test | drush is installed
   shell: drush
-  when: php_install is defined and php_install == true
+  when: php_install is defined and php_install
   always_run: yes
   register: drush_result
   failed_when: "drush_result.rc != 0"

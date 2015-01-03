@@ -86,7 +86,7 @@
 
 - name: import database (default source file)
   mysql_db: name={{ dbname }} state=import target=/var/www/site/vlad_aux/db_io/vlad_up.sql.gz login_password={{ mysql_root_password }} login_user=root
-  when: db_import_up is defined and db_import_up == true
+  when: db_import_up is defined and db_import_up
   ignore_errors: yes
   tags: mysql_import
 

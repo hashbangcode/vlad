@@ -34,7 +34,7 @@
 
     - name: Check if Varnish & Apache ports match
       fail: msg="The Apache and Varnish ports you have selected are the same and will conflict"
-      when: varnish_install == true and apache_install == true and varnish_http_port == http_port
+      when: varnish_install and apache_install and varnish_http_port == http_port
 
     - name: Check PHP version is valid
       fail: msg="PHP version not currently supported by Vlad ({{ php_version }})"
@@ -46,7 +46,7 @@
 
     - name: Check MailCatcher dependencies
       debug: msg="The 'Ruby' role will be run as it is required to install MailCatcher"
-      when: ruby_install == false and mailcatcher_install == true
+      when: ruby_install == false and mailcatcher_install
 
       # Generate variables to be used in playbooks
 
@@ -59,43 +59,43 @@
 
     - role: base
 
-    - { role: mysql, tags: ["mysql"], when: "mysql_install == true" }
+    - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
-    - { role: php, when: "php_install == true" }
+    - { role: php, when: "php_install" }
 
-    - { role: apache, tags: ["apache"], when: "apache_install == true" }
+    - { role: apache, tags: ["apache"], when: "apache_install" }
 
-    - { role: adminer, tags: ["adminer"], when: "adminer_install == true" }
+    - { role: adminer, tags: ["adminer"], when: "adminer_install" }
 
-    - { role: xhprof, tags: ["xhprof"], when: "xhprof_install == true" }
+    - { role: xhprof, tags: ["xhprof"], when: "xhprof_install" }
 
-    - { role: pimpmylog, tags: ["pimpmylog"], when: "pimpmylog_install == true" }
+    - { role: pimpmylog, tags: ["pimpmylog"], when: "pimpmylog_install" }
 
-    - { role: varnish, tags: ["varnish"], when: "varnish_install == true" }
+    - { role: varnish, tags: ["varnish"], when: "varnish_install" }
 
-    - { role: memcached, tags: ["memcached"], when: "memcached_install == true" }
+    - { role: memcached, tags: ["memcached"], when: "memcached_install" }
 
-    - { role: redis, tags: ["redis"], when: "redis_install == true" }
+    - { role: redis, tags: ["redis"], when: "redis_install" }
 
-    - { role: sendmail, tags: ["sendmail"], when: "sendmail_install == true" }
+    - { role: sendmail, tags: ["sendmail"], when: "sendmail_install" }
 
-    - { role: solr, tags: ["solr"], when: "solr_install == true" }
+    - { role: solr, tags: ["solr"], when: "solr_install" }
 
-    - { role: munin, tags: ["munin"], when: "munin_install == true" }
+    - { role: munin, tags: ["munin"], when: "munin_install" }
 
-    - { role: ruby, tags: ["ruby"], when: "ruby_install == true" }
+    - { role: ruby, tags: ["ruby"], when: "ruby_install" }
 
-    - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install == true" }
+    - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install" }
 
-    - { role: node, tags: ["node"], when: "node_install == true" }
+    - { role: node, tags: ["node"], when: "node_install" }
 
-    - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install == true" }
+    - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install" }
 
   post_tasks:
 
     - name: move default index.php file into docroot directory
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
-      when: add_index_file == true
+      when: add_index_file
 
     # Run post provisioning tests to ensure everything has been provisioned correctly.
     - include: tests/main.yml
