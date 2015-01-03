@@ -316,7 +316,7 @@ default value: "/etc/hosts"
 
 __hosts_file_update__
 
-Select weather Vlad should edit the hosts file.
+Select whether Vlad should edit the hosts file.
 
 default value: true
 

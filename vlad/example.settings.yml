@@ -127,7 +127,7 @@
 # Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
   hosts_file_location: "/etc/hosts"
 
-# Select weather Vlad should edit the hosts file.
+# Select whether Vlad should edit the hosts file.
   hosts_file_update: true
 
 # Redis Port
@@ -157,5 +157,4 @@
 # - "centos65"
 # - "ubuntu12"
 # - "ubuntu14"
-# Defaults to "ubuntu12".
   vlad_os: "ubuntu12"
