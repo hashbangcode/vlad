@@ -25,7 +25,7 @@ Your custom role *must* include a default variables file at vars/main.yml (even 
 
 ### Available variables
 
-All variables defined in Vlad's settings file will be available for use in the custom role.
+All variables defined by Vlad and possibly overridden via your settings file will be available to the custom role.
 
 ## Running a custom role
 

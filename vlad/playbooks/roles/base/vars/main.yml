@@ -1,7 +1,7 @@
 ---
 
 # SSH Settings
-# @TODO: This is also defined in group_vars/all
+# @TODO: This is also set in group_vars/all
 ssh_port: 22
 
 # Git config user credentials (leave empty to skip this step)

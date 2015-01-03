@@ -1,5 +1,5 @@
 ---
 user: vagrant
 
-# @TODO: This is also defined in the base role (used to be settings.yml)
+# @TODO: This is also set in the base role (used to be settings.yml)
 ssh_port: 22
