@@ -5,35 +5,35 @@
 # This file should only contain default varables for choosing which "components" are to be installed.
 # ---------------------------------------------------------------------------------------------------
 
-adminer_install: "y"
+adminer_install: true
 
-apache_install: "y"
+apache_install: true
 
-imagemagick_install: "n"
+imagemagick_install: false
 
-mailcatcher_install: "y"
+mailcatcher_install: true
 
-memcached_install: "n"
+memcached_install: false
 
-munin_install: "n"
+munin_install: false
 
-mysql_install: "y"
+mysql_install: true
 
-node_install: "n"
+node_install: false
 
-php_install: "y"
+php_install: true
 
-pimpmylog_install: "y"
+pimpmylog_install: true
 
-redis_install: "n"
+redis_install: false
 
-ruby_install: "y" # Ruby is required by MailCatcher
+ruby_install: true # Ruby is required by MailCatcher
 
-sendmail_install: "y"
+sendmail_install: true
 
-solr_install: "n"
+solr_install: false
 
 # @TODO: Automate this?
-varnish_install: "y" # If you turn this off then make sure you set the http_port to be 80.
+varnish_install: true # If you turn this off then make sure you set the http_port to be 80.
 
-xhprof_install: "n"
+xhprof_install: false

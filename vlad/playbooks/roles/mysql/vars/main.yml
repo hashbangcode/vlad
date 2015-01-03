@@ -14,7 +14,7 @@ mysql_character_set_server: utf8
 mysql_collation_server: utf8_general_ci
 
 # Import MySQL database from file on 'vagrant up'. Options include:
-# "n"          - don't import anything
-# "y"          - import from vlad_aux/db_io/vlad_up.sql.gz
+# false          - don't import anything
+# true          - import from vlad_aux/db_io/vlad_up.sql.gz
 # "[filename]" - import from vlad_aux/db_io/[filename] (supports .sql, .bz2 and .gz files)
-db_import_up: "n"
+db_import_up: false

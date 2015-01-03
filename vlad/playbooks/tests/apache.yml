@@ -4,7 +4,7 @@
   register: apache_result
   failed_when: "apache_result.rc != 0"
   changed_when: False
-  when: apache_install is defined and apache_install == "y" and ansible_os_family == "Debian"
+  when: apache_install is defined and apache_install == true and ansible_os_family == "Debian"
   tags: test
 
 - name: test | apache is installed
@@ -12,6 +12,6 @@
   register: apache_result
   failed_when: "apache_result.rc != 0"
   changed_when: False
-  when: apache_install is defined and apache_install == "y" and ansible_os_family == "RedHat"
+  when: apache_install is defined and apache_install == true and ansible_os_family == "RedHat"
   tags: test
   sudo: true

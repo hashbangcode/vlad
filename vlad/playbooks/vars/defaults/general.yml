@@ -9,7 +9,7 @@
 webserver_hostname_alias: 'www.{{ webserver_hostname }}'
 
 # Provision with custom role
-custom_provision: "n"
+custom_provision: false
 
 # HTTP port for the web server. If you have turned off Varnish then you might want to set this to "80"
 http_port: 8080
@@ -19,10 +19,10 @@ admin_mail: 'test@example.com'
 
 # Add RSA or DSA identity from host to guest on 'vagrant up'.
 # Does not support identites that require a passphrase. Options include:
-# "n"           : don't add anything
-# "y"           : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
+# false           : don't add anything
+# true           : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
 # "[filename]"  : add a specific file e.g. /Users/username/.ssh/[filename]
-use_host_id: "n"
+use_host_id: false
 
 # Local hosts file location
 # Default location on *nix hosts is '/etc/hosts'
@@ -30,7 +30,7 @@ use_host_id: "n"
 hosts_file_location: "/etc/hosts"
 
 # Select weather Vlad should edit the hosts file.
-hosts_file_update: "y"
+hosts_file_update: true
 
 # Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
-add_index_file: "y"
+add_index_file: true

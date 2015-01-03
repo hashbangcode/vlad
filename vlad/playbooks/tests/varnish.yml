@@ -1,7 +1,7 @@
 ---
 - name: test | vanish is installed
   shell: varnishstat -1
-  when: varnish_install is defined and varnish_install == "y"
+  when: varnish_install is defined and varnish_install == true
   always_run: yes
   register: varnish_result
   failed_when: "varnish_result.rc != 0"

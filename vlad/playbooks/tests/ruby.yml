@@ -1,7 +1,7 @@
 ---
 - name: test | rbenv is installed
   command: bash -lc "type rbenv"
-  when: ruby_install is defined and ruby_install == "y"
+  when: ruby_install is defined and ruby_install == true
   register: rbenv_result
   failed_when: "rbenv_result.rc != 0"
   changed_when: False
@@ -9,7 +9,7 @@
 
 - name: test | ruby is installed
   command: bash -lc "ruby -v"
-  when: ruby_install is defined and ruby_install == "y"
+  when: ruby_install is defined and ruby_install == true
   register: ruby_result
   failed_when: "ruby_result.rc != 0"
   changed_when: False

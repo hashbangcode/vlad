@@ -32,7 +32,7 @@
 
 - name: change php apache sendmail_path setting
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
-  when: php_install is defined and php_install == "y"
+  when: php_install is defined and php_install == true
   sudo: true
   notify:
     - restart apache2
@@ -40,7 +40,7 @@
 
 - name: change php apache sendmail_path setting
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
-  when: php_install is defined and php_install == "y"
+  when: php_install is defined and php_install == true
   sudo: true
   notify:
     - restart httpd
@@ -48,7 +48,7 @@
 
 - name: change php cli sendmail_path setting
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
-  when: php_install == "y"
+  when: php_install == true
   sudo: true
   when: ansible_os_family == "Debian"
 
