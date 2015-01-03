@@ -65,7 +65,7 @@
 - name: check virtual host for Xhprof include
   command: cat /etc/httpd/vhosts/{{ webserver_hostname }}.conf
   register: xhprof_include_present
-  changed_when: False
+  changed_when: false
   always_run: yes
   sudo: true
 

@@ -3,7 +3,7 @@
   shell: apache2 -v
   register: apache_result
   failed_when: "apache_result.rc != 0"
-  changed_when: False
+  changed_when: false
   when: apache_install and ansible_os_family == "Debian"
   tags: test
 
@@ -11,7 +11,7 @@
   command: httpd -v
   register: apache_result
   failed_when: "apache_result.rc != 0"
-  changed_when: False
+  changed_when: false
   when: apache_install and ansible_os_family == "RedHat"
   tags: test
   sudo: true

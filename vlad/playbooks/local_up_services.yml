@@ -53,7 +53,7 @@
     ignore_errors: yes
     register: kill_mailcatcher
     failed_when: "kill_mailcatcher.rc != 0"
-    changed_when: False
+    changed_when: false
     sudo: true
 
   - name: MailCatcher | run MailCatcher with no ip address restrictions

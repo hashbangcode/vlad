@@ -41,7 +41,7 @@
     register: host_user
     when: use_host_id != false
     delegate_to: 127.0.0.1
-    changed_when: False
+    changed_when: false
 
   - name: local actions | check that ~/.ssh/config exists on host machine
     stat: path=/Users/{{ host_user.stdout }}/.ssh/config
@@ -49,12 +49,12 @@
     when: use_host_id != false
     delegate_to: 127.0.0.1
     failed_when: ssh_config_file.stat.exists == false
-    changed_when: False
+    changed_when: false
 
   - name: local actions | check for "ForwardAgent yes" in ~/.ssh/config
     local_action: command grep "ForwardAgent yes" ~/.ssh/config
     when: use_host_id != false
-    changed_when: False
+    changed_when: false
 
   - name: local actions | add default identities from host to guest
     local_action: command ssh-add

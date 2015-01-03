@@ -5,5 +5,5 @@
   always_run: yes
   register: varnish_result
   failed_when: "varnish_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test

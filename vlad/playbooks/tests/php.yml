@@ -5,7 +5,7 @@
   always_run: yes
   register: php_result
   failed_when: "php_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test
 
 - name: test | composer is installed
@@ -14,7 +14,7 @@
   always_run: yes
   register: composer_result
   failed_when: "composer_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test
 
 - name: test | drush is installed
@@ -23,5 +23,5 @@
   always_run: yes
   register: drush_result
   failed_when: "drush_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test

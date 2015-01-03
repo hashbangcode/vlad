@@ -70,7 +70,7 @@
   ignore_errors: yes
   register: kill_mailcatcher
   failed_when: "kill_mailcatcher.rc != 0"
-  changed_when: False
+  changed_when: false
   sudo: true
 
 - name: kill mailcatcher (via pid)
@@ -78,11 +78,11 @@
   ignore_errors: yes
   register: kill_mailcatcher
   failed_when: "kill_mailcatcher.rc != 0"
-  changed_when: False
+  changed_when: false
   sudo: true
 
 - name: run MailCatcher with no ip address restrictions
   command: bash -lc "mailcatcher --ip=0.0.0.0"
   register: run_mailcatcher
   failed_when: "run_mailcatcher.rc != 0"
-  changed_when: False
+  changed_when: false

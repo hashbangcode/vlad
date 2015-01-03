@@ -17,7 +17,7 @@
 
 - name: drush | run drush once as current user to finalise install
   command: drush
-  changed_when: False
+  changed_when: false
   tags: drush
 
 - name: drush | download the site audit module
@@ -40,7 +40,7 @@
   command: drush cc all 
   register: drush_cc_result
   failed_when: "drush_cc_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: drush
 
 - name: drush | get latest version of Drush

@@ -4,7 +4,7 @@
   when: ruby_install
   register: rbenv_result
   failed_when: "rbenv_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test
 
 - name: test | ruby is installed
@@ -12,5 +12,5 @@
   when: ruby_install
   register: ruby_result
   failed_when: "ruby_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test

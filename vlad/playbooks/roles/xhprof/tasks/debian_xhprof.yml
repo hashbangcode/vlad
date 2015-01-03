@@ -84,7 +84,7 @@
 - name: check virtual host for xhprof include
   command: cat /etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
   register: xhprof_include_present
-  changed_when: False
+  changed_when: false
   always_run: yes
   sudo: true
 

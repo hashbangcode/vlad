@@ -31,7 +31,7 @@
   shell: iptables -L
   register: iptablesrules
   failed_when: "iptablesrules.rc != 0"
-  changed_when: False
+  changed_when: false
   always_run: yes
   sudo: true
 
