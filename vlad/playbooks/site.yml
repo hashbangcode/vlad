@@ -30,7 +30,7 @@
 
     - name: Check for incorrect HTTP port if not running Varnish
       fail: msg="The web server setup you have selected will make the site inaccessable on port 80"
-      when: varnish_install == false and http_port is defined and http_port != 80
+      when: varnish_install == false and http_port != 80
 
     - name: Check if Varnish & Apache ports match
       fail: msg="The Apache and Varnish ports you have selected are the same and will conflict"

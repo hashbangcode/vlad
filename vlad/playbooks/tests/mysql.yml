@@ -1,7 +1,7 @@
 ---
 - name: test | MySQL is installed
   shell: mysql --version
-  when: mysql_install is defined and mysql_install
+  when: mysql_install
   register: mysql_result
   failed_when: "mysql_result.rc != 0"
   changed_when: False

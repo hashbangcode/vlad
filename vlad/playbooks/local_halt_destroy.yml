@@ -32,5 +32,5 @@
         state=absent
         regexp='.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
-    when: hosts_file_update is defined and hosts_file_update
+    when: hosts_file_update
     sudo: true
