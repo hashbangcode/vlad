@@ -10,10 +10,12 @@ This includes the following technologies:
 - PHP
 - Varnish
 - Git
-- Drush (with the 'site audit' and 'hacked!' modules)
+- Drush
+- Drush extensions: Site Audit, Hacked! & Registry Rebuild
 - Munin
 - Xdebug
-- Ruby (via RVM)
+- Ruby
+- rbenv
 - Sendmail
 - Mailcatcher
 - Memcached
@@ -21,7 +23,7 @@ This includes the following technologies:
 - Adminer
 - XHProf
 - Solr (Version 4)
-- Node.js (including npm)
+- Node.js
 - ImageMagick
 - PimpMyLog
 

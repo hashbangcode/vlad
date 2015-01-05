@@ -1,6 +1,6 @@
 This page shows a number of different scenarios that Vlad can be used in.
 
-<hr>
+----
 
 ## Scenario 1: Adding Vlad to an existing git repository
 
@@ -35,8 +35,7 @@ Because Vlad itself is under Git version control, its codebase includes a `.giti
 
 ### Updating Vlad
 
-Because Vlad is now a part of your project then you should update it whenever you can. This has been made as easy as possible by keeping most of the working files of Vlad within a couple of directories. To update Vlad just download the latest copy of the code from GitHub and copy the following files and directories into your project, overriding
-where needed.
+Because Vlad is now a part of your project then you should update it whenever you can. This has been made as easy as possible by keeping most of the working files of Vlad within a couple of directories. To update Vlad just download the latest copy of the code from GitHub and copy the following files and directories into your project, overriding where needed.
 
     recently-downloaded-vlad/
     ├── vlad/
@@ -48,7 +47,7 @@ Be careful when copying vlad_aux as you could be overwriting files that you'd ra
 
 Once done you can commit the changes into your repo.
 
-<hr>
+----
 
 
 ## Scenario 2: Using Vlad independently of a repository

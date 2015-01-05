@@ -10,7 +10,7 @@ Before running Vlad does a couple of checks to make sure that it has the setting
 
 Once Ansible has set up the box a testing task is run. This checks to ensure that everything that was selected to be installed has been installed.
 
-These tests were added partly to give confidence that the box has been setup correctly, and also to allow for new future development work to progress without having to manually check that things still work every time a change is made.
+These tests were added partly to give confidence that the box has been setup correctly and to aid future development work generally.
 
 It is possible to run the tests manually by using the 'test' tag like this:
 

@@ -8,7 +8,7 @@ The task name should follow the following rules:
 
     - name: task description
 
-This will produce the following output in the Adminer role:
+This will produce the following output (e.g. Adminer role):
 
     TASK: [adminer | copy adminer stylesheet] ***************************
 
@@ -16,6 +16,6 @@ This will produce the following output in the Adminer role:
 
     - name: task filename (lowercase) | task description
 
-This will produce the following output in the PEAR task inside the PHP role:
+This will produce the following output (e.g. PEAR task within PHP role):
 
     TASK: [php | pear | force upgrade of pear] ************************************

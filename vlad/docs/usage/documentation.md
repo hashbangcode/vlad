@@ -1,8 +1,8 @@
-The documentation is built using [mkdocs](http://www.mkdocs.org). 
+Vlad's documentation is built using [mkdocs](http://www.mkdocs.org). 
 
-__Installation__
+## Installation
 
-In order to install MkDocs you'll need Python installed on your system, as well as the Python package manager, pip. You can check if you have these already installed like so:
+In order to install MkDocs you'll need Python installed on your system, as well as the Python package manager "pip". You can check if you have these already installed like so:
 
     $ python --version
     Python 2.7.2
@@ -15,14 +15,14 @@ Install the mkdocs package using pip:
 
     $ pip install mkdocs
 
-You should now have the mkdocs command installed on your system. Run mkdocs help to check that everything worked okay.
+You should now have the `mkdocs` command installed on your system. Run `mkdocs` help to check that everything worked okay.
 
     $ mkdocs help
     mkdocs [help|new|build|serve|gh-deploy] {options}
 
-__Usage__
+## Usage
 
-Once installed you can build the documentation using the following command
+Once installed you can build the documentation using the following command:
 
     mkdocs build --clean
     

@@ -10,14 +10,12 @@ Feel free to use this project in your own Drupal builds.
 
 All feedback and support very much appreciated :)
 
-```
-#  ______
-# < Vlad >
-#  ------
-#         \   ^__^
-#          \  (oo)\_______
-#             (__)\       )\/\
-#                 ||----w |
-#                 ||     ||
-#
-```
+    #  ______
+    # < Vlad >
+    #  ------
+    #         \   ^__^
+    #          \  (oo)\_______
+    #             (__)\       )\/\
+    #                 ||----w |
+    #                 ||     ||
+    #
