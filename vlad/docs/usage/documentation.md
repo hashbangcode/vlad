@@ -26,7 +26,7 @@ Once installed you can build the documentation using the following command
 
     mkdocs build --clean
     
-Alternatively you can build and documentation using the following command:
+Alternatively you can build documentation using the following command:
 
     mkdocs serve
 

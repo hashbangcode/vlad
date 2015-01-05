@@ -10,7 +10,7 @@ A full release of the system is rapidly approaching. We are working to make Vlad
 - Added documentation and mkdocs support - In progress
 - All open bugs should be addressed - In progress
 - Add dependencies to roles so that when installing elements they require prerequisites to be installed also - In progress
-- Test with (and possibly add support for) different virtual machine systems - vmware Fusion now supported
+- Test with (and possibly add support for) different virtual machine systems - VMware Fusion now supported
 
 ## Version 1.1
 
