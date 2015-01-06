@@ -46,9 +46,8 @@ The following example setups take different approaches and have their own pros &
 
 Don't forget that these are just examples. Further setups are possible and may even be a better fit for you needs.
 
-@TODO: Each of these overviews should ideally link to the relevant & more detailed explanation further down the page (or we break this document in further sub pages).
 
-### Double repos parallel
+### [Double repos parallel](usage/project_structure/#example-setup-double-repos-parallel)
 
 This is a good fit for remote sub contractors that need to adapt to another team's workflow and yet keep Vlad in Git at the same time.
 
@@ -58,7 +57,7 @@ This is a good fit for remote sub contractors that need to adapt to another team
 - Currently preferred by your humble author.
 
 
-### Double repos nested
+### [Double repos nested](usage/project_structure/#example-setup-double-repos-nested)
 
 The most powerful and most complex example here. This setup is probably the best fit for well organised teams that aren't afraid of more advanced concepts such as Git submodules and alternative (maybe better) deployment methods.
 
@@ -69,7 +68,7 @@ The most powerful and most complex example here. This setup is probably the best
 - Sub contractors will likely need initial orientation.
 
 
-### Single repo in docroot
+### [Single repo in docroot](usage/project_structure/#example-setup-single-repo-in-docroot)
 
 A minimal setup that sacrifices some flexibility for simplicity. This is the goto setup if for whatever reason you cannot use "Double repos parallel" or "Double repos nested".
 
@@ -77,7 +76,7 @@ A minimal setup that sacrifices some flexibility for simplicity. This is the got
 - Vlad not in version control and would need to be updated manually.
 
 
-### Single repo in project root
+### [Single repo in project root](usage/project_structure/#example-setup-single-repo-in-project-root)
 
 Comparatively, this is the most compromised setup on this list. This setup should only really be considered if for whatever reason you cannot go with any of the other setups described.
 
@@ -213,7 +212,7 @@ This setup is far simpler than the preceding examples and involves simply nestin
 
 ### Cons
 
-- Vlad is detached from it's GitHub repo and so future updates would have to be downloaded & applied manually. @TODO: link to "Updating Vlad manually" or similar?
+- Vlad is detached from it's GitHub repo and so future updates would have to be downloaded & applied manually.
 - Only the Drupal codebase is in version control making things a bit less portable.
 
 
@@ -254,4 +253,4 @@ This is another relatively simple setup that just involves nesting your Drupal c
 
 - Vlad would need to be excluded from Production creating a need for an alternative to `git push` for deployment.
 - Your .gitignore file would need to be amended to ignore certain files created when using Vlad (see Vlad's .gitignore file for pointers).
-- Vlad is detached from its GitHub repo and so future updates would have to be downloaded & applied manually. @TODO link to "Updating Vlad manually" or similar?
+- Vlad is detached from its GitHub repo and so future updates would have to be downloaded & applied manually.
