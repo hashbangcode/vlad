@@ -34,7 +34,7 @@ If the directory doesn't exist when provisioning, Vlad will attempt to create it
 
 ### Git
 
-Vlad's codebase is hosted on GitHub within a Git repository (repo). Depending on how your project is structured, this could make for a very convenient & reliable way to update Vlad using a simple `git pull` command or similar.
+Vlad's codebase is [hosted on GitHub](https://github.com/hashbangcode/vlad) within a Git repository (repo). Depending on how your project is structured, this could make for a very convenient & reliable way to update Vlad using a simple `git pull` command or similar.
 
 
 ----
@@ -48,7 +48,7 @@ Don't forget that these are just examples. Further setups are possible and may e
 
 @TODO: Each of these overviews should ideally link to the relevant & more detailed explanation further down the page (or we break this document in further sub pages).
 
-### Example setup: Double repos parallel
+### Double repos parallel
 
 This is a good fit for remote sub contractors that need to adapt to another team's workflow and yet keep Vlad in Git at the same time.
 
@@ -58,7 +58,7 @@ This is a good fit for remote sub contractors that need to adapt to another team
 - Currently preferred by your humble author.
 
 
-### Example setup: Double repos nested
+### Double repos nested
 
 The most powerful and most complex example here. This setup is probably the best fit for well organised teams that aren't afraid of more advanced concepts such as Git submodules and alternative (maybe better) deployment methods.
 
@@ -69,7 +69,7 @@ The most powerful and most complex example here. This setup is probably the best
 - Sub contractors will likely need initial orientation.
 
 
-### Example setup: Single repo in docroot
+### Single repo in docroot
 
 A minimal setup that sacrifices some flexibility for simplicity. This is the goto setup if for whatever reason you cannot use "Double repos parallel" or "Double repos nested".
 
@@ -77,7 +77,7 @@ A minimal setup that sacrifices some flexibility for simplicity. This is the got
 - Vlad not in version control and would need to be updated manually.
 
 
-### Example setup: Single repo in project root
+### Single repo in project root
 
 Comparatively, this is the most compromised setup on this list. This setup should only really be considered if for whatever reason you cannot go with any of the other setups described.
 
