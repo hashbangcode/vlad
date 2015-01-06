@@ -46,6 +46,7 @@ The following example setups take different approaches and have their own pros &
 
 Don't forget that these are just examples. Further setups are possible and may even be a better fit for you needs.
 
+@TODO: Each of these overviews should ideally link to the relevant & more detailed explanation further down the page (or we break this document in further sub pages).
 
 ### Example setup: Double repos parallel
 
