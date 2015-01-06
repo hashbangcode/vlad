@@ -82,8 +82,8 @@ A minimal setup that sacrifices some flexibility for simplicity. This is the got
 Comparatively, this is the most compromised setup on this list. This setup should only really be considered if for whatever reason you cannot go with any of the other setups described.
 
 - Allows for deployment to remotes directly using Git.
-- Vlad not in its _original version_ control and would need to be updated manually.
-- Project repo would need to told to ignore Vlad.
+- Vlad not in its _original_ version control and would need to be updated manually.
+- Project repo would need to be told to ignore Vlad.
 
 
 ----
@@ -104,10 +104,10 @@ Comparatively, this is the most compromised setup on this list. This setup shoul
 	│   └── vlad-settings.yml
 	└── docroot/
 	    ├── .git/
-	    └── [drupal codebase...]    
+	    └── [drupal codebase...]
 
 
-### Points to note
+### Notes
 
 - This setup allows for both Vlad and your Drupal codebase to exist as separate Git repos all within one wrapping project directory ("demo-project" in this example).
 - Uses Vlad's outer settings file.
@@ -151,7 +151,7 @@ Because both Vlad and the Drupal codebase exist in separate repos Git can be use
 	├── settings/
 	│   └── vlad-settings.yml
 	└── docroot/
-	    └── [drupal codebase...]    
+	    └── [drupal codebase...]
 
 
 ### Points to note
@@ -189,7 +189,7 @@ Deployment via Git could be made more complex using this setup as files & direct
 	│   ├── settings.yml
 	│   └── [other vlad files...]
 	├── docroot/
-	│   ├── [drupal codebase]/
+	│   ├── [drupal codebase...]
 	│   └── .git/
 	├── ansible.cfg
 	├── Vagrantfile
@@ -229,7 +229,7 @@ This setup is far simpler than the preceding examples and involves simply nestin
 	│   ├── settings.yml
 	│   └── [other vlad files...]
 	├── docroot/
-	│   └── [drupal codebase]/
+	│   └── [drupal codebase...]
 	├── ansible.cfg
 	├── Vagrantfile
 	└── README.md
