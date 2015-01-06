@@ -14,9 +14,8 @@ pages:
 - ['usage/ansible.md', 'Usage', 'Ansible']
 - ['usage/custom_roles.md', 'Usage', 'Custom Roles']
 - ['usage/example_vlad_output.md', 'Usage', 'Example Vlad Output']
-- ['usage/workflow.md', 'Usage', 'Workflow']
+- ['usage/project_structure.md', 'Usage', 'Project Structure']
 - ['usage/documentation.md', 'Usage', 'Documentation']
-
 - ['usage/vagrant_share.md', 'Usage', 'Vagrant Share']
 - ['usage/variables.md', 'Usage', 'Variables']
 
