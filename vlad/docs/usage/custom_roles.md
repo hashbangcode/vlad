@@ -10,7 +10,7 @@ A working knowledge of [Ansible playbooks](http://docs.ansible.com/playbooks.htm
 
 ### Name & location
 
-Vlad expects the custom role to be located at following path, relative to the root of Vlad's own codebase (e.g. relative to the Vagrantfile):
+Vlad expects the custom role to be located at the following path, relative to the root of Vlad's own codebase (e.g. relative to the Vagrantfile):
 
     ../vlad-custom
 
