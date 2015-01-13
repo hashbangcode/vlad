@@ -25,9 +25,9 @@ fi
 # Install Ansible and its dependencies if it's not installed already.
 # This is specific to Ubuntu Precise
 if [ ! -f /usr/local/bin/ansible ]; then
-	echo "Installing Ansible dependencies."
+	echo "Installing Ansible dependencies (python-netaddr is only required by DebOps)."
 	apt-get update
-	apt-get install -y python python-dev python-setuptools python-pip
+	apt-get install -y python python-dev python-setuptools python-pip python-netaddr
 	# Make sure setuptools are installed crrectly.
 	pip install setuptools --upgrade
 	echo "Installing required python modules."
