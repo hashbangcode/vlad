@@ -93,7 +93,7 @@ Comparatively, this is the most compromised setup on this list. This setup shoul
 
 	demo-project/
 	├── vlad/
-	│   ├── vlad_aux/w
+	│   ├── vlad_aux/
 	│   ├── vlad/
 	│   ├── ansible.cfg
 	│   ├── Vagrantfile
