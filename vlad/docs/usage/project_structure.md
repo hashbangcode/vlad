@@ -2,6 +2,10 @@
 
 Vlad is flexible enough to fit into various different structures & workflows. How to integrate Vlad into your project will be up to you. This section of the documentation aims to help you decide based on criteria such as your project's basic file structure, how much control you have over that file structure and what tools you are familiar with and comfortable using.
 
+## Running Vagrant
+
+Don't forget that however you decide to structure your project, in order to run Vagrant commands you will first need to `cd` to the directory that contains the Vagrantfile (the root of Vlad's codebase).
+
 
 ## Relevant features & settings
 
