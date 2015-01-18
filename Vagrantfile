@@ -64,7 +64,7 @@ end
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
-boxwebaddress = vconfig['webserver_hostname']
+boxwebaddress = vconfig['webserver_hostname_alias']
 synced_folder_type = vconfig['synced_folder_type']
 vlad_os = vconfig['vlad_os']
 
@@ -230,7 +230,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.trigger.after :up, :stdout => true, :force => true do
-    info 'Vlad setup complete, you can now access the site through the address http://www.' + boxwebaddress + '/'
+    info 'Vlad setup complete, you can now access the site through the address http://' + boxwebaddress + '/'
   end
 
   # Provision vagrant box with Ansible.
