@@ -182,6 +182,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   if synced_folder_type == 'nfs'
+
     # Set up NFS drive.
     nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
 
@@ -189,20 +190,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "nfs", create: true, id: "vagrant-webroot"
 
     # Setup auxiliary synced folder
-    config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", type: "nfs", id: "vagrant-aux"
+    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", type: "nfs", create: true, id: "vagrant-aux"
+
   elsif synced_folder_type == 'rsync'
+
     # Setup synced folder for site files
     config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "rsync", create: true, id: "vagrant-webroot"
 
     # Setup auxiliary synced folder
-    config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", type: "rsync", id: "vagrant-aux"
+    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", type: "rsync", create: true, id: "vagrant-aux"
+
   else
+
     puts "Vlad requires the synced_folder setting to be one of the following:"
     puts " - nfs"
     puts " - rsync"
     puts
     puts "Please check your settings and try again."
     exit
+
   end
 
   # SSH Set up.

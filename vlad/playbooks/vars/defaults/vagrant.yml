@@ -12,8 +12,11 @@ webserver_hostname: 'drupal.local'
 boxipaddress: "192.168.100.100"
 boxname: "vlad"
 
-# Synced folder path (docroot)
+# Synced folder paths
+# Document root (docroot)
 host_synced_folder: "./docroot"
+# Vlad aux (vlad_aux)
+aux_synced_folder: "./vlad_aux"
 
 # Use 'nfs' or 'rsync' for VM file editing in synced folder
 synced_folder_type: 'nfs'
