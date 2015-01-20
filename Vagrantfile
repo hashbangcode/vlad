@@ -236,7 +236,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.trigger.after :up, :stdout => true, :force => true do
-    info 'Vlad setup complete, you can now access the site through the address http://www.' + boxwebaddress + '/'
+    info 'Vlad setup complete!'
   end
 
   # Provision vagrant box with Ansible.
