@@ -57,6 +57,7 @@
   register: iptablesrules
   sudo: true
   always_run: true
+  changed_when: false
 
 - name: add mailcatcher web interface iptable rule
   command: iptables -I INPUT 1 -p tcp --dport 1080 -j ACCEPT -m comment --comment "mailcatcherweb"

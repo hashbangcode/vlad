@@ -49,6 +49,7 @@
   register: iptablesrules
   sudo: true
   always_run: true
+  changed_when: false
 
 - name: add apache iptable rule
   command: iptables -I INPUT 1 -p tcp --dport {{ http_port }} -j ACCEPT -m comment --comment "webhost"

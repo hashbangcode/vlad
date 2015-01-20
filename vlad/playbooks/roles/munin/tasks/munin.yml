@@ -24,6 +24,7 @@
   register: iptablesrules
   always_run: yes
   sudo: true
+  changed_when: false
 
 - name: add munin iptables
   command: iptables -A INPUT -p tcp --dport 4949 -s {{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }} -j ACCEPT -m comment --comment "munin"
