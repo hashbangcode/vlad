@@ -29,7 +29,7 @@
   tags: drush
 
 - name: drush | download the Coder module
-  command: drush dl coder --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
+  command: drush dl coder-7.x-2.x --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
   tags: drush
 
 - name: drush | download the Registry Rebuild module
