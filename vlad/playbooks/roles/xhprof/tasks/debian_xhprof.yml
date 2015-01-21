@@ -101,6 +101,7 @@
 - name: add vhost for xhprof.{{ webserver_hostname }}
   template: src=apache_xhprof_vhost.j2 dest=/etc/apache2/sites-available/xhprof.{{ webserver_hostname }}.conf
   sudo: true
+  when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
