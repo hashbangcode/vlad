@@ -14,11 +14,11 @@ bind-address=0.0.0.0
 
 skip-external-locking
 
-innodb_buffer_pool_size={{ innodb_buffer_pool_size }}
+#innodb_buffer_pool_size={{ innodb_buffer_pool_size }}
 {% if innodb_file_per_table == true %}
-innodb_file_per_table
+#innodb_file_per_table
 {% endif %}
-innodb_log_file_size={{ innodb_log_file_size }}
+#innodb_log_file_size={{ innodb_log_file_size }}
 
 {% if skip_name_resolve == true %}
 skip_name_resolve
