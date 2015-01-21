@@ -12,8 +12,19 @@
 - name: create MySQL configuration file
   action: template src=debian_mysql.my.cnf.j2 dest=/etc/mysql/conf.d/my.cnf
   sudo: true
+  register: mysql_conf
   notify:
   - restart mysql
+
+- name: remove the InnoDB log files in case InnoDB settings have been changed (1/2).
+  file: path=/var/lib/mysql/ib_logfile0 state=absent
+  when: mysql_conf.changed
+  sudo: true
+
+- name: remove the InnoDB log files in case InnoDB settings have been changed (2/2).
+  file: path=/var/lib/mysql/ib_logfile1 state=absent
+  when: mysql_conf.changed
+  sudo: true
 
 - name: change main settings for skip-external-locking
   lineinfile: dest=/etc/mysql/my.cnf regexp="^#?skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"

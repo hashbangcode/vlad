@@ -9,9 +9,12 @@ dbpass: wibble
 
 # MySQL my.cnf settings
 mysql_max_allowed_packet: 128M
-innodb_file_per_table: innodb_file_per_table
+innodb_buffer_pool_size: 512M
+innodb_file_per_table: true
+innodb_log_file_size: 512M
 mysql_character_set_server: utf8
 mysql_collation_server: utf8_general_ci
+skip_name_resolve: TRUE
 
 # Import MySQL database from file on 'vagrant up'. Options include:
 # false          - don't import anything

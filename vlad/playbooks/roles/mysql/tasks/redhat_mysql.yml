@@ -12,12 +12,23 @@
   command: chkconfig mysqld on
   sudo: true
 
-## set up mysql variables
+# set up mysql variables
 - name: create MySQL configuration file
   action: template src=redhat_mysql.my.cnf.j2 dest=/etc/my.cnf
   sudo: true
+  register: mysql_conf
   notify:
   - restart mysqld
+
+- name: remove the InnoDB log files in case InnoDB settings have been changed (1/2).
+  file: path=/var/lib/mysql/ib_logfile0 state=absent
+  when: mysql_conf.changed
+  sudo: true
+
+- name: remove the InnoDB log files in case InnoDB settings have been changed (2/2).
+  file: path=/var/lib/mysql/ib_logfile1 state=absent
+  when: mysql_conf.changed
+  sudo: true
 
 - name: get iptables rules
   shell: iptables -L
