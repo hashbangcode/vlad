@@ -19,7 +19,10 @@ innodb_buffer_pool_size={{ innodb_buffer_pool_size }}
 innodb_file_per_table
 {% endif %}
 innodb_log_file_size={{ innodb_log_file_size }}
-skip_name_resolve={{ skip_name_resolve }}
+
+{% if skip_name_resolve == true %}
+skip_name_resolve
+{% endif %}
 
 [mysqld_safe]
 log-error=/var/log/mysqld.log
