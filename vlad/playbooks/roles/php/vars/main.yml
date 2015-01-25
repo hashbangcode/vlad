@@ -1,6 +1,6 @@
 ---
-# PHP Settings
-# PHP Version, can be one of "5.3" or "5.4"
+# PHP Version, can be one of "default", "5.3" or "5.4"
+# The 'default' value will install whatever is the default version for that system.
 # Vlad will error when a version that isn't understood is used
 php_version: "5.4"
 
