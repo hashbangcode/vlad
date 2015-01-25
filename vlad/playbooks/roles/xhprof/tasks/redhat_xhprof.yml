@@ -47,7 +47,6 @@
   with_items:
    - '{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }}'
    - 127.0.0.1
-   - ::1
    - localhost
 
 - name: copy SQL install script
