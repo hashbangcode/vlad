@@ -28,6 +28,7 @@
    - php5-xmlrpc
    - php-soap
    - php5-curl
+   - php5-mcrypt
   tags: php
   sudo: true
   notify:
@@ -213,5 +214,13 @@
   tags: php
   sudo: true
   when: php_pecl_uploadprogress
+  notify:
+    - restart apache2
+
+- name: enable php mcrypt module
+  command: php5enmod mcrypt
+  tags: php
+  sudo: true
+  when: php_version != '5.3'
   notify:
     - restart apache2
