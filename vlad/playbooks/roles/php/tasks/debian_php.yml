@@ -216,3 +216,11 @@
   when: php_pecl_uploadprogress
   notify:
     - restart apache2
+
+- name: enable php mcrypt module
+  command: php5enmod mcrypt
+  tags: php
+  sudo: true
+  when: php_version >= '5.4'
+  notify:
+    - restart apache2
