@@ -221,6 +221,6 @@
   command: php5enmod mcrypt
   tags: php
   sudo: true
-  when: php_version != '5.4'
+  when: php_version != '5.3'
   notify:
     - restart apache2
