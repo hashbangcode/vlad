@@ -36,9 +36,11 @@ Prerequisites
 * If you are using VirtualBox then you will need VirtualBox 4.3+
 * Ansible (with the Vagrant Ansible Plugin)
 
-Vlad currently only works on Linux or OS X systems (Windows support for Ansible has only recently been added).
+Vlad currently works on Linux, OS X systems and Windows, and supports Ubuntu Precise and Ubuntu Trusty (both 64bit versions) for the guest system.
 
-To install Ansible use the following commands:
+When using a Windows host, Ansible is automatically installed in the guest system. 
+
+To install Ansible in a *nix host system use the following commands:
 
     sudo easy_install pip
     sudo pip install ansible
@@ -72,7 +74,9 @@ Out of the box you will get the following Vagrant box options:
     boxipaddress: "192.168.100.100"
     boxname: "vlad"
 
-Tweak the above settings if you want to create a separate project that uses Vlad as a template.
+Tweak the above settings if you want to create a separate project that uses Vlad as a template. 
+
+Also note that you can choose the Ubuntu version in your Vagrant file (Precise 12.04 LTS or Trusty 14.04 LTS) and adjust your memory and CPU limits.
 
 With the settings.yml file in place you can get up and running using the following command:
 
@@ -81,6 +85,7 @@ With the settings.yml file in place you can get up and running using the followi
 Setting up the box takes a few minutes but there is plenty of output to look at whilst Ansible runs through the provisioning steps. You can see the webroot of the Vagrant box by going to the address [www.drupal.local](http://www.drupal.local/). A local Ansible action will add an entry to your hosts file for the relevant IP address (set via settings.yml).
 
 Note: You will be asked for your sudo password on two separate occasions. The first is used by Vagrant to setup a NFS share and the second is used by Ansible to alter your local hosts file so that you can easily access the box via a web browser.
+Note for Windows users: You will be required to type your windows credentials to setup the synced SMB folders.
 
 To access the vagrant box use the following command:
 
