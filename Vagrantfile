@@ -54,26 +54,40 @@ boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
 boxwebaddress = vconfig['webserver_hostname']
 synced_folder_type = vconfig['synced_folder_type']
+box = vconfig['vm_box']
+box_url = vconfig['box_url']
+
+# SMB credentials (Windows only)
+samba_username = vconfig['smb_username']
+samba_password = vconfig['smb_password']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+# Use rbconfig to determine if we're on a windows host or not.
+require 'rbconfig'
+is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
+  # Choose your virtual machine
+  config.vm.box = box
+  config.vm.box_url = box_url
+  
   # Configure virtual machine options.
-  config.vm.box = "ubuntu/precise64"
-
   config.vm.hostname = boxname
   config.vm.network :private_network, ip: boxipaddress
 
   # Allow caching to be used (see the vagrant-cachier plugin)
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :machine
-    config.cache.synced_folder_opts = { type: :nfs }
+		if is_windows
+    	config.cache.synced_folder_opts = { type: "smb", smb_username: samba_username, smb_password: samba_password}
+  	else
+    	config.cache.synced_folder_opts = { type: :nfs }
+  	end
     config.cache.auto_detect = false
     config.cache.enable :apt
-    #config.cache.enable :gem
-    #config.cache.enable :npm
   end
 
   # Set *Vagrant* VM name (e.g. "vlad_myboxname_74826748251406_66388")
@@ -83,12 +97,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Configure virtual machine setup.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+		# Set the max RAM available to the VM
     v.customize ["modifyvm", :id, "--memory", 1024]
+		# Recommended to set cpus to 2 if possible, otherwise comment it out leaving the default (1)
+    v.customize ["modifyvm", :id, "--cpus", 2]
+    v.customize ["modifyvm", :id, "--ioapic", "on"]
+    # fix VirtualBox problem with symlinks on shared folders
+    #v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+    # modern chipset
+    v.customize ["modifyvm", :id, "--chipset", "ich9"]
+    # more video memory
+    v.customize ["modifyvm", :id, "--vram", "32"]
     # Set *provider* VM name (e.g. "myboxname_vlad")
-    v.name = boxname + "_vlad"
+    v.name = boxname + "_trusty_on_windows"
   end
 
-  if synced_folder_type == 'nfs'
+  if is_windows
+    # Setup auxiliary synced folder
+    config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", 
+      type: "smb", 
+      id: "vagrant-aux", 
+      smb_username: samba_username, 
+      smb_password: samba_password
+  elsif synced_folder_type == 'nfs'
     # Set up NFS drive.
     nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
 
@@ -104,7 +135,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Setup auxiliary synced folder
     config.vm.synced_folder vagrant_dir + "/vlad_aux", "/var/www/site/vlad_aux", type: "rsync", id: "vagrant-aux"
   else
-    puts "Vlad requires the synced_folder setting to be one of the following:"
+    puts "Vlad in *nix requires the synced_folder setting to be one of the following:"
     puts " - nfs"
     puts " - rsync"
     puts
@@ -116,10 +147,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   # Run an Ansible playbook on setting the box up
-  if !File.exist?(vlad_hosts_file)
-    config.trigger.before :up, :stdout => true, :force => true do
-      info "Executing 'up' setup trigger"
-      run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+	config.trigger.before :up, :stdout => true, :force => true do
+		info "Executing 'up' setup trigger"
+		if !File.exist?(vlad_hosts_file)
+			if is_windows
+				system("cp " + vagrant_dir + "/vlad/playbooks/templates/host.j2 " + vlad_hosts_file)
+				system("echo # Vlad >> " + vconfig['hosts_file_location'])
+				system("echo " + boxipaddress + " www." + boxwebaddress + " adminer." + boxwebaddress + " xhprof." + boxwebaddress + " logs." + boxwebaddress + " >> " + vconfig['hosts_file_location'])
+	 	  else
+      	run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+    	end
     end
   end
 
@@ -127,13 +164,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if File.exist?(vlad_hosts_file)
     config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
       info "Executing 'halt/destroy' trigger"
-      run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+		  if is_windows
+			  run_remote 'ansible-playbook -i /vagrant/vlad/host.ini /vagrant/vlad/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
+		  else
+  	    run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+  	  end
     end
   end
 
   config.trigger.after :up, :stdout => true, :force => true do
     info "Executing 'up' services trigger"
-    run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml'
+	  if is_windows
+	    run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad/playbooks/local_up_services.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
+	  else
+	    run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml'
+  	end
   end
 
   config.trigger.after :up, :stdout => true, :force => true do
@@ -141,27 +186,44 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Provision vagrant box with Ansible.
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = vagrant_dir + "/vlad/playbooks/site.yml"
-    ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
-    ansible.host_key_checking = false
-    ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
-    if vconfig['ansible_verbosity'] != ''
-      ansible.verbose = vconfig['ansible_verbosity']
-    end
-  end
-
-  # Run the custom Ansible playbook (if the custom role exists)
-  if File.exist?("../vlad-custom/tasks/main.yml")
-    config.vm.provision "ansible" do |ansible|
-      ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
+  if is_windows
+  	# Provisioning configuration for shell script.
+  	config.vm.provision "shell" do |sh|
+ 			sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
+ 			# run all tags
+      sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ', ' + 'all'
+  	end
+  else
+	  config.vm.provision "ansible" do |ansible|
+      ansible.playbook = vagrant_dir + "/vlad/playbooks/site.yml"
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       ansible.host_key_checking = false
       ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
-      ansible.limit = 'all'
       if vconfig['ansible_verbosity'] != ''
         ansible.verbose = vconfig['ansible_verbosity']
       end
+    end
+  end
+
+  # Run the custom Ansible playbook (if it exists)
+  if File.exist?("vlad/playbooks-custom/custom/tasks/main.yml")
+	  if is_windows
+  		# Provisioning configuration for shell script.
+  		config.vm.provision "shell" do |sh|
+   			sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
+    		sh.args = "/vlad/playbooks/site-custom.yml " + boxipaddress + ','
+  		end
+  	else
+    	config.vm.provision "ansible" do |ansible|
+      	ansible.playbook = vagrant_dir + "/vlad/playbooks/site-custom.yml"
+      	ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
+      	ansible.host_key_checking = false
+      	ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
+      	ansible.limit = 'all'
+      	if vconfig['ansible_verbosity'] != ''
+        	ansible.verbose = vconfig['ansible_verbosity']
+      	end
+    	end
     end
   end
 

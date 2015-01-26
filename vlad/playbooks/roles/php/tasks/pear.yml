@@ -1,4 +1,26 @@
 ---
+- name: pear | copy Archive_Tar patch for 1.3.11 (#20246)
+  template: src=pear/Tar.php-20246.patch dest=/tmp/Tar.php-20246.patch
+  tags: pear
+  sudo: true
+  
+- name: pear | apply Archive_Tar patch for 1.3.11 (#20246)
+  shell: patch -p0 $(pear list Archive_Tar | grep "Tar.php" | cut -c 6-) -i /tmp/Tar.php-20246.patch
+  tags: pear
+  sudo: true
+  ignore_errors: true
+
+- name: pear | copy Archive_Tar patch for 1.3.12 (#20382)
+  template: src=pear/Tar.php-20382.patch dest=/tmp/Tar.php-20382.patch
+  tags: pear
+  sudo: true
+  
+- name: pear | apply Archive_Tar patch for 1.3.12 (#20382)
+  shell: patch -p0 $(pear list Archive_Tar | grep "Tar.php" | cut -c 6-) -i /tmp/Tar.php-20382.patch
+  tags: pear
+  sudo: true
+  ignore_errors: true
+
 - name: pear | force upgrade of pear
   command: pear upgrade pear
   register: pear_upgrade_pear
@@ -19,8 +41,8 @@
 - name: pear | upgrade all other pear packages
   command: pear upgrade
   register: pear_upgrade_all
-  failed_when: "pear_upgrade_all.rc != 0"
   changed_when: "'Nothing to upgrade-all' not in pear_upgrade_all.stdout"
+  ignore_errors: true
   tags: pear
   sudo: true
 

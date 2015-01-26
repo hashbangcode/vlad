@@ -59,42 +59,41 @@
    - save iptables
 
 - name: download apache commons logging
-  command: wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/commons/logging/binaries/commons-logging-1.2-bin.tar.gz creates=/home/{{ user }}/commons-logging-1.2-bin.tar.gz
+  shell: chdir=/home/{{ user }} wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/commons/logging/binaries/commons-logging-1.2-bin.tar.gz creates=/home/{{ user }}/commons-logging-1.2-bin.tar.gz
 
 - name: extract apache commons logging
-  command: tar -zxf commons-logging-1.2-bin.tar.gz creates=/home/{{ user }}/commons-logging-1.2
-  sudo: true
-
+  shell: chdir=/home/{{ user }} tar -zxf commons-logging-1.2-bin.tar.gz creates=/home/{{ user }}/commons-logging-1.2
+  
 - name: list commons-logging files (in order to copy)
-  command: ls -1 /home/{{ user }}/commons-logging-1.2/
+  shell: ls -1 /home/{{ user }}/commons-logging-1.2/
   register: commonsfiles
 
 - name: copy apache commons logging
-  command: cp -r /home/{{ user }}/commons-logging-1.2/{{ item }} /usr/share/tomcat6/lib creates=/usr/share/tomcat6/lib/{{ item }}
+  shell: cp -r /home/{{ user }}/commons-logging-1.2/{{ item }} /usr/share/tomcat6/lib creates=/usr/share/tomcat6/lib/{{ item }}
   sudo: true
   with_items: commonsfiles.stdout_lines
 
 - name: download SLF4J
-  command: wget http://www.slf4j.org/dist/slf4j-1.7.7.tar.gz creates=/home/{{ user }}/slf4j-1.7.7.tar.gz
+  shell: chdir=/home/{{ user }} wget http://www.slf4j.org/dist/slf4j-1.7.7.tar.gz creates=/home/{{ user }}/slf4j-1.7.7.tar.gz
 
 - name: extract SLF4J
-  command: tar -zxf slf4j-1.7.7.tar.gz creates=/home/{{ user }}/slf4j-1.7.7
+  shell: chdir=/home/{{ user }} tar -zxf slf4j-1.7.7.tar.gz creates=/home/{{ user }}/slf4j-1.7.7
 
 - name: list slf4j files (in order to copy)
-  command: ls -1 /home/{{ user }}/slf4j-1.7.7/
+  shell: ls -1 /home/{{ user }}/slf4j-1.7.7/
   register: slf4jfiles
 
 - name: copy SLF4J
-  command: cp -r /home/{{ user }}/slf4j-1.7.7/{{ item }} /usr/share/tomcat6/lib creates=/usr/share/tomcat6/lib/{{ item }}
+  shell: cp -r /home/{{ user }}/slf4j-1.7.7/{{ item }} /usr/share/tomcat6/lib creates=/usr/share/tomcat6/lib/{{ item }}
   sudo: true
   with_items: slf4jfiles.stdout_lines
   when: "'android' not in item and 'slf4j-log4j12' not in item and 'log4j-over-slf4j' not in item"
 
 - name: download Solr
-  command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.7.2/solr-4.7.2.tgz creates=/home/{{ user }}/solr-4.7.2.tgz
+  shell: chdir=/home/{{ user }} wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.7.2/solr-4.7.2.tgz creates=/home/{{ user }}/solr-4.7.2.tgz
 
 - name: extract Solr
-  command: tar -zxf /home/{{ user }}/solr-4.7.2.tgz creates=/home/{{ user }}/solr-4.7.2
+  shell: chdir=/home/{{ user }} tar -zxf /home/{{ user }}/solr-4.7.2.tgz creates=/home/{{ user }}/solr-4.7.2
 
 - name: copy Solr war file
   command: cp /home/{{ user }}/solr-4.7.2/dist/solr-4.7.2.war /var/lib/tomcat6/webapps/solr.war creates=/var/lib/tomcat6/webapps/solr.war

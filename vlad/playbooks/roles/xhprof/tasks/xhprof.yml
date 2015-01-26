@@ -8,34 +8,11 @@
    - python-mysqldb
   sudo: true
 
-- name: set pecl preferred state to beta
-  command: pecl config-set preferred_state beta creates=/usr/lib/php5/20090626/xhprof.so
-  when: php_version == '5.3'
-  sudo: true
-
 - name: install xhprof
-  command: pecl install xhprof creates=/usr/lib/php5/20090626/xhprof.so
-  when: php_version == '5.3'
-  sudo: true
-
-- name: set pecl preferred state to stable
-  command: pecl config-set preferred_state stable creates=/usr/lib/php5/20090626/xhprof.so
-  when: php_version == '5.3'
-  sudo: true
-
-- name: set pecl preferred state to beta
-  command: pecl config-set preferred_state beta creates=/usr/lib/php5/20100525/xhprof.so
-  when: php_version == '5.4'
-  sudo: true
-
-- name: install xhprof
-  command: pecl install xhprof creates=/usr/lib/php5/20100525/xhprof.so
-  when: php_version == '5.4'
-  sudo: true
-
-- name: set pecl preferred state to stable
-  command: pecl config-set preferred_state stable creates=/usr/lib/php5/20100525/xhprof.so
-  when: php_version == '5.4'
+  shell: pecl install xhprof-beta
+  register: xhprof_result
+  failed_when: "'0.9' not in xhprof_result.stdout"
+  changed_when: "'is already installed' not in xhprof_result.stdout"
   sudo: true
 
 - name: setup xhprof ini files
@@ -45,23 +22,22 @@
     - restart apache2
 
 - name: get xhprof_html package
-  git: repo=https://github.com/preinheimer/xhprof dest=/var/www/xhprof_html update=no
-  sudo: true
-
+  git: repo=https://github.com/preinheimer/xhprof dest=/var/www/html/xhprof_html depth=1
+  
+- name: ensure Xhprof directory group
+  file: path=/var/www/html/xhprof_html group=www-data state=directory recurse=yes
+  
 - name: create xhprof_html application database
   mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root
 
 - name: copy SQL install script
-  copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
-  sudo: true
+  copy: src=install.mysql dest=/var/www/html/xhprof_html/install.sql
   
 - name: copy configuration file
-  template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
-  sudo: true
+  template: src=xhprof_config_php.j2 dest=/var/www/html/xhprof_html/xhprof_lib/config.php
 
 - name: run SQL install script
-  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
-  sudo: true
+  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/html/xhprof_html/install.sql
 
 - name: check virtual host for Xhprof include
   command: cat /etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
@@ -70,12 +46,22 @@
   always_run: yes
   sudo: true
 
-- name: add virtual server item if include not found
+- name: add auto_preppend virtual server item if include not found
   lineinfile: dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
   with_items:
-    - '  php_value auto_prepend_file /var/www/xhprof_html/external/header.php'
+    - '  php_value auto_prepend_file /var/www/html/xhprof_html/external/header.php'
     - '</VirtualHost>'
   when: xhprof_include_present.stdout.find('auto_prepend') == -1
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: add auto_append to virtual server item if include not found
+  lineinfile: dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
+  with_items:
+    - '  php_value auto_append_file /var/www/html/xhprof_html/external/footer.php'
+    - '</VirtualHost>'
+  when: xhprof_include_present.stdout.find('auto_append') == -1
   sudo: true
   notify:
     - restart apache2
@@ -88,11 +74,11 @@
 
 - name: enable the xhprof site
   command: a2ensite xhprof.{{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/xhprof.{{ webserver_hostname }}.conf
-  sudo: true
   when: ansible_os_family == "Debian"
+  sudo: true
   notify:
     - restart apache2
 
-- name: ensure Xhprof directory permissions
-  file: path=/var/www/xhprof_html mode=0777 recurse=yes
+- name: ensure Xhprof temp directory exists and has the proper permissions
+  file: path=/tmp/xhprof state=directory owner=vagrant group=www-data
   sudo: true

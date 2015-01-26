@@ -33,7 +33,7 @@
         and varnish_http_port == http_port
 
     - fail: msg="PHP Version is invalid"
-      when: php_version is defined and php_version != "5.3" and php_version != "5.4"
+      when: php_version is defined and php_version != "5.3" and php_version != "5.4" and php_version != "5.5" and php_version != "5.6"
 
     - fail: msg="Solr Drupal module is invalid"
       when: drupal_solr_package is defined
@@ -80,6 +80,8 @@
     - { role: node, tags: ["node"], when: "node_install is defined and node_install == 'y'" }
 
     - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install is defined and imagemagick_install == 'y'" }
+
+    - { role: samba, tags: ["windows"], when: "is_windows is defined and is_windows == 'true'" }
 
   post_tasks:
 
