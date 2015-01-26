@@ -62,7 +62,6 @@
   with_items:
    - '{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }}'
    - 127.0.0.1
-   - ::1
    - localhost
 
 - name: ensure directory /var/www/xhprof_html/xhprof_lib exists
@@ -101,6 +100,7 @@
 - name: add vhost for xhprof.{{ webserver_hostname }}
   template: src=apache_xhprof_vhost.j2 dest=/etc/apache2/sites-available/xhprof.{{ webserver_hostname }}.conf
   sudo: true
+  when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 

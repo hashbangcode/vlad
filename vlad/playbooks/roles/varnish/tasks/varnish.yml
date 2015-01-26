@@ -43,15 +43,12 @@
   notify:
   - restart varnish
 
-- name: ensure varnish is started
-  service: name=varnish state=started
-  sudo: true
-
 - name: get iptables rules
   shell: iptables -L
   register: iptablesrules
   sudo: true
   always_run: true
+  changed_when: false
 
 - name: add apache iptable rule
   command: iptables -I INPUT 1 -p tcp --dport {{ varnish_http_port }} -j ACCEPT -m comment --comment "varnish"

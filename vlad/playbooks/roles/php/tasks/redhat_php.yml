@@ -123,3 +123,28 @@
   sudo: true
   notify:
     - restart httpd
+
+- name: don't expose php
+  lineinfile: dest=/etc/php.ini regexp="^(;*)expose_php =" insertafter="^(;*)expose_php =" line="expose_php = Off"
+  sudo: true
+  notify:
+    - restart httpd
+
+- name: check, what PECL uploadprogress is installed
+  command: pecl list | grep uploadprogress | wc -l
+  register: pecl_uploadprogress_installed
+  changed_when: false
+
+- name: install PECL uploadprogress
+  command: pecl install uploadprogress creates=/usr/lib64/php/modules/uploadprogress.so
+  tags: php
+  sudo: true
+  when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
+
+- name: add PECL uploadprogress apache php.ini setting
+  lineinfile: dest=/etc/php.ini state=present line="extension=uploadprogress.so"
+  tags: php
+  sudo: true
+  when: php_pecl_uploadprogress
+  notify:
+    - restart httpd

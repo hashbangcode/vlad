@@ -45,10 +45,24 @@
   sudo: true
   notify:
     - restart apache2
-  
+
+- name: PECL library install
+  shell: printf "yes\n" | pecl install memcache creates=/usr/lib64/php/modules/memcache.so
+  when: pecl_memcache_installed.stdout == '0' and ansible_os_family == "Redhat"
+  sudo: true
+  notify:
+    - restart httpd
+
 - name: config file for the PHP memcache extension
   template: src=php_apache2_memcached.ini.j2 dest=/etc/php5/apache2/conf.d/memcached.ini
   sudo: true
   notify:
     - restart apache2
   when: ansible_os_family == "Debian"
+
+- name: config file for the PHP memcache extension
+  template: src=php_apache2_memcached.ini.j2 dest=/etc/php.d/memcached.ini
+  sudo: true
+  notify:
+    - restart httpd
+  when: ansible_os_family == "Redhat"

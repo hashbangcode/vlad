@@ -1,4 +1,16 @@
 ---
+- name: test | ensure Apache is running.
+  service: name=apache2 state=restarted
+  sudo: true
+  when: apache_install and ansible_os_family == "Debian"
+  changed_when: false
+
+- name: test | ensure Apache is running.
+  service: name=httpd state=restarted
+  sudo: true
+  when: apache_install and ansible_os_family == "RedHat"
+  changed_when: false
+
 - name: test | apache is installed
   shell: apache2 -v
   register: apache_result

@@ -9,11 +9,13 @@
 - name: pear | update all channels
   command: pear update-channels
   tags: pear
+  changed_when: false
   sudo: true
 
 - name: pear | ensure pear is set to install stable packages
   command: pear config-set preferred_state stable
   tags: pear
+  changed_when: false
   sudo: true
 
 - name: pear | clear pear cache

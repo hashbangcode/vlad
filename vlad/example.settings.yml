@@ -68,7 +68,8 @@
   admin_mail: 'test@example.com'
 
 # PHP Settings
-# PHP Version, can be one of "5.3" or "5.4"
+# PHP Version, can be one of "default", "5.3" or "5.4"
+# The 'default' value will install whatever is the default version for that system.
 # Vlad will error when a version that isn't understood is used
   php_version: "5.4"
 
@@ -101,9 +102,12 @@
 
 # MySQL my.cnf settings
   mysql_max_allowed_packet: 128M
-  innodb_file_per_table: innodb_file_per_table
+  innodb_buffer_pool_size: 128M
+  innodb_file_per_table: true
+  innodb_log_file_size: 128M
   mysql_character_set_server: utf8
   mysql_collation_server: utf8_general_ci
+  skip_name_resolve: true
 
 # SSH Settings
   ssh_port: 22
