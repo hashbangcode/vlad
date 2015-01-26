@@ -24,10 +24,6 @@
   command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
   tags: drush
 
-- name: drush | download the hacked! module
-  command: drush dl hacked --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/hacked
-  tags: drush
-
 - name: drush | download the Coder module
   command: drush dl coder-7.x-2.x --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
   tags: drush
