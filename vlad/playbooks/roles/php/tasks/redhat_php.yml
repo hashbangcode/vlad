@@ -118,7 +118,7 @@
     - restart httpd
 
 - name: change APC configuration file apc.ini
-  template: src=php/redhat_php_apache2_apc.ini.j2 dest=/etc/php.d/apc.ini
+  template: src=redhat_php_apache2_apc.ini.j2 dest=/etc/php.d/apc.ini
   tags: php
   sudo: true
   notify:

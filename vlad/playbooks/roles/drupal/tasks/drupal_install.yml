@@ -1,6 +1,6 @@
 ---
 - name: drupal install | copy drush/Drupal 7 installation script
-  template: src=drupal/drupal7_install.j2 dest=/var/www/drupal7_install.sh
+  template: src=drupal7_install.j2 dest=/var/www/drupal7_install.sh
   tags: drupalinstall
   sudo: true
 
@@ -10,7 +10,7 @@
   sudo: true
 
 - name: drupal install | copy drush/Drupal 8 installation script
-  template: src=drupal/drupal8_install.j2 dest=/var/www/drupal8_install.sh
+  template: src=drupal8_install.j2 dest=/var/www/drupal8_install.sh
   tags: drupalinstall
   sudo: true
 

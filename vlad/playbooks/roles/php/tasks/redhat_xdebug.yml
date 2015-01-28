@@ -21,7 +21,7 @@
   sudo: true
 
 - name: xdebug | update xdebug configuration file
-  template: src=php/php_apache2_xdebug.ini.j2 dest=/etc/php.d/xdebug.ini
+  template: src=php_apache2_xdebug.ini.j2 dest=/etc/php.d/xdebug.ini
   when: xdebug_installed.changed
   tags: xdebug
   sudo: true

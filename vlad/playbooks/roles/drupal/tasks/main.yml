@@ -1,0 +1,3 @@
+---
+- include: drush.yml
+- include: drupal_install.yml

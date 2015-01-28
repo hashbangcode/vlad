@@ -177,7 +177,7 @@
     - restart apache2
 
 - name: change APC configuration file apc.ini
-  template: src=php/debian_php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
+  template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
   when: php_version != '5.4' and ansible_lsb.major_release|int <= 12
   tags: php
   sudo: true
@@ -185,7 +185,7 @@
     - restart apache2
 
 - name: change APC configuration file apc.ini
-  template: src=php/debian_php_apache2_apc.ini.j2 dest=/etc/php5/mods-available/apc.ini
+  template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/mods-available/apc.ini
   when: php_version == '5.4' or ansible_lsb.major_release|int >= 14
   tags: php
   sudo: true
