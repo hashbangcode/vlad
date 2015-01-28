@@ -19,6 +19,10 @@
   boxname: "vlad"
   host_synced_folder: "./docroot"
 
+#memory and cpu settings
+  vagrant_cpus: 2
+  vagrant_memory: 1024
+
 # Install components:
 # - To install a component set it to true.
 # - To leave a component out of the install set the value to false.
