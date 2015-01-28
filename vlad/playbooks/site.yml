@@ -63,6 +63,8 @@
 
     - { role: php, when: "php_install" }
 
+    - { role: drupal, when: "php_install" }
+
     - { role: apache, tags: ["apache"], when: "apache_install" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install" }
