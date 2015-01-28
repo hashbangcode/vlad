@@ -1,0 +1,25 @@
+---
+- name: python | apt-get install python and pip
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  tags: python
+  sudo: true
+  when: ansible_os_family == "Debian"
+  with_items:
+   - python
+   - python-pip
+
+- name: python | yum install python and pip
+  yum: pkg={{ item }} state=installed
+  tags: python
+  sudo: true
+  when: ansible_os_family == "RedHat"
+  with_items:
+   - python
+   - python-pip
+
+- name: python | install python packages
+  pip: name={{ item }}
+  tags: python
+  sudo: true
+  with_items:
+   - mkdocs

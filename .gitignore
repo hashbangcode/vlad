@@ -43,19 +43,19 @@ vagrant_ansible_inventory_*
 
 # Vlad specific files #
 #######################
+
+# General
 vlad/host.ini
 vagrant_ansible_inventory_vlad
 vlad/ansible.log
 vlad/settings.yml
+vlad/docs_site/
 
-# Default & common shared web root folder names #
-#################################################
+# Default & common shared web root folder names
 docroot/*
 www/*
 public_html/*
 htdocs/*
 
-# vlad_aux shared folder #
-#####################
-vlad_aux/*/*
-!vlad_aux/*/README.md
+# vlad_aux shared folder
+vlad_aux/*

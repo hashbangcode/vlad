@@ -1,27 +1,28 @@
 ---
 - hosts: all
   gather_facts: false
-
-  pre_tasks:
-  - name: Load Vlad settings file
-    include_vars: "{{ item }}"
-    with_first_found: vlad_settings_files
+  vars_files:
+    - "./vars/defaults/vagrant.yml"
+    - "./vars/defaults/general.yml"
+    - "./vars/defaults/install.yml"
+    - "./roles/mysql/vars/main.yml"
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "vars/dummy-settings.yml" ]
 
   tasks:
   - name: local actions destroy | install python-mysqldb package
     apt: pkg=python-mysqldb state=installed
     tags: mysql
-    when: mysql_install is defined and mysql_install == "y"
+    when: mysql_install
     ignore_errors: yes
     sudo: true
 
   - name: local actions destroy | dump vlad database
     mysql_db: name={{ dbname }} state=dump target=/var/www/site/vlad_aux/db_io/vlad_destroy.sql.gz login_password={{ mysql_root_password }} login_user=root
-    when: mysql_install is defined and mysql_install == "y"
+    when: mysql_install
     ignore_errors: yes
     sudo: true
 
-  - name: local actions destroy | delete local hosts.ini file
+  - name: local actions destroy | delete local host.ini file
     file: path=../host.ini state=absent
     delegate_to: 127.0.0.1
 
@@ -31,4 +32,5 @@
         state=absent
         regexp='.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
+    when: hosts_file_update
     sudo: true

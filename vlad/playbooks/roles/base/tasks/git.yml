@@ -1,15 +1,27 @@
 ---
-- name: apt-get | apt-get update and ensure core packages are installed
+
+- name: git | install git with apt-get
   apt: pkg=git state=installed update_cache=yes cache_valid_time=3600
-  tags: aptget
+  tags:
+      - aptget
+      - git
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: git | install git with yum
+  yum: pkg=git state=installed
+  tags:
+      - git
+      - yum
+  when: ansible_os_family == "RedHat"
   sudo: true
 
 - name: git | add Git user.name config
   command: git config --global user.name "{{ git_user_name }}"
   tags: git
-  when: git_user_name is defined and git_user_name != ""
+  when: git_user_name != ""
 
 - name: git | add Git user.email config
   command: git config --global user.email "{{ git_user_email }}"
   tags: git
-  when: git_user_email is defined and git_user_email != ""
+  when: git_user_email != ""

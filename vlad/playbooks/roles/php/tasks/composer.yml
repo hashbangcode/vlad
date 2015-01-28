@@ -1,0 +1,9 @@
+---
+- name: composer | install Composer
+  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+  tags: php
+  sudo: true
+
+- name: composer | add composer vendor directory to path
+  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='export PATH=$PATH:/home/{{ user }}/.composer/vendor/bin/'
+  tags: php

@@ -2,3 +2,7 @@
 - name: restart mysql
   service: name=mysql state=restarted
   sudo: true
+
+- name: restart mysqld
+  service: name=mysqld state=restarted
+  sudo: true

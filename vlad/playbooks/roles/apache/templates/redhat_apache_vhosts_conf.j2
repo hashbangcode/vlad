@@ -1,0 +1,7 @@
+ServerName {{ webserver_hostname }}
+NameVirtualHost *:{{ http_port }}
+NameVirtualHost *:443
+
+DirectoryIndex index.php index.html
+
+Include vhosts/*.conf

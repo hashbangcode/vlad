@@ -1,0 +1,23 @@
+---
+# MySQL Settings
+mysql_port: 3306
+mysql_root_password: sdfds87643y5thgfd
+server_hostname: vlad
+dbname: vladdb
+dbuser: vlad
+dbpass: wibble
+
+# MySQL my.cnf settings
+mysql_max_allowed_packet: 128M
+innodb_buffer_pool_size: 128M
+innodb_file_per_table: true
+innodb_log_file_size: 128M
+mysql_character_set_server: utf8
+mysql_collation_server: utf8_general_ci
+skip_name_resolve: true
+
+# Import MySQL database from file on 'vagrant up'. Options include:
+# false          - don't import anything
+# true          - import from vlad_aux/db_io/vlad_up.sql.gz
+# "[filename]" - import from vlad_aux/db_io/[filename] (supports .sql, .bz2 and .gz files)
+db_import_up: false

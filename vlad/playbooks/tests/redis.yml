@@ -1,8 +1,8 @@
 ---
 - name: test | redis is installed
   shell: redis-cli ping
-  when: redis_install is defined and redis_install == "y"
+  when: redis_install
   register: redis_result
   failed_when: "redis_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test

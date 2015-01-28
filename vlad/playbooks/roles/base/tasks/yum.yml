@@ -1,0 +1,19 @@
+---
+- name: get epel rpm
+  command: wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm chdir=/home/{{ user }} creates=/home/{{ user }}/epel-release-6-8.noarch.rpm
+
+- name: install epel
+  command: rpm -ivh /home/{{ user }}/epel-release-6-8.noarch.rpm creates=/etc/yum.repos.d/epel.repo
+  sudo: true
+
+- name: yum | yum update and ensure core packages are installed
+  yum: pkg={{ item }} state=installed
+  tags: yum
+  sudo: true
+  with_items:
+    - gcc
+    - gcc-c++
+    - unzip
+    - curl
+    - vim
+    - make

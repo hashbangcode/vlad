@@ -1,0 +1,60 @@
+---
+- name: phing | add phing pear channel
+  command: pear channel-discover pear.phing.info creates=/usr/share/php/.channels/pear.phing.info.reg
+  tags: phing
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: phing | add phing pear channel
+  command: pear channel-discover pear.phing.info creates=/usr/share/pear/.registry/.channel.pear.phing.info/phing.reg
+  tags: phing
+  when: ansible_os_family == "RedHat"
+  sudo: true
+
+- name: phing | install phing
+  command: pear install --alldeps phing/phing creates=/usr/share/php/phing
+  tags: phing
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: phing | install phing
+  command: pear install --alldeps phing/phing creates=/usr/bin/phing
+  tags: phing
+  when: ansible_os_family == "RedHat"
+  sudo: true
+
+- name: phing | install the VersionControl_Git package (1/3)
+  command: pear config-set preferred_state alpha creates=/usr/share/php/VersionControl/Git
+  tags: phing
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: phing | install the VersionControl_Git package (2/3)
+  command: pear install pear/VersionControl_Git creates=/usr/share/php/VersionControl/Git
+  tags: phing
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: phing | install the VersionControl_Git package (3/3)
+  command: pear config-set preferred_state stable creates=/usr/share/php/VersionControl/Git
+  tags: phing
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: phing | install the VersionControl_Git package (1/3)
+  command: pear config-set preferred_state alpha creates=/usr/share/pear/VersionControl/Git
+  tags: phing
+  when: ansible_os_family == "RedHat"
+  sudo: true
+
+- name: phing | install the VersionControl_Git package (2/3)
+  command: pear install pear/VersionControl_Git creates=/usr/share/pear/VersionControl/Git
+  tags: phing
+  when: ansible_os_family == "RedHat"
+  sudo: true
+
+- name: phing | install the VersionControl_Git package (3/3)
+  command: pear config-set preferred_state stable creates=/usr/share/pear/VersionControl/Git
+  tags: phing
+  when: ansible_os_family == "RedHat"
+  sudo: true

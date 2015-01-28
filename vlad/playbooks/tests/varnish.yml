@@ -1,9 +1,15 @@
 ---
+- name: test | ensure Varnish has been restarted.
+  service: name=varnish state=restarted
+  sudo: true
+  when: varnish_install
+  changed_when: false
+
 - name: test | vanish is installed
   shell: varnishstat -1
-  when: varnish_install is defined and varnish_install == "y"
+  when: varnish_install
   always_run: yes
   register: varnish_result
   failed_when: "varnish_result.rc != 0"
-  changed_when: False
+  changed_when: false
   tags: test

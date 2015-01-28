@@ -1,17 +1,18 @@
 ---
 - hosts: all
   gather_facts: false
-
-  pre_tasks:
-  - name: Load Vlad settings file
-    include_vars: "{{ item }}"
-    with_first_found: vlad_settings_files
+  vars_files:
+    - "./vars/defaults/vagrant.yml"
+    - "./vars/defaults/general.yml"
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "vars/dummy-settings.yml" ]
 
   tasks:
-  - fail: msg="The system may not be provisioned according to the CMDB status."
+
+  - name: local actions | check local ip address is defined
+    fail: msg="The system may not be provisioned according to the CMDB status."
     when: local_ip_address is not defined
 
-  - name: local actions | write local hosts.ini file
+  - name: local actions | write local host.ini file
     template: src=templates/host.j2 dest=../host.ini
     delegate_to: 127.0.0.1
 
@@ -21,6 +22,7 @@
         state=absent
         regexp='.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
+    when: hosts_file_update
     sudo: true
 
   - name: local actions | add reference of host to local hosts file
@@ -29,14 +31,35 @@
         state=present
         line='{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
+    when: hosts_file_update
     sudo: true
 
-  # ssh-add
+  # SSH identities
+
+  - name: local actions | establish current username on host machine
+    command: whoami
+    register: host_user
+    when: use_host_id != false
+    delegate_to: 127.0.0.1
+    changed_when: false
+
+  - name: local actions | check that ~/.ssh/config exists on host machine
+    stat: path=/Users/{{ host_user.stdout }}/.ssh/config
+    register: ssh_config_file
+    when: use_host_id != false
+    delegate_to: 127.0.0.1
+    failed_when: ssh_config_file.stat.exists == false
+    changed_when: false
+
+  - name: local actions | check for "ForwardAgent yes" in ~/.ssh/config
+    local_action: command grep "ForwardAgent yes" ~/.ssh/config
+    when: use_host_id != false
+    changed_when: false
 
   - name: local actions | add default identities from host to guest
     local_action: command ssh-add
-    when: use_host_id is defined and use_host_id == "y"
+    when: use_host_id
 
   - name: local actions | add custom identity from host to guest
-    local_action: command ssh-add {{ use_host_ssh_key }}
-    when: use_host_id is defined and use_host_id != "y" and use_host_id != "n"
+    local_action: command ssh-add {{ use_host_id }}
+    when: use_host_id != true and use_host_id != false

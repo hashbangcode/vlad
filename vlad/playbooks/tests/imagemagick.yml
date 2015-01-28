@@ -1,5 +1,5 @@
 ---
 - name: test | ImageMagick is installed
   shell: convert -version
-  when: imagemagick_install is defined and imagemagick_install == "y"
+  when: imagemagick_install
   tags: test

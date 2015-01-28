@@ -19,15 +19,23 @@
   file: path=/var/www/adminer mode=0777 recurse=yes
   sudo: true
 
-- name: add vhost for adminer
+- name: add vhost for adminer (Debian)
   template: src=apache_adminer_vhost.j2 dest=/etc/apache2/sites-available/adminer.{{ webserver_hostname }}.conf
+  when: ansible_os_family == "Debian"
   sudo: true
   notify:
     - restart apache2
 
-- name: enable the adminer site
+- name: enable the adminer site (Debian)
   command: a2ensite adminer.{{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/adminer.{{ webserver_hostname }}.conf
   sudo: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
+
+- name: add vhost for adminer (RedHat)
+  template: src=apache_adminer_vhost.j2 dest=/etc/httpd/vhosts/adminer.{{ webserver_hostname }}.conf
+  when: ansible_os_family == "RedHat"
+  sudo: true
+  notify:
+    - restart httpd

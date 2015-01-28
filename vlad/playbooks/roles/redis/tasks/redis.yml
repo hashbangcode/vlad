@@ -1,8 +1,35 @@
 ---
 - name: install redis
   apt: pkg=redis-server state=installed
-  sudo: yes
+  sudo: true
+  when: ansible_os_family == "Debian"
+
+- name: install redis
+  yum: pkg=redis state=installed
+  sudo: true
+  when: ansible_os_family == "RedHat"
+
+- name: ensure redis is started on ubuntu 12
+  service: name=redis state=started
+  sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
+
+- name: ensure redis is started on ubuntu 14
+  service: name=redis-server state=started
+  sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 14
+
+- name: ensure redis is started on ubuntu 14
+  service: name=redis state=started
+  sudo: true
+  when: ansible_os_family == "RedHat"
 
 - name: set redis port
   lineinfile: dest=/etc/redis/redis.conf regexp="^port = " insertafter="^port = " line="port {{ redis_port }}"
   sudo: true
+  when: ansible_os_family == "Debian"
+
+- name: set redis port
+  lineinfile: dest=/etc/redis.conf regexp="^port = " insertafter="^port = " line="port {{ redis_port }}"
+  sudo: true
+  when: ansible_os_family == "RedHat"

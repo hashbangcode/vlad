@@ -1,94 +1,105 @@
 ---
 - hosts: all
+  vars_files:
+    - "./vars/defaults/vagrant.yml"
+    - "./vars/defaults/general.yml"
+    - "./vars/defaults/install.yml"
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "vars/dummy-settings.yml" ]
 
   pre_tasks:
 
-    - name: Load Vlad settings file
-      include_vars: "{{ item }}"
-      with_first_found: vlad_settings_files
+    # Run some tasks to de-provision the box if needed
 
-    # Run some items to de-provision the box if needed
-
-    - name: ensure Varnish is stopped
+    - name: Ensure Varnish is stopped
       service: name=varnish state=stopped
-      when: varnish_install is defined and varnish_install == "n"
+      when: varnish_install == false
       ignore_errors: yes
       sudo: true
 
-    - name: ensure Varnish is removed
+    - name: Ensure Varnish is removed
       apt: pkg=varnish state=absent
-      when: varnish_install is defined and varnish_install == "n"
+      when: varnish_install == false and ansible_os_family == "Debian"
+      sudo: true
+
+    - name: Ensure Varnish is removed
+      yum: pkg=varnish state=absent
+      when: varnish_install == false and ansible_os_family == "RedHat"
       sudo: true
 
     # Run some pre-provisioning tests to ensure the system will function when provisioned.
 
-    - fail: msg="The Apache setup you have selected will make the site inaccessable on port 80"
-      when: varnish_install is defined and varnish_install == "n" and http_port is defined and http_port != 80
+    - name: Check for incorrect HTTP port if not running Varnish
+      fail: msg="The web server setup you have selected will make the site inaccessable on port 80"
+      when: varnish_install == false and http_port != 80
 
-    - fail: msg="The Apache and Varnish ports you have selected are the same and will conflict"
-      when: varnish_install is defined
-        and varnish_install == "y"
-        and apache_install is defined
-        and apache_install == "y"
-        and varnish_http_port == http_port
+    - name: Check if Varnish & Apache ports match
+      fail: msg="The Apache and Varnish ports you have selected are the same and will conflict"
+      when: varnish_install and apache_install and varnish_http_port == http_port
 
-    - fail: msg="PHP Version is invalid"
-      when: php_version is defined and php_version != "5.3" and php_version != "5.4"
+    - name: Check PHP version is valid
+      fail: msg="PHP version not currently supported by Vlad ({{ php_version }})"
+      when: php_version != "default" and php_version != "5.3" and php_version != "5.4"
 
-    - fail: msg="Solr Drupal module is invalid"
-      when: drupal_solr_package is defined
-        and drupal_solr_package != "search_api_solr"
-        and drupal_solr_package != "apachesolr"
+    - name: Check specified Solr package
+      fail: msg="Solr Drupal module is invalid"
+      when: drupal_solr_package != "search_api_solr" and drupal_solr_package != "apachesolr"
 
-    - debug: msg="The 'Ruby' role will be run as it is required to install MailCatcher"
-      when: ruby_install is not defined
-         or ruby_install == "n"
-         and mailcatcher_install is defined
-         and mailcatcher_install == "y"
+    - name: Check MailCatcher dependencies
+      debug: msg="The 'Ruby' role will be run as it is required to install MailCatcher"
+      when: ruby_install == false and mailcatcher_install
+
+      # Generate variables to be used in playbooks
+
+    - name: get local IPv4 address
+      local_action: setup filter=ansible_default_ipv4
+      register: local_ipv4_address
+      always_run: yes
 
   roles:
+
     - role: base
 
-    - { role: mysql, tags: ["mysql"], when: "mysql_install is defined and mysql_install == 'y'" }
+    - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
-    - { role: php, when: "php_install is defined and php_install == 'y'" }
+    - { role: php, when: "php_install" }
 
-    - { role: apache, tags: ["apache"], when: "apache_install is defined and apache_install == 'y'" }
+    - { role: apache, tags: ["apache"], when: "apache_install" }
 
-    - { role: adminer, tags: ["adminer"], when: "adminer_install is defined and adminer_install == 'y'" }
+    - { role: adminer, tags: ["adminer"], when: "adminer_install" }
 
-    - { role: xhprof, tags: ["xhprof"], when: "xhprof_install is defined and xhprof_install == 'y'" }
+    - { role: xhprof, tags: ["xhprof"], when: "xhprof_install" }
 
-    - { role: pimpmylog, tags: ["pimpmylog"], when: "pimpmylog_install is defined and pimpmylog_install == 'y'" }
+    - { role: pimpmylog, tags: ["pimpmylog"], when: "pimpmylog_install" }
 
-    - { role: varnish, tags: ["varnish"], when: "varnish_install is defined and varnish_install == 'y'" }
+    - { role: varnish, tags: ["varnish"], when: "varnish_install" }
 
-    - { role: memcached, tags: ["memcached"], when: "memcached_install is defined and memcached_install == 'y'" }
+    - { role: memcached, tags: ["memcached"], when: "memcached_install" }
 
-    - { role: redis, tags: ["redis"], when: "redis_install is defined and redis_install == 'y'" }
+    - { role: redis, tags: ["redis"], when: "redis_install" }
 
-    - { role: sendmail, tags: ["sendmail"], when: "sendmail_install is defined and sendmail_install == 'y'" }
+    - { role: sendmail, tags: ["sendmail"], when: "sendmail_install" }
 
-    - { role: solr, tags: ["solr"], when: "solr_install is defined and solr_install == 'y'" }
+    - { role: solr, tags: ["solr"], when: "solr_install" }
 
-    - { role: munin, tags: ["munin"], when: "munin_install is defined and munin_install == 'y'" }
+    - { role: munin, tags: ["munin"], when: "munin_install" }
 
-    - { role: ruby, tags: ["ruby"], when: "ruby_install is defined and ruby_install == 'y'" }
+    - { role: ruby, tags: ["ruby"], when: "ruby_install" }
 
-    - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install is defined and mailcatcher_install == 'y'" }
+    - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install" }
 
-    - { role: node, tags: ["node"], when: "node_install is defined and node_install == 'y'" }
+    - { role: node, tags: ["node"], when: "node_install" }
 
-    - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install is defined and imagemagick_install == 'y'" }
+    - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install" }
 
   post_tasks:
 
     - name: move default index.php file into docroot directory
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
-      when: add_index_file is defined and add_index_file == "y"
+      when: add_index_file
 
     # Run post provisioning tests to ensure everything has been provisioned correctly.
     - include: tests/main.yml
 
   handlers:
+
     - include: common/handlers/main.yml

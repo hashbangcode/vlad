@@ -9,23 +9,17 @@
 - name: pear | update all channels
   command: pear update-channels
   tags: pear
+  changed_when: false
   sudo: true
 
 - name: pear | ensure pear is set to install stable packages
   command: pear config-set preferred_state stable
   tags: pear
-  sudo: true
-
-- name: pear | upgrade all other pear packages
-  command: pear upgrade
-  register: pear_upgrade_all
-  failed_when: "pear_upgrade_all.rc != 0"
-  changed_when: "'Nothing to upgrade-all' not in pear_upgrade_all.stdout"
-  tags: pear
+  changed_when: false
   sudo: true
 
 - name: pear | clear pear cache
   command: pear clear-cache
-  changed_when: False
+  changed_when: false
   tags: pear
   sudo: true

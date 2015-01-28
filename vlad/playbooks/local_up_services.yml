@@ -1,51 +1,62 @@
 ---
 - hosts: all
-  gather_facts: false
-
-  pre_tasks:
-  - name: Load Vlad settings file
-    include_vars: "{{ item }}"
-    with_first_found: vlad_settings_files
+  gather_facts: true
+  vars_files:
+    - "./vars/defaults/install.yml"
+    - [ "../../../settings/vlad-settings.yml", "../settings.yml", "vars/dummy-settings.yml" ]
 
   tasks:
   - name: Ensure Varnish is running.
     service: name=varnish state=restarted
     sudo: true
-    when: varnish_install is defined and varnish_install == "y"
+    when: varnish_install
 
   - name: Ensure Apache is running.
     service: name=apache2 state=restarted
     sudo: true
-    when: apache_install is defined and apache_install == "y"
+    when: apache_install and ansible_os_family == "Debian"
+
+  - name: Ensure Apache is running.
+    service: name=httpd state=restarted
+    sudo: true
+    when: apache_install and ansible_os_family == "RedHat"
 
   - name: Ensure MySQL is running.
     service: name=mysql state=restarted
     sudo: true
-    when: mysql_install is defined and mysql_install == "y"
+    when: mysql_install
 
   - name: Ensure Redis is running.
     service: name=redis-server state=restarted
     sudo: true
-    when: redis_install is defined and redis_install == "y"
+    when: redis_install
 
   - name: Ensure Tomcat is running.
     service: name=tomcat6 state=restarted
     sudo: true
-    when: solr_install is defined and solr_install == "y"
+    when: solr_install
 
   - name: Ensure Munin Node is running
     service: name=munin-node state=restarted
     sudo: true
-    when: munin_install is defined and munin_install == "y"
+    when: munin_install
 
   - name: MailCatcher | kill mailcatcher
     command: curl -s -i -v -X DELETE http://127.0.0.1:1080
     ignore_errors: yes
     tags: mailcatcher
     sudo: true
-    when: mailcatcher_install is defined and mailcatcher_install == "y"
+    when: mailcatcher_install
+
+  - name: kill mailcatcher (via pid)
+    shell: pidof ruby | xargs sudo kill -9
+    ignore_errors: yes
+    register: kill_mailcatcher
+    failed_when: "kill_mailcatcher.rc != 0"
+    changed_when: false
+    sudo: true
 
   - name: MailCatcher | run MailCatcher with no ip address restrictions
     command: bash -lc "mailcatcher --ip=0.0.0.0"
     tags: mailcatcher
-    when: mailcatcher_install is defined and mailcatcher_install == "y"
+    when: mailcatcher_install

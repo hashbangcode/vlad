@@ -1,4 +1,13 @@
 ---
+- name: ensure prerequisite packages are installed
+  yum: pkg={{ item }} state=installed
+  sudo: true
+  with_items:
+    - openssl-devel
+    - readline-devel
+    - zlib-devel
+  when: ansible_os_family == "RedHat"
+
 - name: install rbenv
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/home/{{ user }}/.rbenv
@@ -27,7 +36,7 @@
 
 # rbenv won't be available until we source ~/.bash_profile
 - name: source ~/.bash_profile
-  command: . ~/.bash_profile executable=/bin/bash
+  command: . /home/{{ user }}/.bash_profile executable=/bin/bash
 
 # debugging
 #- command: bash -lc "type rbenv"

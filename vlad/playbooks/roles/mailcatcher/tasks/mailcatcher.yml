@@ -6,32 +6,84 @@
     - libsqlite3-dev
     - ruby-dev
   sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
+
+
+- name: install MailCatcher prerequisite packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - rubygems-integration
+    - libsqlite3-dev
+    - ruby-dev
+  sudo: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
+
+- name: install MailCatcher prerequisite packages
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - rubygems
+    - sqlite-devel
+    - ruby-devel
+  sudo: true
+  when: ansible_os_family == "RedHat"
 
 - name: Install MailCatcher with rbenv
   command: bash -lc "gem install mailcatcher"
 
 - name: change php apache sendmail_path setting
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
-  when: php_install is defined and php_install == "y"
+  when: php_install
   sudo: true
   notify:
     - restart apache2
+  when: ansible_os_family == "Debian"
+
+- name: change php apache sendmail_path setting
+  lineinfile: dest=/etc/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
+  when: php_install
+  sudo: true
+  notify:
+    - restart httpd
+  when: ansible_os_family == "RedHat"
 
 - name: change php cli sendmail_path setting
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /usr/bin/env catchmail"
-  when: php_install is defined and php_install == "y"
+  when: php_install
   sudo: true
+  when: ansible_os_family == "Debian"
+
+- name: get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  sudo: true
+  always_run: true
+  changed_when: false
+
+- name: add mailcatcher web interface iptable rule
+  command: iptables -I INPUT 1 -p tcp --dport 1080 -j ACCEPT -m comment --comment "mailcatcherweb"
+  sudo: true
+  when: iptablesrules.stdout.find("mailcatcherweb") == -1
+  notify:
+   - save iptables
 
 - name: kill mailcatcher
   command: curl -s -i -v -X DELETE http://127.0.0.1:1080
   ignore_errors: yes
   register: kill_mailcatcher
   failed_when: "kill_mailcatcher.rc != 0"
-  changed_when: False
+  changed_when: false
+  sudo: true
+
+- name: kill mailcatcher (via pid)
+  shell: pidof ruby | xargs sudo kill -9
+  ignore_errors: yes
+  register: kill_mailcatcher
+  failed_when: "kill_mailcatcher.rc != 0"
+  changed_when: false
   sudo: true
 
 - name: run MailCatcher with no ip address restrictions
   command: bash -lc "mailcatcher --ip=0.0.0.0"
   register: run_mailcatcher
   failed_when: "run_mailcatcher.rc != 0"
-  changed_when: False
+  changed_when: false

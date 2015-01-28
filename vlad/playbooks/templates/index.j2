@@ -17,15 +17,15 @@
 
     <!-- Latest compiled and minified JavaScript -->
 
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
     <style>
@@ -113,7 +113,7 @@ $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@loc
         </table>
 
         <h4>Access the site</h4>
-        <p>Go to <a href="http://{{ webserver_hostname }}">{{ webserver_hostname }}</a> in your browser and the site is rocking.</p>
+        <p>Go to <a href="//{{ webserver_hostname }}">{{ webserver_hostname }}</a> in your browser and the site is rocking.</p>
 
         <h4>Developing</h4>
         <p>All your files are actually located on your host machine in the <var>{{ host_synced_folder }}</var>-directory
@@ -187,7 +187,7 @@ $ vagrant ssh
 
                 <p>The following tools are also accessible:</p>
                 <dl>
-                    {% if mailcatcher_install == 'y' %}
+                    {% if mailcatcher_install %}
                     <dt><a href="http://{{ webserver_hostname }}:1080/">MailCatcher</a></dt>
 
                     <dd>MailCatcher is a program that intercepts all emails sent by PHP and shows them on this web
@@ -195,13 +195,13 @@ $ vagrant ssh
                     </dd>
                     {% endif %}
 
-                    {% if adminer_install == 'y' %}
+                    {% if adminer_install %}
                     <dt><a href="http://adminer.{{ webserver_hostname }}/">Adminer</a></dt>
 
                     <dd>Adminer is a mini database management software, written in PHP.</dd>
                     {% endif %}
 
-                    {% if xhprof_install == 'y' %}
+                    {% if xhprof_install %}
                     <dt><a href="http://xhprof.{{ webserver_hostname }}/">XHProf</a></dt>
 
                     <dd>XHProf is a performance monitoring program that shows detailed execution stats of PHP page
@@ -211,7 +211,7 @@ $ vagrant ssh
                     </dd>
                     {% endif %}
 
-                    {% if solr_install == 'y' %}
+                    {% if solr_install %}
                     <dt><a href="http://{{ webserver_hostname }}:8081/solr">Solr Configuration</a></dt>
 
                     <dd>Solr is a search solution powered by Lucene and served by a Tomcat server. If you have
@@ -227,7 +227,7 @@ $ vagrant ssh
                         <a href="http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true">http://{{ webserver_hostname }}/?XDEBUG_PROFILE=true</a>).
                     </dd>
 
-                   {% if pimpmylog_install == 'y' %}
+                   {% if pimpmylog_install %}
                     <dt><a href="http://logs.{{ webserver_hostname }}/">PimpMyLog</a></dt>
 
                     <dd>PimpMyLog is a little PHP tool that displays webserver error logs and is available at <a

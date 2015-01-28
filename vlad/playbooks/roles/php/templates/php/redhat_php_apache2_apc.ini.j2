@@ -1,0 +1,59 @@
+; Enable apc extension module
+extension = apc.so
+
+;  Options for the apc module
+;  http://www.php.net/manual/en/apc.configuration.php
+
+;  apc.enabled can be set to 0 to disable APC. This is primarily useful when APC is statically compiled into PHP,
+;  since there is no other way to disable it (when compiled as a DSO, the extension line in php.ini can just be commented-out).
+;apc.enabled=1
+
+;  The number of shared memory segments to allocate for the compiler cache.
+;  If APC is running out of shared memory but apc.shm_size is set as high as the system allows,
+;  raising this value might prevent APC from exhausting its memory.
+;apc.shm_segments=1
+
+;  The optimization level. Zero disables the optimizer,
+;  and higher values use more aggressive optimizations.
+;  Expect very modest speed improvements. This is experimental.
+;apc.optimization=0
+
+;  The size of each shared memory segment in MB. By default,
+;  some systems (including most BSD variants) have very low limits on the size of a shared memory segment.
+;apc.shm_size=32M
+
+;  The number of seconds a cache entry is allowed to idle in a slot in case this cache entry slot is needed by another entry.
+;  Leaving this at zero means that APC's cache could potentially fill up with stale entries while newer entries won't be cached.
+;  In the event of a cache running out of available memory, the cache will be completely expunged if ttl is equal to 0. Otherwise,
+;  if the ttl is greater than 0, APC will attempt to remove expired entries.
+;apc.ttl=0
+
+;  The number of seconds a cache entry is allowed to idle in a slot in case this cache entry slot is needed by another entry.
+;  Leaving this at zero means that APC's cache could potentially fill up with stale entries while newer entries won't be cached.
+;  In the event of a cache running out of available memory, the cache will be completely expunged if ttl is equal to 0. Otherwise,
+;  if the ttl is greater than 0, APC will attempt to remove expired entries.
+;apc.user_ttl=0
+
+;  A "hint" about the number of distinct source files that will be included or requested on your web server.
+;  Set to zero or omit if unsure; this setting is mainly useful for sites that have many thousands of source files.
+;apc.num_files_hint=1000
+
+;  If compiled with MMAP support by using --enable-mmap this is the mktemp-style file_mask to pass to the mmap module for
+;  determining whether your mmap'ed memory region is going to be file-backed or shared memory backed.
+;  For straight file-backed mmap, set it to something like /tmp/apc.XXXXXX (exactly 6 Xs).
+;  To use POSIX-style shm_open/mmap put a .shm somewhere in your mask. e.g. /apc.shm.XXXXXX You can also set it to /dev/zero
+;  to use your kernel's /dev/zero interface to anonymous mmap'ed memory. Leaving it undefined will force an anonymous mmap.
+;apc.mmap_file_mask=/tmp/apc.XXXXXX
+
+;  Mostly for testing and debugging. Setting this enables APC for the CLI version of PHP. Under normal circumstances,
+;  it is not ideal to create, populate and destroy the APC cache on every CLI request,
+;  but for various test scenarios it is useful to be able to enable APC for the CLI version of PHP easily.
+;apc.enable_cli=0
+
+;  On by default, but can be set to off and used in conjunction with positive apc.filters so that files are
+;  only cached if matched by a positive filter.
+;apc.cache_by_default=1
+
+; custom settings
+apc.shm_segments = {{ apc_shm_segments }}
+apc.num_files_hint = {{ apc_num_files_hint }}
