@@ -38,7 +38,7 @@
 
     - name: Check PHP version is valid
       fail: msg="PHP version not currently supported by Vlad ({{ php_version }})"
-      when: php_version != "default" and php_version != "5.3" and php_version != "5.4"
+      when: php_version != "5.3" and php_version != "5.4" and php_version != "5.5"
 
     - name: Check specified Solr package
       fail: msg="Solr Drupal module is invalid"

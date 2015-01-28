@@ -1,45 +1,4 @@
 ---
-- name: setup php 'flavour' variable
-  when: php_version == "5.4"
-  set_fact:
-    php_flavour: "php_54"
-
-- name: setup php 'flavour' variable
-  when: php_version == "5.3" and ansible_lsb.major_release|int == 12
-  set_fact:
-    php_flavour: "php_53"
-
-- name: setup php 'flavour' variable
-  when: php_version == "5.5" and ansible_lsb.major_release|int == 14
-  set_fact:
-    php_flavour: "php_54"
-
-
-- include: debian_php_common.yml
-- include: debian_{{ php_flavour }}.yml
-
-
-
-- name: install php packages
-  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
-  with_items:
-   - php-apc
-   - php-pear
-   - php5
-   - php5-cli
-   - php5-common
-   - php5-dev
-   - php5-gd
-   - php5-mysql
-   - php5-xmlrpc
-   - php-soap
-   - php5-curl
-   - php5-mcrypt
-  tags: php
-  sudo: true
-  notify:
-    - restart apache2
-
 - name: change php apache2 memory_limit
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
   tags: php
@@ -166,40 +125,9 @@
   notify:
     - restart apache2
 
-- name: change php apache2 date.timezone (php 5.4+)
-  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
-  tags: php
-  sudo: true
-  when: php_version != '5.3'
-  notify:
-    - restart apache2
-
-- name: change php cli date.timezone (php 5.4+)
-  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
-  tags: php
-  sudo: true
-  when: php_version != '5.3'
-  notify:
-    - restart apache2
-
 - name: change APC configuration file apc.ini
   template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
-  when: php_version != '5.4' and ansible_lsb.major_release|int <= 12
   tags: php
-  sudo: true
-  notify:
-    - restart apache2
-
-- name: change APC configuration file apc.ini
-  template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/mods-available/apc.ini
-  when: php_version == '5.4' or ansible_lsb.major_release|int >= 14
-  tags: php
-  sudo: true
-  notify:
-    - restart apache2
-
-- name: don't expose php
-  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^(;*)expose_php =" insertafter="^(;*)expose_php =" line="expose_php = Off"
   sudo: true
   notify:
     - restart apache2
@@ -220,13 +148,5 @@
   tags: php
   sudo: true
   when: php_pecl_uploadprogress
-  notify:
-    - restart apache2
-
-- name: enable php mcrypt module
-  command: php5enmod mcrypt
-  tags: php
-  sudo: true
-  when: php_version != '5.3'
   notify:
     - restart apache2
