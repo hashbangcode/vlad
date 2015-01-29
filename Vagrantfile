@@ -150,8 +150,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.box = "hashicorp/precise64"
 
       v.gui = false
-      v.vmx["numvcpus"] = "vagrant_cpus"
-      v.vmx["memsize"] = "vagrant_memory"
+      v.vmx["numvcpus"] = vagrant_cpus
+      v.vmx["memsize"] = vagrant_memory
     end
 
   else
