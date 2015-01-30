@@ -5,7 +5,7 @@
   when: varnish_install
   changed_when: false
 
-- name: test | vanish is installed
+- name: test | varnish is installed
   shell: varnishstat -1
   when: varnish_install
   always_run: yes
