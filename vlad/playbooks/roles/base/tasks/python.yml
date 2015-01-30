@@ -16,10 +16,3 @@
   with_items:
    - python
    - python-pip
-
-- name: python | install python packages
-  pip: name={{ item }}
-  tags: python
-  sudo: true
-  with_items:
-   - mkdocs

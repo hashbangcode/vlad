@@ -150,8 +150,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.box = "hashicorp/precise64"
 
       v.gui = false
-      v.vmx["numvcpus"] = "vagrant_cpus"
-      v.vmx["memsize"] = "vagrant_memory"
+      v.vmx["numvcpus"] = vagrant_cpus
+      v.vmx["memsize"] = vagrant_memory
     end
 
   else
@@ -210,7 +210,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   end
 
-  # SSH Set up.
+  # SSH setup
+  # Vagrant >= 1.7.0 defaults to using a randomly generated RSA key.
+  # We need to disable this in order to pass the correct identity from host to guest.
+  config.ssh.insert_key = false
+  # Allow identities to be passed from host to guest.
   config.ssh.forward_agent = true
 
   # Run an Ansible playbook on setting the box up
