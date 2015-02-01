@@ -14,6 +14,11 @@
   sudo: yes
   when: php_version == '5.4'
 
+- name: set the php source to be from the Ubuntu precise libraries
+  command: sed -i.bak "s/trusty/precise/g" /etc/apt/sources.list
+  sudo: true
+  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
+
 - name: install php packages
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
@@ -34,8 +39,10 @@
   notify:
     - restart apache2
 
-
-
+- name: set the php source to be from the Ubuntu trusty libraries (as they should be)
+  command: sed -i "s/precise/trusty/g" /etc/apt/sources.list
+  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
+  sudo: true
 
 - name: change php apache2 memory_limit
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
