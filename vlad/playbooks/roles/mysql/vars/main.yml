@@ -9,9 +9,9 @@ dbpass: wibble
 
 # MySQL my.cnf settings
 mysql_max_allowed_packet: 128M
-innodb_buffer_pool_size: 128M
+innodb_buffer_pool_size: 64M
 innodb_file_per_table: true
-innodb_log_file_size: 128M
+innodb_log_file_size: 64M
 mysql_character_set_server: utf8
 mysql_collation_server: utf8_general_ci
 skip_name_resolve: true
