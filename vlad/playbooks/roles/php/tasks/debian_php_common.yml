@@ -6,63 +6,52 @@
    - python-software-properties
   tags: php
   sudo: true
-  when: php_version == '5.4'
 
-- name: add php 5.4 repository
-  apt_repository: repo=ppa:ondrej/php5-oldstable
-  tags: php
-  sudo: yes
-  when: php_version == '5.4'
-
-- name: install php packages
-  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
-  with_items:
-   - libssl-doc
-   - zlib1g-dev
-   - libssl-dev
-   - zlib1g
+#put this in common when ready
+- name: Add ppa Repository
+  apt_repository: repo=ppa:ondrej/{{ php_ppa }}
   tags: php
   sudo: true
-  notify:
-    - restart apache2
-  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
+  when: php_ppa != "none"
 
-- name: set the php source to be from the Ubuntu precise libraries
-  command: sed -i.bak "s/trusty/precise/g" /etc/apt/sources.list
-  sudo: true
-  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
+#- name: add php 5.4 repository
+#  apt_repository: repo=ppa:ondrej/php5-oldstable
+#  tags: php
+#  sudo: yes
+#  when: php_version == '5.4'
 
-- name: force update of apt-cache
-  apt: update_cache=yes cache_valid_time=10
-  sudo: true
-  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
+#- name: install php package dependencies
+#  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+#  with_items:
+#   - libssl-doc
+##   - zlib1g-dev
+#   - libssl-dev
+#   - zlib1g
+#  tags: php
+#  sudo: true
+#  notify:
+#    - restart apache2
+#  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
 
 - name: install php packages
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
    - php5
-   - php5-cli
-   - php5-common
-   - php5-dev
-   - php5-gd
-   - php5-mysql
-   - php5-xmlrpc
-   - php-soap
-   - php5-curl
-   - php5-mcrypt
+#   - php5-cli
+#   - php5-common
+#   - php5-dev
+#   - php5-gd
+#   - php5-mysql
+#   - php5-xmlrpc
+#   - php-soap
+#   - php5-curl
+#   - php5-mcrypt
+#   - php-apc
+#   - php-pear
   tags: php
   sudo: true
   notify:
     - restart apache2
-
-# doesn't currenlt work with php5.4 on ubuntu14
-#   - php-apc
-#   - php-pear
-
-- name: set the php source to be from the Ubuntu trusty libraries (as they should be)
-  command: sed -i "s/precise/trusty/g" /etc/apt/sources.list
-  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
-  sudo: true
 
 - name: change php apache2 memory_limit
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
