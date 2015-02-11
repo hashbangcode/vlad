@@ -3,6 +3,9 @@
 - name: ensure directory /var/www/site/vlad_aux/tmp exists
   file: path=/var/www/site/vlad_aux/tmp state=directory
 
+- name: ensure directory /var/www/site/vlad_aux/db_io exists
+  file: path=/var/www/site/vlad_aux/db_io state=directory
+
 - name: vm info | create current_build_settings.yml at vlad_ux/tmp/
   copy: src={{ item }} dest=/var/www/site/vlad_aux/tmp/current_build_settings.yml
   with_first_found:
