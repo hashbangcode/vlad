@@ -1,0 +1,47 @@
+---
+- name: change php apache2 date.timezone (php 5.4+)
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli date.timezone (php 5.4+)
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change APC configuration file apc.ini
+  template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/mods-available/apc.ini
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: check, what PECL uploadprogress is installed
+  command: pecl list | grep uploadprogress | wc -l
+  register: pecl_uploadprogress_installed
+  changed_when: false
+
+- name: install PECL uploadprogress
+  command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
+  tags: php
+  sudo: true
+  when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
+
+- name: add PECL uploadprogress apache php.ini setting
+  lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=uploadprogress.so"
+  tags: php
+  sudo: true
+  when: php_pecl_uploadprogress
+  notify:
+    - restart apache2
+
+- name: enable php mcrypt module
+  command: php5enmod mcrypt
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2

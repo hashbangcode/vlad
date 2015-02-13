@@ -1,0 +1,152 @@
+---
+- name: change php apache2 memory_limit
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli memory_limit
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 max_execution_time
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli max_execution_time
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 post_max_size
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?post_max_size =" insertafter="^[#|;]?post_max_size =" line="post_max_size = {{ php_post_max_size }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli post_max_size
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?post_max_size =" insertafter="^[#|;]?post_max_size =" line="post_max_size = {{ php_post_max_size }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 upload_max_filesize
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?upload_max_filesize =" insertafter="^[#|;]?upload_max_filesize = " line="upload_max_filesize = {{ php_upload_max_filesize }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli upload_max_filesize
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?upload_max_filesize =" insertafter="^[#|;]?upload_max_filesize = " line="upload_max_filesize = {{ php_upload_max_filesize }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 max_execution_time
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli max_execution_time
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 display_errors
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?display_errors =" insertafter="^[#|;]?display_errors =" line="display_errors = {{ php_display_errors }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli display_errors
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?display_errors =" insertafter="^[#|;]?display_errors =" line="display_errors = {{ php_display_errors }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 display_startup_errors
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?display_startup_errors =" insertafter="^[#|;]?display_startup_errors =" line="display_startup_errors = {{ php_display_startup_errors }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli display_startup_errors
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?display_startup_errors =" insertafter="^[#|;]?display_startup_errors =" line="display_startup_errors = {{ php_display_startup_errors }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 html_errors
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?html_errors =" insertafter="^[#|;]?html_errors =" line="html_errors = {{ php_html_errors }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli html_errors
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?html_errors =" insertafter="^[#|;]?html_errors =" line="html_errors = {{ php_html_errors }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 date_timezone
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?date_timezone =" insertafter="^[#|;]?date_timezone =" line="date_timezone = {{ php_date_timezone }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php cli date_timezone
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?date_timezone =" insertafter="^[#|;]?date_timezone =" line="date_timezone = {{ php_date_timezone }}"
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change APC configuration file apc.ini
+  template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
+  tags: php
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: check, what PECL uploadprogress is installed
+  command: pecl list | grep uploadprogress | wc -l
+  register: pecl_uploadprogress_installed
+  changed_when: false
+
+- name: install PECL uploadprogress
+  command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
+  tags: php
+  sudo: true
+  when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
+
+- name: add PECL uploadprogress apache php.ini setting
+  lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=uploadprogress.so"
+  tags: php
+  sudo: true
+  when: php_pecl_uploadprogress
+  notify:
+    - restart apache2

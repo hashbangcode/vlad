@@ -68,10 +68,14 @@
   admin_mail: 'test@example.com'
 
 # PHP Settings
-# PHP Version, can be one of "default", "5.3" or "5.4"
-# The 'default' value will install whatever is the default version for that system.
+# PHP Version, can be one of:
+# - "5.3"
+# - "5.4"
+# - "5.5"
+# - "5.6"
+# Note that Ubuntu14 won't install < PHP5.4 so you'll get PHP5.5+
 # Vlad will error when a version that isn't understood is used
-  php_version: "5.4"
+#  php_version: "5.5"
 
 # php.ini settings
   php_memory_limit: 512M
@@ -124,7 +128,7 @@
 # Drupal Solr integration
 # Select which Solr module to install
 # accepted values are 'search_api_solr' or 'apachesolr'
-  drupal_solr_package: "search_api_solr"
+  drupal_solr_package: "apachesolr"
 
 # Local hosts file location
 # Default location on *nix hosts is '/etc/hosts'

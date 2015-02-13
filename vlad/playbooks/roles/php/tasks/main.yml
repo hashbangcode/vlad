@@ -8,8 +8,6 @@
 - include: composer.yml
 
 - include: pear.yml
-- include: drush.yml
-- include: drupal_install.yml
 
 - include: debian_phing.yml
   when: ansible_os_family == "Debian"

@@ -3,6 +3,7 @@
   vars_files:
     - "./vars/defaults/vagrant.yml"
     - "./vars/defaults/general.yml"
+    - "./vars/defaults/required.yml"
     - "./vars/defaults/install.yml"
     - [ "../../../settings/vlad-settings.yml", "../settings.yml", "vars/dummy-settings.yml" ]
 
@@ -38,7 +39,7 @@
 
     - name: Check PHP version is valid
       fail: msg="PHP version not currently supported by Vlad ({{ php_version }})"
-      when: php_version != "default" and php_version != "5.3" and php_version != "5.4"
+      when: php_version != "5.3" and php_version != "5.4" and php_version != "5.5" and php_version != "5.6"
 
     - name: Check specified Solr package
       fail: msg="Solr Drupal module is invalid"
@@ -62,6 +63,8 @@
     - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
     - { role: php, when: "php_install" }
+
+    - { role: drupal, when: "php_install" }
 
     - { role: apache, tags: ["apache"], when: "apache_install" }
 

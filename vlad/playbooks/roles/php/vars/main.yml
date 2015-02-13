@@ -1,24 +1,3 @@
 ---
-# PHP Version, can be one of "default", "5.3" or "5.4"
-# The 'default' value will install whatever is the default version for that system.
-# Vlad will error when a version that isn't understood is used
-php_version: "5.4"
-
-# php.ini settings
-php_memory_limit: 512M
-php_max_execution_time: 60
-php_post_max_size: 100M
-php_upload_max_filesize: 100M
-php_display_errors: On
-php_display_startup_errors: On
-php_html_errors: On
-php_date_timezone: Europe/London
-
-# Install PECL uploadprogress
-php_pecl_uploadprogress: true
-
-# PHP APC Settings
-apc_rfc1867: '1'
-apc_shm_size: '256M'
-apc_shm_segments: '1'
-apc_num_files_hint: '0'
+# PHP Flavour variable. This is used by the flow of the role to pick the correct setup syntax.
+php_flavour: "php_54"
