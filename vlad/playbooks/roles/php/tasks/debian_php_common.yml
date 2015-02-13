@@ -17,19 +17,6 @@
   apt: update_cache=yes
   sudo: true
 
-#- name: install php package dependencies
-#  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
-#  with_items:
-#   - libssl-doc
-##   - zlib1g-dev
-#   - libssl-dev
-#   - zlib1g
-#  tags: php
-#  sudo: true
-#  notify:
-#    - restart apache2
-#  when: php_version == "5.4" and ansible_lsb.major_release|int == 14
-
 - name: install php packages
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
