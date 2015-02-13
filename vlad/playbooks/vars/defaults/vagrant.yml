@@ -34,4 +34,4 @@ vm_memory: 1024
 # - "centos65"
 # - "ubuntu12"
 # - "ubuntu14"
-vlad_os: "ubuntu12"
+vlad_os: "ubuntu14"
