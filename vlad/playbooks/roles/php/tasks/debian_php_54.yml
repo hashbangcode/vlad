@@ -26,7 +26,7 @@
   changed_when: false
 
 - name: install PECL uploadprogress
-  command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
+  command: pecl install -Z uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
   tags: php
   sudo: true
   when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
