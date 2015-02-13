@@ -38,6 +38,7 @@
    - php5-common
    - php5-dev
    - php5-gd
+   - php5-gmp
    - php5-mysql
    - php5-xmlrpc
    - php-soap
