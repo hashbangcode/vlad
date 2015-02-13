@@ -1,30 +1,35 @@
 ---
 - name: setup php variables for php 5.3
-  when: php_version == "5.3" and ansible_lsb.major_release|int == 12
+  when: php_version == "5.3"
   set_fact:
     php_flavour: "php_53"
     php_ppa: "none"
 
-- name: setup php variables for php 5.2
+- name: setup php variables for php 5.4
   when: php_version == "5.4"
   set_fact:
     php_flavour: "php_54"
     php_ppa: "php5-oldstable"
 
 - name: setup php variables for php 5.5
-  when: php_version == "5.5" #and ansible_lsb.major_release|int == 14
+  when: php_version == "5.5"
   set_fact:
     php_flavour: "php_54"
     php_ppa: "php5"
 
 - name: setup php variables for php 5.6
-  when: php_version == "5.6" #and ansible_lsb.major_release|int == 14
+  when: php_version == "5.6"
   set_fact:
     php_flavour: "php_54"
     php_ppa: "php5-5.6"
 
 - include: debian_php_common.yml
-- include: debian_{{ php_flavour }}.yml
+
+- include: debian_php_53.yml
+  when: php_flavour == "php_53"
+
+- include: debian_php_54.yml
+  when: php_flavour == "php_54"
 
 - name: check, what PECL uploadprogress is installed
   command: pecl list | grep uploadprogress | wc -l

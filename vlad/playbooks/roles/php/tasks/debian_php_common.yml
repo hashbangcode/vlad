@@ -1,5 +1,5 @@
 ---
-- name: install php 5.4 prerequisite python packages
+- name: install php prerequisite python packages
   apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
   with_items:
    - python-pycurl
@@ -7,18 +7,15 @@
   tags: php
   sudo: true
 
-#put this in common when ready
-- name: Add ppa Repository
+- name: add ppa Repository
   apt_repository: repo=ppa:ondrej/{{ php_ppa }}
   tags: php
   sudo: true
   when: php_ppa != "none"
 
-#- name: add php 5.4 repository
-#  apt_repository: repo=ppa:ondrej/php5-oldstable
-#  tags: php
-#  sudo: yes
-#  when: php_version == '5.4'
+- name: force update apt cache
+  apt: update_cache=yes
+  sudo: true
 
 #- name: install php package dependencies
 #  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
@@ -37,17 +34,17 @@
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
    - php5
-#   - php5-cli
-#   - php5-common
-#   - php5-dev
-#   - php5-gd
-#   - php5-mysql
-#   - php5-xmlrpc
-#   - php-soap
-#   - php5-curl
-#   - php5-mcrypt
-#   - php-apc
-#   - php-pear
+   - php5-cli
+   - php5-common
+   - php5-dev
+   - php5-gd
+   - php5-mysql
+   - php5-xmlrpc
+   - php-soap
+   - php5-curl
+   - php5-mcrypt
+   - php-apc
+   - php-pear
   tags: php
   sudo: true
   notify:

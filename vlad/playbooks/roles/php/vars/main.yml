@@ -1,0 +1,3 @@
+---
+# PHP Flavour variable. This is used by the flow of the role to pick the correct setup syntax.
+php_flavour: "php_54"
