@@ -124,7 +124,7 @@
 # Drupal Solr integration
 # Select which Solr module to install
 # accepted values are 'search_api_solr' or 'apachesolr'
-  drupal_solr_package: "search_api_solr"
+  drupal_solr_package: "apachesolr"
 
 # Local hosts file location
 # Default location on *nix hosts is '/etc/hosts'
