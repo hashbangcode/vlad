@@ -25,6 +25,7 @@
    - php-curl
    - php-pdo
    - php-mbstring
+   - php-mcrypt
   tags: php
   sudo: true
   when: php_version != '5.4'
@@ -48,6 +49,31 @@
    - php54-curl
    - php54-pdo
    - php54-mbstring
+   - php54-mcrypt
+  tags: php
+  sudo: true
+  when: php_version == '5.4'
+  notify:
+    - restart httpd
+
+- name: install php packages
+  yum: pkg={{ item }} state=latest
+  with_items:
+   - php55
+   - php55-devel
+   - php55-pecl-apc
+   - php55-pear
+   - php55-cli
+   - php55-common
+   - php55-dom
+   - php55-gd
+   - php55-mysql
+   - php55-xmlrpc
+   - php55-soap
+   - php55-curl
+   - php55-pdo
+   - php55-mbstring
+   - php55-mcrypt
   tags: php
   sudo: true
   when: php_version == '5.4'
