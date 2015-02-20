@@ -162,7 +162,7 @@
   synced_folder_type: 'nfs'
 
 # The OS that vlad will use. This can be:
-# - "centos65"
+# - "centos66"
 # - "ubuntu12"
 # - "ubuntu14"
   vlad_os: "ubuntu14"

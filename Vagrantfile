@@ -89,7 +89,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.synced_folder_opts = { type: :nfs }
     config.cache.auto_detect = false
 
-    if vlad_os == "centos65"
+    if vlad_os == "centos66"
       config.cache.enable :yum
     else
       config.cache.enable :apt
@@ -159,9 +159,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Configure VirtualBox setup.
     config.vm.provider "virtualbox" do |v|
 
-      if vlad_os == "centos65"
+      if vlad_os == "centos66"
         # Add a Centos VirtualBox box
-        config.vm.box = "hansode/centos-6.5-x86_64"
+        config.vm.box = "hansode/centos-6.6-x86_64"
       elsif vlad_os == "ubuntu14"
         # Add a Ubuntu VirtualBox box
         config.vm.box = "ubuntu/trusty64"
