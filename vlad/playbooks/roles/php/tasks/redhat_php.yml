@@ -28,7 +28,7 @@
    - php-mcrypt
   tags: php
   sudo: true
-  when: php_version != '5.4'
+  when: php_version == '5.3'
   notify:
     - restart httpd
 
@@ -59,24 +59,48 @@
 - name: install php packages
   yum: pkg={{ item }} state=latest
   with_items:
-   - php55
-   - php55-devel
-   - php55-pecl-apc
-   - php55-pear
-   - php55-cli
-   - php55-common
-   - php55-dom
-   - php55-gd
-   - php55-mysql
-   - php55-xmlrpc
-   - php55-soap
-   - php55-curl
-   - php55-pdo
-   - php55-mbstring
-   - php55-mcrypt
+   - php55u
+   - php55u-devel
+   - php55u-pecl-apc
+   - php55u-pear
+   - php55u-cli
+   - php55u-common
+   - php55u-dom
+   - php55u-gd
+   - php55u-mysql
+   - php55u-xmlrpc
+   - php55u-soap
+   - php55u-curl
+   - php55u-pdo
+   - php55u-mbstring
+   - php55u-mcrypt
   tags: php
   sudo: true
-  when: php_version == '5.4'
+  when: php_version == '5.5'
+  notify:
+    - restart httpd
+
+- name: install php packages
+  yum: pkg={{ item }} state=latest
+  with_items:
+   - php56u
+   - php56u-devel
+   - php56u-pecl-apc
+   - php56u-pear
+   - php56u-cli
+   - php56u-common
+   - php56u-dom
+   - php56u-gd
+   - php56u-mysql
+   - php56u-xmlrpc
+   - php56u-soap
+   - php56u-curl
+   - php56u-pdo
+   - php56u-mbstring
+   - php56u-mcrypt
+  tags: php
+  sudo: true
+  when: php_version == '5.6'
   notify:
     - restart httpd
 
