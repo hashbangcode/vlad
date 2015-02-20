@@ -66,17 +66,8 @@
 - name: delete anonymous MySQL server user for localhost
   mysql_user: name="" state="absent" host="{{ server_hostname }}" login_user="root" login_password="{{ mysql_root_password }}"
 
-- name: secure the MySQL root user for IPV6 localhost (::1)
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
-
-- name: secure the MySQL root user for IPV4 localhost (127.0.0.1)
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
-
-- name: secure the MySQL root user for localhost domain (localhost)
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
-
-- name: secure the MySQL root user for {{ server_hostname }} domain
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="{{ server_hostname }}" login_user=root login_password={{ mysql_root_password }}
+- name: secure the MySQL root user for localhost
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="localhost" login_user=root login_password={{ mysql_root_password }}
 
 - name: remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
