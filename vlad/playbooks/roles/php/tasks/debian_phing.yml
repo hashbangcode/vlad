@@ -1,8 +1,15 @@
 ---
+- name: phing | list available channels
+  command: pear list-channels
+  changed_when: false
+  register: pear_channels
+  tags: phing
+
 - name: phing | add phing pear channel
-  command: pear channel-discover pear.phing.info creates=/usr/share/php/.channels/pear.phing.info.reg
+  command: pear channel-discover pear.phing.info
   tags: phing
   sudo: true
+  when: pear_channels.stdout.find("pear.phing.info") == -1
 
 - name: phing | install phing
   command: pear install --alldeps phing/phing creates=/usr/share/php/phing
