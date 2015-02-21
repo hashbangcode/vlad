@@ -8,7 +8,6 @@
   sudo: true
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
 
-
 - name: install MailCatcher prerequisite packages
   apt: pkg={{ item }} state=installed
   with_items:
@@ -75,7 +74,7 @@
   sudo: true
 
 - name: kill mailcatcher (via pid)
-  shell: pidof ruby | xargs sudo kill -9
+  shell: pidof ruby | xargs -r sudo kill -9
   ignore_errors: yes
   register: kill_mailcatcher
   failed_when: "kill_mailcatcher.rc != 0"
