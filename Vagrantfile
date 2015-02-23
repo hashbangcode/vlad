@@ -29,7 +29,7 @@ settings_file = ""
 # e.g. settings_file_paths[0] trumps everything
 settings_file_paths = [
     vagrant_dir + "/vlad/settings.yml",
-    parent_dir + "/settings/vlad-settings.yml"
+    parent_dir + "/settings/vlad_settings.yml"
     ]
 
 # Loop through settings file paths
@@ -253,8 +253,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # Run the custom Ansible playbook (if the custom role exists)
-  if File.exist?("../vlad-custom/tasks/main.yml")
+  # Run the custom Ansible playbook if the custom role exists
+  if File.exist?("../vlad_custom/tasks/main.yml")
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
