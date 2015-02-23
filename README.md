@@ -1,7 +1,6 @@
 [![Documentation Status](https://readthedocs.org/projects/vlad-docs/badge/?version=latest)](https://readthedocs.org/projects/vlad-docs/?badge=latest)
 
-Vlad - Vagrant LAMP Ansible Drupal
-==================================
+# Vlad - Vagrant LAMP Ansible Drupal
 
 A Drupal development platform in a box, with everything you would need to develop Drupal websites.
 
@@ -31,9 +30,12 @@ This includes the following technologies:
 
 Many of these items can be turned on and off via a settings file.
 
-Documentation
-=============
+# Documentation
 
 Read the documentation at [http://vlad-docs.readthedocs.org/](http://vlad-docs.readthedocs.org/).
 
 Contribute to the documentation on the [Vlad Documentation](https://github.com/hashbangcode/vlad-docs) repository.
+
+# Change log
+
+See the [change log](http://vlad-docs.readthedocs.org/en/latest/project/changelog/) in the documentation.
