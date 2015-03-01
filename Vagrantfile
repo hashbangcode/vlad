@@ -66,6 +66,7 @@ boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
 synced_folder_type = vconfig['synced_folder_type']
 vlad_os = vconfig['vlad_os']
+custom_base_box_name = vconfig['custom_base_box_name']
 
 # Detect the current provider and set a variable.
 if ARGV[1] and (ARGV[1].split('=')[0] == "--provider" or ARGV[2])
@@ -159,15 +160,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Configure VirtualBox setup.
     config.vm.provider "virtualbox" do |v|
 
-      if vlad_os == "centos66"
-        # Add a Centos VirtualBox box
-        config.vm.box = "hansode/centos-6.6-x86_64"
-      elsif vlad_os == "ubuntu14"
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/trusty64"
+      if custom_base_box_name != ""
+        config.vm.box = custom_base_box_name
       else
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/precise64"
+        if vlad_os == "centos66"
+          # Add a Centos VirtualBox box
+          config.vm.box = "hansode/centos-6.6-x86_64"
+        elsif vlad_os == "ubuntu14"
+          # Add a Ubuntu VirtualBox box
+          config.vm.box = "ubuntu/trusty64"
+        else
+          # Add a Ubuntu VirtualBox box
+          config.vm.box = "ubuntu/precise64"
+        end
       end
 
       v.gui = false

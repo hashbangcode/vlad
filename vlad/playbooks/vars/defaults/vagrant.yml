@@ -35,3 +35,11 @@ vm_memory: 1024
 # - "ubuntu12"
 # - "ubuntu14"
 vlad_os: "ubuntu14"
+
+# Custom base box
+#
+# This needs to have been added to Vagrant in advance using:
+# vagrant box add name_of_box /path/to/custom.box
+#
+# Add the name of the box (not the path) to var below
+custom_base_box_name: ""
