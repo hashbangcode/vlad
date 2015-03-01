@@ -19,12 +19,12 @@
   tags: drupalinstall
   sudo: true
 
-- name: drupal install | copy drush/Drupal 8 installation script
-  template: src=drupal8dev_install.j2 dest=/var/www/drupal8_install.sh
+- name: drupal install | copy drush/Drupal 8 dev installation script
+  template: src=drupal8dev_install.j2 dest=/var/www/drupal8dev_install.sh
   tags: drupalinstall
   sudo: true
 
-- name: drupal install | set drush/Drupal 8 installation script to executable
+- name: drupal install | set drush/Drupal 8 dev installation script to executable
   file: path=/var/www/drupal8dev_install.sh mode=755
   tags: drupalinstall
   sudo: true
