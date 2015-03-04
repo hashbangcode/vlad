@@ -30,3 +30,7 @@
   when: xdebug_installed.changed and php_version != '5.4'
   tags: xdebug
   sudo: true
+
+- name: setup profiler output directory
+  file: path=/tmp/xdebug_profiles state=directory mode=777
+  sudo: true

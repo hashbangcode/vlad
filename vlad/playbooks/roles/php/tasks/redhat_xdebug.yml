@@ -25,3 +25,7 @@
   when: xdebug_installed.changed
   tags: xdebug
   sudo: true
+
+- name: setup profiler output directory
+  file: path=/tmp/xdebug_profiles state=directory mode=777
+  sudo: true
