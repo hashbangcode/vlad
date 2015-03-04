@@ -21,45 +21,74 @@ vagrant_dir = File.expand_path(File.dirname(__FILE__))
 parent_dir = File.dirname(vagrant_dir)
 vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
-# Initialise settings_file variable
-settings_file = ""
+# Load settings and overrides files
+settings_files = {
+  settings: [vagrant_dir + "/vlad/settings.yml",
+             parent_dir + "/settings/vlad_settings.yml"
+            ],
+  local: [vagrant_dir + "/vlad/local_settings.yml",
+          parent_dir + "/settings/vlad_local_settings.yml"
+         ]
+}
 
-# Preferred settings files in order of precedence
-# Lower array index means higher precedence
-# e.g. settings_file_paths[0] trumps everything
-settings_file_paths = [
-    vagrant_dir + "/vlad/settings.yml",
-    parent_dir + "/settings/vlad_settings.yml"
-    ]
+vconfig = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
+loaded_vlad_settings = false
 
-# Loop through settings file paths
-settings_file_paths.each do |file_path|
-  # If settings file exists, assign its path to settings_file
-  if File.exist?(file_path)
-      settings_file = file_path
+settings_files.each do |k, v|
+  puts "checking k #{k}"
+  v.each do |f|
+    puts "checking f #{f}"
+    if File.exists?(f)
+      puts "\nLoading #{k == 'settings' ? 'vlad_settings' : 'local overrides'} file: #{f}\n\n"
+      loaded_vlad_settings = true
+      settings_to_merge = YAML::load_file(f)
+      vconfig = vconfig.merge settings_to_merge
+      break
+    end
   end
 end
 
-# Get ready to retrieve stuff from YAML files
-require 'yaml'
-
-if settings_file != ""
-  # Feedback to confirm which Vlad settings file Vagrant will use
-  puts
-  puts "Loading Vlad settings file: #{settings_file}"
-  puts
-  # Include config from settings file and Vlad's default vars
-  vdefaults = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
-  vsettings = YAML::load_file(settings_file)
-  vconfig = vdefaults.merge vsettings
-else
-  # Feedback
-  puts
-  puts "No Vlad settings file found (will use default settings)."
-  puts
-  # Include config from Vlad's default vars only
-  vconfig = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
+unless loaded_vlad_settings
+  puts "\nNo Vlad settings file found (will use default settings).\n\n"
 end
+
+
+# # Preferred settings files in order of precedence
+# # Lower array index means higher precedence
+# # e.g. settings_file_paths[0] trumps everything
+# settings_file_paths = [
+#     vagrant_dir + "/vlad/settings.yml",
+#     parent_dir + "/settings/vlad_settings.yml"
+#     ]
+
+# # Loop through settings file paths
+# settings_file_paths.each do |file_path|
+#   # If settings file exists, assign its path to settings_file
+#   if File.exist?(file_path)
+#       settings_file = file_path
+#   end
+# end
+
+# # Get ready to retrieve stuff from YAML files
+# require 'yaml'
+
+# if settings_file != ""
+#   # Feedback to confirm which Vlad settings file Vagrant will use
+#   puts
+#   puts "Loading Vlad settings file: #{settings_file}"
+#   puts
+#   # Include config from settings file and Vlad's default vars
+#   vdefaults = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
+#   vsettings = YAML::load_file(settings_file)
+#   vconfig = vdefaults.merge vsettings
+# else
+#   # Feedback
+#   puts
+#   puts "No Vlad settings file found (will use default settings)."
+#   puts
+#   # Include config from Vlad's default vars only
+#   vconfig = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
+# end
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
