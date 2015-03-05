@@ -23,32 +23,37 @@ vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
 # Load settings and overrides files
 settings_files = {
-  settings: [vagrant_dir + "/vlad/settings.yml",
-             parent_dir + "/settings/vlad_settings.yml"
-            ],
-  local: [vagrant_dir + "/vlad/local_settings.yml",
-          parent_dir + "/settings/vlad_local_settings.yml"
-         ]
+  "vlad settings" => [vagrant_dir + "/vlad/settings.yml",
+                      parent_dir + "/settings/vlad_settings.yml"
+                     ],
+  "local overrides" => [vagrant_dir + "/vlad/local_settings.yml",
+                        parent_dir + "/settings/vlad_local_settings.yml"
+                       ]
 }
 
 vconfig = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
-loaded_vlad_settings = false
 
-settings_files.each do |k, v|
-  v.each do |f|
-    if File.exists?(f)
-      puts "\nLoading #{k == 'settings' ? 'vlad_settings' : 'local overrides'} file: #{f}\n\n"
+# Iterate over the settings files and load the first file that is found for each type, then
+# merge them over the base/default settings loaded in vconfig
+loaded_vlad_settings = false
+puts "\nChecking for vlad settings and overrides..."
+settings_files.each do |type, paths|
+  paths.each do |file|
+    if File.exists?(file)
+      puts "Loading #{type} file: #{file}"
       loaded_vlad_settings = true
-      settings_to_merge = YAML::load_file(f)
+      settings_to_merge = YAML::load_file(file)
       vconfig = vconfig.merge settings_to_merge
       break
     end
   end
 end
 
+# Warn if we didn't find any files to load
 unless loaded_vlad_settings
-  puts "\nNo Vlad settings file found (will use default settings).\n\n"
+  puts "No Vlad settings or overrides file found (will use default settings)."
 end
+puts 
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
