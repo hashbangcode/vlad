@@ -6,7 +6,7 @@
     - "./vars/defaults/general.yml"
     - "./vars/defaults/install.yml"
     - "./roles/mysql/defaults/main.yml"
-    - [ "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
+    - [ "../../settings/vlad_settings.yml", "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
 
   tasks:
   - name: local actions destroy | install python-mysqldb package

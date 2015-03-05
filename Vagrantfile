@@ -29,6 +29,7 @@ settings_file = ""
 # e.g. settings_file_paths[0] trumps everything
 settings_file_paths = [
     vagrant_dir + "/vlad/settings.yml",
+    vagrant_dir + "/settings/vlad_settings.yml",
     parent_dir + "/settings/vlad_settings.yml"
     ]
 

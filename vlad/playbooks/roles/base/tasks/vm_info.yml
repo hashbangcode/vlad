@@ -10,5 +10,6 @@
   copy: src={{ item }} dest=/var/www/site/vlad_aux/tmp/current_build_settings.yml
   with_first_found:
     - ../../../../../../settings/vlad_settings.yml
+    - ../../../../../settings/vlad_settings.yml
     - ../../../../settings.yml
     - ../../../vars/dummy_settings.yml
