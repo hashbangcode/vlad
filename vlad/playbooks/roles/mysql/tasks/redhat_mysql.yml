@@ -69,6 +69,9 @@
 - name: secure the MySQL root user for localhost
   mysql_user: name="root" password="{{ mysql_root_password }}" host="localhost" login_user=root login_password={{ mysql_root_password }}
 
+- name: allow root remote access on boxipaddress
+  mysql_user: name="root" password="{{ mysql_root_password }}" priv="*.*:ALL" host={{ boxipaddress }}
+
 - name: remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
 
