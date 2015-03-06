@@ -38,7 +38,7 @@ vconfig = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.y
 # Iterate over the settings files and load the first file that is found for each type, then
 # merge them over the base/default settings loaded in vconfig
 loaded_vlad_settings = false
-puts "\nChecking for vlad settings and overrides..."
+puts "\nChecking for Vlad settings and local overrides..."
 settings_files.each do |type, paths|
   paths.each do |file|
     if File.exists?(file)
@@ -53,7 +53,7 @@ end
 
 # Warn if we didn't find any files to load
 unless loaded_vlad_settings
-  puts "No Vlad settings or overrides file found (will use default settings)."
+  puts "No Vlad settings or local overrides files found (will use default settings)."
 end
 puts 
 
