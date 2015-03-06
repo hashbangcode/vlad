@@ -11,7 +11,7 @@ apache_install: true
 
 imagemagick_install: false
 
-mailcatcher_install: true
+mailcatcher_install: false
 
 memcached_install: false
 
@@ -23,17 +23,17 @@ node_install: false
 
 php_install: true
 
-pimpmylog_install: true
+pimpmylog_install: false
 
 redis_install: false
 
-ruby_install: true # Ruby is required by MailCatcher
+ruby_install: false # Ruby is required by MailCatcher
 
-sendmail_install: true
+sendmail_install: false
 
 solr_install: false
 
 # @TODO: Automate this?
-varnish_install: true # If you turn this off then make sure you set the http_port to be 80.
+varnish_install: false # If you turn this off then make sure you set the http_port to be 80.
 
 xhprof_install: false

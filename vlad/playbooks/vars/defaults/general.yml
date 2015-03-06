@@ -8,8 +8,8 @@
 # Provision with custom role
 custom_provision: false
 
-# HTTP port for the web server. If you have turned off Varnish then you might want to set this to "80"
-http_port: 8080
+# HTTP port for the web server. If you choose to install Varnish then you might want to set this to "8080"
+http_port: 80
 
 # Administration email (used in instances when a server email is needed)
 admin_mail: 'test@example.com'
