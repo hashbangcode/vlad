@@ -19,18 +19,18 @@
 
   - name: local actions | remove reference of host from local hosts file
     lineinfile:
-        dest='{{ hosts_file_location }}'
-        state=absent
-        regexp='.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
+      dest: '{{ hosts_file_location }}'
+      state: absent
+      regexp: '.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     when: hosts_file_update
     sudo: true
 
   - name: local actions | add reference of host to local hosts file
     lineinfile:
-        dest='{{ hosts_file_location }}'
-        state=present
-        line='{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
+      dest: '{{ hosts_file_location }}'
+      state: present
+      line: '{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
     delegate_to: 127.0.0.1
     when: hosts_file_update
     sudo: true
