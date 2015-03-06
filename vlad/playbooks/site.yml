@@ -36,7 +36,7 @@
 
     - name: Check if Varnish & Apache ports match
       fail: msg="The Apache and Varnish ports you have selected are the same and will conflict"
-      when: varnish_install and apache_install and varnish_http_port == http_port
+      when: varnish_install == true and apache_install == true and varnish_http_port == http_port
 
     - name: Check PHP version is valid
       fail: msg="PHP version not currently supported by Vlad ({{ php_version }})"
