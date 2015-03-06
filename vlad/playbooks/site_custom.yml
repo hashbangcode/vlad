@@ -5,7 +5,8 @@
     - "./vars/defaults/general.yml"
     - "./vars/defaults/install.yml"
     - [ "../../settings/vlad_settings.yml", "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
-    - [ "../../../settings/vlad_custom_settings.yml", "vars/dummy_settings.yml" ]
+    - [ "../../settings/vlad_custom_settings.yml", "../../../settings/vlad_custom_settings.yml", "vars/dummy_settings.yml" ]
+    - [ "../../settings/vlad_local_settings.yml", "../../../settings/vlad_local_settings.yml", "../local_settings.yml", "vars/dummy_settings.yml" ]
 
   roles:
     - { role: vlad_custom, when: "custom_provision" }
