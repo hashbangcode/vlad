@@ -1,6 +1,6 @@
 ---
 - name: drush | install drush via composer
-  command: composer global require drush/drush:6.*
+  command: composer global require --no-progress --no-interaction drush/drush:6.* chdir=/home/{{ user }}
   register: composer_global_require
   failed_when: "composer_global_require.rc != 0"
   changed_when: "'Nothing to install or update' not in composer_global_require.stdout"
