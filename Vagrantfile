@@ -27,7 +27,7 @@ vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
 
 # Load settings and overrides files
 settings_files = {
-  "vlad settings" => [vagrant_dir + "/vlad/settings.yml",
+  "Vlad settings" => [vagrant_dir + "/vlad/settings.yml",
                       vagrant_dir + "/settings/vlad_settings.yml",
                       parent_dir + "/settings/vlad_settings.yml"
                      ],

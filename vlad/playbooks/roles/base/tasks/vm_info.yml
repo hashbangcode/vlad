@@ -1,10 +1,7 @@
 ---
 
-- name: ensure directory /var/www/site/vlad_aux/tmp exists
-  file: path=/var/www/site/vlad_aux/tmp state=directory
-
-- name: ensure directory /var/www/site/vlad_aux/db_io exists
-  file: path=/var/www/site/vlad_aux/db_io state=directory
+# TODO: Add when condition to the following tasks (avoid copying dummy_settings.yml if possible)
+# TODO: If the above TODO is completed, ensure that any redundant copied settings files are removed from vlad_aux/tmp/
 
 - name: vm info | create current_build_settings.yml at vlad_ux/tmp/
   copy: src={{ item }} dest=/var/www/site/vlad_aux/tmp/current_build_settings.yml
@@ -12,4 +9,12 @@
     - ../../../../../../settings/vlad_settings.yml
     - ../../../../../settings/vlad_settings.yml
     - ../../../../settings.yml
+    - ../../../vars/dummy_settings.yml
+
+- name: vm info | create current_local_overrides.yml at vlad_ux/tmp/
+  copy: src={{ item }} dest=/var/www/site/vlad_aux/tmp/current_local_overrides.yml
+  with_first_found:
+    - ../../../../../../settings/vlad_local_settings.yml
+    - ../../../../../settings/vlad_local_settings.yml
+    - ../../../../local_settings.yml
     - ../../../vars/dummy_settings.yml
