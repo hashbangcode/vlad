@@ -262,12 +262,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
       info "Executing 'halt/destroy' trigger"
       if is_windows
-        run_remote 'ansible-playbook -i /vagrant/vlad/host.ini /vagrant/vlad/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
+        run_remote 'ansible-playbook /vagrant/vlad/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
         info "Removing local host.ini file (" + vlad_hosts_file + ")"
         File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
         info "You'd want to clean up your hosts file manually (" + vconfig['hosts_file_location'] + ")"
       else
-        run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        run 'ansible-playbook --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
       end
     end
   end
@@ -277,7 +277,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if is_windows
       run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad/playbooks/local_up_services.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
     else
-      run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
