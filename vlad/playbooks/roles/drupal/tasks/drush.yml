@@ -16,23 +16,23 @@
   sudo: true
 
 - name: drush | run drush once as current user to finalise install
-  command: drush
+  command: drush chdir=/home/{{ user }}
   changed_when: false
   tags: drush
   notify: drush cc drush
 
 - name: drush | download the site audit module
-  command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
+  command: drush dl site_audit --destination=/home/{{ user }}/.drush/site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
   tags: drush
   notify: drush cc drush
 
 - name: drush | download the Coder module
-  command: drush dl coder-7.x-2.x --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
+  command: drush dl coder-7.x-2.x --destination=/home/{{ user }}/.drush/coder --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
   tags: drush
   notify: drush cc drush
 
 - name: drush | download the Registry Rebuild module
-  command: drush dl registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
+  command: drush dl registry_rebuild --destination=/home/{{ user }}/.drush/registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
   tags: drush
   notify: drush cc drush
 
