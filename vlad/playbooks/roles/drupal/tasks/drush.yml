@@ -19,25 +19,22 @@
   command: drush
   changed_when: false
   tags: drush
+  notify: drush cc drush
 
 - name: drush | download the site audit module
   command: drush dl site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
   tags: drush
+  notify: drush cc drush
 
 - name: drush | download the Coder module
   command: drush dl coder-7.x-2.x --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
   tags: drush
+  notify: drush cc drush
 
 - name: drush | download the Registry Rebuild module
   command: drush dl registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
   tags: drush
-
-- name: drush | clear drush cache
-  command: drush cc drush chdir=/home/{{ user }}/.drush
-  register: drush_cc_result
-  failed_when: "drush_cc_result.rc != 0"
-  changed_when: false
-  tags: drush
+  notify: drush cc drush
 
 - name: drush | get latest version of Drush
   git: repo=https://github.com/drush-ops/drush.git dest=/home/{{ user }}/drush-master
@@ -51,7 +48,7 @@
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush-master=/home/{{ user }}/drush-master/drush'
   tags: drush
 
-- name: drush | add drush7 alias (to fit in with Acquia and Pantheon standards) to .bashrc file
+- name: drush | add drush7 alias to .bashrc file (matches Acquia Cloud & Pantheon standards)
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush7=/home/{{ user }}/drush-master/drush'
   tags: drush
 

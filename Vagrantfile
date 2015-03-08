@@ -225,13 +225,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if File.exist?(vlad_hosts_file)
     config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
       info "Executing 'halt/destroy' trigger"
-      run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
   config.trigger.after :up, :stdout => true, :force => true do
     info "Executing 'up' services trigger"
-    run 'ansible-playbook -i ' + vagrant_dir + '/vlad/host.ini ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+    run 'ansible-playbook ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
   end
 
   config.trigger.after :up, :stdout => true, :force => true do
