@@ -12,6 +12,14 @@
   sudo: true
   notify:
     - restart apache2
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
+
+- name: disable the apache default site
+  command: a2dissite 000-default.conf removes=/etc/apache2/sites-enabled/000-default.conf
+  sudo: true
+  notify:
+    - restart apache2
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
 
 - name: add custom configuration for ubuntu 12
   template: src=debian_apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
