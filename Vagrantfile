@@ -138,42 +138,60 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vagrant_memory = settings_memory
   end
 
-  if provider == "vmware_fusion"
+  # Configure VMWare setup.
+  config.vm.provider "vmware_fusion" do |v, o|
+    # Add VMWare box.
+    o.vm.box = "hashicorp/precise64"
 
-    # Configure VMWare setup.
-    config.vm.provider "vmware_fusion" do |v|
-      # Add VMWare box.
-      config.vm.box = "hashicorp/precise64"
+    v.gui = false
+    v.vmx["numvcpus"] = vagrant_cpus
+    v.vmx["memsize"] = vagrant_memory
+  end
 
-      v.gui = false
-      v.vmx["numvcpus"] = vagrant_cpus
-      v.vmx["memsize"] = vagrant_memory
+  # Configure Parallels Desktop setup.
+  config.vm.provider "parallels" do |p, o|
+    if vlad_os == "centos66"
+      # Add a CentOS Parallels Desktop box
+      o.vm.box = "parallels/centos-6.6"
+    elsif vlad_os == "ubuntu14"
+      # Add an Ubuntu Parallels Desktop box
+      o.vm.box = "parallels/ubuntu-14.04"
+    else
+      # Add an Ubuntu Parallels Desktop box
+      o.vm.box = "parallels/ubuntu-12.04"
     end
 
-  else
+    p.name = boxname + "_vlad"
+    p.cpus = vagrant_cpus
+    p.memory = vagrant_memory
 
-    # Configure VirtualBox setup.
-    config.vm.provider "virtualbox" do |v|
+    # Update guest tools if so configured.
+    update_guest_tools = vconfig.has_key?('parallels_update_guest_tools') ? vconfig['parallels_update_guest_tools'] : false
+    p.update_guest_tools = true
 
-      if vlad_os == "centos66"
-        # Add a Centos VirtualBox box
-        config.vm.box = "hansode/centos-6.6-x86_64"
-      elsif vlad_os == "ubuntu14"
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/trusty64"
-      else
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/precise64"
-      end
+  end
 
-      v.gui = false
-      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      # Set *provider* VM name (e.g. "myboxname_vlad")
-      v.name = boxname + "_vlad"
-      v.cpus = vagrant_cpus
-      v.memory = vagrant_memory
+  # Configure VirtualBox setup.
+  config.vm.provider "virtualbox" do |v, o|
 
+    if vlad_os == "centos66"
+      # Add a Centos VirtualBox box
+      o.vm.box = "hansode/centos-6.6-x86_64"
+    elsif vlad_os == "ubuntu14"
+      # Add a Ubuntu VirtualBox box
+      o.vm.box = "ubuntu/trusty64"
+    else
+      # Add a Ubuntu VirtualBox box
+      o.vm.box = "ubuntu/precise64"
     end
+
+    v.gui = false
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    # Set *provider* VM name (e.g. "myboxname_vlad")
+    v.name = boxname + "_vlad"
+    v.cpus = vagrant_cpus
+    v.memory = vagrant_memory
+
   end
 
   if synced_folder_type == 'nfs'
