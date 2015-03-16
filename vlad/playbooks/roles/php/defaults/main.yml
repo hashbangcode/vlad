@@ -19,7 +19,7 @@ php_html_errors: On
 php_date_timezone: Europe/London
 
 # Install PECL uploadprogress
-php_pecl_uploadprogress: true
+php_pecl_uploadprogress: false
 
 # PHP APC Settings
 apc_rfc1867: '1'
