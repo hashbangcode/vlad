@@ -166,3 +166,7 @@
 # - "ubuntu12"
 # - "ubuntu14"
   vlad_os: "ubuntu14"
+
+# Whether to update the Parallels Desktop guest tools. Only relevant when using the parallels provider.
+# Adds a couple minutes to startup time whenever the tools are out of date.
+  parallels_update_guest_tools: true
