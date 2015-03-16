@@ -149,26 +149,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vagrant_memory = settings_memory
   end
 
-  if vlad_os == "centos66"
-    # Add a Centos VirtualBox box
-    config.vm.box = "hansode/centos-6.6-x86_64"
-  elsif vlad_os == "ubuntu14"
-    # Add a Ubuntu VirtualBox box
-    config.vm.box = "ubuntu/trusty64"
-  else
-    # Add a Ubuntu VirtualBox box
-    config.vm.box = "ubuntu/precise64"
+  # VMWare provider settings
+  config.vm.provider "vmware_fusion" do |vmw, o|
+    # Add VMWare box.
+    o.vm.box = "hashicorp/precise64"
+
+    vmw.gui = false
+    vmw.vmx["numvcpus"] = vagrant_cpus
+    vmw.vmx["memsize"] = vagrant_memory
   end
 
-  # VMWare provider settings
-  config.vm.provider "vmware_fusion" do |vmw|
-    # Configure CPU number and amount of RAM memory.
-    vmw.vmx["memsize"] = vagrant_memory
-    vmw.vmx["numvcpus"] = vagrant_cpus
-  end
-  
   # Virtualbox provider settings
-  config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "virtualbox" do |vb, o|
+    if vlad_os == "centos66"
+      # Add a Centos VirtualBox box
+      o.vm.box = "hansode/centos-6.6-x86_64"
+    elsif vlad_os == "ubuntu14"
+      # Add a Ubuntu VirtualBox box
+      o.vm.box = "ubuntu/trusty64"
+    else
+      # Add a Ubuntu VirtualBox box
+      o.vm.box = "ubuntu/precise64"
+    end
+
     #
     # Fixed settings
     #
@@ -185,8 +188,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     '--rtcuseutc', 'on',
     '--natdnshostresolver1', 'on',
     '--nictype1', 'virtio',
-    '--nictype2', 'virtio'] 
-    
+    '--nictype2', 'virtio']
+
     # Configure OS type
     if vlad_os == "centos66"
       vb.customize ["modifyvm", :id, "--ostype", "RedHat_64"]
@@ -203,6 +206,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--acpi", vconfig['vm_acpi']]
     vb.customize ["modifyvm", :id, "--ioapic", vconfig['vm_ioapic']]
     vb.customize ["modifyvm", :id, "--chipset", vconfig['vm_chipset']]
+  end
+
+  # Configure Parallels Desktop setup.
+  config.vm.provider "parallels" do |p, o|
+    if vlad_os == "centos66"
+      # Add a CentOS Parallels Desktop box
+      o.vm.box = "parallels/centos-6.6"
+    elsif vlad_os == "ubuntu14"
+      # Add an Ubuntu Parallels Desktop box
+      o.vm.box = "parallels/ubuntu-14.04"
+    else
+      # Add an Ubuntu Parallels Desktop box
+      o.vm.box = "parallels/ubuntu-12.04"
+    end
+
+    p.name = boxname + "_vlad"
+    p.cpus = vagrant_cpus
+    p.memory = vagrant_memory
+
+    # Update guest tools if so configured.
+    update_guest_tools = vconfig.has_key?('parallels_update_guest_tools') ? vconfig['parallels_update_guest_tools'] : false
+    p.update_guest_tools = update_guest_tools
+
   end
 
   if is_windows
