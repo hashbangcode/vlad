@@ -1,0 +1,25 @@
+---
+dependencies:
+  - { role: geerlingguy.daemonize }
+
+galaxy_info:
+  author: geerlingguy
+  description: "MailHog for Linux"
+  company: "Midwestern Mac, LLC"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.4
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+    - development
+    - web
+    - system
+    - mail

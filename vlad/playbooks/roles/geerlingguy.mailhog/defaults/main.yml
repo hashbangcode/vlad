@@ -1,0 +1,9 @@
+---
+mailhog_binary_url: https://github.com/ian-kent/Go-MailHog/releases/download/0.07/Go-MailHog_linux_amd64
+mailhog_install_dir: /opt/mailhog
+
+ssmtp_mailhub: localhost:1025
+ssmtp_root: postmaster
+ssmtp_authuser: ""
+ssmtp_authpass: ""
+ssmtp_from_line_override: "YES"
