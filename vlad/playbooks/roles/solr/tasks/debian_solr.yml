@@ -8,12 +8,6 @@
    - tomcat6-extras
    - tomcat6-admin
 
-- name: setup the tomcat users file
-  copy: src=tomcat/tomcat-users.xml dest=/etc/tomcat6/tomcat-users.xml
-  sudo: true
-  notify:
-   - restart tomcat6
-
 - name: change port of tomcat server
   copy: src=tomcat/server.xml dest=/etc/tomcat6/server.xml
   sudo: true
