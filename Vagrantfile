@@ -250,7 +250,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Run the custom Ansible playbook if the custom role exists
-  if File.exist?(vagrant_dir + "/vlad_custom/tasks/main.yml")
+  if File.exist?(vagrant_dir + "/vlad_custom/tasks/main.yml") || File.exist?("../vlad_custom/tasks/main.yml")
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
