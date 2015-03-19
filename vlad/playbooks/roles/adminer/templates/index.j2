@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_GET['username']) && !isset($_GET['file'])) {
-  header('Location: http://' . $_SERVER['SERVER_NAME'] . ':{{ http_port }}/?username={{ dbuser }}&db={{ dbname }}');
+  header('Location: http://' . $_SERVER['SERVER_NAME'] . ':{{ http_port }}/?username={{ dbuser }}');
 }
 
 header("Pragma: no-cache");
@@ -19,13 +19,9 @@ function adminer_object() {
         public function credentials() {
             return array('localhost', '{{ dbuser }}', '{{ dbpass }}');
         }
-        
-        public function database() {
-            return '{{ dbname }}';
-        }
     }
     
     return new AdminerSoftware();
 }
 
-include "./adminer-3.7.1-en.php";
+include "./adminer-4.2.1.php";
