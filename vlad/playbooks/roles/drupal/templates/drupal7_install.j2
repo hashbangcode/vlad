@@ -14,7 +14,7 @@ mkdir docroot/sites/all/modules/custom
 
 # Install Drupal using drush.
 cd docroot
-drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
+drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
 
 # Disable the overlay module.
 drush dis overlay --yes

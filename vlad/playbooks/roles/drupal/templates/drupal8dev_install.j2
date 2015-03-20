@@ -16,4 +16,4 @@ chmod -R 777 /var/www/site/docroot
 
 # Install Drupal using the drush-master.
 cd /var/www/site/docroot
-/home/vagrant/drush-master/drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
+/home/vagrant/drush-master/drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
