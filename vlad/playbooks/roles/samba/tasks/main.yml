@@ -1,4 +1,2 @@
 ---
 - include: smb-install.yml
-# - include: smb-docroot.yml
-# - include: smb-vagrant.yml
