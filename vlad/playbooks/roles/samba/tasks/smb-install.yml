@@ -12,4 +12,4 @@
 - name: Include VLAD shared folders in smb.conf
   lineinfile: dest=/etc/samba/smb.conf line="include=/etc/samba/smb-vlad.conf"
   sudo: true
-  notify: Restart smbd
+  notify: restart smbd
