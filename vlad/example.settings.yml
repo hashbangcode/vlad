@@ -166,3 +166,7 @@
 # - "ubuntu12"
 # - "ubuntu14"
   vlad_os: "ubuntu14"
+
+# Prevent Vlad from asking for sudo passwords when setting up the system. This can be used when the correct sudoers file
+# is in place on the host box. This is useful when running automated tests on the system.
+  suppress_passwords: false
