@@ -60,3 +60,4 @@ htdocs/*
 
 # vlad_aux shared folder
 vlad_aux/*
+/.buildpath

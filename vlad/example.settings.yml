@@ -18,6 +18,8 @@
   boxipaddress: "192.168.100.100"
   boxname: "vlad"
   host_synced_folder: "./docroot"
+# or on Windows
+#  host_synced_folder: "C:\\docroot"
 
 # Install components:
 # - To install a component set it to true.
@@ -133,6 +135,8 @@
 # Local hosts file location
 # Default location on *nix hosts is '/etc/hosts'
 # Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
+# Default location on Windows hosts is 'C:\Windows\System32\drivers\etc\hosts'
+#  hosts_file_location: "C:\\Windows\\System32\\drivers\\etc\\hosts"
   hosts_file_location: "/etc/hosts"
 
 # Select whether Vlad should edit the hosts file.
