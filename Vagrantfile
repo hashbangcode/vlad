@@ -252,7 +252,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         system("echo " + boxipaddress + " adminer." + boxwebaddress + " >> " + vconfig['hosts_file_location']) 
         system("echo # Vlad end >> " + vconfig['hosts_file_location'])
       else
-        run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        if vconfig['suppress_passwords']
+          run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        else
+          run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        end
       end
     end
   end
@@ -267,7 +271,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
         info "You'd want to clean up your hosts file manually (" + vconfig['hosts_file_location'] + ")"
       else
-        run 'ansible-playbook --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        if vconfig['suppress_passwords']
+          run 'ansible-playbook ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        else
+          run 'ansible-playbook --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        end
       end
     end
   end
