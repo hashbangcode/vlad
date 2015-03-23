@@ -11,7 +11,7 @@ require 'rbconfig'
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
 # Install required plugins if not present.
-required_plugins = %w(vagrant-triggers vagrant-cachier)
+required_plugins = %w(vagrant-triggers vagrant-cachier vagrant-hostsupdater)
 required_plugins.each do |plugin|
   need_restart = false
   unless Vagrant.has_plugin? plugin
@@ -238,28 +238,30 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Allow identities to be passed from host to guest.
   config.ssh.forward_agent = true
 
+  # vagrant-hostsupdater plugin will manage /etc/hosts upon up/halt/suspend.
+  config.hostsupdater.aliases = [
+    'www.' + boxwebaddress, 
+    'adminer.' + boxwebaddress, 
+    'xhprof.' + boxwebaddress, 
+    'logs.' + boxwebaddress 
+  ]
+  config.hostsupdater.remove_on_suspend = true
+    
   # Run an Ansible playbook on setting the box up
   config.trigger.before [:up, :resume], :stdout => true, :force => true do
     info "Executing 'up' setup trigger"
-    if !File.exist?(vlad_hosts_file)
-      if is_windows
-        info "Write local host.ini file"
-        system("cp " + vagrant_dir + "/vlad/playbooks/templates/host.j2 " + vlad_hosts_file)
-        info "Adding local hostnames to hosts file"
-        system("echo # Vlad begin >> " + vconfig['hosts_file_location'])
-        system("echo " + boxipaddress + " www." + boxwebaddress + " >> " + vconfig['hosts_file_location']) 
-        system("echo " + boxipaddress + " xhprof." + boxwebaddress + " >> " + vconfig['hosts_file_location']) 
-        system("echo " + boxipaddress + " logs." + boxwebaddress + " >> " + vconfig['hosts_file_location']) 
-        system("echo " + boxipaddress + " adminer." + boxwebaddress + " >> " + vconfig['hosts_file_location']) 
-        system("echo # Vlad end >> " + vconfig['hosts_file_location'])
-      else
-        if vconfig['suppress_passwords']
-          run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+      if !File.exist?(vlad_hosts_file)
+        if is_windows
+          info "Creating " + vlad_hosts_file
+          FileUtils.cp(vagrant_dir + "/vlad/playbooks/templates/host.j2 ", vlad_hosts_file)
         else
-          run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+          if vconfig['suppress_passwords']
+            run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+          else
+            run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+          end
         end
       end
-    end
   end
 
    # Run the halt/destroy playbook upon halting or destroying the box
@@ -268,9 +270,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       info "Executing 'halt/destroy' trigger"
       if is_windows
         run_remote 'ansible-playbook /vagrant/vlad/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
-        info "Removing local host.ini file (" + vlad_hosts_file + ")"
+        info "Deleting " + vlad_hosts_file
         File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
-        info "You'd want to clean up your hosts file manually (" + vconfig['hosts_file_location'] + ")"
       else
         if vconfig['suppress_passwords']
           run 'ansible-playbook ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'

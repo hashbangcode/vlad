@@ -13,27 +13,9 @@
     fail: msg="The system may not be provisioned according to the CMDB status."
     when: local_ip_address is not defined
 
-  - name: local actions | write local host.ini file
+  - name: local actions | create local host.ini file
     template: src=templates/host.j2 dest=../host.ini
     delegate_to: 127.0.0.1
-
-  - name: local actions | remove reference of host from local hosts file
-    lineinfile:
-      dest: '{{ hosts_file_location }}'
-      state: absent
-      regexp: '.*?\s{{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
-    delegate_to: 127.0.0.1
-    when: hosts_file_update and is_windows != true
-    sudo: true
-
-  - name: local actions | add reference of host to local hosts file
-    lineinfile:
-      dest: '{{ hosts_file_location }}'
-      state: present
-      line: '{{ local_ip_address }} {{ webserver_hostname }} {{ webserver_hostname_alias }} adminer.{{ webserver_hostname }} xhprof.{{ webserver_hostname }} logs.{{ webserver_hostname }}'
-    delegate_to: 127.0.0.1
-    when: hosts_file_update and is_windows != true
-    sudo: true
 
   # SSH identities
 
