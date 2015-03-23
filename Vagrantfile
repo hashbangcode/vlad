@@ -10,14 +10,15 @@
 require 'rbconfig'
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
-# If vagrant-trigger isn't installed then exit
-if !Vagrant.has_plugin?("vagrant-triggers")
-  puts "Vlad requires the plugin 'vagrant-triggers'"
-  puts "This can be installed by running:"
-  puts
-  puts " vagrant plugin install vagrant-triggers"
-  puts
-  exit
+# Install required plugins if not present.
+required_plugins = %w(vagrant-triggers vagrant-cachier)
+required_plugins.each do |plugin|
+  need_restart = false
+  unless Vagrant.has_plugin? plugin
+    system "vagrant plugin install #{plugin}"
+    need_restart = true
+  end
+  exec "vagrant #{ARGV.join(' ')}" if need_restart
 end
 
 # Find the current vagrant directory & create additional vars from it
