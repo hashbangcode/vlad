@@ -66,6 +66,7 @@ puts
 boxipaddress = vconfig['boxipaddress']
 boxname = vconfig['boxname']
 boxwebaddress = vconfig['webserver_hostname']
+hostname_aliases = vconfig['webserver_hostname_aliases']
 synced_folder_type = vconfig['synced_folder_type']
 vlad_os = vconfig['vlad_os']
 
@@ -244,7 +245,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     'adminer.' + boxwebaddress, 
     'xhprof.' + boxwebaddress, 
     'logs.' + boxwebaddress 
-  ]
+  ] + hostname_aliases
   config.hostsupdater.remove_on_suspend = true
     
   # Run an Ansible playbook on setting the box up
