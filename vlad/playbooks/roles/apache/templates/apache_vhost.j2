@@ -1,7 +1,9 @@
 <VirtualHost *:{{ http_port }}>
   ServerAdmin {{ admin_mail }}
   ServerName {{ webserver_hostname }}
-  ServerAlias {{ webserver_hostname_alias }}
+{% for alias in webserver_hostname_aliases %}
+  ServerAlias                           {{ alias }}
+{% endfor %}
   ServerAlias *.vagrantshare.com
 
   DocumentRoot /var/www/site/docroot

@@ -61,13 +61,15 @@
 
     - role: base
 
+    - { role: samba, tags: ["windows"], when: "is_windows is defined and is_windows == 'true'" }
+
+    - { role: apache, tags: ["apache"], when: "apache_install" }
+
     - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
     - { role: php, when: "php_install" }
 
     - { role: drupal, when: "php_install" }
-
-    - { role: apache, tags: ["apache"], when: "apache_install" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install" }
 
@@ -94,8 +96,6 @@
     - { role: node, tags: ["node"], when: "node_install" }
 
     - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install" }
-
-    - { role: samba, tags: ["windows"], when: "is_windows is defined and is_windows == 'true'" }
 
   post_tasks:
 
