@@ -241,7 +241,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # vagrant-hostsupdater plugin will manage /etc/hosts upon up/halt/suspend.
   config.hostsupdater.aliases = [
-    'www.' + boxwebaddress, 
     'adminer.' + boxwebaddress, 
     'xhprof.' + boxwebaddress, 
     'logs.' + boxwebaddress 

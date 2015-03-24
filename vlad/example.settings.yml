@@ -17,7 +17,7 @@
 # Webserver settings
   webserver_hostname: 'drupal.local'
   webserver_hostname_aliases: 
-  - 'www1.drupal.local'
+  - 'www.drupal.local'
 #  - 'www.example.com'
 
 # Vagrantfile configuration
