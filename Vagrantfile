@@ -11,7 +11,7 @@ require 'rbconfig'
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
 # Install required plugins if not present.
-required_plugins = %w(vagrant-triggers vagrant-cachier vagrant-hostsupdater)
+required_plugins = %w(vagrant-triggers vagrant-hostsupdater)
 required_plugins.each do |plugin|
   need_restart = false
   unless Vagrant.has_plugin? plugin
