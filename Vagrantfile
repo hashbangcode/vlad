@@ -243,7 +243,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostsupdater.aliases = [
     'adminer.' + boxwebaddress, 
     'xhprof.' + boxwebaddress, 
-    'logs.' + boxwebaddress 
+    'logs.' + boxwebaddress,
+    boxwebaddress
   ] + hostname_aliases
   config.hostsupdater.remove_on_suspend = true
     
