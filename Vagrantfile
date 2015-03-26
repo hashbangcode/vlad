@@ -6,6 +6,9 @@
 # See the readme file (README.md) for more information.
 # Contribute to this project at : https://github.com/hashbangcode/vlad
 
+# Minimum Vagrant version required
+Vagrant.require_version ">= 1.6.4"
+
 # Use rbconfig to determine if we're on a windows host or not.
 require 'rbconfig'
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
