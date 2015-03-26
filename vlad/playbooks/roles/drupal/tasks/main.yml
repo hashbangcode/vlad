@@ -1,3 +1,8 @@
 ---
 - include: drush.yml
+
+- include: drush_make.yml
+  when: drush_make_file != ""
+  tags: drush_make
+
 - include: drupal_install.yml

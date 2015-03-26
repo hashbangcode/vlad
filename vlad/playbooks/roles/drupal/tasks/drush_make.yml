@@ -1,0 +1,20 @@
+---
+
+# Testing if docroot is empty will be determined by the presence of the "modules" subdirectory (used by Drupal 6, 7 & 8).
+- name: Get stats on docroot/modules directory
+  stat: path=/var/www/site/docroot/modules
+  register: stat_docroot_modules_dir
+
+# Run drush make only if docroot is empty.
+- name: Run drush make
+  command: drush make {{ drush_make_options }} /var/www/site/vlad_aux/make/{{ drush_make_file }} -y
+  args:
+    chdir: /var/www/site/docroot
+  when: stat_docroot_modules_dir.stat.exists != true
+
+# Run drush make every time the VM is provisioned if docroot is not empty.
+- name: Run drush make
+  command: drush make {{ drush_make_options }} /var/www/site/vlad_aux/make/{{ drush_make_file }} -y
+  args:
+    chdir: /var/www/site/docroot
+  when: stat_docroot_modules_dir.stat.exists and drush_make_force == true
