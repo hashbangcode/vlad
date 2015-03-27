@@ -160,8 +160,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Configure VMWare setup.
     config.vm.provider "vmware_fusion" do |v|
-      # Add VMWare box.
-      config.vm.box = "hashicorp/precise64"
+
+      if vlad_os == "centos66"
+        # Add a Centos VirtualBox box
+        config.vm.box = "hansode/centos-6.6-x86_64"
+      elsif vlad_os == "ubuntu14"
+        # Add a Ubuntu VirtualBox box
+        config.vm.box = "ubuntu/trusty64"
+      else
+        # Add a Ubuntu VirtualBox box
+        config.vm.box = "ubuntu/precise64"
+      end
 
       v.gui = false
       v.vmx["numvcpus"] = vagrant_cpus
