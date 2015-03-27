@@ -259,11 +259,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           info "Creating " + vlad_hosts_file
           FileUtils.cp(vagrant_dir + "/vlad/playbooks/templates/host.j2 ", vlad_hosts_file)
         else
-          if vconfig['suppress_passwords']
-            run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
-          else
-            run 'ansible-playbook -i ' + boxipaddress + ', --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
-          end
+          run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
         end
       end
   end
@@ -277,11 +273,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         info "Deleting " + vlad_hosts_file
         File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
       else
-        if vconfig['suppress_passwords']
-          run 'ansible-playbook ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
-        else
-          run 'ansible-playbook --ask-sudo-pass ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
-        end
+        run 'ansible-playbook ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
       end
     end
   end
