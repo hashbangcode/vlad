@@ -38,9 +38,6 @@
 - name: source ~/.bash_profile
   command: . /home/{{ user }}/.bash_profile executable=/bin/bash
 
-# debugging
-#- command: bash -lc "type rbenv"
-
 # The command module gets a fair bit of use below as we need to tell bash to run the command
 # as if we were in a login shell (to make sure rbenv kicks in when required).
 
@@ -52,9 +49,6 @@
 # TODO: Make idempotent
 - name: set the global version of Ruby to {{ default_ruby_version }}
   command: bash -lc "rbenv global {{ default_ruby_version }} && rbenv rehash"
-
-# debugging
-#- command: bash -lc "ruby --version"
 
 # TODO: Make idempotent
 - name: update RubyGems
