@@ -4,16 +4,15 @@ cd /var/www/site/
 # Download the latest recommended release of Drupal 7.x into docroot.
 drush dl drupal-7 --drupal-project-rename=docroot --yes
 
-# Create a settings.php file.
-cp docroot/sites/default/default.settings.php docroot/sites/default/settings.php
+# Move into the docroot directory.
+cd docroot
 
 # Create some directories.
-mkdir docroot/sites/default/files
-mkdir docroot/sites/all/modules/contrib
-mkdir docroot/sites/all/modules/custom
+mkdir sites/default/files
+mkdir sites/all/modules/contrib
+mkdir sites/all/modules/custom
 
 # Install Drupal using drush.
-cd docroot
 drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
 
 # Disable the overlay module.
