@@ -8,3 +8,4 @@
   tags: drush_make
 
 - include: drupal_install.yml
+  tags: drupal_install
