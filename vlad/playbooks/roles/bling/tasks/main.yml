@@ -1,0 +1,8 @@
+---
+
+- name: Apotropaic shell prompt
+  lineinfile:
+    dest: /home/{{ user }}/.bash_profile
+    line: export PS1="✝ {{ boxname }} ✝ \w $ "
+    create: yes
+  when: bling_shell_prompt

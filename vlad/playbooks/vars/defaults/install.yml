@@ -9,6 +9,8 @@ adminer_install: true
 
 apache_install: true
 
+bling_install: true
+
 imagemagick_install: false
 
 mailcatcher_install: false

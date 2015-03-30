@@ -117,6 +117,8 @@
 
     - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install" }
 
+    - { role: bling, tags: ["bling"], when: "bling_install" }
+
   post_tasks:
 
     - name: move default index.php file into docroot directory
