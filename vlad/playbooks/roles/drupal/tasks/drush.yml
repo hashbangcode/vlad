@@ -37,7 +37,10 @@
   notify: drush cc drush
 
 - name: drush | get latest version of Drush
-  git: repo=https://github.com/drush-ops/drush.git dest=/home/{{ user }}/drush-master
+  git:
+    repo: https://github.com/drush-ops/drush.git
+    dest: /home/{{ user }}/drush-master
+    depth: 1
   tags: drush
 
 - name: drush | set drush to executable
