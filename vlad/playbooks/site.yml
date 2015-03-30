@@ -125,6 +125,7 @@
 
     # Run post provisioning tests to ensure everything has been provisioned correctly.
     - include: tests/main.yml
+      tags: test
 
   handlers:
 
