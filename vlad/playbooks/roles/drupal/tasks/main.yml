@@ -1,5 +1,7 @@
 ---
+
 - include: drush.yml
+  tags: drush
 
 - include: drush_make.yml
   when: drush_make_file != ""
