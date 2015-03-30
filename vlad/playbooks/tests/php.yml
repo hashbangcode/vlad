@@ -16,12 +16,3 @@
   failed_when: "composer_result.rc != 0"
   changed_when: false
   tags: test
-
-- name: test | drush is installed
-  shell: drush
-  when: php_install
-  always_run: yes
-  register: drush_result
-  failed_when: "drush_result.rc != 0"
-  changed_when: false
-  tags: test
