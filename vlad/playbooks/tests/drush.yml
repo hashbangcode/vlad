@@ -1,10 +1,19 @@
 ---
 
-- name: test | drush is installed
+- name: test | drush 6 is installed
   shell: drush
   when: php_install
   always_run: yes
-  register: drush_result
-  failed_when: "drush_result.rc != 0"
+  register: drush6_result
+  failed_when: "drush6_result.rc != 0"
+  changed_when: false
+  tags: test
+
+- name: test | drush 7 is installed
+  shell: /home/{{ user }}/drush-master/drush
+  when: php_install
+  always_run: yes
+  register: drush7_result
+  failed_when: "drush7_result.rc != 0"
   changed_when: false
   tags: test
