@@ -5,6 +5,7 @@
     src: drupal{{ item }}_install.j2
     dest: /var/www/drupal{{ item }}_install.sh
   with_items:
+    - 6
     - 7
     - 8
     - 8dev
@@ -14,6 +15,7 @@
 - name: drupal install | set Drupal installation scripts to executable
   file: path=/var/www/drupal{{ item }}_install.sh mode=755
   with_items:
+    - 6
     - 7
     - 8
     - 8dev

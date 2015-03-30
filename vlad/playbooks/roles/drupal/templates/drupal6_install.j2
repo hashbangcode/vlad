@@ -1,0 +1,16 @@
+# Move into the site directory.
+cd /var/www/site/
+
+# Download the latest recommended release of Drupal 6.x into docroot.
+drush dl drupal-6 --drupal-project-rename=docroot --yes
+
+cd docroot
+
+# Create some directories.
+mkdir sites/default/files
+mkdir sites/all/modules
+mkdir sites/all/modules/contrib
+mkdir sites/all/modules/custom
+
+# Install Drupal using drush.
+drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
