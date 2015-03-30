@@ -1,8 +1,8 @@
 # Move into the site directory.
 cd /var/www/site/
 
-# Download the latest stable drupal version into docroot.
-drush dl --drupal-project-rename=docroot --yes
+# Download the latest recommended release of Drupal 7.x into docroot.
+drush dl drupal-7 --drupal-project-rename=docroot --yes
 
 # Create a settings.php file.
 cp docroot/sites/default/default.settings.php docroot/sites/default/settings.php
