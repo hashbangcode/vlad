@@ -278,7 +278,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
       info "Executing 'halt/destroy' trigger"
       if is_windows
-        run_remote 'ansible-playbook /vagrant/vlad/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
+        run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
         info "Deleting " + vlad_hosts_file
         File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
       else
@@ -296,10 +296,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.trigger.after :up, :stdout => true, :force => true do
-    info 'Vlad setup complete!'
+  config.trigger.after :provision, :stdout => true, :force => true do
+    info 'Vlad provisioning complete!'
   end
 
+  config.trigger.after :up, :stdout => true, :force => true do
+    info 'Vlad is up and running!'
+  end
+
+  # Workaround to https://github.com/mitchellh/vagrant/issues/1673
+  config.vm.provision "shell" do |sh|
+    #if there a line that only consists of 'mesg n' in /root/.profile, replace it with 'tty -s && mesg n'
+    sh.inline = "(grep -q -E '^mesg n$' /root/.profile && sed -i 's/^mesg n$/tty -s \\&\\& mesg n/g' /root/.profile && echo 'Ignore the previous error about stdin not being a tty. Fixing it now...') || exit 0;"
+  end
+    
   # Provision vagrant box with Ansible.
   if is_windows
     # Provisioning configuration for shell script.
