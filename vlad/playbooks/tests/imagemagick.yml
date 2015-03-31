@@ -2,4 +2,3 @@
 - name: test | ImageMagick is installed
   shell: convert -version
   when: imagemagick_install
-  tags: test

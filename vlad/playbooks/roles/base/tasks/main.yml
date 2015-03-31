@@ -17,3 +17,4 @@
 - include: git.yml
 - include: python.yml
 - include: ssh_config.yml
+- include: shell.yml

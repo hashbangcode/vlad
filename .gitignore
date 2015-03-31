@@ -51,6 +51,7 @@ vlad/ansible.log
 vlad/settings.yml
 vlad/local_settings.yml
 vlad/docs_site/
+settings
 
 # Default & common shared web root folder names
 docroot/*
