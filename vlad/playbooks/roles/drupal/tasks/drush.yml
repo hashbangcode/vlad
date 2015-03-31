@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure certain vlad_aux subdirectories exist
+  file: path=/var/www/site/vlad_aux/{{ item }} state=directory
+  with_items:
+    - drush_backups
+    - drush_dumps
+
 # Drush 6
 # ---------------------------------------------------------
 
