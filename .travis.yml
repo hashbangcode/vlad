@@ -1,4 +1,6 @@
 language: ruby
+bundler_args: --without=development
 rvm:
   - 1.9.3
-script: vagrant up
+env:
+  - VAGRANT_VERSION=v1.7.2
