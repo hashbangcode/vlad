@@ -1,0 +1,7 @@
+---
+
+- name: Ensure .profile is loaded from .bash_profile
+  lineinfile:
+    dest: /home/{{ user }}/.bash_profile
+    line: source "$HOME/.profile"
+    create: yes
