@@ -1,4 +1,17 @@
 language: ruby
 rvm:
   - 1.9.3
-script: vagrant up
+language: python
+python:
+  - "2.7"
+install:
+  - sudo pip install ansible
+  - sudo apt-get update
+  - sudo apt-get install virtualbox
+  - sudo apt-get install vagrant
+  - sudo apt-get install virtualbox-dkms
+script:
+  - sudo vagrant up
+after-script:
+  - sudo vagrant halt
+  - sudo vagrant destroy
