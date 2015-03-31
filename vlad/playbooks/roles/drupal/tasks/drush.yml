@@ -1,4 +1,15 @@
 ---
+
+- name: Ensure certain vlad_aux subdirectories exist
+  file: path=/var/www/site/vlad_aux/{{ item }} state=directory
+  with_items:
+    - drush_backups
+    - drush_dumps
+
+# Drush 6
+# ---------------------------------------------------------
+
+# TODO: Make idempotent
 - name: drush | install drush via composer
   shell: composer global require --no-progress --no-interaction drush/drush:6.* chdir=/home/{{ user }}
   register: composer_global_require
@@ -28,6 +39,16 @@
 - name: drush | download the Registry Rebuild module
   command: drush dl registry_rebuild --destination=/home/{{ user }}/.drush/registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
   notify: drush cc drush
+
+- name: drush | Create drushrc.php file
+  template:
+    src: drushrc.php.j2
+    dest: /home/{{ user }}/.drush/drushrc.php
+  notify: drush cc drush
+
+
+# Drush 7
+# ---------------------------------------------------------
 
 - name: drush | get latest version of Drush
   git:

@@ -3,6 +3,9 @@
 - include: drush.yml
   tags: drush
 
+- include: drush_aliases.yml
+  tags: drush_aliases
+
 - include: drush_make.yml
   when: drush_make_file != ""
   tags: drush_make
