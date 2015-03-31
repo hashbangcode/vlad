@@ -9,12 +9,16 @@
   when: ansible_os_family == "RedHat"
 
 - name: install rbenv
-  git: repo=https://github.com/sstephenson/rbenv.git
-       dest=/home/{{ user }}/.rbenv
+  git:
+    repo: https://github.com/sstephenson/rbenv.git
+    dest: /home/{{ user }}/.rbenv
+    depth: 1
 
 - name: install rbenv plugins
-  git: repo=https://github.com/sstephenson/{{ item }}.git
-       dest=/home/{{ user }}/.rbenv/plugins/{{ item }}
+  git:
+    repo: https://github.com/sstephenson/{{ item }}.git
+    dest: /home/{{ user }}/.rbenv/plugins/{{ item }}
+    depth: 1
   with_items:
     - 'rbenv-gem-rehash'
     - 'rbenv-gemset'

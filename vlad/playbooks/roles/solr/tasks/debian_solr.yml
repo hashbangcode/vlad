@@ -139,11 +139,19 @@
   sudo: true
 
 - name: get Drupal solr integration via search_api_solr
-  git: repo=http://git.drupal.org/project/{{ drupal_solr_package }}.git version=7.x-1.6 dest=/home/{{ user }}/drupal_solr
+  git:
+    repo: http://git.drupal.org/project/{{ drupal_solr_package }}.git
+    dest: dest=/home/{{ user }}/drupal_solr
+    version: 7.x-1.6
+    depth: 1
   when: drupal_solr_package == "search_api_solr"
 
 - name: get Drupal solr integration via apachesolr
-  git: repo=http://git.drupal.org/project/{{ drupal_solr_package }}.git version=7.x-1.7 dest=/home/{{ user }}/drupal_solr
+  git:
+    repo: http://git.drupal.org/project/{{ drupal_solr_package }}.git
+    dest: /home/{{ user }}/drupal_solr
+    version: 7.x-1.7
+    depth: 1
   when: drupal_solr_package == "apachesolr"
 
 - name: copy Drupal Solr config into Solr
