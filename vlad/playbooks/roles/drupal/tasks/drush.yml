@@ -9,35 +9,45 @@
 # Drush 6
 # ---------------------------------------------------------
 
-# TODO: Make idempotent
-- name: drush | install drush via composer
-  shell: composer global require --no-progress --no-interaction drush/drush:6.* chdir=/home/{{ user }}
-  register: composer_global_require
-  failed_when: "composer_global_require.rc != 0"
-  changed_when: "'Nothing to install or update' not in composer_global_require.stdout"
 
-- name: drush | set drush to executable
-  file: path=/home/{{ user }}/.composer/vendor/drush/drush mode=775
+- name: drush | install drush via composer and run it once
+  shell: composer global require --no-progress --no-interaction drush/drush:6.* -d /usr/share/composer; /usr/share/composer/vendor/bin/drush
+  args:
+    creates: /usr/share/composer/vendor/bin/drush
 
-- name: drush | symlink the drush command so everyone can run it
-  file: src=/home/{{ user }}/.composer/vendor/drush/drush/drush dest=/usr/bin/drush state=link
-  sudo: true
+- name: drush | make drush available globally
+  file:
+    src=/usr/share/composer/vendor/bin/drush
+    dest=/usr/bin/drush
+    state=link
+    force=yes
 
-- name: drush | run drush once as current user to finalise install
-  command: drush chdir=/home/{{ user }}
-  changed_when: false
-  notify: drush cc drush
+- name: composer | prepare user .drush directory
+  file:
+    path=/home/{{ user }}/.drush
+    state=directory
+    owner={{ user }}
+    group={{ user }}
+    recurse=yes
+
+- name: composer | ensure previous drush directory is absent
+  file:
+    path=/home/{{ user }}/.composer/vendor/drush/
+    state=absent
 
 - name: drush | download the site audit module
-  command: drush dl site_audit --destination=/home/{{ user }}/.drush/site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
+  command: drush dl site_audit --destination=/home/{{ user }}/.drush/site_audit --yes 
+    creates=/home/{{ user }}/.drush/site_audit
   notify: drush cc drush
 
 - name: drush | download the Coder module
-  command: drush dl coder-7.x-2.x --destination=/home/{{ user }}/.drush/coder --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
+  command: drush dl coder-7.x-2.x --destination=/home/{{ user }}/.drush/coder --yes 
+    creates=/home/{{ user }}/.drush/coder
   notify: drush cc drush
 
 - name: drush | download the Registry Rebuild module
-  command: drush dl registry_rebuild --destination=/home/{{ user }}/.drush/registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
+  command: drush dl registry_rebuild --destination=/home/{{ user }}/.drush/registry_rebuild --yes 
+    creates=/home/{{ user }}/.drush/registry_rebuild
   notify: drush cc drush
 
 - name: drush | Create drushrc.php file
@@ -72,4 +82,6 @@
     create: yes
 
 - name: drush | run composer install in drush
-  command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/vendor
+  command: composer install --no-progress --no-interaction 
+    chdir=/home/{{ user }}/drush-master 
+    creates=/home/{{ user }}/drush-master/vendor
