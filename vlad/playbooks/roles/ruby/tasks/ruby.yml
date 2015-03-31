@@ -25,9 +25,7 @@
     - 'ruby-build'
 
 - name: add line to .bash_profile (rbenv) (step 1/4)
-  lineinfile: dest=/home/{{ user }}/.bash_profile
-              line='# rbenv'
-              create=yes
+  lineinfile: dest=/home/{{ user }}/.bash_profile line='# rbenv' create=yes
 
 - name: add line to .bash_profile (rbenv) (step 2/4)
   lineinfile: dest=/home/{{ user }}/.bash_profile line='export PATH="$HOME/.rbenv/bin:$PATH"'
