@@ -38,11 +38,17 @@
 - name: drush | set drush to executable
   file: path=/home/{{ user }}/drush-master mode=775
 
-- name: drush | add drush-master alias to .bashrc file
-  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush-master=/home/{{ user }}/drush-master/drush'
+- name: drush | add drush-master alias to .bash_aliases file
+  lineinfile:
+    dest: /home/{{ user }}/.bash_aliases
+    line: 'alias drush-master=/home/{{ user }}/drush-master/drush'
+    create: yes
 
-- name: drush | add drush7 alias to .bashrc file (matches Acquia Cloud & Pantheon standards)
-  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush7=/home/{{ user }}/drush-master/drush'
+- name: drush | add drush7 alias to .bash_aliases file (matches Acquia Cloud & Pantheon standards)
+  lineinfile:
+    dest: /home/{{ user }}/.bash_aliases
+    line: 'alias drush7=/home/{{ user }}/drush-master/drush'
+    create: yes
 
 - name: drush | run composer install in drush
   command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/vendor
