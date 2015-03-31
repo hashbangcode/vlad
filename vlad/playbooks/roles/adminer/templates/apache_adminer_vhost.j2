@@ -2,9 +2,9 @@
   ServerAdmin {{ admin_mail }}
   ServerName adminer.{{ webserver_hostname }}
 
-  DocumentRoot /var/www/adminer
+  DocumentRoot {{ apache2_docroot }}/adminer
 
-  <Directory "/var/www/adminer/">
+  <Directory "{{ apache2_docroot }}/adminer/">
     Options FollowSymLinks MultiViews
     AllowOverride All
     Order allow,deny
@@ -19,8 +19,8 @@
     {% endif %}
   </Directory>
 
-  ErrorLog /var/www/site/logs/adminer.error.log
+  ErrorLog {{ apache2_docroot }}/logs/adminer.error.log
 
   LogLevel warn
-  CustomLog /var/www/site/logs/adminer.access.log combined
+  CustomLog {{ apache2_docroot }}/logs/adminer.access.log combined
 </VirtualHost>

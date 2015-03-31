@@ -6,17 +6,17 @@
 {% endfor %}
   ServerAlias *.vagrantshare.com
 
-  DocumentRoot /var/www/site/docroot
+  DocumentRoot  {{ apache2_docroot }}/drupal
 
-  <Directory /var/www/site/docroot>
+  <Directory {{ apache2_docroot }}/drupal>
     Options FollowSymLinks MultiViews
     AllowOverride All
     Order allow,deny
     allow from all
   </Directory>
 
-  ErrorLog /var/www/site/logs/error.log
+  ErrorLog {{ apache2_docroot }}/logs/error.log
 
   LogLevel warn
-  CustomLog /var/www/site/logs/access.log combined
+  CustomLog {{ apache2_docroot }}/logs/access.log combined
 </VirtualHost>

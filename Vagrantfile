@@ -71,6 +71,7 @@ boxname = vconfig['boxname']
 boxwebaddress = vconfig['webserver_hostname']
 hostname_aliases = vconfig['webserver_hostname_aliases']
 synced_folder_type = vconfig['synced_folder_type']
+apache2_docroot = vconfig['apache2_docroot']
 vlad_os = vconfig['vlad_os']
 
 # Detect the current provider and set a variable.
@@ -208,7 +209,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Setup auxiliary synced folder
 
     FileUtils.mkdir_p vconfig['aux_synced_folder'] if !File.exist?(vconfig['aux_synced_folder'])
-    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", 
+    config.vm.synced_folder vconfig['aux_synced_folder'], apache2_docroot + "/vlad_aux", 
       type: "smb", 
       id: "vagrant-aux", 
       smb_username: samba_username, 
@@ -220,18 +221,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
 
     # Setup synced folder for site files
-    config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "nfs", create: true, id: "vagrant-webroot"
+    config.vm.synced_folder vconfig['host_synced_folder'], apache2_docroot + "/drupal", type: "nfs", create: true, id: "vagrant-webroot"
 
     # Setup auxiliary synced folder
-    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", type: "nfs", create: true, id: "vagrant-aux"
+    config.vm.synced_folder vconfig['aux_synced_folder'], apache2_docroot + "/vlad_aux", type: "nfs", create: true, id: "vagrant-aux"
 
   elsif synced_folder_type == 'rsync'
 
     # Setup synced folder for site files
-    config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "rsync", create: true, id: "vagrant-webroot"
+    config.vm.synced_folder vconfig['host_synced_folder'], apache2_docroot + "/drupal", type: "rsync", create: true, id: "vagrant-webroot"
 
     # Setup auxiliary synced folder
-    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", type: "rsync", create: true, id: "vagrant-aux"
+    config.vm.synced_folder vconfig['aux_synced_folder'], apache2_docroot + "/vlad_aux", type: "rsync", create: true, id: "vagrant-aux"
 
   else
 

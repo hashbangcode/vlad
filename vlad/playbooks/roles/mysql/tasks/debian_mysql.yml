@@ -99,7 +99,7 @@
   changed_when: false
 
 - name: import database (default source file)
-  mysql_db: name={{ item[0] }} state=import target=/var/www/site/vlad_aux/db_io/vlad_up.sql.gz login_password={{ mysql_root_password }} login_user=root
+  mysql_db: name={{ item[0] }} state=import target={{ apache2_docroot }}/vlad_aux/db_io/vlad_up.sql.gz login_password={{ mysql_root_password }} login_user=root
   when: db_import_up and mysql_tables.stdout == ""
   ignore_errors: yes
   tags: mysql_import
@@ -107,7 +107,7 @@
     - dbname
 
 - name: import database (specified source file)
-  mysql_db: name={{ item[0] }} state=import target=/var/www/site/vlad_aux/db_io/{{ db_import_up }} login_password={{ mysql_root_password }} login_user=root
+  mysql_db: name={{ item[0] }} state=import target={{ apache2_docroot }}/vlad_aux/db_io/{{ db_import_up }} login_password={{ mysql_root_password }} login_user=root
   when: db_import_up != true and db_import_up != false and mysql_tables.stdout == ""
   ignore_errors: yes
   tags: mysql_import
