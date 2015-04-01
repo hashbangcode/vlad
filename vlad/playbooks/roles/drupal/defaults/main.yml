@@ -5,7 +5,7 @@
 # Drush alias files can be placed in either of Vlad's settings directories. See http://vlad-docs.readthedocs.org/en/latest/usage/settings_file
 # Setting to true will assemble all alias/aliases files into a single group aliases file prefixed with the boxname.
 # Setting to false will copy alias/aliases files to the guest without assembling or renaming.
-drush_aliases_assemble: true
+drush_aliases_assemble: false
 
 
 # Drush make
