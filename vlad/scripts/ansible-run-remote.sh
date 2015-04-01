@@ -1,13 +1,10 @@
 #!/bin/bash
 #
-# Windows shell provisioner for Ansible playbooks, based on KSid's
-# windows-vagrant-ansible: https://github.com/KSid/windows-vagrant-ansible
+# Windows shell provisioner for Ansible playbooks
 #
-# @todo - Allow proxy configuration to be passed in via Vagrantfile config.
-#
-# @see README.md
-# @author Jeff Geerling, 2014
-# @version 1.0
+# Based on Jeff Geerling's and KidS' works:
+# https://github.com/geerlingguy/JJG-Ansible-Windows
+# https://github.com/KSid/windows-vagrant-ansible
 #
 
 # Uncomment if behind a proxy server.
@@ -17,6 +14,8 @@ ANSIBLE_PLAYBOOK=$1
 ANSIBLE_HOSTS=$2
 TAGS=$3
 
+export DEBIAN_FRONTEND=noninteractive
+
 if [ ! -f /vagrant/$ANSIBLE_PLAYBOOK ]; then
   echo "Cannot find Ansible playbook at $ANSIBLE_PLAYBOOK."
   exit 1
@@ -25,6 +24,12 @@ fi
 # Install Ansible and its dependencies if it's not installed already.
 # This is specific to Ubuntu Precise
 if [ ! -f /usr/local/bin/ansible ]; then
+	echo "Ensuring locales are properly configured."
+	export LANGUAGE=en_US.UTF-8
+	export LANG=en_US.UTF-8
+	export LC_ALL=en_US.UTF-8
+	locale-gen en_US.UTF-8
+	dpkg-reconfigure locales
 	echo "Installing Ansible dependencies."
 	apt-get update
 	apt-get install -y python python-dev python-setuptools python-pip
