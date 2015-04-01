@@ -3,7 +3,7 @@ rvm:
   - 2.0.0
 language: python
 python:
-  - 2.7.5
+  - "2.7"
 install:
   - sudo pip install ansible
   - sudo apt-get update
