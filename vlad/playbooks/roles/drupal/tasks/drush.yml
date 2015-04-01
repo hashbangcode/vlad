@@ -14,6 +14,7 @@
   shell: composer global require --no-progress --no-interaction drush/drush:6.* -d /usr/share/composer; /usr/share/composer/vendor/bin/drush
   args:
     creates: /usr/share/composer/vendor/bin/drush
+  sudo: true
 
 - name: drush | make drush available globally
   file:
@@ -21,6 +22,7 @@
     dest=/usr/bin/drush
     state=link
     force=yes
+  sudo: true
 
 - name: composer | prepare user .drush directory
   file:
