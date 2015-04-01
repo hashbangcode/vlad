@@ -1,5 +1,11 @@
 ---
 
+- name: drush_aliases | Ensure certain drush alias directories exist
+  file: path=/home/{{ user }}/.drush/aliases/{{ item }} state=directory
+  with_items:
+    - assembled
+    - separate
+
 - name: drush_aliases | Copy drush site aliases from all possible settings directories
   copy: src={{ item }} dest=/home/{{ user }}/.drush/aliases/separate/
   with_fileglob:
@@ -14,10 +20,6 @@
     regexp: 'alias-path'
   when: drush_aliases_assemble == false
   notify: drush cc drush
-
-- name: drush_aliases | Ensure .drush/aliases/assembled directory exists
-  file: path=/home/{{ user }}/.drush/aliases/assembled state=directory
-  when: drush_aliases_assemble
 
 - name: drush_aliases | Assemble drush aliases file
   assemble:
