@@ -9,6 +9,8 @@ adminer_install: true
 
 apache_install: true
 
+bling_install: true
+
 imagemagick_install: false
 
 mailcatcher_install: false
@@ -33,7 +35,6 @@ sendmail_install: false
 
 solr_install: false
 
-# @TODO: Automate this?
 varnish_install: false # If you turn this off then make sure you set the http_port to be 80.
 
 xhprof_install: false

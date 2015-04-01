@@ -5,4 +5,3 @@
   register: redis_result
   failed_when: "redis_result.rc != 0"
   changed_when: false
-  tags: test

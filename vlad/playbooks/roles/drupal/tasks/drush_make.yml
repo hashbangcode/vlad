@@ -1,0 +1,34 @@
+---
+
+# Testing if docroot is empty will be determined by the presence of the "modules" subdirectory (used by Drupal 6, 7 & 8).
+- name: drush_make | Get stats on docroot/modules directory
+  stat: path=/var/www/site/docroot/modules
+  register: stat_docroot_modules_dir
+
+- name: drush_make | Get stats on docroot/index.php
+  stat: path=/var/www/site/docroot/index.php
+  register: stat_docroot_index_page
+
+- name: drush_make | Check if docroot/index.php is Vlad's holding page
+  shell: grep "Vlad holding page (index.php)" /var/www/site/docroot/index.php
+  register: vlad_holding_page_present
+  when: stat_docroot_index_page.stat.exists
+  ignore_errors: yes
+
+- name: drush_make | Remove Vlad's holding page if present (index.php)
+  file: path=/var/www/site/docroot/index.php state=absent
+  when: vlad_holding_page_present.stdout != ""
+
+# Run drush make only if docroot is empty.
+- name: drush_make | Run drush make
+  command: drush make {{ drush_make_options }} /var/www/site/vlad_aux/make/{{ drush_make_file }} -y
+  args:
+    chdir: /var/www/site/docroot
+  when: stat_docroot_modules_dir.stat.exists != true
+
+# Run drush make every time the VM is provisioned if docroot is not empty.
+- name: drush_make | Run drush make (force)
+  command: drush make {{ drush_make_options }} /var/www/site/vlad_aux/make/{{ drush_make_file }} -y
+  args:
+    chdir: /var/www/site/docroot
+  when: stat_docroot_modules_dir.stat.exists and drush_make_force == true

@@ -1,0 +1,2 @@
+---
+- include: smb-install.yml

@@ -1,0 +1,54 @@
+---
+
+- name: drush_aliases | Ensure certain drush alias directories exist
+  file: path=/home/{{ user }}/.drush/aliases/{{ item }} state=directory
+  with_items:
+    - assembled
+    - separate
+
+- name: drush_aliases | Copy drush site aliases from all possible settings directories
+  copy: src={{ item }} dest=/home/{{ user }}/.drush/aliases/separate/
+  with_fileglob:
+    - ../../../../../../settings/*alias*.drushrc.php
+    - ../../../../../settings/*alias*.drushrc.php
+  notify: drush cc drush
+
+- name: drush_aliases | Point drush at copied separate alias files
+  lineinfile:
+    dest: /home/{{ user }}/.drush/drushrc.php
+    line: $options['alias-path'] = '/home/{{ user }}/.drush/aliases/separate';
+    regexp: 'alias-path'
+  when: drush_aliases_assemble == false
+  notify: drush cc drush
+
+- name: drush_aliases | Assemble drush aliases file
+  assemble:
+    src: /home/{{ user }}/.drush/aliases/separate
+    dest: /home/{{ user }}/.drush/aliases/assembled/{{ boxname }}.aliases.drushrc.php
+    delimiter: '// START FRAGMENT'
+  when: drush_aliases_assemble
+  notify: drush cc drush
+
+- name: drush_aliases | Remove unwanted additional <?php lines from assembled drush alias file
+  replace:
+    dest: /home/{{ user }}/.drush/aliases/assembled/{{ boxname }}.aliases.drushrc.php
+    regexp: '\/\/ START FRAGMENT\n<\?php'
+    replace: ''
+  when: drush_aliases_assemble
+  notify: drush cc drush
+
+- name: drush_aliases | Tidy up after previous "replace" task
+  replace:
+    dest: /home/{{ user }}/.drush/aliases/assembled/{{ boxname }}.aliases.drushrc.php
+    regexp: '\n\n\n'
+    replace: '\n\n'
+  when: drush_aliases_assemble
+  notify: drush cc drush
+
+- name: drush_aliases | Point drush at assembled aliases file
+  lineinfile:
+    dest: /home/{{ user }}/.drush/drushrc.php
+    line: $options['alias-path'] = '/home/{{ user }}/.drush/aliases/assembled';
+    regexp: 'alias-path'
+  when: drush_aliases_assemble
+  notify: drush cc drush

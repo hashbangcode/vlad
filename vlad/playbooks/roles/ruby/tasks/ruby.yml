@@ -9,21 +9,23 @@
   when: ansible_os_family == "RedHat"
 
 - name: install rbenv
-  git: repo=https://github.com/sstephenson/rbenv.git
-       dest=/home/{{ user }}/.rbenv
+  git:
+    repo: https://github.com/sstephenson/rbenv.git
+    dest: /home/{{ user }}/.rbenv
+    depth: 1
 
 - name: install rbenv plugins
-  git: repo=https://github.com/sstephenson/{{ item }}.git
-       dest=/home/{{ user }}/.rbenv/plugins/{{ item }}
+  git:
+    repo: https://github.com/sstephenson/{{ item }}.git
+    dest: /home/{{ user }}/.rbenv/plugins/{{ item }}
+    depth: 1
   with_items:
     - 'rbenv-gem-rehash'
     - 'rbenv-gemset'
     - 'ruby-build'
 
 - name: add line to .bash_profile (rbenv) (step 1/4)
-  lineinfile: dest=/home/{{ user }}/.bash_profile
-              line='# rbenv'
-              create=yes
+  lineinfile: dest=/home/{{ user }}/.bash_profile line='# rbenv' create=yes
 
 - name: add line to .bash_profile (rbenv) (step 2/4)
   lineinfile: dest=/home/{{ user }}/.bash_profile line='export PATH="$HOME/.rbenv/bin:$PATH"'
@@ -38,9 +40,6 @@
 - name: source ~/.bash_profile
   command: . /home/{{ user }}/.bash_profile executable=/bin/bash
 
-# debugging
-#- command: bash -lc "type rbenv"
-
 # The command module gets a fair bit of use below as we need to tell bash to run the command
 # as if we were in a login shell (to make sure rbenv kicks in when required).
 
@@ -52,9 +51,6 @@
 # TODO: Make idempotent
 - name: set the global version of Ruby to {{ default_ruby_version }}
   command: bash -lc "rbenv global {{ default_ruby_version }} && rbenv rehash"
-
-# debugging
-#- command: bash -lc "ruby --version"
 
 # TODO: Make idempotent
 - name: update RubyGems

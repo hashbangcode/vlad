@@ -1,57 +1,89 @@
 ---
-- name: drush | install drush via composer
-  shell: composer global require --no-progress --no-interaction drush/drush:6.* chdir=/home/{{ user }}
-  register: composer_global_require
-  failed_when: "composer_global_require.rc != 0"
-  changed_when: "'Nothing to install or update' not in composer_global_require.stdout"
-  tags: drush
 
-- name: drush | set drush to executable
-  file: path=/home/{{ user }}/.composer/vendor/drush/drush mode=775
-  tags: drush
+- name: Ensure certain vlad_aux subdirectories exist
+  file: path=/var/www/site/vlad_aux/{{ item }} state=directory
+  with_items:
+    - drush_backups
+    - db_io/drush_dumps
 
-- name: drush | link up the drush command so everyone can run it
-  file: src=/home/{{ user }}/.composer/vendor/drush/drush/drush dest=/usr/bin/drush state=link
-  tags: drush
+# Drush 6
+# ---------------------------------------------------------
+
+
+- name: drush | install drush via composer and run it once
+  shell: composer global require --no-progress --no-interaction drush/drush:6.* -d /usr/share/composer; /usr/share/composer/vendor/bin/drush
+  args:
+    creates: /usr/share/composer/vendor/bin/drush
   sudo: true
 
-- name: drush | run drush once as current user to finalise install
-  command: drush chdir=/home/{{ user }}
-  changed_when: false
-  tags: drush
-  notify: drush cc drush
+- name: drush | make drush available globally
+  file:
+    src: /usr/share/composer/vendor/bin/drush
+    dest: /usr/bin/drush
+    state: link
+    force: yes
+  sudo: true
+
+- name: composer | prepare user .drush directory
+  file:
+    path: /home/{{ user }}/.drush
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    recurse: yes
+
+- name: composer | ensure previous drush directory is absent
+  file:
+    path: /home/{{ user }}/.composer/vendor/drush/
+    state: absent
 
 - name: drush | download the site audit module
-  command: drush dl site_audit --destination=/home/{{ user }}/.drush/site_audit --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/site_audit
-  tags: drush
+  command: drush dl site_audit --destination=/home/{{ user }}/.drush/site_audit --yes 
+    creates=/home/{{ user }}/.drush/site_audit
   notify: drush cc drush
 
 - name: drush | download the Coder module
-  command: drush dl coder-7.x-2.x --destination=/home/{{ user }}/.drush/coder --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/coder
-  tags: drush
+  command: drush dl coder-7.x-2.x --destination=/home/{{ user }}/.drush/coder --yes 
+    creates=/home/{{ user }}/.drush/coder
   notify: drush cc drush
 
 - name: drush | download the Registry Rebuild module
-  command: drush dl registry_rebuild --destination=/home/{{ user }}/.drush/registry_rebuild --yes chdir=/home/{{ user }}/.drush creates=/home/{{ user }}/.drush/registry_rebuild
-  tags: drush
+  command: drush dl registry_rebuild --destination=/home/{{ user }}/.drush/registry_rebuild --yes 
+    creates=/home/{{ user }}/.drush/registry_rebuild
   notify: drush cc drush
 
+- name: drush | Create drushrc.php file
+  template:
+    src: drushrc.php.j2
+    dest: /home/{{ user }}/.drush/drushrc.php
+  notify: drush cc drush
+
+
+# Drush 7
+# ---------------------------------------------------------
+
 - name: drush | get latest version of Drush
-  git: repo=https://github.com/drush-ops/drush.git dest=/home/{{ user }}/drush-master
-  tags: drush
+  git:
+    repo: https://github.com/drush-ops/drush.git
+    dest: /home/{{ user }}/drush-master
+    depth: 1
 
 - name: drush | set drush to executable
   file: path=/home/{{ user }}/drush-master mode=775
-  tags: drush
 
-- name: drush | add drush-master alias to .bashrc file
-  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush-master=/home/{{ user }}/drush-master/drush'
-  tags: drush
+- name: drush | add drush-master alias to .bash_aliases file
+  lineinfile:
+    dest: /home/{{ user }}/.bash_aliases
+    line: 'alias drush-master=/home/{{ user }}/drush-master/drush'
+    create: yes
 
-- name: drush | add drush7 alias to .bashrc file (matches Acquia Cloud & Pantheon standards)
-  lineinfile: dest=/home/{{ user }}/.bashrc state=present line='alias drush7=/home/{{ user }}/drush-master/drush'
-  tags: drush
+- name: drush | add drush7 alias to .bash_aliases file (matches Acquia Cloud & Pantheon standards)
+  lineinfile:
+    dest: /home/{{ user }}/.bash_aliases
+    line: 'alias drush7=/home/{{ user }}/drush-master/drush'
+    create: yes
 
 - name: drush | run composer install in drush
-  command: composer install chdir=/home/{{ user }}/drush-master creates=/home/{{ user }}/drush-master/vendor
-  tags: drush
+  command: composer install --no-progress --no-interaction 
+    chdir=/home/{{ user }}/drush-master
+    creates=/home/{{ user }}/drush-master/vendor

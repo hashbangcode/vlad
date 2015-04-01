@@ -36,7 +36,11 @@
     - restart httpd
 
 - name: get xhprof_html package
-  git: repo=https://github.com/preinheimer/xhprof dest=/var/www/xhprof_html update=no
+  git:
+    repo: https://github.com/preinheimer/xhprof
+    dest: /var/www/xhprof_html
+    update: no
+    depth: 1
   sudo: true
 
 - name: create xhprof_html application database

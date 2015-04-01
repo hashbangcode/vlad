@@ -2,9 +2,7 @@
 - name: test | node is installed
   shell: node -v
   when: node_install
-  tags: test
 
 - name: test | npm is installed
   shell: npm -v
   when: node_install
-  tags: test

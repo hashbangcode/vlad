@@ -27,6 +27,6 @@
 
 - name: set local node path in bash profile
   lineinfile:
-    dest=/home/{{ user }}/.bashrc
-    state=present
-    line='export PATH=$HOME/.node/bin:$PATH'
+    dest: /home/{{ user }}/.bashrc
+    line: 'export PATH=$HOME/.node/bin:$PATH'
+    state: present

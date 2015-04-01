@@ -37,8 +37,6 @@
   shell: pecl list | grep 'memcache\s' | wc -l
   register: pecl_memcache_installed
 
-- debug: var=pecl_memcache_installed
-
 - name: PECL library install
   shell: printf "yes\n" | pecl install memcache creates=/usr/lib/php5/20100525/memcache.so
   when: pecl_memcache_installed.stdout == '0' and ansible_os_family == "Debian"

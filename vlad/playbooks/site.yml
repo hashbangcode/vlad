@@ -50,6 +50,26 @@
       debug: msg="The 'Ruby' role will be run as it is required to install MailCatcher"
       when: ruby_install == false and mailcatcher_install
 
+    - name: Check Adminer dependencies
+      fail: msg="The Apache, PHP and MySQL roles are required to use Adminer"
+      when: (adminer_install and apache_install == false) or (adminer_install and php_install == false) or (adminer_install and mysql_install == false)
+
+    - name: Check XHProf dependencies
+      fail: msg="The Apache, PHP and MySQL roles are required to use XHProf"
+      when: (xhprof_install and apache_install == false) or (xhprof_install and php_install == false) or (xhprof_install and mysql_install == false)
+
+    - name: Check PimpMyLog dependencies
+      fail: msg="The Apache, PHP and MySQL roles are required to use PimpMyLog"
+      when: (pimpmylog_install and apache_install == false) or (pimpmylog_install and php_install == false)
+
+    - name: Check Imagemagick dependencies
+      fail: msg="The PHP role is required to use Imagemagick"
+      when: imagemagick_install and php_install == false
+
+    - name: Check Memcached dependencies
+      fail: msg="The PHP role is required to use Memcached"
+      when: memcached_install and php_install == false
+
       # Generate variables to be used in playbooks
 
     - name: get local IPv4 address
@@ -61,13 +81,15 @@
 
     - role: base
 
+    - { role: samba, tags: ["windows"], when: "is_windows is defined and is_windows == 'true'" }
+
+    - { role: apache, tags: ["apache"], when: "apache_install" }
+
     - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
     - { role: php, when: "php_install" }
 
     - { role: drupal, when: "php_install" }
-
-    - { role: apache, tags: ["apache"], when: "apache_install" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install" }
 
@@ -95,6 +117,8 @@
 
     - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install" }
 
+    - { role: bling, tags: ["bling"], when: "bling_install" }
+
   post_tasks:
 
     - name: move default index.php file into docroot directory
@@ -103,6 +127,7 @@
 
     # Run post provisioning tests to ensure everything has been provisioned correctly.
     - include: tests/main.yml
+      tags: test
 
   handlers:
 

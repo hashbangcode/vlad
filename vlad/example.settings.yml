@@ -9,15 +9,23 @@
 #                 ||     ||
 #
 # Change settings here to control how Vlad sets up your box.
+#
+# See the full list of available variables here.
+# http://vlad-docs.readthedocs.org/en/latest/usage/variables/
+#
 
 # Webserver settings
   webserver_hostname: 'drupal.local'
-  webserver_hostname_alias: 'www.{{ webserver_hostname }}'
+  webserver_hostname_aliases: 
+  - 'www.drupal.local'
+#  - 'www.example.com'
 
 # Vagrantfile configuration
   boxipaddress: "192.168.100.100"
   boxname: "vlad"
   host_synced_folder: "./docroot"
+# or on Windows
+#  host_synced_folder: "C:\\docroot"
 
 # Install components:
 # - To install a component set it to true.
@@ -55,114 +63,8 @@
 
   xhprof_install: false
 
-# Provision with custom role
-  custom_provision: false
-
 # HTTP port for the web server. If you choose to install Varnish then you might want to set this to "8080"
   http_port: 80
 
 # HTTP port for the Varnish cache
   varnish_http_port: 80
-
-# Administration email (used in instances when a server email is needed)
-  admin_mail: 'test@example.com'
-
-# PHP Settings
-# PHP Version, can be one of:
-# - "5.3"
-# - "5.4"
-# - "5.5"
-# - "5.6"
-# Note that Ubuntu14 won't install < PHP5.4 so you'll get PHP5.5+
-# Vlad will error when a version that isn't understood is used
-  php_version: "5.5"
-
-# php.ini settings
-  php_memory_limit: 512M
-  php_max_execution_time: 60
-  php_post_max_size: 100M
-  php_upload_max_filesize: 100M
-  php_display_errors: On
-  php_display_startup_errors: On
-  php_html_errors: On
-  php_date_timezone: Europe/London
-
-# Install PECL uploadprogress
-  php_pecl_uploadprogress: true
-
-# PHP APC Settings
-  apc_rfc1867: '1'
-  apc_shm_size: '256M'
-  apc_shm_segments: '1'
-  apc_num_files_hint: '0'
-
-# MySQL Settings
-  mysql_port: 3306
-  mysql_root_password: sdfds87643y5thgfd
-  server_hostname: vlad
-  dbname: vladdb
-  dbuser: vlad
-  dbpass: wibble
-
-# MySQL my.cnf settings
-  mysql_max_allowed_packet: 128M
-  innodb_buffer_pool_size: 128M
-  innodb_file_per_table: true
-  innodb_log_file_size: 128M
-  mysql_character_set_server: utf8
-  mysql_collation_server: utf8_general_ci
-  skip_name_resolve: true
-
-# SSH Settings
-  ssh_port: 22
-# Add RSA or DSA identity from host to guest on 'vagrant up'.
-# Does not support identites that require a passphrase. Options include:
-# false           : don't add anything
-# true           : add default files  (~/.ssh/id_rsa, ~/.ssh/id_dsa & ~/.ssh/identity)
-# "[filename]"  : add a specific file e.g. /Users/username/.ssh/[filename]
-  use_host_id: false
-
-# Varnish Settings
-  varnish_memory: 512
-
-# Drupal Solr integration
-# Select which Solr module to install
-# accepted values are 'search_api_solr' or 'apachesolr'
-  drupal_solr_package: "apachesolr"
-
-# Local hosts file location
-# Default location on *nix hosts is '/etc/hosts'
-# Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
-  hosts_file_location: "/etc/hosts"
-
-# Select whether Vlad should edit the hosts file.
-  hosts_file_update: true
-
-# Redis Port
-  redis_port: 6379
-
-# Set the level of verbosity that Ansible will use
-# This can be one of "", "v", "vv", "vvv", or "vvvv"
-  ansible_verbosity: ""
-
-# Import MySQL database from file on 'vagrant up'. Options include:
-# false          - don't import anything
-# true          - import from vlad_aux/db_io/vlad_up.sql.gz
-# "[filename]" - import from vlad_aux/db_io/[filename] (supports .sql, .bz2 and .gz files)
-  db_import_up: false
-
-# Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
-  add_index_file: true
-
-# Git config user credentials (leave empty to skip this step)
-  git_user_name: ""
-  git_user_email: ""
-
-# Use 'nfs' or 'rsync' for VM file editing in synced folder
-  synced_folder_type: 'nfs'
-
-# The OS that vlad will use. This can be:
-# - "centos66"
-# - "ubuntu12"
-# - "ubuntu14"
-  vlad_os: "ubuntu14"
