@@ -18,24 +18,24 @@
 
 - name: drush | make drush available globally
   file:
-    src=/usr/share/composer/vendor/bin/drush
-    dest=/usr/bin/drush
-    state=link
-    force=yes
+    src: /usr/share/composer/vendor/bin/drush
+    dest: /usr/bin/drush
+    state: link
+    force: yes
   sudo: true
 
 - name: composer | prepare user .drush directory
   file:
-    path=/home/{{ user }}/.drush
-    state=directory
-    owner={{ user }}
-    group={{ user }}
-    recurse=yes
+    path: /home/{{ user }}/.drush
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    recurse: yes
 
 - name: composer | ensure previous drush directory is absent
   file:
-    path=/home/{{ user }}/.composer/vendor/drush/
-    state=absent
+    path: /home/{{ user }}/.composer/vendor/drush/
+    state: absent
 
 - name: drush | download the site audit module
   command: drush dl site_audit --destination=/home/{{ user }}/.drush/site_audit --yes 
@@ -85,5 +85,5 @@
 
 - name: drush | run composer install in drush
   command: composer install --no-progress --no-interaction 
-    chdir=/home/{{ user }}/drush-master 
+    chdir=/home/{{ user }}/drush-master
     creates=/home/{{ user }}/drush-master/vendor
