@@ -4,7 +4,7 @@
 # TODO: If the above TODO is completed, ensure that any redundant copied settings files are removed from vlad_aux/tmp/
 
 - name: vm info | create current_build_settings.yml at vlad_ux/tmp/
-  copy: src={{ item }} dest=/var/www/site/vlad_aux/tmp/current_build_settings.yml
+  copy: src={{ item }} dest={{ apache2_docroot }}/vlad_aux/tmp/current_build_settings.yml
   with_first_found:
     - ../../../../../../settings/vlad_settings.yml
     - ../../../../../settings/vlad_settings.yml
@@ -12,7 +12,7 @@
     - ../../../vars/dummy_settings.yml
 
 - name: vm info | create current_local_overrides.yml at vlad_ux/tmp/
-  copy: src={{ item }} dest=/var/www/site/vlad_aux/tmp/current_local_overrides.yml
+  copy: src={{ item }} dest={{ apache2_docroot }}/vlad_aux/tmp/current_local_overrides.yml
   with_first_found:
     - ../../../../../../settings/vlad_local_settings.yml
     - ../../../../../settings/vlad_local_settings.yml

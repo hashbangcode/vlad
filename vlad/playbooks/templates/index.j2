@@ -74,7 +74,7 @@
         <h4>Build your own site</h4>
         <p>Out of the box Vlad is ready to run a Drupal site. Simply put the code in the <var>{{ host_synced_folder }}</var> directory and run either use the >web installer or install the site using drush:</p>
         <pre class="prettyprint linenums">
-$ cd /var/www/site/{{ host_synced_folder }}
+$ cd {{ apache2_docroot }}/{{ host_synced_folder }}
 $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
 </pre>
 
@@ -84,13 +84,13 @@ $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@loc
 
         <p><strong>Drupal 7</strong> can be installed via the following script. This will download the latest copy of
         Drupal 7 and install it using the Standard profile onto the default database. The Overlay module is uninstalled.</p>
-        <pre class="prettyprint linenums">$ /var/www/drupal7_install.sh</pre>
+        <pre class="prettyprint linenums">$ {{ apache2_docroot }}/drupal7_install.sh</pre>
 
         <p><strong>Drupal 8</strong> can be installed via the following script. This will clone the latest version of
         Drupal 8 from the Drupal Git repository and install it using the Standard profile. The upshot of this is that
         you have a working version of the Drupal Git repository and so you can pull the latest copy and easy write
         patches.</p>
-        <pre class="prettyprint linenums">$ /var/www/drupal8_install.sh</pre>
+        <pre class="prettyprint linenums">$ {{ apache2_docroot }}/drupal8_install.sh</pre>
 
         <p>In both cases the user credentials are as follows:</p>
 
@@ -271,17 +271,17 @@ $ vagrant ssh
 
             <p>Install most current Drupal with either
             <code>
-                $ sh /var/www/drupal7_install.sh
+                $ sh {{ apache2_docroot }}/drupal7_install.sh
             </code>
 
             or Drupal 8
             <code>
-                $ sh /var/www/drupal8_install.sh
+                $ sh {{ apache2_docroot }}/drupal8_install.sh
             </code>
 
             <h4 id="moresites">Can I run more sites on the same box?</h4>
 
-            <p>Yes, it is easy to run several sites on the same box. You just put them in different folders in <var>/var/www/site/{{ host_synced_folder }}/</var>.
+            <p>Yes, it is easy to run several sites on the same box. You just put them in different folders in <var>{{ apache2_docroot }}/{{ host_synced_folder }}/</var>.
                 You can create new databases using <a
                         href="http://adminer.{{ webserver_hostname }}:8080/?username=vlad">Adminer</a></p>
 

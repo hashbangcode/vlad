@@ -2,9 +2,9 @@
   ServerAdmin {{ admin_mail }}
   ServerName xhprof.{{ webserver_hostname }}
 
-  DocumentRoot /var/www/xhprof_html/xhprof_html
+  DocumentRoot {{ apache2_docroot }}/xhprof_html/xhprof_html
 
-  <Directory "/var/www/xhprof_html/xhprof_html/">
+  <Directory "{{ apache2_docroot }}/xhprof_html/xhprof_html/">
     Options FollowSymLinks MultiViews
     AllowOverride All
     Order allow,deny
@@ -19,8 +19,8 @@
     {% endif %}
   </Directory>
 
-  ErrorLog /var/www/site/logs/xhprof.error.log
+  ErrorLog {{ apache2_docroot }}/logs/xhprof.error.log
 
   LogLevel warn
-  CustomLog /var/www/site/logs/xhprof.access.log combined
+  CustomLog {{ apache2_docroot }}/logs/xhprof.access.log combined
 </VirtualHost>

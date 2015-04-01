@@ -52,10 +52,10 @@
 
 - name: get xhprof_html package
   git:
-    repo: https://github.com/preinheimer/xhprof
-    dest: /var/www/xhprof_html
-    update: no
-    depth: 1
+    repo= https://github.com/preinheimer/xhprof
+    dest= {{ apache2_docroot }}/xhprof_html
+    update= no
+    depth= 1
   sudo: true
 
 - name: create xhprof_html application database
@@ -68,20 +68,20 @@
    - 127.0.0.1
    - localhost
 
-- name: ensure directory /var/www/xhprof_html/xhprof_lib exists
-  file: path=/var/www/xhprof_html/xhprof_lib state=directory
+- name: ensure directory {{ apache2_docroot }}/xhprof_html/xhprof_lib exists
+  file: path={{ apache2_docroot }}/xhprof_html/xhprof_lib state=directory
   sudo: true
 
 - name: copy SQL install script
-  copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
+  copy: src=install.mysql dest={{ apache2_docroot }}/xhprof_html/install.sql
   sudo: true
 
 - name: copy configuration file
-  template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
+  template: src=xhprof_config_php.j2 dest={{ apache2_docroot }}/xhprof_html/xhprof_lib/config.php
   sudo: true
 
 - name: run SQL install script
-  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
+  shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < {{ apache2_docroot }}/xhprof_html/install.sql
   sudo: true
 
 - name: check virtual host for xhprof include
@@ -94,7 +94,7 @@
 - name: add virtual server item if include not found
   lineinfile: dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
   with_items:
-    - '  php_value auto_prepend_file /var/www/xhprof_html/external/header.php'
+    - '  php_value auto_prepend_file {{ apache2_docroot }}/xhprof_html/external/header.php'
     - '</VirtualHost>'
   when: xhprof_include_present.stdout.find('auto_prepend') == -1
   sudo: true
@@ -116,5 +116,5 @@
     - restart apache2
 
 - name: ensure xhprof directory permissions
-  file: path=/var/www/xhprof_html mode=0777 recurse=yes
+  file: path={{ apache2_docroot }}/xhprof_html mode=0777 recurse=yes
   sudo: true

@@ -5,6 +5,8 @@
     - "./vars/defaults/general.yml"
     - "./vars/defaults/required.yml"
     - "./vars/defaults/install.yml"
+    - [ "vars/families/{{ ansible_os_family }}/all.yml", "vars/defaults/os.yml" ]
+    - [ "vars/distributions/{{ ansible_distribution_release }}/all.yml", "vars/defaults/os.yml" ]
     - [ "../../settings/vlad_settings.yml", "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
     - [ "../../settings/vlad_local_settings.yml", "../../../settings/vlad_local_settings.yml", "../local_settings.yml", "vars/dummy_settings.yml" ]
 
@@ -122,7 +124,7 @@
   post_tasks:
 
     - name: move default index.php file into docroot directory
-      template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
+      template: src=templates/index.j2 dest={{ apache2_docroot }}/drupal/index.php force=no
       when: add_index_file
 
     # Run post provisioning tests to ensure everything has been provisioned correctly.

@@ -1,11 +1,11 @@
 # Move into the site directory.
-cd /var/www/site/
+cd {{ apache2_docroot }}/
 
 # Download the latest recommended release of Drupal 7.x into docroot.
-drush dl drupal-7 --drupal-project-rename=docroot --yes
+drush dl drupal-7 --drupal-project-rename=drupal --yes
 
 # Move into the docroot directory.
-cd docroot
+cd drupal
 
 # Create some directories.
 mkdir sites/default/files

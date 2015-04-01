@@ -1,0 +1,5 @@
+---
+# OS defaults
+apache2_docroot: /var/www/html
+apache2_user: apache
+apache2_group: apache

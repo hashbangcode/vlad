@@ -16,7 +16,7 @@ boxname: "vlad"
 
 # Synced folder paths
 # Document root (docroot)
-host_synced_folder: "./docroot"
+host_synced_folder: "./drupal"
 # Vlad aux (vlad_aux)
 aux_synced_folder: "./vlad_aux"
 
@@ -36,3 +36,9 @@ vm_memory: 1024
 # - "ubuntu12"
 # - "ubuntu14"
 vlad_os: "ubuntu14"
+
+# Apache 2 document root. For ubuntu12:
+#  apache2_docroot: "/var/www"
+# For ubuntu14 and centos66:
+apache2_docroot: "/var/www/html"
+  

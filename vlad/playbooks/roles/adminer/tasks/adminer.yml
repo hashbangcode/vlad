@@ -1,22 +1,22 @@
 ---
 - name: create adminer directory
-  file: path=/var/www/adminer state=directory
+  file: path={{ apache2_docroot }}/adminer state=directory
   sudo: true
 
 - name: copy adminer
-  copy: src=adminer-4.2.1.php dest=/var/www/adminer/adminer-4.2.1.php
+  copy: src=adminer-4.2.1.php dest={{ apache2_docroot }}/adminer/adminer-4.2.1.php
   sudo: true
 
 - name: copy adminer stylesheet
-  copy: src=adminer.css dest=/var/www/adminer/adminer.css
+  copy: src=adminer.css dest={{ apache2_docroot }}/adminer/adminer.css
   sudo: true
 
 - name: copy index.php configuration file into place
-  template: src=index.j2 dest=/var/www/adminer/index.php
+  template: src=index.j2 dest={{ apache2_docroot }}/adminer/index.php
   sudo: true
 
 - name: ensure adminer directory permissions
-  file: path=/var/www/adminer mode=0777 recurse=yes
+  file: path={{ apache2_docroot }}/adminer mode=0777 recurse=yes
   sudo: true
 
 - name: add vhost for adminer (Debian)
