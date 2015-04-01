@@ -12,6 +12,7 @@ install:
   - sudo dpkg -i vagrant_1.7.2_x86_64.deb
 script:
   - sudo vagrant up
-after-script:
   - sudo vagrant halt
-  - sudo vagrant destroy
+  - sudo vagrant destroy -f
+after_failure:
+  - echo "VirtualBox `VBoxManage --version`"; vagrant --version; ansible --version; vagrant plugin list
