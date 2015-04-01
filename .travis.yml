@@ -20,3 +20,4 @@ script:
   - sudo vagrant destroy -f
 after_failure:
   - echo "VirtualBox `VBoxManage --version`"; vagrant --version; ansible --version; vagrant plugin list
+  - cat /var/log/vbox-install.log
