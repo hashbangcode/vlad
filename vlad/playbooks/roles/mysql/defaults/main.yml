@@ -23,3 +23,5 @@ skip_name_resolve: true
 db_import_up: false
 
 mysql_hosts: ['{{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }}', '127.0.0.1', 'localhost']
+
+mysql_allow_all_hosts: true
