@@ -10,7 +10,11 @@ max_allowed_packet={{ mysql_max_allowed_packet }}
 character_set_server={{ mysql_character_set_server }}
 collation_server={{ mysql_collation_server }}
 
+{% if mysql_allow_all_hosts == true %}
+bind-address=0.0.0.0
+{% else %}
 bind-address={{ boxipaddress }}
+{% endif %}
 
 skip-external-locking
 
