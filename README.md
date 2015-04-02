@@ -1,5 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/vlad-docs/badge/?version=latest)](https://readthedocs.org/projects/vlad-docs/?badge=latest)
 
+[![Build Status](https://travis-ci.org/hashbangcode/vlad.svg?branch=dev)](https://travis-ci.org/hashbangcode/vlad)
+
 # Vlad - Vagrant LAMP Ansible Drupal
 
 A Drupal development platform in a box, with everything you would need to develop Drupal websites.
