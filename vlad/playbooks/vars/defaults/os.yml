@@ -11,3 +11,13 @@ web_docroot: /var/www/html
 apache2_docroot: /var/www/html
 apache2_user: www-data
 apache2_group: www-data
+
+# MySQL
+mysql_pkgs:
+  - mysql-client
+  - mysql-common
+  - mysql-server
+  - python-mysqldb
+mysql_service_name: "mysql"
+mysql_install_dir: "/var/lib/mysql/"
+mysql_config_dir: "/etc/mysql/conf.d"
