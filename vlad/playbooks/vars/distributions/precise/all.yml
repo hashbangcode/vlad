@@ -1,0 +1,3 @@
+---
+# Ubuntu Precise vars
+apache2_docroot: /var/www
