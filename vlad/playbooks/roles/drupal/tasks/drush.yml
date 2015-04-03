@@ -4,7 +4,7 @@
   file: path=/var/www/site/vlad_aux/{{ item }} state=directory
   with_items:
     - drush_backups
-    - db_io/drush_dumps
+#    - db_io/drush_dumps
 
 # Drush 6
 # ---------------------------------------------------------
