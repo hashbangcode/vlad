@@ -1,0 +1,10 @@
+---
+# MySQL vars (Debian)
+mysql_pkgs:
+  - mysql-client
+  - mysql-common
+  - mysql-server
+  - python-mysqldb
+mysql_service_name: "mysql"
+mysql_socket: "/var/run/mysqld/mysqld.sock"
+mysql_config_dir: "/etc/mysql/conf.d"
