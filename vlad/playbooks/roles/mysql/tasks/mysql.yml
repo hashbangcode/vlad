@@ -84,10 +84,10 @@
 - name: set the root password.
   mysql_user: 
     name: root 
-    password: {{ mysql_root_password }}
+    password: "{{ mysql_root_password }}"
     host: localhost
     login_user: root 
-    login_password: {{ mysql_root_password }}
+    login_password: "{{ mysql_root_password }}"
     check_implicit_admin: true 
     priv: "*.*:ALL,GRANT"
 
@@ -101,16 +101,16 @@
   when: "'{{ user }}' != 'root'"
 
 - name: delete anonymous MySQL server user for {{ server_hostname }}
-  mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password="{{ mysql_root_password }}"
 
 - name: delete anonymous MySQL server user for localhost
   mysql_user: name="" state="absent" host="{{ server_hostname }}" login_user="root" login_password="{{ mysql_root_password }}"
 
 - name: secure the MySQL root user for localhost
-  mysql_user: name="root" password="{{ mysql_root_password }}" host="localhost" login_user=root login_password={{ mysql_root_password }}
+  mysql_user: name="root" password="{{ mysql_root_password }}" host="localhost" login_user=root login_password="{{ mysql_root_password }}"
 
 - name: allow root remote access on boxipaddress
-  mysql_user: name="root" password="{{ mysql_root_password }}" priv="*.*:ALL" host={{ boxipaddress }}
+  mysql_user: name="root" password="{{ mysql_root_password }}" priv="*.*:ALL" host="{{ boxipaddress }}" login_user=root login_password="{{ mysql_root_password }}"
 
 - name: remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
@@ -129,12 +129,12 @@
 # Optional database import
 
 - name: get current database state
-  shell: mysql {{ dbname }} --execute="show tables;"
+  shell: mysql -u root -p"{{ mysql_root_password }}" {{ dbname }} --execute="show tables;"
   register: mysql_tables
   changed_when: false
 
 - name: import database (default source file)
-  mysql_db: name={{ item[0] }} state=import target=/var/www/site/vlad_aux/db_io/vlad_up.sql.gz login_password={{ mysql_root_password }} login_user=root
+  mysql_db: name={{ item[0] }} state=import target=/var/www/site/vlad_aux/db_io/vlad_up.sql.gz login_password="{{ mysql_root_password }}" login_user=root
   when: db_import_up and mysql_tables.stdout == ""
   ignore_errors: yes
   tags: mysql_import
@@ -142,7 +142,7 @@
     - dbname
 
 - name: import database (specified source file)
-  mysql_db: name={{ item[0] }} state=import target=/var/www/site/vlad_aux/db_io/{{ db_import_up }} login_password={{ mysql_root_password }} login_user=root
+  mysql_db: name={{ item[0] }} state=import target=/var/www/site/vlad_aux/db_io/{{ db_import_up }} login_password="{{ mysql_root_password }}" login_user=root
   when: db_import_up != true and db_import_up != false and mysql_tables.stdout == ""
   ignore_errors: yes
   tags: mysql_import
