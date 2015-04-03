@@ -16,6 +16,10 @@
   when: ansible_os_family == "RedHat"
 
 - include: git.yml
+
 - include: python.yml
+  when: is_windows != 'true'
+
 - include: ssh_config.yml
+
 - include: shell.yml
