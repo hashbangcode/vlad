@@ -5,9 +5,8 @@
     - "./vars/defaults/general.yml"
     - "./vars/defaults/required.yml"
     - "./vars/defaults/install.yml"
-    - [ "vars/families/{{ ansible_os_family }}/all.yml" ]
-    - [ "vars/distributions/{{ ansible_distribution_release }}/all.yml" ]
-    - [ "vars/defaults/os.yml" ]
+    - "vars/defaults/{{ ansible_os_family }}.yml"
+    - "vars/defaults/os.yml"
     - [ "../../settings/vlad_settings.yml", "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
     - [ "../../settings/vlad_local_settings.yml", "../../../settings/vlad_local_settings.yml", "../local_settings.yml", "vars/dummy_settings.yml" ]
 
