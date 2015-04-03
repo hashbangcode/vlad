@@ -1,0 +1,13 @@
+---
+# OS defaults
+
+# Same as Apache2 default group
+web_group: www-data
+
+# Web docroot is Apache docroot for now
+web_docroot: /var/www/html
+
+# Apache defaults
+apache2_docroot: /var/www/html
+apache2_user: www-data
+apache2_group: www-data
