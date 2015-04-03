@@ -22,9 +22,10 @@ if [ ! -f /vagrant/$ANSIBLE_PLAYBOOK ]; then
 fi
 
 # Install Ansible and its dependencies if it's not installed already.
-# This is specific to Ubuntu Precise
-if [[ ! -f /usr/bin/ansible && ! -f /usr/local/bin/ansible]]; then
-	echo "Installing Ansible dependencies."
+if [ -f /usr/bin/ansible ] || [ -f /usr/local/bin/ansible ]; then
+	echo "Ansible is installed ($(ansible --version))"
+else
+	echo "Installing Ansible dependencies (OS $VLAD_OS)"
 	if [ "$VLAD_OS" = "centos66" ]; then
 		# CentOS 6.6
 		echo "Installing EPEL..."
@@ -33,6 +34,8 @@ if [[ ! -f /usr/bin/ansible && ! -f /usr/local/bin/ansible]]; then
 		yum -y install ansible
 		echo "Installing PIP..." 
 		yum -y install python-pip
+		# Make sure setuptools are installed crrectly.
+		pip install setuptools --upgrade
 		echo "Installing markupsafe..." 
 		pip install markupsafe
 	else
@@ -46,9 +49,6 @@ if [[ ! -f /usr/bin/ansible && ! -f /usr/local/bin/ansible]]; then
 		echo "Installing Ansible..."
 		pip install ansible
 	fi
-else
-	echo "Ansible is already installed."
-	/usr/local/bin/ansible --version
 fi
 
 echo "Running Ansible provisioner defined in Vagrantfile."

@@ -318,7 +318,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision "shell" do |sh|
       sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
       # run all tags
-      sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ', ' + 'all ' + vlad_os
+      sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ', ' + vlad_os
     end
   else
     config.vm.provision "ansible" do |ansible|
@@ -338,7 +338,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Provisioning configuration for shell script.
       config.vm.provision "shell" do |sh|
         sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
-        sh.args = "/vlad/playbooks/site-custom.yml " + boxipaddress + ', ' + 'all ' + vlad_os
+        sh.args = "/vlad/playbooks/site-custom.yml " + boxipaddress + ', ' + vlad_os
       end
     else
       config.vm.provision "ansible" do |ansible|
