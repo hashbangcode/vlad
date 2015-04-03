@@ -2,7 +2,7 @@
 #
 # Windows shell provisioner for Ansible playbooks
 #
-# Based on Jeff Geerling's and KidS' works:
+# Originally based on Jeff Geerling's and KidS' works:
 # https://github.com/geerlingguy/JJG-Ansible-Windows
 # https://github.com/KSid/windows-vagrant-ansible
 #
@@ -12,7 +12,7 @@
 
 ANSIBLE_PLAYBOOK=$1
 ANSIBLE_HOSTS=$2
-TAGS=$3
+VLAD_OS=$3
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -23,25 +23,33 @@ fi
 
 # Install Ansible and its dependencies if it's not installed already.
 # This is specific to Ubuntu Precise
-if [ ! -f /usr/local/bin/ansible ]; then
-	echo "Ensuring locales are properly configured."
-	export LANGUAGE=en_US.UTF-8
-	export LANG=en_US.UTF-8
-	export LC_ALL=en_US.UTF-8
-	locale-gen en_US.UTF-8
-	dpkg-reconfigure locales
+if [[ ! -f /usr/bin/ansible && ! -f /usr/local/bin/ansible]]; then
 	echo "Installing Ansible dependencies."
-	apt-get update
-	apt-get install -y python python-dev python-setuptools python-pip
-	# Make sure setuptools are installed crrectly.
-	pip install setuptools --upgrade
-	echo "Installing required python modules."
-	pip install paramiko pyyaml jinja2 markupsafe
-	echo "Installing Ansible."
-	pip install ansible
+	if [ "$VLAD_OS" = "centos66" ]; then
+		# CentOS 6.6
+		echo "Installing EPEL..."
+		yum -y install epel-release
+		echo "Installing Ansible..."
+		yum -y install ansible
+		echo "Installing PIP..." 
+		yum -y install python-pip
+		echo "Installing markupsafe..." 
+		pip install markupsafe
+	else
+		# Ubuntu 12 or Ubuntu 14
+		apt-get update
+		apt-get install -y python python-dev python-setuptools python-pip
+		# Make sure setuptools are installed crrectly.
+		pip install setuptools --upgrade
+		echo "Installing required python modules..."
+		pip install paramiko pyyaml jinja2 markupsafe
+		echo "Installing Ansible..."
+		pip install ansible
+	fi
 else
 	echo "Ansible is already installed."
+	/usr/local/bin/ansible --version
 fi
 
 echo "Running Ansible provisioner defined in Vagrantfile."
-ansible-playbook -v /vagrant/${ANSIBLE_PLAYBOOK} -i ${ANSIBLE_HOSTS} --tags="$3" --extra-vars "is_windows=true" --connection=local
+ansible-playbook -v /vagrant/${ANSIBLE_PLAYBOOK} -i ${ANSIBLE_HOSTS} --extra-vars "is_windows=true" --connection=local
