@@ -1,6 +1,13 @@
 ---
 - name: install mysql packages
   apt: pkg={{ item }} state=installed
+  when: ansible_os_family == "Debian"
+  sudo: true
+  with_items: "{{ mysql_pkgs }}"
+
+- name: install mysql packages
+  yum: pkg={{ item }} state=installed
+  when: ansible_os_family == "RedHat"
   sudo: true
   with_items: "{{ mysql_pkgs }}"
 
