@@ -2,15 +2,18 @@
 - name: install mysql packages
   apt: pkg={{ item }} state=installed
   sudo: true
-  with_items:
-   - mysql-client
-   - mysql-common
-   - mysql-server
-   - python-mysqldb
+  with_items: {{ mysql_pkgs }}
+
+- name: make sure mysql starts
+  command: chkconfig mysqld on
+  when: ansible_os_family == "RedHat"
+  sudo: true
 
 # set up mysql variables
 - name: create MySQL configuration file
-  action: template src=debian_mysql.my.cnf.j2 dest=/etc/mysql/conf.d/my.cnf
+  action: template 
+    src="{{ ansible_os_family }}_mysql.my.cnf.j2"
+    dest=/etc/mysql/conf.d/my.cnf
   sudo: true
   register: mysql_conf
   notify:
@@ -53,13 +56,24 @@
   notify:
    - save iptables
 
+- name: force restart mysql
+  service: name=mysqld state=restarted
+  sudo: true
+
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
 - name: set the root password.
-  mysql_user: name=root password={{ mysql_root_password }} host=localhost
+  mysql_user: 
+    name=root password={{ mysql_root_password }}
+    host=localhost
+    login_user=root 
+    login_password={{ mysql_root_password }}
+    check_implicit_admin=true 
+    priv=*.*:ALL,GRANT
 
 - name: config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/root/.my.cnf
   when: "'{{ user }}' == 'root'"
+  sudo: true
 
 - name: config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/home/{{ user }}/.my.cnf

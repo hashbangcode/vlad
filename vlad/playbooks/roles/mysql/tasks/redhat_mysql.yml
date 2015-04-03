@@ -10,15 +10,17 @@
 
 - name: make sure mysql starts
   command: chkconfig mysqld on
+  when: ansible_os_family == "RedHat"
   sudo: true
 
 # set up mysql variables
 - name: create MySQL configuration file
   action: template src=redhat_mysql.my.cnf.j2 dest=/etc/my.cnf
+  when: ansible_os_family == "RedHat"
   sudo: true
   register: mysql_conf
   notify:
-  - restart mysqld
+  - restart mysql
 
 - name: remove the InnoDB log files in case InnoDB settings have been changed (1/2).
   file: path=/var/lib/mysql/ib_logfile0 state=absent
@@ -29,6 +31,18 @@
   file: path=/var/lib/mysql/ib_logfile1 state=absent
   when: mysql_conf.changed
   sudo: true
+
+- name: change main settings for skip-external-locking
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"
+  sudo: true
+  notify:
+    - restart mysql
+
+- name: change main settings for bind-address
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?bind-address" insertafter="bind-address" line="#bind-address"
+  sudo: true
+  notify:
+    - restart mysql
 
 - name: get iptables rules
   shell: iptables -L
@@ -51,14 +65,22 @@
 
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
 - name: set the root password.
-  mysql_user: name=root password={{ mysql_root_password }} host=localhost
+  mysql_user: 
+    name=root password={{ mysql_root_password }}
+    host=localhost
+    login_user=root 
+    login_password={{ mysql_root_password }}
+    check_implicit_admin=true 
+    priv=*.*:ALL,GRANT
 
 - name: config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/root/.my.cnf
+  when: "'{{ user }}' == 'root'"
   sudo: true
 
 - name: config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/home/{{ user }}/.my.cnf
+  when: "'{{ user }}' != 'root'"
 
 - name: delete anonymous MySQL server user for {{ server_hostname }}
   mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password={{ mysql_root_password }}
