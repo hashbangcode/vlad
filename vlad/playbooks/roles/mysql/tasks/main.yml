@@ -1,4 +1,10 @@
 ---
+# Load variable file based on the OS type, or a default if not found.
+- include_vars: "{{ item }}"
+  with_items:
+   - "{{ ansible_os_family }}.yml"
+   - "all.yml"
+
 - name: get local IPv4 address
   local_action: setup filter=ansible_default_ipv4
   register: local_ipv4_address

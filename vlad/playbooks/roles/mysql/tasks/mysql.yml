@@ -3,13 +3,13 @@
   apt: pkg={{ item }} state=installed
   when: ansible_os_family == "Debian"
   sudo: true
-  with_items: "{{ mysql_pkgs }}"
+  with_items: mysql_pkgs
 
 - name: install mysql packages
   yum: pkg={{ item }} state=installed
   when: ansible_os_family == "RedHat"
   sudo: true
-  with_items: "{{ mysql_pkgs }}"
+  with_items: mysql_pkgs
 
 - name: make sure mysql starts
   command: chkconfig mysqld on
@@ -27,23 +27,35 @@
   - restart mysql
 
 - name: remove the InnoDB log files in case InnoDB settings have been changed (1/2).
-  file: path="{{ mysql_install_dir }}/ib_logfile0 state=absent"
+  file: 
+    path="{{ mysql_install_dir }}/ib_logfile0" 
+    state=absent
   when: mysql_conf.changed
   sudo: true
 
 - name: remove the InnoDB log files in case InnoDB settings have been changed (2/2).
-  file: path="{{ mysql_install_dir }}/ib_logfile1 state=absent"
+  file: 
+    path="{{ mysql_install_dir }}/ib_logfile1" 
+    state=absent
   when: mysql_conf.changed
   sudo: true
 
 - name: change main settings for skip-external-locking
-  lineinfile: dest="{{ mysql_config_dir }}/my.cnf" regexp="^#?skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"
+  lineinfile: 
+    dest="{{ mysql_config_dir }}/my.cnf" 
+    regexp="^#?skip-external-locking" 
+    insertafter="skip-external-locking" 
+    line="#skip-external-locking"
   sudo: true
   notify:
     - restart mysql
 
 - name: change main settings for bind-address
-  lineinfile: dest="{{ mysql_config_dir }}/my.cnf" regexp="^#?bind-address" insertafter="bind-address" line="#bind-address"
+  lineinfile: 
+    dest="{{ mysql_config_dir }}/my.cnf" 
+    regexp="^#?bind-address" 
+    insertafter="bind-address" 
+    line="#bind-address"
   sudo: true
   notify:
     - restart mysql
