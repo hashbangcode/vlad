@@ -1,0 +1,5 @@
+---
+# CentOS family vars
+apache2_pkg: httpd
+apache2_user: apache
+apache2_group: apache
