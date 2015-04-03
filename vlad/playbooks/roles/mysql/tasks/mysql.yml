@@ -64,7 +64,8 @@
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
 - name: set the root password.
   mysql_user: 
-    name=root password={{ mysql_root_password }}
+    name=root 
+    password={{ mysql_root_password }}
     host=localhost
     login_user=root 
     login_password={{ mysql_root_password }}
