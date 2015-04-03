@@ -2,7 +2,7 @@
 - include: smb-install.yml
 
 - name: creates docroot directory
-  file: 
-    path=/var/www/site/docroot
-    state=directory
+  file:
+    path: /var/www/site/docroot
+    state: directory
   tags: samba
