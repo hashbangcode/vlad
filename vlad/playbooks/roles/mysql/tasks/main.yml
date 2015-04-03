@@ -6,8 +6,4 @@
 - name: ensure directory /var/www/site/vlad_aux/db_io exists
   file: path=/var/www/site/vlad_aux/db_io state=directory
 
-- include: debian_mysql.yml
-  when: ansible_os_family == "Debian"
-
-- include: redhat_mysql.yml
-  when: ansible_os_family == "RedHat"
+- include: mysql.yml

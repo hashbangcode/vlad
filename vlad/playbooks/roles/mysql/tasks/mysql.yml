@@ -2,7 +2,7 @@
 - name: install mysql packages
   apt: pkg={{ item }} state=installed
   sudo: true
-  with_items: {{ mysql_pkgs }}
+  with_items: "{{ mysql_pkgs }}"
 
 - name: make sure mysql starts
   command: chkconfig mysqld on
@@ -11,32 +11,32 @@
 
 # set up mysql variables
 - name: create MySQL configuration file
-  action: template 
-    src="{{ ansible_os_family }}_mysql.my.cnf.j2"
-    dest=/etc/mysql/conf.d/my.cnf
+  action: template
+    src=mysql.my.cnf.j2
+    dest="{{ mysql_config_dir }}/my.cnf"
   sudo: true
   register: mysql_conf
   notify:
   - restart mysql
 
 - name: remove the InnoDB log files in case InnoDB settings have been changed (1/2).
-  file: path=/var/lib/mysql/ib_logfile0 state=absent
+  file: path="{{ mysql_install_dir }}/ib_logfile0 state=absent"
   when: mysql_conf.changed
   sudo: true
 
 - name: remove the InnoDB log files in case InnoDB settings have been changed (2/2).
-  file: path=/var/lib/mysql/ib_logfile1 state=absent
+  file: path="{{ mysql_install_dir }}/ib_logfile1 state=absent"
   when: mysql_conf.changed
   sudo: true
 
 - name: change main settings for skip-external-locking
-  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"
+  lineinfile: dest="{{ mysql_config_dir }}/my.cnf" regexp="^#?skip-external-locking" insertafter="skip-external-locking" line="#skip-external-locking"
   sudo: true
   notify:
     - restart mysql
 
 - name: change main settings for bind-address
-  lineinfile: dest=/etc/mysql/my.cnf regexp="^#?bind-address" insertafter="bind-address" line="#bind-address"
+  lineinfile: dest="{{ mysql_config_dir }}/my.cnf" regexp="^#?bind-address" insertafter="bind-address" line="#bind-address"
   sudo: true
   notify:
     - restart mysql
@@ -58,6 +58,7 @@
 
 - name: force restart mysql
   service: name=mysqld state=restarted
+  when: ansible_os_family == "RedHat"
   sudo: true
 
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
