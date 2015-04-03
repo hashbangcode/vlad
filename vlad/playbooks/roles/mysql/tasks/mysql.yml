@@ -109,7 +109,7 @@
 # Optional database import
 
 - name: get current database state
-  shell: mysql {{ dbname[0] }} --execute="show tables;"
+  shell: mysql {{ dbname }} --execute="show tables;"
   register: mysql_tables
   changed_when: false
 
