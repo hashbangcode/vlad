@@ -1,13 +1,8 @@
 ---
 # Vlad travis testing file.
-
-env:
-  - USER=vagrant
-  - HOME=/home/vagrant
-
 language: python
 python: "2.7"
-
+env: USER=vagrant HOME=/home/vagrant
 before_install:
   # Make sure everything's up to date.
   - sudo apt-get update -qq
