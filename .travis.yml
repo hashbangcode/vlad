@@ -15,6 +15,11 @@ install:
   - sudo mkdir -p /var/www/site/docroot
   - sudo mkdir -p /var/www/site/vlad_aux
 
+  # Set up some default user and group details.
+  - sudo addgroup vagrant
+  - sudo adduser vagrant vagrant --disabled-password --home "/home/vagrant"
+
+
 script:
   # Syntax check on all playbooks.
   - ansible-playbook -i localhost, vlad/playbooks/site.yml --syntax-check
