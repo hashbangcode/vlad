@@ -17,7 +17,7 @@ install:
 
   # Set up some default user and group details.
   - sudo addgroup vagrant
-  - sudo adduser vagrant vagrant
+  - sudo adduser vagrant
 
 script:
   # Syntax check on all playbooks.
