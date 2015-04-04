@@ -1,7 +1,10 @@
 ---
 # Vlad travis testing file.
-USER=vagrant
-HOME=/home/vagrant
+
+env:
+  - USER=vagrant
+  - HOME=/home/vagrant
+
 language: python
 python: "2.7"
 
