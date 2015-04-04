@@ -27,3 +27,6 @@ script:
 
   # Run Additional Idempotency check.
   #- ansible-playbook -i localhost, vlad/playbooks/site.yml --connection=local --sudo | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
+
+after_failure:
+  - ls -lah /etc/php5/
