@@ -17,7 +17,7 @@ install:
 
   # Set up some default user and group details.
   - sudo addgroup vagrant
-  - sudo useradd -g www tom
+  - sudo useradd -g vagrant vagrant
 #  - sudo adduser vagrant
 
 script:
