@@ -1,14 +1,14 @@
 ---
 
 - name: Ensure certain vlad_aux subdirectories exist
-  file: path=/var/www/site/vlad_aux/{{ item }} state=directory
+  file: path=/var/www/site/vlad_aux/{{ item }} state=directory mode=0777
+  sudo: true
   with_items:
     - drush_backups
 #    - db_io/drush_dumps
 
 # Drush 6
 # ---------------------------------------------------------
-
 
 - name: drush | install drush via composer and run it once
   shell: composer global require --no-progress --no-interaction drush/drush:6.* -d /usr/share/composer; /usr/share/composer/vendor/bin/drush
