@@ -38,11 +38,6 @@
   notify:
     - restart apache2
 
-- name: add symlink to apache2 directory if it doesn't exist
-  file: src=/etc/php5/cgi dest=/etc/php5/apache2 state=link
-  tags: php
-  sudo: true
-
 - name: change php apache2 memory_limit
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
   tags: php
