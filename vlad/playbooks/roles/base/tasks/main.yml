@@ -18,7 +18,7 @@
 - include: git.yml
 
 - include: python.yml
-  when: is_windows != 'true'
+  when: is_windows is not defined
 
 - include: ssh_config.yml
 
