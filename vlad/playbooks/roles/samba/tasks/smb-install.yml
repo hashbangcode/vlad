@@ -2,6 +2,13 @@
 # Install and configure samba server (requires ports 137, 138, 139, 445 open).
 - name: Ensure Samba-related packages are installed.
   apt: pkg={{ item }} state=installed
+  when: ansible_os_family == "Debian"
+  with_items:
+  - samba
+
+- name: Ensure Samba-related packages are installed.
+  yum: pkg={{ item }} state=installed
+  when: ansible_os_family == "RedHat"
   with_items:
   - samba
 

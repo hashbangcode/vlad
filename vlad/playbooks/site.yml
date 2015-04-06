@@ -5,6 +5,8 @@
     - "./vars/defaults/general.yml"
     - "./vars/defaults/required.yml"
     - "./vars/defaults/install.yml"
+    - "vars/defaults/{{ ansible_os_family }}.yml"
+    - "vars/defaults/os.yml"
     - [ "../../settings/vlad_settings.yml", "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
     - [ "../../settings/vlad_local_settings.yml", "../../../settings/vlad_local_settings.yml", "../local_settings.yml", "vars/dummy_settings.yml" ]
 
@@ -81,7 +83,7 @@
 
     - role: base
 
-    - { role: samba, tags: ["windows"], when: "is_windows is defined and is_windows == 'true'" }
+    - { role: samba, tags: ["windows"], when: "is_windows is defined" }
 
     - { role: apache, tags: ["apache"], when: "apache_install" }
 

@@ -1,0 +1,5 @@
+---
+# OS defaults
+
+# Same as Apache2 default group
+web_group: www-data

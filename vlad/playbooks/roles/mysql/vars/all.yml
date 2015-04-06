@@ -1,0 +1,3 @@
+---
+# MySQL vars
+mysql_install_dir: "/var/lib/mysql"

@@ -307,9 +307,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Workaround to https://github.com/mitchellh/vagrant/issues/1673
-  config.vm.provision "shell" do |sh|
-    #if there a line that only consists of 'mesg n' in /root/.profile, replace it with 'tty -s && mesg n'
-    sh.inline = "(grep -q -E '^mesg n$' /root/.profile && sed -i 's/^mesg n$/tty -s \\&\\& mesg n/g' /root/.profile && echo 'Ignore the previous error about stdin not being a tty. Fixing it now...') || exit 0;"
+  if vlad_os == 'ubuntu12' || vlad_os == 'ubuntu14'
+    config.vm.provision "shell" do |sh|
+      #if there a line that only consists of 'mesg n' in /root/.profile, replace it with 'tty -s && mesg n'
+      sh.inline = "(grep -q -E '^mesg n$' /root/.profile && sed -i 's/^mesg n$/tty -s \\&\\& mesg n/g' /root/.profile && echo 'Ignore the previous error about stdin not being a tty. Fixing it now...') || exit 0;"
+    end
   end
     
   # Provision vagrant box with Ansible.
@@ -318,7 +320,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision "shell" do |sh|
       sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
       # run all tags
-      sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ', ' + 'all'
+      sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ', ' + vlad_os
     end
   else
     config.vm.provision "ansible" do |ansible|
@@ -338,7 +340,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Provisioning configuration for shell script.
       config.vm.provision "shell" do |sh|
         sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
-        sh.args = "/vlad/playbooks/site-custom.yml " + boxipaddress + ','
+        sh.args = "/vlad/playbooks/site-custom.yml " + boxipaddress + ', ' + vlad_os
       end
     else
       config.vm.provision "ansible" do |ansible|
