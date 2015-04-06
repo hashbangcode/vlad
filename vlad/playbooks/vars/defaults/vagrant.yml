@@ -14,6 +14,24 @@ webserver_hostname_aliases:
 boxipaddress: "192.168.100.100"
 boxname: "vlad"
 
+#
+# Virtualbox params
+#
+
+# vm_cpus can be the number of CPUs, or "auto".
+vm_cpus: 1
+
+# vm_memory can be explicit Megs, or "auto".
+vm_memory: 1024
+
+# Chipset
+vm_chipset: 'ich9'
+  
+# PAE, IOAPIC and ACPI
+vm_pae: 'on'
+vm_acpi: 'on'
+vm_ioapic: 'on'
+  
 # Synced folder paths
 # Document root (docroot)
 host_synced_folder: "./docroot"
