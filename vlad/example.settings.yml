@@ -13,24 +13,6 @@
 # See the full list of available variables here.
 # http://vlad-docs.readthedocs.org/en/latest/usage/variables/
 #
-
-#
-# Virtualbox params
-#
-
-# vm_cpus can be the number of CPUs, or "auto".
-  vm_cpus: 1
-
-# vm_memory can be explicit Megs, or "auto".
-  vm_memory: 1024
-
-# Chipset
-  vm_chipset: 'ich9'
-  
-# PAE, IOAPIC and ACPI
-  vm_pae: 'on'
-  vm_acpi: 'on'
-  vm_ioapic: 'on'
   
 # Webserver settings
   webserver_hostname: 'drupal.local'
