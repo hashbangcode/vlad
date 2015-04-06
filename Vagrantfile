@@ -73,13 +73,6 @@ hostname_aliases = vconfig['webserver_hostname_aliases']
 synced_folder_type = vconfig['synced_folder_type']
 vlad_os = vconfig['vlad_os']
 
-# Detect the current provider and set a variable.
-if ARGV[1] and (ARGV[1].split('=')[0] == "--provider" or ARGV[2])
-  provider = (ARGV[1].split('=')[1] || ARGV[2])
-else
-  provider = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
-end
-
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -130,7 +123,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     auto_memory = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
   else
     # static defaults as fallback (Windows will get this)
-    auto_cpus = 2
+    auto_cpus = 1
     auto_memory = 1024
   end
 
@@ -156,51 +149,60 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vagrant_memory = settings_memory
   end
 
-  if provider == "vmware_fusion"
-
-    # Configure VMWare setup.
-    config.vm.provider "vmware_fusion" do |v|
-
-      if vlad_os == "centos66"
-        # Add a Centos VirtualBox box
-        config.vm.box = "hansode/centos-6.6-x86_64"
-      elsif vlad_os == "ubuntu14"
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/trusty64"
-      else
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/precise64"
-      end
-
-      v.gui = false
-      v.vmx["numvcpus"] = vagrant_cpus
-      v.vmx["memsize"] = vagrant_memory
-    end
-
+  if vlad_os == "centos66"
+    # Add a Centos VirtualBox box
+    config.vm.box = "hansode/centos-6.6-x86_64"
+  elsif vlad_os == "ubuntu14"
+    # Add a Ubuntu VirtualBox box
+    config.vm.box = "ubuntu/trusty64"
   else
+    # Add a Ubuntu VirtualBox box
+    config.vm.box = "ubuntu/precise64"
+  end
 
-    # Configure VirtualBox setup.
-    config.vm.provider "virtualbox" do |v|
+  # VMWare provider settings
+  config.vm.provider "vmware_fusion" do |vmw|
+    # Configure CPU number and amount of RAM memory.
+    vmw.vmx["memsize"] = vagrant_memory
+    vmw.vmx["numvcpus"] = vagrant_cpus
+  end
+  
+  # Virtualbox provider settings
+  config.vm.provider "virtualbox" do |vb|
+    #
+    # Fixed settings
+    #
 
-      if vlad_os == "centos66"
-        # Add a Centos VirtualBox box
-        config.vm.box = "hansode/centos-6.6-x86_64"
-      elsif vlad_os == "ubuntu14"
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/trusty64"
-      else
-        # Add a Ubuntu VirtualBox box
-        config.vm.box = "ubuntu/precise64"
-      end
+    # Set *provider* VM name (e.g. "myboxname_vlad")
+    vb.name = boxname + "_vlad"
 
-      v.gui = false
-      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      # Set *provider* VM name (e.g. "myboxname_vlad")
-      v.name = boxname + "_vlad"
-      v.cpus = vagrant_cpus
-      v.memory = vagrant_memory
+    # Configure CPU number and amount of RAM memory.
+    vb.memory = vagrant_memory
+    vb.cpus = vagrant_cpus
 
+    # Configure misc settings
+    vb.customize ['modifyvm', :id,
+    '--rtcuseutc', 'on',
+    '--natdnshostresolver1', 'on',
+    '--nictype1', 'virtio',
+    '--nictype2', 'virtio'] 
+    
+    # Configure OS type
+    if vlad_os == "centos66"
+      vb.customize ["modifyvm", :id, "--ostype", "RedHat_64"]
+    elsif vlad_os == "ubuntu14"
+      vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+    else
+      vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
+
+    #
+    # Customizable settings (important for performance)
+    #
+    vb.customize ["modifyvm", :id, "--pae", vconfig['vm_pae']]
+    vb.customize ["modifyvm", :id, "--acpi", vconfig['vm_acpi']]
+    vb.customize ["modifyvm", :id, "--ioapic", vconfig['vm_ioapic']]
+    vb.customize ["modifyvm", :id, "--chipset", vconfig['vm_chipset']]
   end
 
   if is_windows
