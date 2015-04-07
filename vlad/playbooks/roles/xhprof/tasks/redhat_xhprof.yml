@@ -41,6 +41,7 @@
     dest: /var/www/xhprof_html
     update: no
     depth: 1
+    version: master
   sudo: true
 
 - name: create xhprof_html application database
@@ -56,7 +57,7 @@
 - name: copy SQL install script
   copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
   sudo: true
-  
+
 - name: copy configuration file
   template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
   sudo: true

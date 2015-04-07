@@ -12,15 +12,15 @@
   sudo: true
 
 - name: composer | ensure previous composer vendor directory is not in the user's PATH
-  lineinfile: 
-    dest=/home/{{ user }}/.bashrc 
-    state=absent 
+  lineinfile:
+    dest=/home/{{ user }}/.bashrc
+    state=absent
     line='export PATH=$PATH:/home/{{ user }}/.composer/vendor/bin/'
   tags: composer
-  
+
 - name: composer | add Composer shared vendor directory to path
-  lineinfile: 
-    dest=/home/{{ user }}/.bashrc 
-    state=present 
+  lineinfile:
+    dest=/home/{{ user }}/.bashrc
+    state=present
     line='export PATH=/usr/share/composer/vendor/bin:$PATH'
   tags: composer

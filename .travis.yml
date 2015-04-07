@@ -12,9 +12,15 @@ install:
   # Install Ansible.
   - pip install ansible
 
+  # Install Ansible Lint
+  - pip install ansible-lint
+
 script:
   # Syntax check on all playbooks.
   - ansible-playbook -i localhost, vlad/playbooks/site.yml --syntax-check
   - ansible-playbook -i localhost, vlad/playbooks/local_halt_destroy.yml --syntax-check
   - ansible-playbook -i localhost, vlad/playbooks/local_up.yml --syntax-check
   - ansible-playbook -i localhost, vlad/playbooks/local_up_services.yml --syntax-check
+
+  # Lint Check on Ansible Playbooks
+  - ansible-lint -x resources  vlad/playbooks/site.yml
