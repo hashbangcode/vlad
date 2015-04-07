@@ -281,7 +281,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       info "Deleting " + vlad_hosts_file
       File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
     else
-      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --extra-vars "ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
@@ -290,7 +290,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if is_windows
       run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad/playbooks/local_up_services.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
     else
-      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml --extra-vars "ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
