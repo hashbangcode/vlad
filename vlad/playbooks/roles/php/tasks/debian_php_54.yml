@@ -40,7 +40,7 @@
     - restart apache2
 
 - name: enable php mcrypt module
-  command: php5enmod mcrypt
+  command: php5enmod mcrypt creates=/etc/php5/cli/conf.d/20-mcrypt.ini
   tags: php
   sudo: true
   notify:
