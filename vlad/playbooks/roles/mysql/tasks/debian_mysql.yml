@@ -65,7 +65,7 @@
   template: src=mysql_root.my.cnf.j2 dest=/home/{{ user }}/.my.cnf
   when: "'{{ user }}' != 'root'"
 
-- name: delete anonymous MySQL server user for {{ server_hostname }}
+- name: delete anonymous MySQL server user for this server's hostname
   mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password={{ mysql_root_password }}
 
 - name: delete anonymous MySQL server user for localhost
