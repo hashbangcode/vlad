@@ -1,11 +1,14 @@
 ---
 
 - name: Ensure certain vlad_aux subdirectories exist
-  file: path=/var/www/site/vlad_aux/{{ item }} state=directory mode=0777
+  file:
+    path: /var/www/site/vlad_aux/{{ item }}
+    state: directory
+    mode: 0777
   sudo: true
   with_items:
     - drush_backups
-#    - db_io/drush_dumps
+    - db_io/drush_dumps
 
 # Drush 6
 # ---------------------------------------------------------
