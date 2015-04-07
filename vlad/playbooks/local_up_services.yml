@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  user: vagrant
   gather_facts: true
   vars_files:
     - "./vars/defaults/install.yml"
