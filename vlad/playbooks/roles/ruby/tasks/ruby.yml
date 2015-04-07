@@ -13,12 +13,13 @@
     repo: https://github.com/sstephenson/rbenv.git
     dest: /home/{{ user }}/.rbenv
     depth: 1
-
+    version: master
 - name: install rbenv plugins
   git:
     repo: https://github.com/sstephenson/{{ item }}.git
     dest: /home/{{ user }}/.rbenv/plugins/{{ item }}
     depth: 1
+    version: master
   with_items:
     - 'rbenv-gem-rehash'
     - 'rbenv-gemset'

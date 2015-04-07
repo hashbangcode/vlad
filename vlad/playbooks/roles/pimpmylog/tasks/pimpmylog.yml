@@ -4,6 +4,7 @@
     repo: https://github.com/potsky/PimpMyLog.git
     dest: /var/www/pimpmylog
     depth: 1
+    version: master
   sudo: true
 
 - name: ensure that the package isn't effected by mode changes
