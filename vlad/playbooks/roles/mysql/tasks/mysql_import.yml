@@ -1,0 +1,30 @@
+---
+
+# Optional database import
+
+- name: mysql_import | check for tables in first, possibly only database
+  shell: mysql {{ dbname[0] }} --execute="show tables;"
+  register: mysql_tables
+  changed_when: false
+
+- name: mysql_import | import database(s) from default source file(s)
+  mysql_db:
+    name: "{{ item }}"
+    state: import
+    target: /var/www/site/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  with_items: dbname
+  when: db_import_up and mysql_tables.stdout == ""
+  ignore_errors: yes
+
+- name: mysql_import | import database(s) from specified source file(s)
+  mysql_db:
+    name: "{{ item }}"
+    state: import
+    target: /var/www/site/vlad_aux/db_io/{{ item }}
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  with_items: dbname
+  when: db_import_up != true and db_import_up != false and mysql_tables.stdout == ""
+  ignore_errors: yes

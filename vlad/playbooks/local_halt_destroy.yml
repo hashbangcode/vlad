@@ -17,8 +17,21 @@
     ignore_errors: yes
     sudo: true
 
-  - name: local actions destroy | dump vlad database
-    mysql_db: name={{ dbname[0] }} state=dump target=/var/www/site/vlad_aux/db_io/vlad_destroy.sql.gz login_password={{ mysql_root_password }} login_user=root
+  - name: local actions destroy | ensure vlad_aux/db_io/halt_destroy/ exists
+    file:
+      path: /var/www/site/vlad_aux/db_io/halt_destroy
+      state: directory
+      mode: 0777
+    sudo: true
+
+  - name: local actions destroy | dump all databases
+    mysql_db:
+      name: "{{ item }}"
+      state: dump
+      target: /var/www/site/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+    with_items: dbname
     when: mysql_install
     ignore_errors: yes
     sudo: true
