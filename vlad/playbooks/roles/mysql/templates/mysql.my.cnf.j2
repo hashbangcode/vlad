@@ -1,6 +1,6 @@
 [mysqld]
-datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
+datadir="{{ mysql_install_dir }}"
+socket={{ mysql_socket }}
 user=mysql
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
@@ -20,7 +20,7 @@ skip-external-locking
 
 innodb_buffer_pool_size={{ innodb_buffer_pool_size }}
 {% if innodb_file_per_table == true %}
-innodb-file-per-table
+innodb_file_per_table
 {% endif %}
 innodb_log_file_size={{ innodb_log_file_size }}
 
