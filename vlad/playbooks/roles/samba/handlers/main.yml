@@ -1,3 +1,4 @@
 ---
 - name: restart smbd
-  command: service smbd restart
+  service: name=smbd state=restarted
+  sudo: true
