@@ -1,0 +1,9 @@
+---
+# MySQL vars (RedHat)
+mysql_pkgs:
+  - mysql
+  - mysql-server
+  - MySQL-python
+mysql_service_name: "mysqld"
+mysql_socket: "/var/lib/mysql/mysql.sock"
+mysql_config_dir: "/etc"
