@@ -27,34 +27,34 @@
   - restart mysql
 
 - name: remove the InnoDB log files in case InnoDB settings have been changed (1/2).
-  file: 
-    path: "{{ mysql_install_dir }}/ib_logfile0" 
+  file:
+    path: "{{ mysql_install_dir }}/ib_logfile0"
     state: absent
   when: mysql_conf.changed
   sudo: true
 
 - name: remove the InnoDB log files in case InnoDB settings have been changed (2/2).
-  file: 
-    path: "{{ mysql_install_dir }}/ib_logfile1" 
+  file:
+    path: "{{ mysql_install_dir }}/ib_logfile1"
     state: absent
   when: mysql_conf.changed
   sudo: true
 
 - name: change main settings for skip-external-locking
-  lineinfile: 
-    dest: "{{ mysql_config_dir }}/my.cnf" 
-    regexp: "^#?skip-external-locking" 
-    insertafter: "skip-external-locking" 
+  lineinfile:
+    dest: "{{ mysql_config_dir }}/my.cnf"
+    regexp: "^#?skip-external-locking"
+    insertafter: "skip-external-locking"
     line: "#skip-external-locking"
   sudo: true
   notify:
     - restart mysql
 
 - name: change main settings for bind-address
-  lineinfile: 
-    dest: "{{ mysql_config_dir }}/my.cnf" 
-    regexp: "^#?bind-address" 
-    insertafter: "bind-address" 
+  lineinfile:
+    dest: "{{ mysql_config_dir }}/my.cnf"
+    regexp: "^#?bind-address"
+    insertafter: "bind-address"
     line: "#bind-address"
   sudo: true
   notify:
@@ -82,13 +82,13 @@
 
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
 - name: set the root password.
-  mysql_user: 
-    name: root 
+  mysql_user:
+    name: root
     password: "{{ mysql_root_password }}"
     host: localhost
-    login_user: root 
+    login_user: root
     login_password: "{{ mysql_root_password }}"
-    check_implicit_admin: true 
+    check_implicit_admin: true
     priv: "*.*:ALL,GRANT"
 
 - name: config for easy access as root user
