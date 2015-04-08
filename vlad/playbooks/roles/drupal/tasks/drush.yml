@@ -14,7 +14,7 @@
 # ---------------------------------------------------------
 
 - name: drush | install drush via composer and run it once
-  shell: composer global require --no-progress --no-interaction drush/drush:6.* -d /usr/share/composer; /usr/share/composer/vendor/bin/drush
+  shell: /usr/local/bin/composer global require --no-progress --no-interaction drush/drush:6.* -d /usr/share/composer; /usr/share/composer/vendor/bin/drush
   args:
     creates: /usr/share/composer/vendor/bin/drush
   sudo: true
@@ -87,6 +87,6 @@
     create: yes
 
 - name: drush | run composer install in drush
-  command: composer install --no-progress --no-interaction
+  command: /usr/local/bin/composer install --no-progress --no-interaction
     chdir=/home/{{ user }}/drush-master
     creates=/home/{{ user }}/drush-master/vendor
