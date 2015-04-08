@@ -21,6 +21,7 @@
 - name: composer | add Composer shared vendor directory to path
   template:
     src=composer.j2
-    dest=/etc/profile.s/composer.sh
+    dest=/etc/profile.d/composer.sh
     mode="a+x"
   tags: composer
+  sudo: true
