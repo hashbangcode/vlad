@@ -4,7 +4,7 @@
   tags: php
 
 - name: install ius
-  yum: name=/home/{{ user }}/ius-release-1.0-13.ius.centos6.noarch.rpm chdir=/home/{{ user }} state=present
+  yum: name=/home/{{ user }}/ius-release-1.0-13.ius.centos6.noarch.rpm state=present
   tags: php
   sudo: true
 
