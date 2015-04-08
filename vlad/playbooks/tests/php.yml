@@ -8,7 +8,7 @@
   changed_when: false
 
 - name: test | composer is installed
-  shell: composer
+  shell: /usr/local/bin/composer
   when: php_install
   always_run: yes
   register: composer_result

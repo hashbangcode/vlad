@@ -19,8 +19,8 @@
   tags: composer
 
 - name: composer | add Composer shared vendor directory to path
-  lineinfile:
-    dest=/home/{{ user }}/.bashrc
-    state=present
-    line='export PATH=/usr/share/composer/vendor/bin:$PATH'
+  template:
+    src=composer.j2
+    dest=/etc/profile.s/composer.sh
+    mode="a+x"
   tags: composer
