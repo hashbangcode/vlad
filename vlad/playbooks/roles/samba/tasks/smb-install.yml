@@ -2,6 +2,13 @@
 # Install and configure samba server (requires ports 137, 138, 139, 445 open).
 - name: Ensure Samba-related packages are installed.
   apt: pkg={{ item }} state=installed
+  when: ansible_os_family == "Debian"
+  with_items:
+  - samba
+
+- name: Ensure Samba-related packages are installed.
+  yum: pkg={{ item }} state=installed
+  when: ansible_os_family == "RedHat"
   with_items:
   - samba
 
@@ -13,3 +20,9 @@
   lineinfile: dest=/etc/samba/smb.conf line="include=/etc/samba/smb-vlad.conf"
   sudo: true
   notify: restart smbd
+
+- name: Creates docroot directory
+  file:
+    path: /var/www/site/docroot
+    state: directory
+  tags: samba
