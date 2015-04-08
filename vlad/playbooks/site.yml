@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  user: vagrant
   vars_files:
     - "./vars/defaults/vagrant.yml"
     - "./vars/defaults/general.yml"

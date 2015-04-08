@@ -6,6 +6,8 @@
     - assembled
     - separate
 
+# Separate drush alias files
+
 - name: drush_aliases | Copy drush site aliases from all possible settings directories
   copy: src={{ item }} dest=/home/{{ user }}/.drush/aliases/separate/
   with_fileglob:
@@ -13,6 +15,7 @@
     - ../../../../../settings/*alias*.drushrc.php
   notify: drush cc drush
 
+# TODO: Make regexp more precise. This will replace *any* line containing 'alias-path'.
 - name: drush_aliases | Point drush at copied separate alias files
   lineinfile:
     dest: /home/{{ user }}/.drush/drushrc.php
@@ -21,20 +24,29 @@
   when: drush_aliases_assemble == false
   notify: drush cc drush
 
+# Assembled drush aliases file
+
+- name: drush_aliases | Get stats on .drush/aliases/separate directory contents
+  shell: ls -1 /home/{{ user }}/.drush/aliases/separate
+  register: stat_drush_aliases_separate_ls
+  when: drush_aliases_assemble
+  changed_when: false
+
+# TODO: Add regexp to ensure that only drush alias files are assembled.
 - name: drush_aliases | Assemble drush aliases file
   assemble:
     src: /home/{{ user }}/.drush/aliases/separate
     dest: /home/{{ user }}/.drush/aliases/assembled/{{ boxname }}.aliases.drushrc.php
     delimiter: '// START FRAGMENT'
-  when: drush_aliases_assemble
+  when: drush_aliases_assemble and stat_drush_aliases_separate_ls.stdout != ""
   notify: drush cc drush
 
-- name: drush_aliases | Remove unwanted additional <?php lines from assembled drush alias file
+- name: drush_aliases | Remove unwanted additional '<?php' lines from assembled drush alias file
   replace:
     dest: /home/{{ user }}/.drush/aliases/assembled/{{ boxname }}.aliases.drushrc.php
     regexp: '\/\/ START FRAGMENT\n<\?php'
     replace: ''
-  when: drush_aliases_assemble
+  when: drush_aliases_assemble and stat_drush_aliases_separate_ls.stdout != ""
   notify: drush cc drush
 
 - name: drush_aliases | Tidy up after previous "replace" task
@@ -42,13 +54,14 @@
     dest: /home/{{ user }}/.drush/aliases/assembled/{{ boxname }}.aliases.drushrc.php
     regexp: '\n\n\n'
     replace: '\n\n'
-  when: drush_aliases_assemble
+  when: drush_aliases_assemble and stat_drush_aliases_separate_ls.stdout != ""
   notify: drush cc drush
 
+# TODO: Make regexp more precise. This will replace *any* line containing 'alias-path'.
 - name: drush_aliases | Point drush at assembled aliases file
   lineinfile:
     dest: /home/{{ user }}/.drush/drushrc.php
     line: $options['alias-path'] = '/home/{{ user }}/.drush/aliases/assembled';
     regexp: 'alias-path'
-  when: drush_aliases_assemble
+  when: drush_aliases_assemble and stat_drush_aliases_separate_ls.stdout != ""
   notify: drush cc drush

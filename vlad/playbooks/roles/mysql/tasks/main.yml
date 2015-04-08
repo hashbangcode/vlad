@@ -9,7 +9,17 @@
   local_action: setup filter=ansible_default_ipv4
   register: local_ipv4_address
 
-- name: ensure directory /var/www/site/vlad_aux/db_io exists
-  file: path=/var/www/site/vlad_aux/db_io state=directory
+- name: ensure vlad_aux/db_io directories exist
+  file:
+    path: /var/www/site/vlad_aux/{{ item }}
+    state: directory
+    mode: 0777
+  with_items:
+    - db_io
+    - db_io/halt_destroy
+  sudo: true
 
 - include: mysql.yml
+
+- include: mysql_import.yml
+  tags: mysql_import
