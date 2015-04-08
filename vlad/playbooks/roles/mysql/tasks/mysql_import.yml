@@ -3,9 +3,10 @@
 # Optional database import
 
 - name: mysql_import | check for tables in first, possibly only database
-  shell: mysql -u root -p"{{ mysql_root_password }}" {{ dbname }} --execute="show tables;"
+  shell: mysql -u root -p"{{ mysql_root_password }}" {{ dbname[0] }} --execute="show tables;"
   register: mysql_tables
   changed_when: false
+  ignore_errors: yes
 
 - name: mysql_import | import database(s) from default source file(s)
   mysql_db:
