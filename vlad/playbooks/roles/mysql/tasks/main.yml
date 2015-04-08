@@ -21,6 +21,3 @@
 
 - include: mysql_import.yml
   tags: mysql_import
-
-- debug: msg="Just a test"
-  tags: debug
