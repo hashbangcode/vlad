@@ -18,7 +18,7 @@
 
 # Run some common tasks.
 - name: symlink www directory from home directory
-  file: src=/var/www/site/docroot dest=/home/{{ user }}/www state=link
+  file: src=/var/www/site/docroot dest=/home/{{ user }}/www state=link force=yes
 
 - name: set default login directory to be /var/www/site/docroot
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/site/docroot'

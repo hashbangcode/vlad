@@ -21,13 +21,5 @@ admin_mail: 'test@example.com'
 # "[filename]"  : add a specific file e.g. /Users/username/.ssh/[filename]
 use_host_id: false
 
-# Local hosts file location
-# Default location on *nix hosts is '/etc/hosts'
-# Default location for GasMask on OSX is '/Users/< username >/Library/Gas Mask/Local/< file >.hst'
-hosts_file_location: "/etc/hosts"
-
-# Select whether Vlad should edit the hosts file.
-hosts_file_update: true
-
 # Add the default index.php file (useful to turn off if you are going git clone into the web root folder)
 add_index_file: true
