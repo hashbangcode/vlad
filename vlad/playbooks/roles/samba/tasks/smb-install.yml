@@ -13,7 +13,7 @@
   - samba
 
 - name: Copy VLAD shared folders into smb-vlad.conf
-  template: dest=/etc/samba/smb-vlad.conf src=smb-vlad.conf
+  template: dest=/etc/samba/smb-vlad.conf src=smb-vlad.j2
   sudo: true
 
 - name: Include VLAD shared folders in smb.conf
