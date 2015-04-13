@@ -24,7 +24,7 @@ cd ../../
 # Grab any tags that have been sent to the script.
 ANSIBLE_TAGS=$1
 
-if [ -z "$ANSIBLE_TAGS" ]; thenß
+if [ -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook"
     ansible-playbook --inventory-file=./.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory --private-key=~/.vagrant.d/insecure_private_key -u vagrant ./vlad/playbooks/site.yml
 fi
