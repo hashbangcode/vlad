@@ -80,20 +80,28 @@ $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@loc
 </pre>
 
         <h4>Install scripts</h4>
-        <p>Two installation scripts are available that will download and install Drupal. You need to log into the Vagrant
+        <p>A number of installation scripts are available that will download and install Drupal. You need to log into the Vagrant
         box (using 'vagrant ssh') and run one of the following scripts.</p>
 
-        <p><strong>Drupal 7</strong> can be installed via the following script. This will download the latest copy of
-        Drupal 7 and install it using the Standard profile onto the default database. The Overlay module is uninstalled.</p>
+        <p><strong>Drupal 6</strong> install script. This will grab the latest copy of Drupal 6 and install it onto the
+        box using the Standard install profile into the default database.
         <pre class="prettyprint linenums">$ /var/www/drupal7_install.sh</pre>
 
-        <p><strong>Drupal 8</strong> can be installed via the following script. This will clone the latest version of
-        Drupal 8 from the Drupal Git repository and install it using the Standard profile. The upshot of this is that
-        you have a working version of the Drupal Git repository and so you can pull the latest copy and easy write
-        patches.</p>
+        <p><strong>Drupal 7</strong> install script. This will download the latest copy of Drupal 7 and install it
+        using the Standard install profile onto the default database. The Overlay module is also uninstalled.</p>
+        <pre class="prettyprint linenums">$ /var/www/drupal7_install.sh</pre>
+
+        <p><strong>Drupal 8</strong> install script. This will download the latest tagged release of Drupal 8 and install
+        it using the standard install profile.
         <pre class="prettyprint linenums">$ /var/www/drupal8_install.sh</pre>
 
-        <p>In both cases the user credentials are as follows:</p>
+        <p><strong>Drupal 8 Dev</strong> install script. This will clone the latest version of
+        Drupal 8 from the Drupal Git repository and install it using the Standard profile. The upshot of this is that
+        you have a working version of the Drupal Git repository and so you can pull the latest copy and easy write
+        patches. The downside is that it can be a little unstable.</p>
+        <pre class="prettyprint linenums">$ /var/www/drupal8dev_install.sh</pre>
+
+        <p>In all cases the user credentials are as follows:</p>
 
         <table class="table">
 
@@ -139,7 +147,7 @@ $ vagrant ssh
                     <tbody>
                     <tr>
                         <th>VLAD Version</th>
-                        <td>1.1.0-dev</td>
+                        <td>{{ vlad_version.stdout }}</td>
                     </tr>
 
                     <tr>
@@ -270,15 +278,17 @@ $ vagrant ssh
 
             <h4 id="drupal">How to quickly install current version of Drupal?</h4>
 
-            <p>Install most current Drupal with either
-            <code>
-                $ sh /var/www/drupal7_install.sh
-            </code>
+            <p>Install most current Drupal versions with any of the following:</p>
 
-            or Drupal 8
-            <code>
-                $ sh /var/www/drupal8_install.sh
-            </code>
+            <ul><li><strong>Drupal 6</strong></br>
+            <code>$ sh /var/www/drupal6_install.sh</code></li>
+            <li><strong>Drupal 7</strong><br>
+            <code>$ sh /var/www/drupal7_install.sh</code></li>
+            <li><strong>Drupal 8</strong> This gets the latest stable copy of Drupal 8, which is currently in Beta.<br>
+            <code>$ sh /var/www/drupal8_install.sh</code></li>
+            <li><strong>Drupal 8 Dev</strong> This gets the HEAD of the Drupal 8 dev branch, which is possibly unstable.<br>
+            <code>$ sh /var/www/drupal8dev_install.sh</code></li>
+            </ul>
 
             <h4 id="moresites">Can I run more sites on the same box?</h4>
 

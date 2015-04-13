@@ -122,6 +122,11 @@
 
   post_tasks:
 
+    - name: get current Vlad version
+      command: cat ../VERSION.txt
+      delegate_to: 127.0.0.1
+      register: vlad_version
+
     - name: move default index.php file into docroot directory
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
       when: add_index_file
