@@ -112,6 +112,7 @@
 - name: list all jar files that are part of solr (in order to copy)
   shell: ls -1 /home/{{ user }}/solr-4.7.2/dist/ | grep .jar
   register: solrjarfiles
+  changed: false
 
 - name: copy solr lib files
   command: cp /home/{{ user }}/solr-4.7.2/dist/{{ item }} /home/solr/lib/{{ item }} creates=/home/solr/lib/{{ item }}
@@ -130,7 +131,7 @@
   copy: src=tomcat/debian_web.xml dest=/var/lib/tomcat6/webapps/solr/WEB-INF/web.xml
   sudo: true
 
-- name: copy the properties file
+- name: copy the log4j properties file
   copy: src=tomcat/log4j.properties dest=/usr/share/tomcat6/lib/log4j.properties
   sudo: true
 
@@ -169,7 +170,7 @@
    - restart tomcat6
 
 - name: make the lib/contrib directory for the extension to live in
-  command: mkdir -p /home/solr/lib/contrib/ creates=/home/solr/lib/contrib/8
+  command: mkdir -p /home/solr/lib/contrib creates=/home/solr/lib/contrib
   sudo: true
 
 - name: copy the needed class directories over
