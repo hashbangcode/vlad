@@ -112,7 +112,7 @@
 - name: list all jar files that are part of solr (in order to copy)
   shell: ls -1 /home/{{ user }}/solr-4.7.2/dist/ | grep .jar
   register: solrjarfiles
-  changed: false
+  changed_when: false
 
 - name: copy solr lib files
   command: cp /home/{{ user }}/solr-4.7.2/dist/{{ item }} /home/solr/lib/{{ item }} creates=/home/solr/lib/{{ item }}
