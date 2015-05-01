@@ -17,7 +17,7 @@
 
 - name: drush_make | Remove Vlad's holding page if present (index.php)
   file: path=/var/www/site/docroot/index.php state=absent
-  when: vlad_holding_page_present.stdout != ""
+  when: vlad_holding_page_present is defined and vlad_holding_page_present.stdout != ""
 
 # Run drush make only if docroot is empty.
 - name: drush_make | Run drush make
