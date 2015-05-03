@@ -188,15 +188,3 @@
 - name: ensure tomcat/Solr directory has correct owner
   file: path=/home/solr owner=tomcat6 group=tomcat6 recurse=yes
   sudo: true
-
-- name: fix contrib extraction error in solrconfig.xml file
-  lineinfile: dest=/home/solr/{{ default_collection_name }}/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/extraction/lib\" />" insertafter="<lib dir=\"../../contrib/extraction/lib\" />" line="<lib dir=\"/home/solr/lib/contrib/extraction/lib\" />"
-  sudo: true
-  notify:
-    - restart tomcat6
-
-- name: fix contrib clustering error in solrconfig.xml file
-  lineinfile: dest=/home/solr/{{ default_collection_name }}/conf/solrconfig.xml regexp="<lib dir=\"../../contrib/clustering/lib/\" />" insertafter="<lib dir=\"../../contrib/clustering/lib/\" />" line="<lib dir=\"/home/solr/lib/contrib/clustering/lib\" />"
-  sudo: true
-  notify:
-    - restart tomcat6
