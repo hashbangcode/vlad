@@ -11,6 +11,10 @@
 
   pre_tasks:
 
+    - name: Check Ansible version compatibility
+      fail: msg="The minimum Ansible version required to run Vlad is 1.8.4. To upgrade run 'sudo pip install --upgrade ansible'."
+      when: ansible_version.major|int == 1 and ansible_version.minor|int < 9 and ansible_version.revision|int < 4
+
     # Run some tasks to de-provision the box if needed
 
     - name: Ensure Varnish is stopped
