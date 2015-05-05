@@ -121,7 +121,7 @@
   with_items: dbname
 
 - name: create application database(s) user(s)
-  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="{{ item[0] }}.*:ALL" host="{{ item[1] }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
+  mysql_user: name={{ dbuser }} password={{ dbpass }} priv="{{ item[0] }}.*:ALL,GRANT" host="{{ item[1] }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
   with_nested:
     - dbname
     - mysql_hosts
