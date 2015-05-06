@@ -348,6 +348,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       ansible.host_key_checking = false
       ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
+      ansible.inventory_path = 'vlad/host.ini'
+      ansible.limit = 'all'
       if vconfig['ansible_verbosity'] != ''
         ansible.verbose = vconfig['ansible_verbosity']
       end
@@ -368,6 +370,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
         ansible.host_key_checking = false
         ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
+        ansible.inventory_path = 'vlad/host.ini'
         ansible.limit = 'all'
         if vconfig['ansible_verbosity'] != ''
           ansible.verbose = vconfig['ansible_verbosity']
