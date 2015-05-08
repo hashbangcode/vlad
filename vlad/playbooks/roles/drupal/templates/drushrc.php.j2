@@ -9,3 +9,5 @@ $options['dump-dir'] = '/var/www/site/vlad_aux/db_io/drush_dumps';
 
 // Set additional location for drush alias files
 $options['alias-path'] = '/home/{{ user }}/.drush/aliases/separate';
+
+$options['structure-tables']['common'] = array('{{ drush_structure_tables | join("','") }}');

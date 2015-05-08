@@ -24,3 +24,5 @@ drush_make_options: ""
 # Run drush make every time the VM is provisioned.
 # Setting to false will only run drush make if a make file has been specified and docroot is empty (checks for modules directory).
 drush_make_force: false
+
+drush_structure_tables: ['cache','cache_filter','cache_menu','cache_page','history','sessions','watchdog','cache_admin_menu','cache_block','cache_field','cache_form','cache_path','cache_token','cache_update','cache_views','cache_views_data','ctools_css_cache','ctools_object_cache','search_dataset','search_index','search_node_links','search_total']
