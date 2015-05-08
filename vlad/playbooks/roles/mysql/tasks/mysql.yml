@@ -75,13 +75,23 @@
   notify:
    - save iptables
 
-- name: force restart mysql
-  service: name=mysqld state=restarted
+- name: force start mysql to accept new settings
+  service: name=mysqld state=started
   when: ansible_os_family == "RedHat"
   sudo: true
 
+- name: force start mysql to accept new settings
+  service: name=mysql state=started
+  when: ansible_os_family == "Debian"
+  sudo: true
+
+- name: check to see if root password file is present
+  stat: path=/home/{{ user }}/.my.cnf
+  register: mysql_myconf_file
+  sudo: yes
+
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
-- name: set the root password.
+- name: set the root password
   mysql_user:
     name: root
     password: "{{ mysql_root_password }}"
@@ -90,6 +100,7 @@
     login_password: "{{ mysql_root_password }}"
     check_implicit_admin: true
     priv: "*.*:ALL,GRANT"
+  when: mysql_myconf_file.stat.exists == false
 
 - name: config for easy access as root user
   template: src=mysql_root.my.cnf.j2 dest=/root/.my.cnf
@@ -100,8 +111,9 @@
   template: src=mysql_root.my.cnf.j2 dest=/home/{{ user }}/.my.cnf
   when: "'{{ user }}' != 'root'"
 
-- name: delete anonymous MySQL server user for {{ server_hostname }}
+- name: delete anonymous MySQL server user for server_hostname
   mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password="{{ mysql_root_password }}"
+  sudo: true
 
 - name: delete anonymous MySQL server user for localhost
   mysql_user: name="" state="absent" host="{{ server_hostname }}" login_user="root" login_password="{{ mysql_root_password }}"
@@ -110,7 +122,7 @@
   mysql_user: name="root" password="{{ mysql_root_password }}" host="localhost" login_user=root login_password="{{ mysql_root_password }}"
 
 - name: allow root remote access on boxipaddress
-  mysql_user: name="root" password="{{ mysql_root_password }}" priv="*.*:ALL" host="{{ boxipaddress }}" login_user=root login_password="{{ mysql_root_password }}"
+  mysql_user: name="root" password="{{ mysql_root_password }}" priv="*.*:ALL,GRANT" host="{{ boxipaddress }}" login_user=root login_password="{{ mysql_root_password }}"
 
 - name: remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}

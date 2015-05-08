@@ -1,4 +1,5 @@
 ---
 - name: restart mysql
-  service: name="{{ mysql_service_name }}" state=restarted sleep=5
+  command: service {{ mysql_service_name }} restart
   sudo: true
+  changed_when: false
