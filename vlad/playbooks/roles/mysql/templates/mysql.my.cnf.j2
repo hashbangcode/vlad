@@ -13,12 +13,12 @@ character_set_server={{ mysql_character_set_server }}
 collation_server={{ mysql_collation_server }}
 
 {% if mysql_allow_all_hosts == true %}
-bind-address=0.0.0.0
+#bind-address=0.0.0.0
 {% else %}
-bind-address={{ boxipaddress }}
+#bind-address={{ boxipaddress }}
 {% endif %}
 
-skip-external-locking
+#skip-external-locking
 
 innodb_buffer_pool_size={{ innodb_buffer_pool_size }}
 {% if innodb_file_per_table == true %}

@@ -40,26 +40,6 @@
   when: mysql_conf.changed
   sudo: true
 
-- name: change main settings for skip-external-locking
-  lineinfile:
-    dest: "{{ mysql_config_dir }}/my.cnf"
-    regexp: "^#?skip-external-locking"
-    insertafter: "skip-external-locking"
-    line: "#skip-external-locking"
-  sudo: true
-  notify:
-    - restart mysql
-
-- name: change main settings for bind-address
-  lineinfile:
-    dest: "{{ mysql_config_dir }}/my.cnf"
-    regexp: "^#?bind-address"
-    insertafter: "bind-address"
-    line: "#bind-address"
-  sudo: true
-  notify:
-    - restart mysql
-
 - name: get iptables rules
   shell: iptables -L
   register: iptablesrules
@@ -75,15 +55,10 @@
   notify:
    - save iptables
 
-- name: force start mysql to accept new settings
-  service: name=mysqld state=started
-  when: ansible_os_family == "RedHat"
+- name: force (re)start mysql to accept new settings
+  command: service {{ mysql_service_name }} restart
   sudo: true
-
-- name: force start mysql to accept new settings
-  service: name=mysql state=started
-  when: ansible_os_family == "Debian"
-  sudo: true
+  changed_when: false
 
 - name: check to see if root password file is present
   stat: path=/home/{{ user }}/.my.cnf
