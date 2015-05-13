@@ -11,6 +11,8 @@ php_version: "5.5"
 # php.ini settings
 php_memory_limit: 512M
 php_max_execution_time: 60
+php_max_input_time: 60
+php_max_input_vars: 2000
 php_post_max_size: 100M
 php_upload_max_filesize: 100M
 php_display_errors: On

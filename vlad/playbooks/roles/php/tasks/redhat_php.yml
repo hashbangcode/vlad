@@ -1,11 +1,9 @@
 ---
 - name: get ius rpm
   get_url: url=http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-13.ius.centos6.noarch.rpm dest=/home/{{ user }}
-  tags: php
 
 - name: install ius
   yum: name=/home/{{ user }}/ius-release-1.0-13.ius.centos6.noarch.rpm state=present
-  tags: php
   sudo: true
 
 - name: install php packages
@@ -26,7 +24,6 @@
    - php-pdo
    - php-mbstring
    - php-mcrypt
-  tags: php
   sudo: true
   when: php_version == '5.3'
   notify:
@@ -50,7 +47,6 @@
    - php54-pdo
    - php54-mbstring
    - php54-mcrypt
-  tags: php
   sudo: true
   when: php_version == '5.4'
   notify:
@@ -74,7 +70,6 @@
    - php55u-pdo
    - php55u-mbstring
    - php55u-mcrypt
-  tags: php
   sudo: true
   when: php_version == '5.5'
   notify:
@@ -98,7 +93,6 @@
    - php56u-pdo
    - php56u-mbstring
    - php56u-mcrypt
-  tags: php
   sudo: true
   when: php_version == '5.6'
   notify:
@@ -106,70 +100,66 @@
 
 - name: change php apache2 memory_limit
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
-  tags: php
-  sudo: true
-  notify:
-    - restart httpd
-
-- name: change php apache2 max_execution_time
-  lineinfile: dest=/etc/php.ini regexp="^[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
 - name: change php apache2 post_max_size
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?post_max_size =" insertafter="^[#|;]?post_max_size =" line="post_max_size = {{ php_post_max_size }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
 - name: change php apache2 upload_max_filesize
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?upload_max_filesize =" insertafter="^[#|;]?upload_max_filesize = " line="upload_max_filesize = {{ php_upload_max_filesize }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
 - name: change php apache2 max_execution_time
   lineinfile: dest=/etc/php.ini regexp="[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
+- name: change php apache2 max_input_time
+  lineinfile: dest=/etc/php.ini regexp="^[#|;]?max_input_time =" insertafter="^[#|;]?max_input_time =" line="max_input_time = {{ php_max_input_time }}"
+  sudo: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 max_input_vars
+  lineinfile: dest=/etc/php.ini regexp="^[#|;]?max_input_vars =" insertafter="^[#|;]?max_input_vars =" line="max_input_vars = {{ php_max_input_vars }}"
+  sudo: true
+  notify:
+    - restart apache2
+
 - name: change php apache2 display_errors
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?display_errors =" insertafter="^[#|;]?display_errors =" line="display_errors = {{ php_display_errors }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
 - name: change php apache2 display_startup_errors
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?display_startup_errors =" insertafter="^[#|;]?display_startup_errors =" line="display_startup_errors = {{ php_display_startup_errors }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
 - name: change php apache2 html_errors
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?html_errors =" insertafter="^[#|;]?html_errors =" line="html_errors = {{ php_html_errors }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
 - name: change php apache2 date.timezone
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
-  tags: php
   sudo: true
   notify:
     - restart httpd
 
 - name: change APC configuration file apc.ini
   template: src=redhat_php_apache2_apc.ini.j2 dest=/etc/php.d/apc.ini
-  tags: php
   sudo: true
   notify:
     - restart httpd
@@ -187,13 +177,11 @@
 
 - name: install PECL uploadprogress
   command: pecl install uploadprogress creates=/usr/lib64/php/modules/uploadprogress.so
-  tags: php
   sudo: true
   when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
 
 - name: add PECL uploadprogress apache php.ini setting
   lineinfile: dest=/etc/php.ini state=present line="extension=uploadprogress.so"
-  tags: php
   sudo: true
   when: php_pecl_uploadprogress
   notify:
