@@ -92,9 +92,9 @@
 
     - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
-    - { role: php, when: "php_install" }
+    - { role: php, tags: ["php"], when: "php_install" }
 
-    - { role: drupal, when: "php_install" }
+    - { role: drupal, tags: ["drupal"], when: "php_install" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install" }
 
