@@ -27,9 +27,15 @@
     ignore_errors: yes
 
   - name: Ensure MySQL is running.
-    service: name=mysql state=restarted
+    command: service mysql restart
     sudo: true
-    when: mysql_install
+    when: mysql_install and ansible_os_family == "Debian"
+    ignore_errors: yes
+
+  - name: Ensure MySQL is running.
+    command: service mysqld restart
+    sudo: true
+    when: mysql_install and ansible_os_family == "RedHat"
     ignore_errors: yes
 
   - name: Ensure Redis is running.
