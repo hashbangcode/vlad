@@ -14,7 +14,7 @@ innodb_file_per_table: true
 innodb_log_file_size: 64M
 mysql_character_set_server: utf8
 mysql_collation_server: utf8_general_ci
-skip_name_resolve: true
+skip_name_resolve: false
 
 # Import MySQL database from file on 'vagrant up'. Options include:
 # false                           - don't import anything

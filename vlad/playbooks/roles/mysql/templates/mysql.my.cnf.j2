@@ -13,9 +13,9 @@ character_set_server={{ mysql_character_set_server }}
 collation_server={{ mysql_collation_server }}
 
 {% if mysql_allow_all_hosts == true %}
-#bind-address=0.0.0.0
+bind-address=0.0.0.0
 {% else %}
-#bind-address={{ boxipaddress }}
+bind-address={{ boxipaddress }}
 {% endif %}
 
 #skip-external-locking
@@ -27,7 +27,7 @@ innodb_file_per_table
 innodb_log_file_size={{ innodb_log_file_size }}
 
 {% if skip_name_resolve == true %}
-skip-name-resolve
+#skip-name-resolve
 {% endif %}
 
 [mysqld_safe]
