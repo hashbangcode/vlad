@@ -7,6 +7,10 @@
     - tmp
     - db_io
 
+- name: set permissions on /tmp directory
+  file: path=/tmp mode=0777 recurse=yes
+  sudo: yes
+
 - include: vm_info.yml
 
 - include: aptget.yml
