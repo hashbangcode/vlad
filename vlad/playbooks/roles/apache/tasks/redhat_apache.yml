@@ -39,7 +39,3 @@
   when: iptablesrules.stdout.find("webhost") == -1
   notify:
    - save iptables
-
-- name: add www-data user to dialout group
-  user: name=www-data groups=dialout append=yes
-  sudo: true

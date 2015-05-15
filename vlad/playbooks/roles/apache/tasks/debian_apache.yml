@@ -66,10 +66,6 @@
   notify:
    - save iptables
 
-- name: add www-data user to dialout group
-  user: name=www-data groups=dialout append=yes
-  sudo: true
-
 - name: enable mod rewrite module
   command: a2enmod rewrite creates=/etc/apache2/mods-enabled/rewrite.load
   sudo: true
