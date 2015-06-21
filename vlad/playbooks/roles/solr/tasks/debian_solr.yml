@@ -75,21 +75,21 @@
   when: "'android' not in item and 'slf4j-log4j12' not in item and 'log4j-over-slf4j' not in item and 'slf4j-jcl' not in item"
 
 - name: download Solr
-  command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.7.2/solr-4.7.2.tgz chdir=/home/{{ user }} creates=/home/{{ user }}/solr-4.7.2.tgz
+  command: wget http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/4.10.4/solr-4.10.4.tgz chdir=/home/{{ user }} creates=/home/{{ user }}/solr-4.10.4.tgz
 
 - name: extract Solr
-  command: tar -zxf /home/{{ user }}/solr-4.7.2.tgz chdir=/home/{{ user }} creates=/home/{{ user }}/solr-4.7.2
+  command: tar -zxf /home/{{ user }}/solr-4.10.4.tgz chdir=/home/{{ user }} creates=/home/{{ user }}/solr-4.10.4
 
 - name: copy Solr war file
-  command: cp /home/{{ user }}/solr-4.7.2/dist/solr-4.7.2.war /var/lib/tomcat6/webapps/solr.war creates=/var/lib/tomcat6/webapps/solr.war
+  command: cp /home/{{ user }}/solr-4.10.4/dist/solr-4.10.4.war /var/lib/tomcat6/webapps/solr.war creates=/var/lib/tomcat6/webapps/solr.war
   sudo: true
 
 - name: list solr files (in order to copy)
-  command: ls -1 /home/{{ user }}/solr-4.7.2/example/solr/
+  command: ls -1 /home/{{ user }}/solr-4.10.4/example/solr/
   register: solrfiles
 
 - name: copy Solr instance
-  command: cp -ar /home/{{ user }}/solr-4.7.2/example/solr/{{ item }} /home/solr creates=/home/solr/{{ item }}
+  command: cp -ar /home/{{ user }}/solr-4.10.4/example/solr/{{ item }} /home/solr creates=/home/solr/{{ item }}
   sudo: true
   with_items: solrfiles.stdout_lines
 
@@ -110,12 +110,12 @@
   sudo: true
 
 - name: list all jar files that are part of solr (in order to copy)
-  shell: ls -1 /home/{{ user }}/solr-4.7.2/dist/ | grep .jar
+  shell: ls -1 /home/{{ user }}/solr-4.10.4/dist/ | grep .jar
   register: solrjarfiles
   changed_when: false
 
 - name: copy solr lib files
-  command: cp /home/{{ user }}/solr-4.7.2/dist/{{ item }} /home/solr/lib/{{ item }} creates=/home/solr/lib/{{ item }}
+  command: cp /home/{{ user }}/solr-4.10.4/dist/{{ item }} /home/solr/lib/{{ item }} creates=/home/solr/lib/{{ item }}
   with_items: solrjarfiles.stdout_lines
   sudo: true
 
@@ -174,7 +174,7 @@
   sudo: true
 
 - name: copy the needed class directories over
-  command: cp -r /home/{{ user }}/solr-4.7.2/contrib/{{ item }} /home/solr/lib/contrib/{{ item }} creates=/home/solr/lib/contrib/{{ item }}
+  command: cp -r /home/{{ user }}/solr-4.10.4/contrib/{{ item }} /home/solr/lib/contrib/{{ item }} creates=/home/solr/lib/contrib/{{ item }}
   sudo: true
   with_items:
     - analysis-extras
