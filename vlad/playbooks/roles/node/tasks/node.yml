@@ -30,3 +30,9 @@
     dest: /home/{{ user }}/.bashrc
     line: 'export PATH=$HOME/.node/bin:$PATH'
     state: present
+
+- name: ensure ~/.node directory is present & accessible
+  file:
+    path: /home/{{ user }}/.node
+    state: directory
+    mode: 0777
