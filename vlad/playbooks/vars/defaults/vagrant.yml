@@ -54,3 +54,10 @@ vm_memory: 1024
 # - "ubuntu12"
 # - "ubuntu14"
 vlad_os: "ubuntu14"
+
+# Provision with custom play
+vlad_custom_play: false
+# Path to directory of custom play (note the trailing slash!)
+vlad_custom_play_path: "../vlad_custom/"
+# Filename of custom play
+vlad_custom_play_file: "provision.yml"

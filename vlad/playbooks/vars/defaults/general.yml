@@ -5,9 +5,6 @@
 # This file should only contain variables not covered by install.yml, vagrant.yml or any role's vars/main.yml file.
 # -----------------------------------------------------------------------------------------------------------------
 
-# Provision with custom role
-custom_provision: false
-
 # HTTP port for the web server. If you choose to install Varnish then you might want to set this to "8080"
 http_port: 80
 
