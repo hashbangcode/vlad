@@ -75,6 +75,7 @@ vlad_os = vconfig['vlad_os']
 vlad_custom_play = vconfig['vlad_custom_play']
 vlad_custom_play_path = vconfig['vlad_custom_play_path']
 vlad_custom_play_file = vconfig['vlad_custom_play_file']
+vlad_custom_base_box_name = vconfig['vlad_custom_base_box_name']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -154,7 +155,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # VMWare provider settings
   config.vm.provider "vmware_fusion" do |vmw, o|
-    # Add VMWare box.
+    # Add a Ubuntu 12 VMWare box
     o.vm.box = "hashicorp/precise64"
 
     vmw.gui = false
@@ -164,15 +165,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Virtualbox provider settings
   config.vm.provider "virtualbox" do |vb, o|
-    if vlad_os == "centos66"
-      # Add a Centos VirtualBox box
-      o.vm.box = "hansode/centos-6.6-x86_64"
-    elsif vlad_os == "ubuntu14"
-      # Add a Ubuntu VirtualBox box
-      o.vm.box = "ubuntu/trusty64"
+
+    if vlad_custom_base_box_name != ""
+      # Add a previously built custom box
+      config.vm.box = vlad_custom_base_box_name
     else
-      # Add a Ubuntu VirtualBox box
-      o.vm.box = "ubuntu/precise64"
+      if vlad_os == "centos66"
+        # Add a CentOS 6 VirtualBox box
+        o.vm.box = "hansode/centos-6.6-x86_64"
+      elsif vlad_os == "ubuntu14"
+        # Add a Ubuntu 14 VirtualBox box
+        o.vm.box = "ubuntu/trusty64"
+      else
+        # Add a Ubuntu 12 VirtualBox box
+        o.vm.box = "ubuntu/precise64"
+      end
     end
 
     #
@@ -214,13 +221,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Configure Parallels Desktop setup.
   config.vm.provider "parallels" do |p, o|
     if vlad_os == "centos66"
-      # Add a CentOS Parallels Desktop box
+      # Add a CentOS 6 Parallels Desktop box
       o.vm.box = "parallels/centos-6.6"
     elsif vlad_os == "ubuntu14"
-      # Add an Ubuntu Parallels Desktop box
+      # Add an Ubuntu 14 Parallels Desktop box
       o.vm.box = "parallels/ubuntu-14.04"
     else
-      # Add an Ubuntu Parallels Desktop box
+      # Add an Ubuntu 12 Parallels Desktop box
       o.vm.box = "parallels/ubuntu-12.04"
     end
 
