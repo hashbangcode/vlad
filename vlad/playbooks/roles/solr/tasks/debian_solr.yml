@@ -142,7 +142,7 @@
 - name: get Drupal solr integration via search_api_solr
   git:
     repo: http://git.drupal.org/project/{{ drupal_solr_package }}.git
-    dest: dest=/home/{{ user }}/drupal_solr
+    dest: /home/{{ user }}/drupal_solr
     version: 7.x-1.6
     depth: 1
   when: drupal_solr_package == "search_api_solr"
