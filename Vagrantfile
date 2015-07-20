@@ -149,14 +149,46 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vagrant_memory = settings_memory
   end
 
-  # VMWare provider settings
+  # VMWare provider settings. These tend to not have good alternatives on atlas, so specify URLS manually
   config.vm.provider "vmware_fusion" do |vmw, o|
     # Add VMWare box.
-    o.vm.box = "hashicorp/precise64"
+    if vlad_os == "centos66"
+      o.vm.box = "opscode_centos-6.6"
+      o.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.6_chef-provisionerless.box"
+    elsif vlad_os == "ubuntu14"
+      o.vm.box = "opscode-ubuntu-14.04"
+      o.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box"
+    else
+      # Add a Ubuntu VirtualBox box. This is the only one that has vmware basebox on Atlas
+      o.vm.box = "hashicorp/precise64"
+    end
 
     vmw.gui = false
+    vmw.vmx["displayname"] = boxname + "_vlad"
     vmw.vmx["numvcpus"] = vagrant_cpus
     vmw.vmx["memsize"] = vagrant_memory
+  end
+
+  # Configure Parallels Desktop setup.
+  config.vm.provider "parallels" do |p, o|
+    if vlad_os == "centos66"
+      # Add a CentOS Parallels Desktop box
+      o.vm.box = "parallels/centos-6.6"
+    elsif vlad_os == "ubuntu14"
+      # Add an Ubuntu Parallels Desktop box
+      o.vm.box = "parallels/ubuntu-14.04"
+    else
+      # Add an Ubuntu Parallels Desktop box
+      o.vm.box = "parallels/ubuntu-12.04"
+    end
+
+    p.name = boxname + "_vlad"
+    p.cpus = vagrant_cpus
+    p.memory = vagrant_memory
+
+    # Update guest tools if so configured.
+    update_guest_tools = vconfig.has_key?('parallels_update_guest_tools') ? vconfig['parallels_update_guest_tools'] : false
+    p.update_guest_tools = update_guest_tools
   end
 
   # Virtualbox provider settings
@@ -208,28 +240,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--chipset", vconfig['vm_chipset']]
   end
 
-  # Configure Parallels Desktop setup.
-  config.vm.provider "parallels" do |p, o|
-    if vlad_os == "centos66"
-      # Add a CentOS Parallels Desktop box
-      o.vm.box = "parallels/centos-6.6"
-    elsif vlad_os == "ubuntu14"
-      # Add an Ubuntu Parallels Desktop box
-      o.vm.box = "parallels/ubuntu-14.04"
-    else
-      # Add an Ubuntu Parallels Desktop box
-      o.vm.box = "parallels/ubuntu-12.04"
-    end
-
-    p.name = boxname + "_vlad"
-    p.cpus = vagrant_cpus
-    p.memory = vagrant_memory
-
-    # Update guest tools if so configured.
-    update_guest_tools = vconfig.has_key?('parallels_update_guest_tools') ? vconfig['parallels_update_guest_tools'] : false
-    p.update_guest_tools = update_guest_tools
-
-  end
+ 
 
   if is_windows
 
