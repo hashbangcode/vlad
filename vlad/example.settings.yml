@@ -39,6 +39,8 @@
 
   mailcatcher_install: false
 
+  mailhog_install: false
+
   memcached_install: false
 
   munin_install: false

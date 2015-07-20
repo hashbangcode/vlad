@@ -118,6 +118,8 @@
 
     - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install" }
 
+    - { role: geerlingguy.mailhog, tags: ["mailhog"], when: "mailhog_install", sudo: true, workspace: /home/vagrant }
+
     - { role: node, tags: ["node"], when: "node_install" }
 
     - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install" }
