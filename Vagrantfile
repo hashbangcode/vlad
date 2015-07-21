@@ -218,13 +218,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Configure misc settings
     vb.customize ['modifyvm', :id,
     '--rtcuseutc', 'on',
-    '--natdnshostresolver1', 'on',
+    '--natdnshostresolver1', 'off',
     '--nictype1', 'virtio',
     '--nictype2', 'virtio',
     '--natdnsproxy1', 'on',
     '--natdnspassdomain1', 'on']
-
-#    '--natdnshostresolver1', 'off',
 
     # Configure OS type
     if vlad_os == "centos66"
