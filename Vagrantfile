@@ -88,7 +88,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Allow caching to be used (see the vagrant-cachier plugin)
   if Vagrant.has_plugin?("vagrant-cachier")
-    config.cache.scope = :machine
+    config.cache.scope = :box
     if is_windows
       config.cache.synced_folder_opts = { type: "smb", smb_username: samba_username, smb_password: samba_password}
     else
