@@ -30,6 +30,13 @@ innodb_log_file_size={{ innodb_log_file_size }}
 #skip-name-resolve
 {% endif %}
 
+slow-query-log = {{ mysql_slow_query_log_status }}
+slow-query-log-file = {{ mysql_slow_query_log_location }}
+long_query_time = {{ mysqL_long_query_time }}
+{% if mysql_log_queries_not_using_indexes == true %}
+log-queries-not-using-indexes
+{% endif %}
+
 [mysqld_safe]
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
