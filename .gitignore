@@ -45,12 +45,12 @@ vagrant_ansible_inventory_*
 #######################
 
 # General
-vlad/host.ini
+vlad_guts/host.ini
 vagrant_ansible_inventory_vlad
-vlad/ansible.log
-vlad/settings.yml
-vlad/local_settings.yml
-vlad/docs_site/
+vlad_guts/ansible.log
+vlad_guts/settings.yml
+vlad_guts/local_settings.yml
+vlad_guts/docs_site/
 settings
 
 # Default & common shared web root folder names

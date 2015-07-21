@@ -26,10 +26,10 @@ ANSIBLE_TAGS=$1
 
 if [ -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook"
-    ansible-playbook --inventory-file=./vlad/host.ini --private-key=~/.vagrant.d/insecure_private_key -u vagrant ./vlad/playbooks/site.yml
+    ansible-playbook --inventory-file=./vlad_guts/host.ini --private-key=~/.vagrant.d/insecure_private_key -u vagrant ./vlad_guts/playbooks/site.yml
 fi
 
 if [ ! -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook with the tags '$ANSIBLE_TAGS'"
-    ansible-playbook --inventory-file=./vlad/host.ini --private-key=~/.vagrant.d/insecure_private_key -u vagrant ./vlad/playbooks/site.yml -t "$ANSIBLE_TAGS"
+    ansible-playbook --inventory-file=./vlad_guts/host.ini --private-key=~/.vagrant.d/insecure_private_key -u vagrant ./vlad_guts/playbooks/site.yml -t "$ANSIBLE_TAGS"
 fi

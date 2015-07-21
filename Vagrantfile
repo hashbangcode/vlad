@@ -27,21 +27,21 @@ end
 # Find the current vagrant directory & create additional vars from it
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
 parent_dir = File.dirname(vagrant_dir)
-vlad_hosts_file = vagrant_dir + '/vlad/host.ini'
+vlad_hosts_file = vagrant_dir + '/vlad_guts/host.ini'
 
 # Load settings and overrides files
 settings_files = {
-  "Vlad settings" => [vagrant_dir + "/vlad/settings.yml",
+  "Vlad settings" => [vagrant_dir + "/vlad_guts/settings.yml",
                       vagrant_dir + "/settings/vlad_settings.yml",
                       parent_dir + "/settings/vlad_settings.yml"
                      ],
-  "local overrides" => [vagrant_dir + "/vlad/local_settings.yml",
+  "local overrides" => [vagrant_dir + "/vlad_guts/local_settings.yml",
                         vagrant_dir + "/settings/vlad_local_settings.yml",
                         parent_dir + "/settings/vlad_local_settings.yml"
                        ]
 }
 
-vconfig = YAML::load_file(vagrant_dir + "/vlad/playbooks/vars/defaults/vagrant.yml")
+vconfig = YAML::load_file(vagrant_dir + "/vlad_guts/playbooks/vars/defaults/vagrant.yml")
 
 # Iterate over the settings files and load the first file that is found for each type, then
 # merge them over the base/default settings loaded in vconfig
@@ -63,7 +63,7 @@ end
 unless loaded_vlad_settings
   puts "No Vlad settings or local overrides files found (will use default settings)."
 end
-puts 
+puts
 
 # Set box configuration options
 boxipaddress = vconfig['boxipaddress']
@@ -220,7 +220,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     '--rtcuseutc', 'on',
     '--natdnshostresolver1', 'on',
     '--nictype1', 'virtio',
-    '--nictype2', 'virtio']
+    '--nictype2', 'virtio',
+    '--natdnsproxy1', 'on',
+    '--natdnspassdomain1', 'on']
+
+#    '--natdnshostresolver1', 'off',
 
     # Configure OS type
     if vlad_os == "centos66"
@@ -240,17 +244,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--chipset", vconfig['vm_chipset']]
   end
 
- 
+
 
   if is_windows
 
     # Setup auxiliary synced folder
 
     FileUtils.mkdir_p vconfig['aux_synced_folder'] if !File.exist?(vconfig['aux_synced_folder'])
-    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", 
-      type: "smb", 
-      id: "vagrant-aux", 
-      smb_username: samba_username, 
+    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux",
+      type: "smb",
+      id: "vagrant-aux",
+      smb_username: samba_username,
       smb_password: samba_password
 
   elsif synced_folder_type == 'nfs'
@@ -292,21 +296,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # vagrant-hostsupdater plugin will manage /etc/hosts upon up/halt/suspend.
   config.hostsupdater.aliases = [
-    'adminer.' + boxwebaddress, 
-    'xhprof.' + boxwebaddress, 
+    'adminer.' + boxwebaddress,
+    'xhprof.' + boxwebaddress,
     'logs.' + boxwebaddress,
     boxwebaddress
   ] + hostname_aliases
   config.hostsupdater.remove_on_suspend = true
-    
+
   # Run an Ansible playbook on setting the box up
   config.trigger.before [:up, :resume], :stdout => true, :force => true do
     info "Executing 'up' setup trigger"
       if is_windows
         info "Creating " + vlad_hosts_file
-        FileUtils.cp(vagrant_dir + "/vlad/playbooks/templates/host.j2 ", vlad_hosts_file)
+        FileUtils.cp(vagrant_dir + "/vlad_guts/playbooks/templates/host.j2 ", vlad_hosts_file)
       else
-        run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad_guts/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
       end
   end
 
@@ -314,20 +318,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.trigger.before [:halt, :destroy], :stdout => true, :force => true do
     info "Executing 'halt/destroy' trigger"
     if is_windows
-      run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
+      run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad_guts/playbooks/local_halt_destroy.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
       info "Deleting " + vlad_hosts_file
       File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
     else
-      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_halt_destroy.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad_guts/playbooks/local_halt_destroy.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
   config.trigger.after :up, :stdout => true, :force => true do
     info "Executing 'up' services trigger"
     if is_windows
-      run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad/playbooks/local_up_services.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
+      run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad_guts/playbooks/local_up_services.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
     else
-      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad/playbooks/local_up_services.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad_guts/playbooks/local_up_services.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
@@ -344,44 +348,44 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # if there is a line that only consists of 'mesg n' in /root/.profile, replace it with 'tty -s && mesg n'
     sh.inline = "(grep -q -E '^mesg n$' /root/.profile && sed -i 's/^mesg n$/tty -s \\&\\& mesg n/g' /root/.profile && echo 'Ignore the previous error about stdin not being a tty. Fixing it now...') || exit 0;"
   end
-    
+
   # Provision vagrant box with Ansible.
   if is_windows
     # Provisioning configuration for shell script.
     config.vm.provision "shell" do |sh|
-      sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
+      sh.path = vagrant_dir + "/vlad_guts/scripts/ansible-run-remote.sh"
       # run all tags
-      sh.args = "/vlad/playbooks/site.yml " + boxipaddress + ', ' + 'all'
+      sh.args = "/vlad_guts/playbooks/site.yml " + boxipaddress + ', ' + 'all'
     end
   else
     config.vm.provision "ansible" do |ansible|
-      ansible.playbook = vagrant_dir + "/vlad/playbooks/site.yml"
+      ansible.playbook = vagrant_dir + "/vlad_guts/playbooks/site.yml"
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       ansible.host_key_checking = false
       ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
-      ansible.inventory_path = 'vlad/host.ini'
+      ansible.inventory_path = 'vlad_guts/host.ini'
       ansible.limit = 'all'
       if vconfig['ansible_verbosity'] != ''
         ansible.verbose = vconfig['ansible_verbosity']
       end
     end
-  end    
+  end
 
   # Run the custom Ansible playbook if the custom role exists
   if File.exist?(vagrant_dir + "/vlad_custom/tasks/main.yml") || File.exist?("../vlad_custom/tasks/main.yml")
     if is_windows
       # Provisioning configuration for shell script.
       config.vm.provision "shell" do |sh|
-        sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
-        sh.args = "/vlad/playbooks/site-custom.yml " + boxipaddress + ','
+        sh.path = vagrant_dir + "/vlad_guts/scripts/ansible-run-remote.sh"
+        sh.args = "/vlad_guts/playbooks/site-custom.yml " + boxipaddress + ','
       end
     else
       config.vm.provision "ansible" do |ansible|
-        ansible.playbook = vagrant_dir + "/vlad/playbooks/site_custom.yml"
+        ansible.playbook = vagrant_dir + "/vlad_guts/playbooks/site_custom.yml"
         ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
         ansible.host_key_checking = false
         ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
-        ansible.inventory_path = 'vlad/host.ini'
+        ansible.inventory_path = 'vlad_guts/host.ini'
         ansible.limit = 'all'
         if vconfig['ansible_verbosity'] != ''
           ansible.verbose = vconfig['ansible_verbosity']
