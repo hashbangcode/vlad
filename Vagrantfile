@@ -72,6 +72,10 @@ boxwebaddress = vconfig['webserver_hostname']
 hostname_aliases = vconfig['webserver_hostname_aliases']
 synced_folder_type = vconfig['synced_folder_type']
 vlad_os = vconfig['vlad_os']
+vlad_custom_play = vconfig['vlad_custom_play']
+vlad_custom_play_path = vconfig['vlad_custom_play_path']
+vlad_custom_play_file = vconfig['vlad_custom_play_file']
+vlad_custom_base_box_name = vconfig['vlad_custom_base_box_name']
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -193,15 +197,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Virtualbox provider settings
   config.vm.provider "virtualbox" do |vb, o|
-    if vlad_os == "centos66"
-      # Add a Centos VirtualBox box
-      o.vm.box = "hansode/centos-6.6-x86_64"
-    elsif vlad_os == "ubuntu14"
-      # Add a Ubuntu VirtualBox box
-      o.vm.box = "ubuntu/trusty64"
+
+    if vlad_custom_base_box_name != ""
+      # Add a previously built custom box
+      config.vm.box = vlad_custom_base_box_name
     else
-      # Add a Ubuntu VirtualBox box
-      o.vm.box = "ubuntu/precise64"
+      if vlad_os == "centos66"
+        # Add a CentOS 6 VirtualBox box
+        o.vm.box = "hansode/centos-6.6-x86_64"
+      elsif vlad_os == "ubuntu14"
+        # Add a Ubuntu 14 VirtualBox box
+        o.vm.box = "ubuntu/trusty64"
+      else
+        # Add a Ubuntu 12 VirtualBox box
+        o.vm.box = "ubuntu/precise64"
+      end
     end
 
     #
@@ -241,8 +251,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--ioapic", vconfig['vm_ioapic']]
     vb.customize ["modifyvm", :id, "--chipset", vconfig['vm_chipset']]
   end
-
-
 
   if is_windows
 
@@ -369,26 +377,32 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # Run the custom Ansible playbook if the custom role exists
-  if File.exist?(vagrant_dir + "/vlad_custom/tasks/main.yml") || File.exist?("../vlad_custom/tasks/main.yml")
-    if is_windows
-      # Provisioning configuration for shell script.
-      config.vm.provision "shell" do |sh|
-        sh.path = vagrant_dir + "/vlad_guts/scripts/ansible-run-remote.sh"
-        sh.args = "/vlad_guts/playbooks/site-custom.yml " + boxipaddress + ','
-      end
-    else
-      config.vm.provision "ansible" do |ansible|
-        ansible.playbook = vagrant_dir + "/vlad_guts/playbooks/site_custom.yml"
-        ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
-        ansible.host_key_checking = false
-        ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
-        ansible.inventory_path = 'vlad_guts/host.ini'
-        ansible.limit = 'all'
-        if vconfig['ansible_verbosity'] != ''
-          ansible.verbose = vconfig['ansible_verbosity']
+  # Run an additional custom Ansible playbook if configured to do so.
+  if vlad_custom_play
+    custom_play_full_path = vlad_custom_play_path + vlad_custom_play_file
+    puts "Checking for custom play at: " + custom_play_full_path
+    puts
+    # Check if custom play exists.
+    if File.exist?(custom_play_full_path)
+      if is_windows
+        # Provisioning configuration for shell script.
+        config.vm.provision "shell" do |sh|
+          sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
+          sh.args = custom_play_full_path + ' ' + boxipaddress + ','
         end
-     end
+      else
+        config.vm.provision "ansible" do |ansible|
+          ansible.playbook = custom_play_full_path
+          ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
+          ansible.host_key_checking = false
+          ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
+          ansible.inventory_path = 'vlad/host.ini'
+          ansible.limit = 'all'
+          if vconfig['ansible_verbosity'] != ''
+            ansible.verbose = vconfig['ansible_verbosity']
+          end
+       end
+      end
     end
   end
 
