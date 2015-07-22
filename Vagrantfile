@@ -51,7 +51,7 @@ vconfig = YAML::load_file(vagrant_dir + "/vlad_guts/playbooks/vars/defaults/vagr
 # Iterate over the settings files and load the first file that is found for each type,
 # then merge them over the base/default settings loaded in vconfig
 loaded_vlad_settings = false
-puts "\nChecking for Vlad settings and local overrides..."
+puts "\nChecking for #{settings_files.keys.first} and #{settings_files.keys.last}..."
 settings_files.each do |type, paths|
   paths.each do |file|
     if File.exists?(file)
@@ -74,7 +74,7 @@ else
   # Wite a placeholder YAML file for Ansible to still load
   File.open(merged_settings_file, "w") {|f| f.write("---\n# This is a placeholder file to keep Ansible happy when using only Vlad default settings.\n") }
   # Warn if we didn't find any files to load
-  puts "No #{settings_files.keys.first} or #{settings_files.keys.last} files found (will use default settings)."
+  puts "No #{settings_files.keys.first} or #{settings_files.keys.last} found (will use default settings)."
 end
 puts
 
