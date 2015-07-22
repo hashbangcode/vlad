@@ -1,7 +1,0 @@
----
-
-# This is a dummy settings file to give Vlad something to fallback to if it can't find any *proper* settings files
-# (in which case default variable values will be used).
-
-# A full list of available variables & their default values can be found in Vlad's online documentation:
-# http://vlad-docs.readthedocs.org/en/latest/usage/variables

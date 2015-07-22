@@ -4,8 +4,7 @@
   gather_facts: true
   vars_files:
     - "./vars/defaults/install.yml"
-    - [ "../../settings/vlad_settings.yml", "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
-    - [ "../../settings/vlad_local_settings.yml", "../../../settings/vlad_local_settings.yml", "../local_settings.yml", "vars/dummy_settings.yml" ]
+    - "../merged_user_settings.yml"
 
   tasks:
   - name: Ensure Varnish is running.

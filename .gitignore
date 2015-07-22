@@ -52,6 +52,7 @@ vlad_guts/settings.yml
 vlad_guts/local_settings.yml
 vlad_guts/docs_site/
 settings
+vlad_guts/merged_user_settings.yml
 
 # Default & common shared web root folder names
 docroot/*
