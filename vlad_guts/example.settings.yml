@@ -13,7 +13,7 @@
 # See the full list of available variables here.
 # http://vlad-docs.readthedocs.org/en/latest/usage/variables/
 #
-  
+
 # Webserver settings
   webserver_hostname: 'drupal.local'
   webserver_hostname_aliases: 

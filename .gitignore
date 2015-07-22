@@ -1,65 +1,65 @@
-# OS generated files #
-######################
+# OS generated files
+# ------------------------------------------------------------------------------
 *~
+.directory
 .DS_Store*
 .project
 .settings
+.svn
 ehthumbs.db
 Icon?
 Thumbs.db
-.svn
-.directory
 
-# IDE generated files #
-#######################
-.project
-.settings
+# IDE generated files
+# ------------------------------------------------------------------------------
 *.bbprojectd
-*.sublime-project
-*.sublime-workspace
-*.tmproj
+*.mode1v3
+*.mode2v3
 *.pbxuser
 *.perspective
 *.perspectivev3
-*.mode1v3
-*.mode2v3
+*.sublime-project
+*.sublime-workspace
 *.swp
+*.tmproj
 *~.nib
-nbproject
-.komodotools
 .idea
+.komodotools
+.project
+.settings
+nbproject
 
-# Drupal #
-##########
+# Drupal
+# ------------------------------------------------------------------------------
 build/
+dev.settings.php
 settings.php
 sites.php
-dev.settings.php
 
-# Vagrant specific files #
-##########################
+# Vagrant specific files
+# ------------------------------------------------------------------------------
 .vagrant
 vagrant_ansible_inventory_*
 
-# Vlad specific files #
-#######################
+# Vlad specific files
+# ------------------------------------------------------------------------------
 
 # General
-vlad_guts/host.ini
+settings
 vagrant_ansible_inventory_vlad
 vlad_guts/ansible.log
-vlad_guts/settings.yml
-vlad_guts/local_settings.yml
 vlad_guts/docs_site/
-settings
+vlad_guts/host.ini
+vlad_guts/local_settings.yml
 vlad_guts/merged_user_settings.yml
+vlad_guts/settings.yml
 
 # Default & common shared web root folder names
 docroot/*
-www/*
-public_html/*
 htdocs/*
+public_html/*
+www/*
 
 # vlad_aux shared folder
-vlad_aux/*
 /.buildpath
+vlad_aux/*

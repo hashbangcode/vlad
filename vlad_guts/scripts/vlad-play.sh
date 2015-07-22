@@ -18,7 +18,7 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 # Change to the script directory.
 cd $DIR
 
-# Now move two directories abobe, which puts us into the Vagrant directory.
+# Now move two directories above, which puts us into the Vagrant directory.
 cd ../../
 
 # Grab any tags that have been sent to the script.
