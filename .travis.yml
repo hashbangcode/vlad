@@ -16,6 +16,9 @@ install:
   - pip install ansible-lint
 
 script:
+  # Force the existence of a merged_user_settings.yml file.
+  - touch vlad_guts/merged_user_settings.yml
+
   # Syntax check on all playbooks.
   - ansible-playbook -i localhost, vlad_guts/playbooks/site.yml --syntax-check
   - ansible-playbook -i localhost, vlad_guts/playbooks/local_halt_destroy.yml --syntax-check
