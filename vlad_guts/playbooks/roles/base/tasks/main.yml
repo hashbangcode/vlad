@@ -11,8 +11,6 @@
   file: path=/tmp mode=0777 recurse=yes
   sudo: yes
 
-- include: vm_info.yml
-
 - include: aptget.yml
   when: ansible_os_family == "Debian"
 
