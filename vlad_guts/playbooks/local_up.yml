@@ -5,8 +5,7 @@
   vars_files:
     - "./vars/defaults/vagrant.yml"
     - "./vars/defaults/general.yml"
-    - [ "../../settings/vlad_settings.yml", "../../../settings/vlad_settings.yml", "../settings.yml", "vars/dummy_settings.yml" ]
-    - [ "../../settings/vlad_local_settings.yml", "../../../settings/vlad_local_settings.yml", "../local_settings.yml", "vars/dummy_settings.yml" ]
+    - "../merged_user_settings.yml"
 
   tasks:
 

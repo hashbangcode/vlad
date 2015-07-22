@@ -31,7 +31,7 @@ vlad_hosts_file = vagrant_dir + '/vlad_guts/host.ini'
 
 # Load settings and overrides files
 settings_files = {
-  "Vlad settings" => [vagrant_dir + "/vlad_guts/settings.yml",
+  "project settings" => [vagrant_dir + "/vlad_guts/settings.yml",
                       vagrant_dir + "/settings/vlad_settings.yml",
                       parent_dir + "/settings/vlad_settings.yml"
                      ],
@@ -43,8 +43,8 @@ settings_files = {
 
 vconfig = YAML::load_file(vagrant_dir + "/vlad_guts/playbooks/vars/defaults/vagrant.yml")
 
-# Iterate over the settings files and load the first file that is found for each type, then
-# merge them over the base/default settings loaded in vconfig
+# Iterate over the settings files and load the first file that is found for each type,
+# then merge them over the base/default settings loaded in vconfig
 loaded_vlad_settings = false
 puts "\nChecking for Vlad settings and local overrides..."
 settings_files.each do |type, paths|
@@ -59,9 +59,17 @@ settings_files.each do |type, paths|
   end
 end
 
-# Warn if we didn't find any files to load
-unless loaded_vlad_settings
-  puts "No Vlad settings or local overrides files found (will use default settings)."
+# Handling of merged settings file
+merged_settings_file = "vlad_guts/merged_user_settings.yml"
+if loaded_vlad_settings
+  # Convert merged user settings to YAML and write to file
+  merged_settings_yml = vconfig.to_yaml
+  File.open(merged_settings_file, "w") {|f| f.write(merged_settings_yml) }
+else
+  # Wite a placeholder YAML file for Ansible to still load
+  File.open(merged_settings_file, "w") {|f| f.write("---\n# This is a placeholder file to keep Ansible happy when using only Vlad default settings.\n") }
+  # Warn if we didn't find any files to load
+  puts "No #{settings_files.keys.first} or #{settings_files.keys.last} files found (will use default settings)."
 end
 puts
 
