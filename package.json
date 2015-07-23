@@ -1,0 +1,24 @@
+{
+  "name": "@hashbangcode/vlad",
+  "version": "1.1.4",
+  "description": "Local development system for Drupal using Vagrant & Ansible.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hashbangcode/vlad"
+  },
+  "keywords": [
+    "ansible",
+    "drupal",
+    "vagrant",
+    "vm"
+  ],
+  "author": "Philip Norton",
+  "contributors": [{
+    "name": "Dan Bohea"
+  }],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hashbangcode/vlad/issues"
+  },
+  "homepage": "https://github.com/hashbangcode/vlad"
+}
