@@ -29,4 +29,4 @@ script:
   - ansible-playbook -i localhost, vlad_guts/playbooks/local_up_services.yml --syntax-check
 
   # Lint Check on Ansible Playbooks
-  - ansible-lint -x resources  vlad_guts/playbooks/site.yml
+  - ansible-lint -x resources vlad_guts/playbooks/site.yml

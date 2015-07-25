@@ -30,4 +30,3 @@
   command: pear config-set preferred_state stable creates=/usr/share/php/VersionControl/Git
   tags: phing
   sudo: true
-
