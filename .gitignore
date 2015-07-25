@@ -48,7 +48,6 @@ vagrant_ansible_inventory_*
 settings
 vagrant_ansible_inventory_vlad
 vlad_guts/ansible.log
-vlad_guts/docs_site/
 vlad_guts/host.ini
 vlad_guts/local_settings.yml
 vlad_guts/merged_user_settings.yml
