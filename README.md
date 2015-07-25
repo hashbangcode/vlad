@@ -29,6 +29,8 @@ This includes the following technologies:
 * Node.js
 * ImageMagick
 * PimpMyLog
+* AberdeenCloud CLI
+* Pantheon CLI (Terminus)
 
 Many of these items can be turned on and off via a settings file.
 
