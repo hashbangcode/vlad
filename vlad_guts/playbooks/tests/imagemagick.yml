@@ -1,4 +1,9 @@
 ---
+
 - name: test | ImageMagick is installed
   shell: convert -version
   when: imagemagick_install
+  always_run: yes
+  register: imagemagick_result
+  failed_when: imagemagick_result.stderr != ""
+  changed_when: false
