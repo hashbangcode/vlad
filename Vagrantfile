@@ -331,6 +331,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ] + hostname_aliases
   config.hostsupdater.remove_on_suspend = true
 
+  # Download required Ansible Galaxy roles
+  config.trigger.before :provision, :stdout => true, :force => true do
+    info "Executing pre 'provision' setup trigger"
+    run 'ansible-galaxy install -r vlad_guts/playbooks/requirements.yml --force'
+  end
+
   # Run an Ansible playbook on setting the box up
   config.trigger.before [:up, :resume], :stdout => true, :force => true do
     info "Executing 'up' setup trigger"
@@ -381,6 +387,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if is_windows
     # Provisioning configuration for shell script.
     config.vm.provision "shell" do |sh|
+      # Download required Ansible Galaxy roles
+      sh.inline = 'ansible-galaxy install -r vlad_guts/playbooks/requirements.yml --force'
+      # Wrapper script for playbooks
       sh.path = vagrant_dir + "/vlad_guts/scripts/ansible-run-remote.sh"
       # run all tags
       sh.args = "/vlad_guts/playbooks/site.yml " + boxipaddress + ', ' + 'all'

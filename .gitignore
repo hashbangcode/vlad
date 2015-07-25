@@ -51,6 +51,7 @@ vlad_guts/ansible.log
 vlad_guts/host.ini
 vlad_guts/local_settings.yml
 vlad_guts/merged_user_settings.yml
+vlad_guts/playbooks/ext_roles
 vlad_guts/settings.yml
 
 # Default & common shared web root folder names

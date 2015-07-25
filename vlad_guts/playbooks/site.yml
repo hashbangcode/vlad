@@ -123,6 +123,10 @@
 
     - { role: bling, tags: ["bling"], when: "bling_install" }
 
+    - { role: aberdeencloud_cli, tags: ["hosting_tools aberdeen_cli"], when: "aberdeen_cli_install" }
+
+    - { role: pantheon_cli, tags: ["hosting_tools pantheon_cli"], when: "pantheon_cli_install" }
+
   post_tasks:
 
     - name: get current Vlad version

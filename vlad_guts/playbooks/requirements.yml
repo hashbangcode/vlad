@@ -1,0 +1,11 @@
+---
+
+# TODO: Specify release versions for Galaxy roles (not just master branch)
+
+- src: https://github.com/danbohea/ansible-role-aberdeencloud-cli
+  version: master
+  name: aberdeencloud_cli
+
+- src: https://github.com/danbohea/ansible-role-pantheon-cli
+  version: master
+  name: pantheon_cli

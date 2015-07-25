@@ -7,3 +7,4 @@
 - include: redis.yml
 - include: hosts.yml
 - include: drush.yml
+- include: hosting_tools.yml
