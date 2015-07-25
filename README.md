@@ -34,14 +34,14 @@ Many of these items can be turned on and off via a settings file.
 
 # Documentation
 
-Read the documentation at [http://vlad-docs.readthedocs.org/](http://vlad-docs.readthedocs.org/).
+Read the documentation at [http://vlad-docs.readthedocs.org/](http://vlad-docs.readthedocs.org).
 
 Contribute to the documentation on the [Vlad Documentation](https://github.com/hashbangcode/vlad-docs) repository.
 
-See how to build a [custom Vlad role](http://vlad-docs.readthedocs.org/en/latest/usage/custom_roles/) in the [custom role project](https://github.com/hashbangcode/vlad-role).
+Vlad can be extended with a [custom playbook](http://vlad-docs.readthedocs.org/en/latest/usage/custom_playbook).
 
-Vlad has a notice board located at [https://vladnotices.wordpress.com](https://vladnotices.wordpress.com). Important notices regarding additional features, new releases and any changes that users should be aware of will be posted here.
+Vlad has a notice board located at [https://vladnotices.wordpress.com](https://vladnotices.wordpress.com). Important notices regarding additional features, new releases and any changes that users should be aware of will be posted there.
 
 # Change log
 
-See the [change log](http://vlad-docs.readthedocs.org/en/latest/project/changelog/) in the documentation.
+See the [change log](http://vlad-docs.readthedocs.org/en/latest/project/changelog) in the documentation.
