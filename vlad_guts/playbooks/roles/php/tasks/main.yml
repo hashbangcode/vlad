@@ -1,8 +1,7 @@
 ---
+
 - include: debian_php.yml
   when: ansible_os_family == "Debian"
 
 - include: redhat_php.yml
   when: ansible_os_family == "RedHat"
-
-- include: composer.yml
