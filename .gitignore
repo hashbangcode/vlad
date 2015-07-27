@@ -39,7 +39,6 @@ sites.php
 # Vagrant specific files
 # ------------------------------------------------------------------------------
 .vagrant
-package.box
 vagrant_ansible_inventory_*
 
 # Vlad specific files
