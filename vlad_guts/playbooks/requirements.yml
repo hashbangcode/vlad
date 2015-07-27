@@ -1,6 +1,8 @@
 ---
 
-# TODO: Specify release versions for Galaxy roles (not just master branch)
+# Keep these all in Git repo format for now please.
+
+# TODO: Specify release versions for Galaxy roles (not just master branch).
 
 - src: https://github.com/hashbangcode/ansible-role-aberdeencloud-cli
   version: master
@@ -13,3 +15,7 @@
 - src: https://github.com/hashbangcode/ansible-role-imagemagick
   version: master
   name: imagemagick
+
+- src: https://github.com/hashbangcode/ansible-role-sendmail
+  version: master
+  name: sendmail
