@@ -332,7 +332,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostsupdater.remove_on_suspend = true
 
   # Download required Ansible Galaxy roles
-  config.trigger.before :provision, :stdout => true, :force => true do
+  config.trigger.before [:up, :provision], :stdout => true, :force => true do
     info "Executing pre 'provision' setup trigger"
     run 'ansible-galaxy install -r vlad_guts/playbooks/requirements.yml --force'
   end
