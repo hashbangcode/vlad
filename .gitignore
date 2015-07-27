@@ -38,6 +38,7 @@ sites.php
 
 # Vagrant specific files
 # ------------------------------------------------------------------------------
+*.box
 .vagrant
 vagrant_ansible_inventory_*
 
