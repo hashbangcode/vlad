@@ -40,19 +40,17 @@
     path: /home/{{ user }}/.composer/vendor/drush/
     state: absent
 
-- name: drush | download the site audit module
-  command: drush dl site_audit --destination=/home/{{ user }}/.drush/site_audit --yes
-    creates=/home/{{ user }}/.drush/site_audit
+- name: drush | Download Drush extensions
+  command: drush dl {{ item }} --destination=/home/{{ user }}/.drush/{{ item }} --yes
+    creates=/home/{{ user }}/.drush/{{ item }}
+  with_items:
+    - site_audit
+    - registry_rebuild
   notify: drush cc drush
 
 - name: drush | download the Coder module
   command: drush dl coder-7.x-2.x --destination=/home/{{ user }}/.drush/coder --yes
     creates=/home/{{ user }}/.drush/coder
-  notify: drush cc drush
-
-- name: drush | download the Registry Rebuild module
-  command: drush dl registry_rebuild --destination=/home/{{ user }}/.drush/registry_rebuild --yes
-    creates=/home/{{ user }}/.drush/registry_rebuild
   notify: drush cc drush
 
 - name: drush | Create drushrc.php file
