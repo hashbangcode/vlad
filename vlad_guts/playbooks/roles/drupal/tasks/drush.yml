@@ -10,8 +10,9 @@
     - drush_backups
     - db_io/drush_dumps
 
+
 # Drush 6
-# ---------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 - name: drush | install drush via composer and run it once
   shell: /usr/local/bin/composer global require --no-progress --no-interaction drush/drush:6.* -d /usr/share/composer; /usr/share/composer/vendor/bin/drush
@@ -49,6 +50,7 @@
   notify: drush cc drush
 
 - name: drush | download the Coder module
+  # TODO: Apparently Coder 8 can be used to check Drupal 7 code. Do we really need to specify a version here?
   command: drush dl coder-7.x-2.x --destination=/home/{{ user }}/.drush/coder --yes
     creates=/home/{{ user }}/.drush/coder
   notify: drush cc drush
@@ -59,8 +61,9 @@
     dest: /home/{{ user }}/.drush/drushrc.php
   notify: drush cc drush
 
+
 # Drush 7
-# ---------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 - name: drush | get latest version of Drush
   git:
@@ -89,8 +92,9 @@
     chdir=/home/{{ user }}/drush-master
     creates=/home/{{ user }}/drush-master/vendor
 
+
 # .drush_bashrc
-# ---------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 - name: Copy example .drush_bashrc file
   command: cp /home/{{ user }}/drush-master/examples/example.bashrc /home/{{ user }}/.drush_bashrc creates=/home/{{ user }}/.drush_bashrc
