@@ -18,5 +18,5 @@
   sudo: true
 
 - name: Install Drupal
-  shell: /var/www/drupal{{ drupal_install_version }}_install.sh
+  shell: /var/www/drupal{{ vlad_drupal_install_version }}_install.sh
   when: drupal_install

@@ -1,10 +1,10 @@
 ---
 
 # NOTE: Setting this to true will remove EVERYTHING inside docroot when run
-drupal_install: false
+vlad_drupal_install: false
 
 # Available options: 6, 7, 8, 8dev
 # Notes: 
 # - 8dev will include the relevant Git repo.
 # - 8 & 8dev require Drush 8 
-drupal_install_version: 7
+vlad_drupal_install_version: 7
