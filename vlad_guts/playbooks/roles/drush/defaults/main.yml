@@ -4,4 +4,7 @@ drush_composer_path: /usr/local/bin/composer
 drush_install_path: /usr/local/share/drush
 drush_keep_updated: no
 drush_path: /usr/local/bin/drush
+# See Drush repo for options: 
+# - https://github.com/drush-ops/drush/releases
+# - https://github.com/drush-ops/drush/branches
 drush_version: 7.0.0
