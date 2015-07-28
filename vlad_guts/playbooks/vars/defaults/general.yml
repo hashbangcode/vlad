@@ -24,3 +24,6 @@ use_host_id: false
 # Add the default index.php file (useful to turn off if you are going git clone 
 # into the web root folder)
 add_index_file: true
+
+# Whether to dump the database on vagrant halt and vagrant destroy
+vlad_db_dump_on_halt_destroy: true
