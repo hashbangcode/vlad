@@ -97,6 +97,10 @@
 
     - { role: xdebug, tags: ["xdebug"], when: "php_install" }
 
+    - { role: drush, tags: ["drush"], when: "php_install" }
+
+    - { role: drush_extras, tags: ["drush_extras"], when: "php_install" }
+
     - { role: drupal, tags: ["drupal"], when: "php_install" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install" }

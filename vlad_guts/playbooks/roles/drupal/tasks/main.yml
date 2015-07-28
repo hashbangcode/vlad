@@ -1,14 +1,22 @@
 ---
 
-- include: drush.yml
-  tags: drush
+- name: Copy Drupal installation scripts
+  template:
+    src: drupal{{ item }}_install.j2
+    dest: /var/www/drupal{{ item }}_install.sh
+  with_items:
+    - 6
+    - 7
+    - 8
+    - 8dev
+  sudo: true
 
-- include: drush_aliases.yml
-  tags: drush_aliases
-
-- include: drush_make.yml
-  when: drush_make_file != ""
-  tags: drush_make
-
-- include: drupal_install.yml
-  tags: drupal_install
+# TODO: Setting "mode" to 755 in the above template task appears to have no effect :(
+- name: Set Drupal installation scripts to executable
+  file: path=/var/www/drupal{{ item }}_install.sh mode=755
+  with_items:
+    - 6
+    - 7
+    - 8
+    - 8dev
+  sudo: true

@@ -15,5 +15,5 @@ mkdir sites/all/modules
 mkdir sites/all/modules/contrib
 mkdir sites/all/modules/custom
 
-# Install Drupal using drush.
+# Install Drupal using Drush.
 drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes

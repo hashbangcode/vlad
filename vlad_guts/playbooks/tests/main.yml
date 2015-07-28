@@ -6,6 +6,5 @@
 - include: ruby.yml
 - include: redis.yml
 - include: hosts.yml
-- include: drush.yml
 - include: imagemagick.yml
 - include: hosting_tools.yml
