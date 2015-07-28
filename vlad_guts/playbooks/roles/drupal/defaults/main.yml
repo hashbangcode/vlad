@@ -3,6 +3,8 @@
 # NOTE: Setting this to true will remove EVERYTHING inside docroot when run
 drupal_install: false
 
-drupal_install_version_major: 7
-
-drupal_install_version_minor: ""
+# Available options: 6, 7, 8, 8dev
+# Notes: 
+# - 8dev will include the relevant Git repo.
+# - 8 & 8dev require Drush 8 
+drupal_install_version: 7
