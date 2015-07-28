@@ -1,0 +1,8 @@
+---
+
+# NOTE: Setting this to true will remove EVERYTHING inside docroot when run
+drupal_install: false
+
+drupal_install_version_major: 7
+
+drupal_install_version_minor: ""

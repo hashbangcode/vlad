@@ -20,3 +20,12 @@
     - 8
     - 8dev
   sudo: true
+
+- name: Remove anything inside docroot before installing Drupal
+  shell: rm -rf /var/www/site/docroot/*
+  when: drupal_install
+  sudo: true
+
+- name: Install Drupal
+  shell: /var/www/drupal{{ drupal_install_version_major }}_install.sh
+  when: drupal_install
