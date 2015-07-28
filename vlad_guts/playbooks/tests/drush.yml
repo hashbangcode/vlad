@@ -1,0 +1,9 @@
+---
+
+- name: test | Drush is installed
+  shell: drush
+  when: php_install
+  always_run: yes
+  register: drush_result
+  failed_when: "drush_result.rc != 0"
+  changed_when: false
