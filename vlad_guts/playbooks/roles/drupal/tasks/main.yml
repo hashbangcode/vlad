@@ -14,9 +14,9 @@
 
 - name: Remove anything inside docroot before installing Drupal
   shell: rm -rf /var/www/site/docroot/*
-  when: drupal_install
+  when: vlad_drupal_install
   sudo: true
 
 - name: Install Drupal
   shell: /var/www/drupal{{ vlad_drupal_install_version }}_install.sh
-  when: drupal_install
+  when: vlad_drupal_install
