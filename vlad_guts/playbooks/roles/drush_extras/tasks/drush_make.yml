@@ -1,6 +1,6 @@
 ---
 
-# Test if docroot is empty - determined by the presence of the "modules" 
+# Test if docroot is empty - determined by the presence of the "modules"
 # subdirectory (used by Drupal 6, 7 & 8).
 - name: drush_make | Get stats on docroot/modules directory
   stat: path=/var/www/site/docroot/modules
