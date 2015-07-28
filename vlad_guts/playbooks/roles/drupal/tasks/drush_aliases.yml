@@ -11,6 +11,7 @@
 - name: drush_aliases | Copy drush site aliases from all possible settings directories
   copy: src={{ item }} dest=/home/{{ user }}/.drush/aliases/separate/
   with_fileglob:
+    - ../../../../../../../settings/*alias*.drushrc.php
     - ../../../../../../settings/*alias*.drushrc.php
     - ../../../../../settings/*alias*.drushrc.php
   notify: drush cc drush
