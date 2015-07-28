@@ -48,7 +48,7 @@
 - name: Download additional Drush commands
   command: drush dl {{ item.name }}{{ item.version }} --destination=/home/{{ user }}/.drush/commands/{{ item.name }} --yes
     creates=/home/{{ user }}/.drush/commands/{{ item.name }}
-  with_items: "{{ drush_install_commands }}"
+  with_items: drush_install_commands
   notify: drush cc drush
 
 
