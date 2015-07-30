@@ -28,6 +28,7 @@ end
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
 parent_dir = File.dirname(vagrant_dir)
 grandparent_dir = File.dirname(parent_dir)
+greatgrandparent_dir = File.dirname(grandparent_dir)
 vlad_hosts_file = vagrant_dir + '/vlad_guts/host.ini'
 
 # Load settings and overrides files
@@ -36,13 +37,15 @@ settings_files = {
                           vagrant_dir + "/vlad_guts/settings.yml",
                           vagrant_dir + "/settings/vlad_settings.yml",
                           parent_dir + "/settings/vlad_settings.yml",
-                          grandparent_dir + "/settings/vlad_settings.yml"
+                          grandparent_dir + "/settings/vlad_settings.yml",
+                          greatgrandparent_dir + "/settings/vlad_settings.yml"
                         ],
   "local overrides" => [
                           vagrant_dir + "/vlad_guts/local_settings.yml",
                           vagrant_dir + "/settings/vlad_local_settings.yml",
                           parent_dir + "/settings/vlad_local_settings.yml",
-                          grandparent_dir + "/settings/vlad_local_settings.yml"
+                          grandparent_dir + "/settings/vlad_local_settings.yml",
+                          greatgrandparent_dir + "/settings/vlad_local_settings.yml"
                        ]
 }
 
