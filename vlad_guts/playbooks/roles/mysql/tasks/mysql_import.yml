@@ -2,13 +2,15 @@
 
 # Optional database import
 
-- name: mysql_import | check for tables in first, possibly only database
+# TODO: Make these tasks idempotent rather than just ignoring errors
+
+- name: mysql_import | Check for tables in the first (possibly only) database
   shell: mysql -u root -p"{{ mysql_root_password }}" {{ dbname[0] }} --execute="show tables;"
   register: mysql_tables
   changed_when: false
   ignore_errors: yes
 
-- name: mysql_import | import database(s) from default source file(s)
+- name: mysql_import | Import database(s) from default source file(s)
   mysql_db:
     name: "{{ item }}"
     state: import
@@ -19,13 +21,15 @@
   when: db_import_up and mysql_tables.stdout == ""
   ignore_errors: yes
 
-- name: mysql_import | import database(s) from specified source file(s)
+- name: mysql_import | Import database(s) from specified source file(s)
   mysql_db:
-    name: "{{ item }}"
+    name: "{{ item[0] }}"
     state: import
-    target: /var/www/site/vlad_aux/db_io/{{ item }}
+    target: /var/www/site/vlad_aux/db_io/{{ item[1] }}
     login_user: root
     login_password: "{{ mysql_root_password }}"
-  with_items: dbname
+  with_nested:
+    - "{{ dbname }}"
+    - "{{ db_import_up }}"
   when: db_import_up != true and db_import_up != false and mysql_tables.stdout == ""
   ignore_errors: yes
