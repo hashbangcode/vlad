@@ -418,7 +418,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       if is_windows
         # Provisioning configuration for shell script.
         config.vm.provision "shell" do |sh|
-          sh.path = vagrant_dir + "/vlad/scripts/ansible-run-remote.sh"
+          sh.path = vagrant_dir + "/vlad_guts/scripts/ansible-run-remote.sh"
           sh.args = custom_play_full_path + ' ' + boxipaddress + ','
         end
       else
@@ -427,7 +427,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
           ansible.host_key_checking = false
           ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
-          ansible.inventory_path = 'vlad/host.ini'
+          ansible.inventory_path = 'vlad_guts/host.ini'
           ansible.limit = 'all'
           if vconfig['ansible_verbosity'] != ''
             ansible.verbose = vconfig['ansible_verbosity']
