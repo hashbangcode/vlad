@@ -39,7 +39,7 @@ settings_files = {
                           grandparent_dir + "/settings/vlad_settings.yml"
                         ],
   "local overrides" => [
-                          vagrant_dir + "/vlad_guts/local_settings.yml",
+                          vagrant_dir + "/vlad_guts/vlad_local_settings.yml",
                           vagrant_dir + "/settings/vlad_local_settings.yml",
                           parent_dir + "/settings/vlad_local_settings.yml",
                           grandparent_dir + "/settings/vlad_local_settings.yml"
