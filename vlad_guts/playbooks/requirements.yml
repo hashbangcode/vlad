@@ -2,20 +2,18 @@
 
 # Keep these all in Git repo format for now please.
 
-# TODO: Specify release versions for Galaxy roles (not just master branch).
-
 - src: https://github.com/hashbangcode/ansible-role-aberdeencloud-cli
-  version: master
+  version: 1.0.0.beta.1
   name: aberdeencloud_cli
 
 - src: https://github.com/hashbangcode/ansible-role-pantheon-cli
-  version: master
+  version: 1.0.0.beta.1
   name: pantheon_cli
 
 - src: https://github.com/hashbangcode/ansible-role-imagemagick
-  version: master
+  version: 1.0.0.beta.1
   name: imagemagick
 
 - src: https://github.com/hashbangcode/ansible-role-sendmail
-  version: master
+  version: 1.0.0.beta.1
   name: sendmail
