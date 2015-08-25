@@ -4,7 +4,7 @@
 rm -rf /var/www/site/docroot/.* /var/www/site/docroot/*
 
 # Clone latest Drupal 8 beta release into the docroot direcory.
-git ls-remote --tags http://git.drupal.org/project/drupal.git | grep refs/tags/8\.0\.0-beta | xargs -n1 | tail -n 1 |  sed 's/refs\/tags\///' | xargs -I % git clone --branch % http://git.drupal.org/project/drupal.git /var/www/site/docroot
+git ls-remote --tags http://git.drupal.org/project/drupal.git | grep refs/tags/8\.0\.0-beta | sort -t '/' -k 3 -V | xargs -n1 | tail -n 1 |  sed 's/refs\/tags\///' | xargs -I % git clone --branch % http://git.drupal.org/project/drupal.git /var/www/site/docroot
 
 # Create a settings.php fie.
 cp /var/www/site/docroot/sites/default/default.settings.php /var/www/site/docroot/sites/default/settings.php
