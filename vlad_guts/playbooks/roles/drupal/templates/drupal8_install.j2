@@ -3,11 +3,8 @@
 # Remove everything that might be in the docroot directory.
 rm -rf /var/www/site/docroot/.* /var/www/site/docroot/*
 
-# Move into the site directory.
-cd /var/www/site/
-
-# Download the latest recommended release of Drupal 8.x into docroot.
-drush dl drupal-8 --drupal-project-rename=docroot --yes
+# Clone latest Drupal 8 beta release into the docroot direcory.
+git ls-remote --tags http://git.drupal.org/project/drupal.git | grep refs/tags/8\.0\.0-beta | sort -t '/' -k 3 -V | xargs -n1 | tail -n 1 |  sed 's/refs\/tags\///' | xargs -I % git clone --branch % http://git.drupal.org/project/drupal.git /var/www/site/docroot
 
 # Create a settings.php fie.
 cp /var/www/site/docroot/sites/default/default.settings.php /var/www/site/docroot/sites/default/settings.php
@@ -19,6 +16,6 @@ mkdir /var/www/site/docroot/modules/custom
 # Set some lenient permissions on the docroot directory.
 chmod -R 777 /var/www/site/docroot
 
-# Install Drupal using the Drush.
+# Install Drupal using the drush-master.
 cd /var/www/site/docroot
-drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
+/home/vagrant/drush-master/drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
