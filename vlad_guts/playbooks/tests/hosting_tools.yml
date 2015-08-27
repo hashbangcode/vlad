@@ -1,0 +1,18 @@
+---
+
+# TODO: AberdeenCloud's server needs to be added to known hosts or this test will stall.
+# - name: test | AberdeenCloud CLI is installed
+#   shell: aberdeen
+#   when: aberdeen_cli_install
+#   always_run: yes
+#   register: aberdeencloud_cli_result
+#   failed_when: "aberdeencloud_cli_result.rc != 0"
+#   changed_when: false
+
+- name: test | Pantheon CLI is installed
+  shell: terminus
+  when: pantheon_cli_install
+  always_run: yes
+  register: pantheon_cli_result
+  failed_when: "pantheon_cli_result.rc != 0"
+  changed_when: false

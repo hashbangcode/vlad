@@ -1,0 +1,65 @@
+---
+
+# Directories
+
+- name: Prepare vlad_aux subdirectories
+  file:
+    path: /var/www/site/vlad_aux/{{ item }}
+    state: directory
+    mode: 0777
+  sudo: true
+  with_items:
+    - drush_backups
+    - db_io/drush_dumps
+
+- name: Prepare user .drush directory
+  file:
+    path: /home/{{ user }}/.drush
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    recurse: yes
+
+
+# drushrc.php
+
+- name: Create drushrc.php file
+  template:
+    src: drushrc.php.j2
+    dest: /home/{{ user }}/.drush/drushrc.php
+  notify: drush cc drush
+
+
+# .drush_bashrc
+
+- name: Copy example .drush_bashrc file to user directory
+  command: >
+    cp {{ drush_install_path }}/examples/example.bashrc /home/{{ user }}/.drush_bashrc
+    creates=/home/{{ user }}/.drush_bashrc
+
+- name: Source user .drush_bashrc from .bashrc
+  lineinfile:
+    dest: /home/{{ user }}/.bashrc
+    line: ". ~/.drush_bashrc"
+
+
+# Drush commands
+
+- name: Download additional Drush commands
+  command: drush dl {{ item.name }}{{ item.version }} --destination=/home/{{ user }}/.drush/commands/{{ item.name }} --yes
+    creates=/home/{{ user }}/.drush/commands/{{ item.name }}
+  with_items: drush_install_commands
+  notify: drush cc drush
+
+
+# Drush aliases
+
+- include: drush_aliases.yml
+  tags: drush_aliases
+
+
+# Drush make
+
+- include: drush_make.yml
+  when: drush_make_file != ""
+  tags: drush_make

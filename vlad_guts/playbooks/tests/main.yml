@@ -8,3 +8,4 @@
 - include: hosts.yml
 - include: drush.yml
 - include: imagemagick.yml
+- include: hosting_tools.yml

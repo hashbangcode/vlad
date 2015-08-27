@@ -6,8 +6,11 @@
     - assembled
     - separate
 
-# Separate drush alias files
 
+# Separate drush alias files
+# ------------------------------------------------------------------------------
+
+# TODO: There has to be a better way of getting these paths.
 - name: drush_aliases | Copy drush site aliases from all possible settings directories
   copy: src={{ item }} dest=/home/{{ user }}/.drush/aliases/separate/
   with_fileglob:
@@ -25,7 +28,9 @@
   when: drush_aliases_assemble == false
   notify: drush cc drush
 
+
 # Assembled drush aliases file
+# ------------------------------------------------------------------------------
 
 - name: drush_aliases | Get stats on .drush/aliases/separate directory contents
   shell: ls -1 /home/{{ user }}/.drush/aliases/separate

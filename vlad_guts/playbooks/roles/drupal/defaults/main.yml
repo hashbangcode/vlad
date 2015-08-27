@@ -1,28 +1,10 @@
 ---
 
-# Drush aliases
-# ---------------------------------------------------------
-# Drush alias files can be placed in either of Vlad's settings directories. See http://vlad-docs.readthedocs.org/en/latest/usage/settings_file
-# Setting to true will assemble all alias/aliases files into a single group aliases file prefixed with the boxname.
-# Setting to false will copy alias/aliases files to the guest without assembling or renaming.
-drush_aliases_assemble: false
+# NOTE: Setting this to true will remove EVERYTHING inside docroot when run
+vlad_drupal_install: false
 
-
-# Drush make
-# ---------------------------------------------------------
-
-# Vlad expects this file to be placed in a subdirectory called "make" within your vlad_aux directory.
-# E.g. "vlad_example_d7.make"
-# Drush make will not be run if no file is specified.
-drush_make_file: ""
-
-# Options to pass to drush make command.
-# E.g. "--prepare-install"
-# See http://www.drushcommands.com/drush-6x/make/make for possible options.
-drush_make_options: ""
-
-# Run drush make every time the VM is provisioned.
-# Setting to false will only run drush make if a make file has been specified and docroot is empty (checks for modules directory).
-drush_make_force: false
-
-drush_structure_tables: ['cache','cache_filter','cache_menu','cache_page','history','sessions','watchdog','cache_admin_menu','cache_block','cache_field','cache_form','cache_path','cache_token','cache_update','cache_views','cache_views_data','ctools_css_cache','ctools_object_cache','search_dataset','search_index','search_node_links','search_total']
+# Available options: 6, 7, 8, 8dev
+# Notes: 
+# - 8dev will include the relevant Git repo.
+# - 8 & 8dev require Drush 8 
+vlad_drupal_install_version: 7

@@ -22,6 +22,7 @@
       path: /var/www/site/vlad_aux/db_io/halt_destroy
       state: directory
       mode: 0777
+    when: vlad_db_dump_on_halt_destroy
     sudo: true
 
   - name: local actions destroy | dump all databases
@@ -32,6 +33,6 @@
       login_user: root
       login_password: "{{ mysql_root_password }}"
     with_items: dbname
-    when: mysql_install
+    when: mysql_install and vlad_db_dump_on_halt_destroy
     ignore_errors: yes
     sudo: true

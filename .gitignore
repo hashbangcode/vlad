@@ -38,6 +38,7 @@ sites.php
 
 # Vagrant specific files
 # ------------------------------------------------------------------------------
+*.box
 .vagrant
 vagrant_ansible_inventory_*
 
@@ -50,8 +51,9 @@ vagrant_ansible_inventory_vlad
 vlad_guts/ansible.log
 vlad_guts/host.ini
 vlad_guts/merged_user_settings.yml
-vlad_guts/vlad_settings.yml
+vlad_guts/playbooks/ext_roles
 vlad_guts/vlad_local_settings.yml
+vlad_guts/vlad_settings.yml
 
 # Default & common shared web root folder names
 docroot/*
@@ -62,3 +64,7 @@ www/*
 # vlad_aux shared folder
 /.buildpath
 vlad_aux/*
+
+# Deprecated
+vlad_guts/local_settings.yml
+vlad_guts/settings.yml

@@ -7,6 +7,8 @@
 # are to be installed.
 # ------------------------------------------------------------------------------
 
+aberdeen_cli_install: false
+
 adminer_install: true
 
 apache_install: true
@@ -24,6 +26,8 @@ munin_install: false
 mysql_install: true
 
 node_install: false
+
+pantheon_cli_install: false
 
 php_install: true
 

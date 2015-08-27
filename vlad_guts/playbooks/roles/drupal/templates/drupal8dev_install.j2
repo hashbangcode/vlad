@@ -16,6 +16,6 @@ mkdir /var/www/site/docroot/modules/custom
 # Set some lenient permissions on the docroot directory.
 chmod -R 777 /var/www/site/docroot
 
-# Install Drupal using the drush-master.
+# Install Drupal using the Drush.
 cd /var/www/site/docroot
-/home/vagrant/drush-master/drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
+drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes

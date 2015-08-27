@@ -93,6 +93,14 @@
 
     - { role: php, tags: ["php"], when: "php_install" }
 
+    - { role: composer, tags: ["composer"], when: "php_install" }
+
+    - { role: xdebug, tags: ["xdebug"], when: "php_install" }
+
+    - { role: drush, tags: ["drush"], when: "php_install" }
+
+    - { role: drush_extras, tags: ["drush_extras"], when: "php_install" }
+
     - { role: drupal, tags: ["drupal"], when: "php_install" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install" }
@@ -122,6 +130,10 @@
     - { role: imagemagick, tags: ["imagemagick"], when: "imagemagick_install" }
 
     - { role: bling, tags: ["bling"], when: "bling_install" }
+
+    - { role: aberdeencloud_cli, tags: ["hosting_tools aberdeen_cli"], when: "aberdeen_cli_install" }
+
+    - { role: pantheon_cli, tags: ["hosting_tools pantheon_cli"], when: "pantheon_cli_install" }
 
   post_tasks:
 

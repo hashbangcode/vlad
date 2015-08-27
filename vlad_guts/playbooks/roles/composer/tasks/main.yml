@@ -1,0 +1,24 @@
+---
+
+- name: Install Composer (shared)
+  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+  sudo: true
+
+- name: Prepare Composer shared directory
+  file:
+    path: /usr/share/composer
+    state: directory
+  sudo: true
+
+- name: Ensure previous Composer vendor directory is not in the user's PATH
+  lineinfile:
+    dest: /home/{{ user }}/.bashrc
+    state: absent
+    line: 'export PATH=$PATH:/home/{{ user }}/.composer/vendor/bin/'
+
+- name: Add Composer shared vendor directory to PATH
+  template:
+    src: composer.j2
+    dest: /etc/profile.d/composer.sh
+    mode: "a+x"
+  sudo: true

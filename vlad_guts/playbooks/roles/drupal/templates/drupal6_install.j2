@@ -1,5 +1,8 @@
 # {{ ansible_managed }}
 
+# Remove everything that might be in the docroot directory.
+rm -rf /var/www/site/docroot/.* /var/www/site/docroot/*
+
 # Move into the site directory.
 cd /var/www/site/
 
@@ -15,5 +18,5 @@ mkdir sites/all/modules
 mkdir sites/all/modules/contrib
 mkdir sites/all/modules/custom
 
-# Install Drupal using drush.
+# Install Drupal using Drush.
 drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes

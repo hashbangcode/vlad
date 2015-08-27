@@ -1,0 +1,39 @@
+---
+
+# This is based on geerlingguy's Drush role [2015/07/27] but with tweaks:
+#
+# - 'sudo' specified at the task level if required
+# - Doesn't clone the entire Drush repo (depth)
+# - Role dependencies have been removed
+# - Added 'drush_composer_path' var to fill in for missing dependencies
+# - Default Drush version is 7.x latest stable (not master)
+#
+# ------------------------------------------------------------------------------
+
+- name: Clone Drush from GitHub
+  git:
+    repo: https://github.com/drush-ops/drush.git
+    dest: "{{ drush_install_path }}"
+    version: "{{ drush_version }}"
+    update: "{{ drush_keep_updated }}"
+    depth: 1
+  sudo: true
+
+- name: Install Drush dependencies with Composer
+  shell: >
+    {{ drush_composer_path }} install --prefer-source --no-interaction
+    chdir={{ drush_install_path }}
+    creates={{ drush_install_path }}/vendor/autoload.php
+  sudo: true
+
+- name: Create drush symlink
+  file:
+    src: "{{ drush_install_path }}/drush"
+    dest: "{{ drush_path }}"
+    state: link
+  sudo: true
+
+- name: Run drush command to finish setup
+  command: "{{ drush_path }}"
+  register: drush_result
+  changed_when: "'Execute a drush command' not in drush_result.stdout"

@@ -1,6 +1,7 @@
 ---
 
-# Testing if docroot is empty will be determined by the presence of the "modules" subdirectory (used by Drupal 6, 7 & 8).
+# Test if docroot is empty - determined by the presence of the "modules"
+# subdirectory (used by Drupal 6, 7 & 8).
 - name: drush_make | Get stats on docroot/modules directory
   stat: path=/var/www/site/docroot/modules
   register: stat_docroot_modules_dir
@@ -9,6 +10,7 @@
   stat: path=/var/www/site/docroot/index.php
   register: stat_docroot_index_page
 
+# TODO: This could be more elegant (has to ignore a potential failed task)
 - name: drush_make | Check if docroot/index.php is Vlad's holding page
   shell: grep "Vlad holding page (index.php)" /var/www/site/docroot/index.php
   register: vlad_holding_page_present
