@@ -126,13 +126,13 @@
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?max_input_time =" insertafter="^[#|;]?max_input_time =" line="max_input_time = {{ php_max_input_time }}"
   sudo: true
   notify:
-    - restart apache2
+    - restart httpd
 
 - name: change php apache2 max_input_vars
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?max_input_vars =" insertafter="^[#|;]?max_input_vars =" line="max_input_vars = {{ php_max_input_vars }}"
   sudo: true
   notify:
-    - restart apache2
+    - restart httpd
 
 - name: change php apache2 display_errors
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?display_errors =" insertafter="^[#|;]?display_errors =" line="display_errors = {{ php_display_errors }}"
