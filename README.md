@@ -34,6 +34,15 @@ This includes the following technologies:
 
 Many of these items can be turned on and off via a settings file.
 
+# Dependencies
+
+To get started with Vlad you need to install the following components:
+
+* A virtual machine - The system that runs virtual machines. Examples include VirtualBox, VMware & Parallels.
+* Vagrant - The virtual machine manager.
+* Ansible - A provisioning tool.
+* Sudo Password - The sudo password is required for some actions during the setup process.
+
 # Documentation
 
 Read the documentation at [http://vlad-docs.readthedocs.org/](http://vlad-docs.readthedocs.org).
