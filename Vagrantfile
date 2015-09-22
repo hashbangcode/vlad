@@ -65,7 +65,7 @@ settings_files.each do |type, paths|
 end
 
 # Handling of merged settings file
-merged_settings_file = "vlad_guts/merged_user_settings.yml"
+merged_settings_file = vagrant_dir + "/vlad_guts/merged_user_settings.yml"
 if loaded_vlad_settings
   # Convert merged user settings to YAML and write to file
   merged_settings_yml = vconfig.to_yaml
