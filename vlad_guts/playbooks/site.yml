@@ -141,6 +141,7 @@
       command: cat ../VERSION.txt
       delegate_to: 127.0.0.1
       register: vlad_version
+      changed_when: False
 
     - name: move default index.php file into docroot directory
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no

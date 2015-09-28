@@ -10,6 +10,7 @@
 - name: set permissions on /tmp directory
   file: path=/tmp mode=0777 recurse=yes
   sudo: yes
+  changed_when: False
 
 - include: aptget.yml
   when: ansible_os_family == "Debian"
