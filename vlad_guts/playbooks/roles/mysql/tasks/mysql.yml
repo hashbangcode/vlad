@@ -115,6 +115,7 @@
   with_nested:
     - dbname
     - mysql_hosts
+  changed_when: False
 
 - name: give default user access to all databases
   mysql_user: name={{ dbuser }} password={{ dbpass }} priv="*.*:ALL,GRANT" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
