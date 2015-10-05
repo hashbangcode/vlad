@@ -19,7 +19,9 @@
   name: sendmail
 
 - src: https://github.com/hashbangcode/ansible-role-tomcat
+  version: 1.0.0.beta.1
   name: tomcat
 
 - src: https://github.com/hashbangcode/ansible-role-solr
+  version: 1.0.0.beta.1
   name: solr

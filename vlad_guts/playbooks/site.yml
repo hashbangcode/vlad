@@ -117,6 +117,7 @@
 
     - { role: sendmail, tags: ["sendmail"], when: "sendmail_install" }
 
+    - { role: tomcat, tags: ["solr", "tomcat"], when: "solr_install" }
     - { role: solr, tags: ["solr"], when: "solr_install" }
 
     - { role: munin, tags: ["munin"], when: "munin_install" }
