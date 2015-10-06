@@ -8,29 +8,28 @@ A Drupal development platform in a box, with everything you would need to develo
 
 This includes the following technologies:
 
-* MySQL
-* Apache2
-* PHP
-* Varnish
-* Git
-* Drush
-* Drush extensions: Site Audit & Registry Rebuild
-* Munin
-* Xdebug
-* Ruby
-* rbenv
-* Sendmail
-* Mailcatcher
-* Memcached
-* Redis
-* Adminer
-* XHProf
-* Solr (Version 4)
-* Node.js
-* ImageMagick
-* PimpMyLog
-* AberdeenCloud CLI
-* Pantheon CLI (Terminus)
+- MySQL
+- Apache2
+- PHP
+- Varnish
+- Git
+- Drush
+- Drush commands: Coder, Site Audit & Registry Rebuild
+- Munin
+- Xdebug
+- Ruby
+- Sendmail
+- Mailcatcher
+- Memcached
+- Redis
+- Adminer
+- XHProf
+- Solr (Version 4)
+- Node.js
+- ImageMagick
+- PimpMyLog
+- AberdeenCloud Command Line Tools
+- Pantheon CLI (aka Terminus)
 
 Many of these items can be turned on and off via a settings file.
 
