@@ -5,3 +5,15 @@ ssh_port: 22
 # Git config user credentials (leave empty to skip this step)
 git_user_name: ""
 git_user_email: ""
+
+# Private files directory.
+
+# If you elect to use a private files directory with your Drupal site, 
+# chances are that you'll want it outside of the main codebase
+# and for it to be synced between host & guest. Let's use vlad_aux then.
+# Accpeted values:
+# - false (default): no directory created
+# - true: creates vlad_aux/private
+# - string: creates vlad_aux/[string]
+
+vlad_private_files_dir: false
