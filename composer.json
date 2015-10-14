@@ -4,9 +4,10 @@
   "type" : "library",
   "license": "MIT",
   "keywords" : [
-    "vlad",
+    "ansible",
+    "drupal",
     "vagrant",
-    "ansible"
+    "vlad"
   ],
   "homepage" : "https://github.com/hashbangcode/vlad",
   "authors" : [
@@ -18,7 +19,7 @@
     {
       "name" : "Dan Bohea",
       "email" : "info@bohea.co.uk",
-      "homepage" : "http://bohea.co.uk/"
+      "homepage" : "http://bohea.co.uk"
     }
   ]
 }
