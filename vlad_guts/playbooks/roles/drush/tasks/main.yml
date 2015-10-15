@@ -6,7 +6,7 @@
 # - Doesn't clone the entire Drush repo (depth)
 # - Role dependencies have been removed
 # - Added 'drush_composer_path' var to fill in for missing dependencies
-# - Default Drush version is 7.x latest stable (not master)
+# - Default Drush version changed (not master).
 #
 # ------------------------------------------------------------------------------
 
@@ -37,3 +37,4 @@
   command: "{{ drush_path }}"
   register: drush_result
   changed_when: "'Execute a drush command' not in drush_result.stdout"
+  sudo: true
