@@ -74,6 +74,17 @@
       fail: msg="The PHP role is required to use Memcached"
       when: memcached_install and php_install == false
 
+    - name: Check Pantheon Import dependencies
+      fail: msg="The Pantheon CLI and MySQL roles are required to import Pantheon sites."
+      when: vlad_pantheon_import_site and (mysql_install == false or pantheon_cli_install == false)
+
+    - name: Check if Pantheon Import will import the database
+      fail:
+        msg: You've chosen to import your Pantheon database, but your db_import_up variable is not configured. If this was unintentional, remove the pantheon_import_site_include_db variable from your Vlad configuration. Otherwise, please configure it to import the "vladdb" database (valid values are ["vladdb"] or true). For more information, see https://vlad-docs.readthedocs.org/en/latest/usage/variables/#mysql
+      # vladd is deliberately hardcoded in this condition because the Pantheon Import role does not yet
+      # allow configuration of where it saves the chosen Pantheon DB.
+      when: vlad_pantheon_import_site and db_import_up is not defined
+
       # Generate variables to be used in playbooks
 
     - name: get local IPv4 address
@@ -89,9 +100,13 @@
 
     - { role: apache, tags: ["apache"], when: "apache_install" }
 
-    - { role: mysql, tags: ["mysql"], when: "mysql_install" }
-
     - { role: php, tags: ["php"], when: "php_install" }
+
+    - { role: pantheon_cli, tags: ["hosting_tools pantheon_cli"], when: "pantheon_cli_install" }
+
+    - { role: pantheon_import_site, tags: ["pantheon_import_site"], when: "vlad_pantheon_import_site" }
+
+    - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
     - { role: composer, tags: ["composer"], when: "php_install" }
 
@@ -133,8 +148,6 @@
     - { role: bling, tags: ["bling"], when: "bling_install" }
 
     - { role: aberdeencloud_cli, tags: ["hosting_tools aberdeen_cli"], when: "aberdeen_cli_install" }
-
-    - { role: pantheon_cli, tags: ["hosting_tools pantheon_cli"], when: "pantheon_cli_install" }
 
   post_tasks:
 
