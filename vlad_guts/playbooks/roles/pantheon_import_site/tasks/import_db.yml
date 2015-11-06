@@ -1,6 +1,6 @@
 ---
 
-# If the user halted or restarted the VM before running provisioning, 
+# If the user halted or restarted the VM before running provisioning,
 # Vlad itself will have overwritten vladdb.sql.gz.
 # Move it to a separate location instead of deleting it outright.
 - name: db | Check for existing vladdb.sql.gz
