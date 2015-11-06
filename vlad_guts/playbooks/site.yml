@@ -96,6 +96,8 @@
 
     - role: base
 
+    - { role: ruby, tags: ["ruby"], when: "ruby_install" }
+
     - { role: samba, tags: ["windows"], when: "is_windows" }
 
     - { role: apache, tags: ["apache"], when: "apache_install" }
@@ -136,8 +138,6 @@
     - { role: solr, tags: ["solr"], when: "solr_install" }
 
     - { role: munin, tags: ["munin"], when: "munin_install" }
-
-    - { role: ruby, tags: ["ruby"], when: "ruby_install" }
 
     - { role: mailcatcher, tags: ["mailcatcher"], when: "mailcatcher_install" }
 
