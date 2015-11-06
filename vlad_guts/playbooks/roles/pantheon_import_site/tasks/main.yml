@@ -1,4 +1,5 @@
 ---
+
 # Load variable file based on the OS type, or a default if not found.
 - include_vars: "{{ item }}"
   with_items:

@@ -1,5 +1,6 @@
 ---
-- name: pantheon_import_site | code | Look up Git URL
+
+- name: code | Look up Git URL
   command: /usr/local/bin/terminus site connection-info --json --site='{{ vlad_pantheon_import_site_site }}' --env='{{ vlad_pantheon_import_site_env }}'
   register: vlad_pantheon_import_site_connection_info_output
 - set_fact:

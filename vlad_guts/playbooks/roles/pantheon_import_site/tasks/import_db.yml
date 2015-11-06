@@ -1,5 +1,7 @@
 ---
-# If they halted or restarted the VM before running provisioning, Vlad itself will have overwritten vladdb.sql.gz.
+
+# If the user halted or restarted the VM before running provisioning, 
+# Vlad itself will have overwritten vladdb.sql.gz.
 # Move it to a separate location instead of deleting it outright.
 - name: db | Check for existing vladdb.sql.gz
   stat: path=/var/www/site/vlad_aux/db_io/halt_destroy/vladdb.sql.gz
@@ -29,4 +31,4 @@
 - name: db | Drop vladdb database
   mysql_db: name=vladdb state=absent login_user='{{ dbuser }}' login_password='{{ dbpass }}'
   sudo: yes
-  when: vlad_pantheon_import_site_haz_mysql.stat.exists is defined and  vlad_pantheon_import_site_haz_mysql.stat.exists == True
+  when: vlad_pantheon_import_site_haz_mysql.stat.exists is defined and vlad_pantheon_import_site_haz_mysql.stat.exists == True

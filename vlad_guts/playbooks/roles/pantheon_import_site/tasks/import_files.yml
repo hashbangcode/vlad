@@ -1,3 +1,5 @@
+---
+
 - name: files | Download latest files backup from Pantheon
   command: terminus site backups get --site="{{ vlad_pantheon_import_site_site }}" --env="{{ vlad_pantheon_import_site_env }}" --element=files --latest --to=/var/www/site/vlad_aux/pantheon_import_site_files.tar.gz
   args:
