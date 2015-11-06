@@ -7,7 +7,6 @@
 .settings
 .svn
 ehthumbs.db
-Icon?
 Thumbs.db
 
 # IDE generated files
@@ -33,7 +32,7 @@ nbproject
 # ------------------------------------------------------------------------------
 build/
 dev.settings.php
-settings.php
+#settings.php
 sites.php
 
 # Vagrant specific files

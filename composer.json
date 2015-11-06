@@ -1,0 +1,25 @@
+{
+  "name" : "hashbangcode/vlad",
+  "description" : "Vlad (Vagrant LAMP Ansible Drupal). A Drupal development platform in a box.",
+  "type" : "library",
+  "license": "MIT",
+  "keywords" : [
+    "ansible",
+    "drupal",
+    "vagrant",
+    "vlad"
+  ],
+  "homepage" : "https://github.com/hashbangcode/vlad",
+  "authors" : [
+    {
+      "name" : "Philip Norton",
+      "email" : "philipnorton42@gmail.com",
+      "homepage" : "http://www.hashbangcode.com"
+    },
+    {
+      "name" : "Dan Bohea",
+      "email" : "info@bohea.co.uk",
+      "homepage" : "http://bohea.co.uk"
+    }
+  ]
+}

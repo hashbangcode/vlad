@@ -1,10 +1,11 @@
 <?php
 //# {{ ansible_managed }}
 
-// Set default destination for drush backups
-$options['backup-dir'] = '/var/www/site/vlad_aux/drush_backups';
-
 // Set additional location for drush alias files
 $options['alias-path'] = '/home/{{ user }}/.drush/aliases/separate';
 
+// Set default destination for drush backups
+$options['backup-dir'] = '/var/www/site/vlad_aux/drush_backups';
+
+// List of tables whose *data* is skipped by the 'sql-dump' and 'sql-sync' commands
 $options['structure-tables']['common'] = array('{{ drush_structure_tables | join("','") }}');

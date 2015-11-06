@@ -33,3 +33,32 @@
   lineinfile: dest=/etc/redis.conf regexp="^port = " insertafter="^port = " line="port {{ redis_port }}"
   sudo: true
   when: ansible_os_family == "RedHat"
+
+- name: check to see if the PECL Redis extension has been installed
+  stat: path=/usr/lib/php5/20121212/redis.so
+  register: redis_so_file
+  sudo: yes
+
+- name: install redis PHP extension (if it hasn't already been done)
+  command: pecl install redis
+  sudo: true
+  when: redis_so_file.stat.exists == false
+
+- name: add PECL Redis to apache php.ini setting
+  lineinfile: dest=/etc/php.ini state=present line="extension=redis.so"
+  sudo: true
+  when: ansible_os_family == "RedHat"
+  notify:
+    - restart httpd
+
+- name: add PECL Redis to apache php.ini setting
+  lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=redis.so"
+  sudo: true
+  when: ansible_os_family == "Debian"
+  notify:
+    - restart apache2
+
+- name: add PECL Redis to apache php.ini setting
+  lineinfile: dest=/etc/php5/cli/php.ini state=present line="extension=redis.so"
+  sudo: true
+  when: ansible_os_family == "Debian"

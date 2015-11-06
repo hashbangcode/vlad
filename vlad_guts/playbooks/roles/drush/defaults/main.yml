@@ -7,8 +7,9 @@ drush_path: /usr/local/bin/drush
 # See Drush repo for options:
 # - https://github.com/drush-ops/drush/releases
 # - https://github.com/drush-ops/drush/branches
-# Common options are:
-# - 7.0.0
-# - master
+# Examples:
+# - 6.x
+# - 7.x
 # - 8.0.0-beta14
+# - master
 drush_version: 7.0.0

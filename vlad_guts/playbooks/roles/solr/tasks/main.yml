@@ -1,6 +1,0 @@
----
-- include: debian_solr.yml
-  when: ansible_os_family == "Debian"
-
-- include: redhat_solr.yml
-  when: ansible_os_family == "RedHat"
