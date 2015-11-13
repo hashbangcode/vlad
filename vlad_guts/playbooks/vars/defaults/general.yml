@@ -4,7 +4,7 @@
 # your configuration.
 #
 # This file should only contain variables not covered by install.yml, 
-# vagrant.yml or any role's vars/main.yml file.
+# vagrant.yml or any role's defaults.
 # ------------------------------------------------------------------------------
 
 # HTTP port for the web server. If you choose to install Varnish then you might 

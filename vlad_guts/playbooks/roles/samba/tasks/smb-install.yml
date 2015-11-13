@@ -12,11 +12,11 @@
   with_items:
   - samba
 
-- name: Copy VLAD shared folders into smb-vlad.conf
+- name: Copy Vlad shared folders into smb-vlad.conf
   template: dest=/etc/samba/smb-vlad.conf src=smb-vlad.j2
   sudo: true
 
-- name: Include VLAD shared folders in smb.conf
+- name: Include Vlad shared folders in smb.conf
   lineinfile: dest=/etc/samba/smb.conf line="include=/etc/samba/smb-vlad.conf"
   sudo: true
   notify: restart smbd

@@ -1,16 +1,27 @@
 ---
 
-- name: ensure certain vlad_aux subdirectories exist
+- name: Ensure certain required vlad_aux subdirectories exist
   file: path=/var/www/site/vlad_aux/{{ item }} state=directory mode=0777
   sudo: true
   with_items:
     - tmp
     - db_io
 
-- name: set permissions on /tmp directory
+- name: Ensure private subdirectory exists (default)
+  file: path=/var/www/site/vlad_aux/private state=directory mode=0777
+  when: vlad_private_files_dir == true
+
+- name: Ensure private subdirectory exists (custom)
+  file:
+    path: /var/www/site/vlad_aux/{{ vlad_private_files_dir }}
+    state: directory
+    mode: 0777
+  when: vlad_private_files_dir != true and vlad_private_files_dir != false
+
+- name: Set permissions on /tmp directory
   file: path=/tmp mode=0777 recurse=yes
-  sudo: yes
-  changed_when: False
+  sudo: true
+  changed_when: false
 
 - include: aptget.yml
   when: ansible_os_family == "Debian"
