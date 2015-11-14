@@ -26,11 +26,6 @@ vlad_webserver_settings:
   aliases:
     - 'www.drupal.local'
     - 'www.test.local'
-- address: 'drupal8.local'
-  directory: 'drupal8.local'
-  synced_folder: './drupal8.local'
-  aliases:
-    - 'www.drupal8.local'
 
 #  host_synced_folder: "C:\\docroot"
 
