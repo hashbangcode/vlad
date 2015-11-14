@@ -83,7 +83,7 @@
 
   roles:
 
-    - role: base
+    - { role: base, tags: ["base"] }
 
     - { role: samba, tags: ["windows"], when: "is_windows" }
 
