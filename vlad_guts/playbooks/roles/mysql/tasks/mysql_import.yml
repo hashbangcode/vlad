@@ -14,7 +14,7 @@
   mysql_db:
     name: "{{ item }}"
     state: import
-    target: /var/www/site/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
+    target: /var/www/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
     login_user: root
     login_password: "{{ mysql_root_password }}"
   with_items: dbname
@@ -25,7 +25,7 @@
   mysql_db:
     name: "{{ item[0] }}"
     state: import
-    target: /var/www/site/vlad_aux/db_io/{{ item[1] }}
+    target: /var/www/vlad_aux/db_io/{{ item[1] }}
     login_user: root
     login_password: "{{ mysql_root_password }}"
   with_nested:

@@ -19,7 +19,7 @@
 
   - name: local actions destroy | ensure vlad_aux/db_io/halt_destroy/ exists
     file:
-      path: /var/www/site/vlad_aux/db_io/halt_destroy
+      path: /var/www/vlad_aux/db_io/halt_destroy
       state: directory
       mode: 0777
     when: vlad_db_dump_on_halt_destroy
@@ -29,7 +29,7 @@
     mysql_db:
       name: "{{ item }}"
       state: dump
-      target: /var/www/site/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
+      target: /var/www/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
       login_user: root
       login_password: "{{ mysql_root_password }}"
     with_items: dbname

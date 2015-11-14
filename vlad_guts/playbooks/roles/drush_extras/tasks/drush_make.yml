@@ -23,14 +23,14 @@
 
 # Run drush make only if docroot is empty.
 - name: drush_make | Run drush make
-  command: drush make {{ drush_make_options }} /var/www/site/vlad_aux/make/{{ drush_make_file }} -y
+  command: drush make {{ drush_make_options }} /var/www/vlad_aux/make/{{ drush_make_file }} -y
   args:
     chdir: /var/www/site/docroot
   when: stat_docroot_modules_dir.stat.exists != true
 
 # Run drush make every time the VM is provisioned if docroot is not empty.
 - name: drush_make | Run drush make (force)
-  command: drush make {{ drush_make_options }} /var/www/site/vlad_aux/make/{{ drush_make_file }} -y
+  command: drush make {{ drush_make_options }} /var/www/vlad_aux/make/{{ drush_make_file }} -y
   args:
     chdir: /var/www/site/docroot
   when: stat_docroot_modules_dir.stat.exists and drush_make_force == true
