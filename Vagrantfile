@@ -295,7 +295,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Setup synced folder for site files
     vconfig['vlad_webserver_settings'].each do |webserver_settings|
-      config.vm.synced_folder webserver_settings['synced_folder'], "/var/www/vhosts/" + webserver_settings['directory'], type: "nfs", nfs_udp: false, create: true, id: "vagrant-webroot" + webserver_settings['directory']
+      config.vm.synced_folder webserver_settings['synced_folder'], "/var/www/vhosts/" + webserver_settings['directory'] + "/docroot", type: "nfs", nfs_udp: false, create: true, id: "vagrant-webroot" + webserver_settings['directory']
     end
 
     # Setup auxiliary synced folder
@@ -305,7 +305,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Setup synced folder for site files
     vconfig['vlad_webserver_settings'].each do |webserver_settings|
-      config.vm.synced_folder webserver_settings['synced_folder'], "/var/www/vhosts/" + webserver_settings['directory'], type: "rsync", create: true, id: "vagrant-webroot" + webserver_settings['directory']
+      config.vm.synced_folder webserver_settings['synced_folder'], "/var/www/vhosts/" + webserver_settings['directory'] + "/docroot", type: "rsync", create: true, id: "vagrant-webroot" + webserver_settings['directory']
     end
 
     # Setup auxiliary synced folder
