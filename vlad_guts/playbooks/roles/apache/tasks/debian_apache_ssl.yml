@@ -6,13 +6,15 @@
     - restart apache2
 
 - name: apache_ssl | add vhost for ssl version of the site
-  template: src=debian_apache_ssl_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}_ssl.conf
+  template: src=debian_apache_ssl_vhost.j2 dest=/etc/apache2/sites-available/{{ item.address }}_ssl.conf
+  with_items: vlad_webserver_settings
   sudo: true
   notify:
     - restart apache2
 
 - name: apache_ssl | enable the new site
-  command: a2ensite {{ webserver_hostname }}_ssl.conf creates=/etc/apache2/sites-enabled/{{ webserver_hostname }}_ssl.conf
+  command: a2ensite {{ item.address }}_ssl.conf creates=/etc/apache2/sites-enabled/{{ item.address }}_ssl.conf
+  with_items: vlad_webserver_settings
   sudo: true
   notify:
     - restart apache2

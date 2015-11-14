@@ -1,23 +1,24 @@
 # {{ ansible_managed }}
 <VirtualHost *:{{ http_port }}>
   ServerAdmin {{ admin_mail }}
-  ServerName {{ webserver_hostname }}
-{% for alias in webserver_hostname_aliases %}
-  ServerAlias                           {{ alias }}
-{% endfor %}
+
+  ServerName {{ item.address }}
+  ServerAlias {{ item.aliases|join(' ') }}
+
+  # Create an alias for the Vagrant Share service.
   ServerAlias *.vagrantshare.com
 
-  DocumentRoot /var/www/site/docroot
+  DocumentRoot /var/www/vhosts/{{ item.directory }}/docroot
 
-  <Directory /var/www/site/docroot>
+  <Directory /var/www/vhosts/{{ item.directory }}/docroot>
     Options FollowSymLinks MultiViews
     AllowOverride All
     Order allow,deny
     allow from all
   </Directory>
 
-  ErrorLog /var/www/site/logs/error.log
+  ErrorLog /var/www/vhosts/{{ item.directory }}/logs/error.log
 
   LogLevel warn
-  CustomLog /var/www/site/logs/access.log combined
+  CustomLog /var/www/vhosts/{{ item.directory }}/logs/access.log combined
 </VirtualHost>

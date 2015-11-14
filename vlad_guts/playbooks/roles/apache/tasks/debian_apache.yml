@@ -1,6 +1,6 @@
 ---
 - name: install apache2 packages
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
   with_items:
    - apache2
    - apache2-mpm-prefork
@@ -40,14 +40,16 @@
   template: src=debian_apache_ports.j2 dest=/etc/apache2/ports.conf
   sudo: true
 
-- name: add vhost for site to sites-available folder
-  template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
+- name: add vhost for sites to sites-available folder
+  template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ item.address }}.conf
+  with_items: vlad_webserver_settings
   sudo: true
   notify:
     - restart apache2
 
-- name: enable the default site
-  command: a2ensite {{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
+- name: enable the new sites
+  command: a2ensite {{ item.address }}.conf creates=/etc/apache2/sites-enabled/{{ item.address }}.conf
+  with_items: vlad_webserver_settings
   sudo: true
   notify:
     - restart apache2

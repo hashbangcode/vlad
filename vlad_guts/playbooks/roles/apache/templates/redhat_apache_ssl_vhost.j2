@@ -73,30 +73,30 @@ SSLCryptoDevice builtin
 ##
 
 <VirtualHost *:443>
-
     ServerAdmin {{ admin_mail }}
-    ServerName {{ webserver_hostname }}
-  {% for alias in webserver_hostname_aliases %}
-    ServerAlias                           {{ alias }}
-  {% endfor %}
+
+    ServerName {{ item.address }}
+    ServerAlias {{ item.aliases|join(' ') }}
+
+    # Create an alias for the Vagrant Share service.
     ServerAlias *.vagrantshare.com
 
-    DocumentRoot /var/www/site/docroot
+    DocumentRoot /var/www/vhosts/{{ item.directory }}/docroot
 
-    <Directory /var/www/site/docroot>
+    <Directory /var/www/vhosts/{{ item.directory }}/docroot>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride All
         Order allow,deny
         allow from all
     </Directory>
 
-    ErrorLog /var/www/site/logs/ssl_error.log
+    ErrorLog /var/www/vhosts/{{ item.directory }}/logs/ssl_error.log
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
     LogLevel warn
 
-    CustomLog /var/www/site/logs/ssl_access.log combined
+    CustomLog /var/www/vhosts/{{ item.directory }}/logs/ssl_access.log combined
 
     #   SSL Engine Switch:
     #   Enable/Disable SSL for this virtual host.
