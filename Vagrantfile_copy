@@ -282,7 +282,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Setup auxiliary synced folder
 
     FileUtils.mkdir_p vconfig['aux_synced_folder'] if !File.exist?(vconfig['aux_synced_folder'])
-    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/vlad_aux",
+    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux",
       type: "smb",
       id: "vagrant-aux",
       smb_username: samba_username,
@@ -294,22 +294,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
 
     # Setup synced folder for site files
-    vconfig['vlad_webserver_settings'].each do |webserver_settings|
-      config.vm.synced_folder webserver_settings['synced_folder'], "/var/www/vhosts/" + webserver_settings['directory'], type: "nfs", nfs_udp: false, create: true, id: "vagrant-webroot" + webserver_settings['directory']
-    end
+    config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "nfs", nfs_udp: false, create: true, id: "vagrant-webroot"
 
     # Setup auxiliary synced folder
-    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/vlad_aux", type: "nfs", nfs_udp: false, create: true, id: "vagrant-aux"
+    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", type: "nfs", nfs_udp: false, create: true, id: "vagrant-aux"
 
   elsif synced_folder_type == 'rsync'
 
     # Setup synced folder for site files
-    vconfig['vlad_webserver_settings'].each do |webserver_settings|
-      config.vm.synced_folder webserver_settings['synced_folder'], "/var/www/vhosts/" + webserver_settings['directory'], type: "rsync", create: true, id: "vagrant-webroot" + webserver_settings['directory']
-    end
+    config.vm.synced_folder vconfig['host_synced_folder'], "/var/www/site/docroot", type: "rsync", create: true, id: "vagrant-webroot"
 
     # Setup auxiliary synced folder
-    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/vlad_aux", type: "rsync", create: true, id: "vagrant-aux"
+    config.vm.synced_folder vconfig['aux_synced_folder'], "/var/www/site/vlad_aux", type: "rsync", create: true, id: "vagrant-aux"
 
   else
 
@@ -330,16 +326,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   # vagrant-hostsupdater plugin will manage /etc/hosts upon up/halt/suspend.
-  config.hostsupdater.aliases = []
-  vconfig['vlad_webserver_settings'].each do |webserver_settings|
-    config.hostsupdater.aliases.push('adminer.' + webserver_settings['address'])
-    config.hostsupdater.aliases.push('xhprof.' + webserver_settings['address'])
-    config.hostsupdater.aliases.push('logs.' + webserver_settings['address'])
-    config.hostsupdater.aliases.push(webserver_settings['address'])
-    webserver_settings['aliases'].each do |webserver_alias|
-      config.hostsupdater.aliases.push(webserver_alias)
-    end
-  end
+  config.hostsupdater.aliases = [
+    'adminer.' + boxwebaddress,
+    'xhprof.' + boxwebaddress,
+    'logs.' + boxwebaddress,
+    boxwebaddress
+  ] + hostname_aliases
   config.hostsupdater.remove_on_suspend = true
 
   # Download required Ansible Galaxy roles

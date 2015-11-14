@@ -14,57 +14,64 @@
 # http://vlad-docs.readthedocs.org/en/latest/usage/variables/
 #
 
-# Webserver settings
-  webserver_hostname: 'drupal.local'
-  webserver_hostname_aliases: 
-  - 'www.drupal.local'
-#  - 'www.example.com'
+# Box settings
+boxipaddress: "192.168.100.100"
+boxname: "vlad"
 
-# Vagrantfile configuration
-  boxipaddress: "192.168.100.100"
-  boxname: "vlad"
-  host_synced_folder: "./docroot"
-# or on Windows
+# Webserver settings
+vlad_webserver_settings:
+- address: 'drupal.local'
+  directory: 'drupal.local'
+  synced_folder: './drupal.local'
+  aliases:
+    - 'www.drupal.local'
+    - 'www.test.local'
+- address: 'drupal8.local'
+  directory: 'drupal8.local'
+  synced_folder: './drupal8.local'
+  aliases:
+    - 'www.drupal8.local'
+
 #  host_synced_folder: "C:\\docroot"
 
 # Install components:
 # - To install a component set it to true.
 # - To leave a component out of the install set the value to false.
 
-  adminer_install: true
+adminer_install: true
 
-  apache_install: true
+apache_install: true
 
-  imagemagick_install: false
+imagemagick_install: false
 
-  mailcatcher_install: false
+mailcatcher_install: false
 
-  memcached_install: false
+memcached_install: false
 
-  munin_install: false
+munin_install: false
 
-  mysql_install: true
+mysql_install: true
 
-  node_install: false
+node_install: false
 
-  php_install: true
+php_install: true
 
-  pimpmylog_install: false
+pimpmylog_install: false
 
-  redis_install: false
+redis_install: false
 
-  ruby_install: false # Ruby is required by MailCatcher
+ruby_install: false # Ruby is required by MailCatcher
 
-  sendmail_install: false
+sendmail_install: false
 
-  solr_install: false
+solr_install: false
 
-  varnish_install: false # If you turn this off then make sure you set the http_port to be 80.
+varnish_install: false # If you turn this off then make sure you set the http_port to be 80.
 
-  xhprof_install: false
+xhprof_install: false
 
 # HTTP port for the web server. If you choose to install Varnish then you might want to set this to "8080"
-  http_port: 80
+http_port: 80
 
 # HTTP port for the Varnish cache
-  varnish_http_port: 80
+varnish_http_port: 80
