@@ -144,8 +144,8 @@
       register: vlad_version
       changed_when: False
 
-    - name: move default index.php file into docroot directory
-      template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
+    - name: move default index.php file into docroot directory of the first created webhost
+      template: src=templates/index.j2 dest=/var/www/vhosts/{{ vlad_webserver_settings.0.address }}/docroot/index.php force=no
       when: add_index_file
 
     # Run post provisioning tests to ensure everything has been provisioned correctly.
