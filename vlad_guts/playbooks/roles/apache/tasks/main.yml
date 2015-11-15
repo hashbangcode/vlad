@@ -30,7 +30,7 @@
 - name: symlink www directory from home directory
   file: src="/var/www/vhosts" dest=/home/{{ user }}/www state=link force=yes
 
-- name: set default login directory to be /var/www/site/docroot
+- name: set default login directory to be /var/www/vhosts
   lineinfile: dest=/home/{{ user }}/.bashrc state=present line='cd /var/www/vhosts'
   tags: apache2
 
