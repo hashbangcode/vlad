@@ -1,10 +1,10 @@
 # {{ ansible_managed }}
 
 # Remove everything that might be in the docroot directory.
-rm -rf /var/www/site/docroot/.* /var/www/site/docroot/*
+rm -rf /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/.* /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/*
 
 # Move into the site directory.
-cd /var/www/site/
+cd /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}
 
 # Download the latest recommended release of Drupal 6.x into docroot.
 drush dl drupal-6 --drupal-project-rename=docroot --yes

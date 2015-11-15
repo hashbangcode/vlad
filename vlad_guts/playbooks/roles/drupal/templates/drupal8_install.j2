@@ -1,21 +1,21 @@
 # {{ ansible_managed }}
 
 # Remove everything that might be in the docroot directory.
-rm -rf /var/www/site/docroot/.* /var/www/site/docroot/*
+rm -rf /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/.* /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/*
 
 # Clone latest Drupal 8 beta release into the docroot direcory.
-git ls-remote --tags http://git.drupal.org/project/drupal.git | grep refs/tags/8\.0\.0-beta | sort -t '/' -k 3 -V | xargs -n1 | tail -n 1 |  sed 's/refs\/tags\///' | xargs -I % git clone --branch % http://git.drupal.org/project/drupal.git /var/www/site/docroot
+git ls-remote --tags http://git.drupal.org/project/drupal.git | grep refs/tags/8\.0\.0-beta | sort -t '/' -k 3 -V | xargs -n1 | tail -n 1 |  sed 's/refs\/tags\///' | xargs -I % git clone --branch % http://git.drupal.org/project/drupal.git /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot
 
 # Create a settings.php fie.
-cp /var/www/site/docroot/sites/default/default.settings.php /var/www/site/docroot/sites/default/settings.php
+cp /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/sites/default/default.settings.php /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/sites/default/settings.php
 
 # Create some directories.
-mkdir /var/www/site/docroot/modules/contrib
-mkdir /var/www/site/docroot/modules/custom
+mkdir /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/modules/contrib
+mkdir /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/modules/custom
 
 # Set some lenient permissions on the docroot directory.
-chmod -R 777 /var/www/site/docroot
+chmod -R 777 /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot
 
 # Install Drupal using the drush-master.
-cd /var/www/site/docroot
+cd /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot
 /home/vagrant/drush-master/drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
