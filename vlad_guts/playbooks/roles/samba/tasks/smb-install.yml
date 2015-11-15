@@ -23,6 +23,7 @@
 
 - name: Creates docroot directory
   file:
-    path: /var/www/site/docroot
+    path: /var/www/vhosts/{{ item.directory }}/docroot
     state: directory
+  with_items: vlad_webserver_settings
   tags: samba
