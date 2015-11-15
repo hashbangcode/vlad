@@ -39,6 +39,6 @@
   changed_when: false
 
 - name: add configuration file
-  copy: src=config.user.json dest=/var/www/pimpmylog/config.user.json
+  template: src=pimpmylog_config.j2 dest=/var/www/pimpmylog/config.user.json
   sudo: true
 

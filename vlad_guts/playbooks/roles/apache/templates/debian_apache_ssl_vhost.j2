@@ -18,13 +18,13 @@
                 allow from all
         </Directory>
 
-        ErrorLog /var/www/vhosts/{{ item.directory }}/logs/ssl_error.log
+        ErrorLog /var/www/vhosts/{{ item.directory }}/logs/error.log
 
         # Possible values include: debug, info, notice, warn, error, crit,
         # alert, emerg.
         LogLevel warn
 
-        CustomLog /var/www/vhosts/{{ item.directory }}/logs/ssl_access.log combined
+        CustomLog /var/www/vhosts/{{ item.directory }}/logs/access.log combined
 
         #   SSL Engine Switch:
         #   Enable/Disable SSL for this virtual host.
