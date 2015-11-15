@@ -1,0 +1,11 @@
+---
+- name: Download the latest version of Drupal console
+  shell: curl -LSs http://drupalconsole.com/installer | php
+  sudo: true
+
+- name: Create Drupal console symlink
+  file:
+    src: "/home/vagrant/console.phar"
+    dest: "/usr/local/bin/drupal"
+    state: link
+  sudo: true
