@@ -1,6 +1,7 @@
 ---
 - name: Ensure certain required vlad_aux subdirectories exist
   file: path=/var/www/vlad_aux/{{ item }} state=directory mode=0777
+  sudo: true
   with_items:
     - tmp
     - db_io

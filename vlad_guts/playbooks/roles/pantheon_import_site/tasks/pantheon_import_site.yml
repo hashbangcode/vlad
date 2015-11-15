@@ -1,0 +1,45 @@
+---
+
+# Authenticate to Pantheon CLI. Don't do anything else if it fails,
+# but do ignore errors (this doesn't need to halt provisioning).
+# @todo: Run a terminus auth whoami first and don't mark anything changed if we are already logged in.
+- name: Log in to Pantheon
+  command: /usr/local/bin/terminus auth login "{{ vlad_pantheon_import_site_email }}" --password='{{ vlad_pantheon_import_site_password }}'
+  register: vlad_pantheon_auth_success
+  ignore_errors: yes
+
+- name: Check if docroot/sites/default folder exists
+  stat: path=/var/www/site/docroot/sites/default
+  register: vlad_pantheon_import_site_sd_stat
+  when: vlad_pantheon_import_site_include_files and vlad_pantheon_auth_success.rc == 0
+  ignore_errors: yes
+
+- name: files | Check if downloaded file archive already exists
+  stat: path=/var/www/site/vlad_aux/pantheon_import_site_files.tar.gz
+  register: vlad_pantheon_import_site_files_stat
+  when: vlad_pantheon_import_site_sd_stat is defined and vlad_pantheon_import_site_sd_stat.stat.exists and vlad_pantheon_import_site_include_files and vlad_pantheon_auth_success.rc == 0
+  ignore_errors: yes
+
+- include: import_files.yml
+  when: vlad_pantheon_import_site_include_files is defined and vlad_pantheon_import_site_include_files and vlad_pantheon_import_site_files_stat is defined and vlad_pantheon_import_site_files_stat.stat.exists == false
+
+- name: db | Check if database backup already exists
+  stat: path=/var/www/site/vlad_aux/db_io/halt_destroy/pantheon_import_site.sql.gz
+  register: vlad_pantheon_import_site_db_exists
+  when: vlad_pantheon_import_site_include_db and vlad_pantheon_auth_success.rc == 0
+  ignore_errors: yes
+
+# This command is copied from the mysql role because we run before it.
+# TODO: Consider moving this task to a role before this & mysql so it only has to be run once (via a role dependency?).
+- name: db | Ensure vlad_aux/db_io directories exist
+  file:
+    path: /var/www/site/vlad_aux/{{ item }}
+    state: directory
+    mode: 0777
+  with_items:
+    - db_io
+    - db_io/halt_destroy
+  sudo: true
+
+- include: import_db.yml
+  when: vlad_pantheon_import_site_include_db is defined and vlad_pantheon_import_site_include_db and vlad_pantheon_import_site_db_exists is defined and vlad_pantheon_import_site_db_exists.stat.exists == false
