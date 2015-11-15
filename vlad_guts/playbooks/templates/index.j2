@@ -111,7 +111,7 @@
         <h3>Build your own site</h3>
         <p>Out of the box Vlad is ready to run a Drupal site. Simply put the code in the <var>{{ host_synced_folder }}</var> directory and run either use the >web installer or install the site using drush:</p>
         <pre class="prettyprint linenums">
-$ cd /var/www/site/{{ host_synced_folder }}
+$ cd /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot
 $ drush site-install profile_name --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname }} --account-name=admin --account-pass=password --yes
 </pre>
 
@@ -327,7 +327,7 @@ $ vagrant ssh
 
             <h4 id="moresites">Can I run more sites on the same box?</h4>
 
-            <p>Yes, it is easy to run several sites on the same box. You just put them in different folders in <var>/var/www/site/{{ host_synced_folder }}/</var>.
+            <p>Yes, it is easy to run several sites on the same box. You just put them in different folders in <var>/var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot</var>.
                 You can create new databases using <a
                         href="http://adminer.{{ webserver_hostname }}:8080/?username=vlad">Adminer</a></p>
 
