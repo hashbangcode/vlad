@@ -1,11 +1,16 @@
 ---
+- name: Check to see if the console.phar file is present
+  stat: path=/home/{{ user }}/console.phar
+  register: drupal_console_file
+
 - name: Download the latest version of Drupal console
   shell: curl -LSs http://drupalconsole.com/installer | php
-  sudo: true
+  when: drupal_console_file.stat.exists == false
 
 - name: Create Drupal console symlink
   file:
-    src: "/home/vagrant/console.phar"
+    src: "/home/{{ user }}/console.phar"
     dest: "/usr/local/bin/drupal"
     state: link
   sudo: true
+  when: drupal_console_file.stat.exists == false
