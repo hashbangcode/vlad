@@ -10,7 +10,13 @@
 - name: Create Drupal console symlink
   file:
     src: "/home/{{ user }}/console.phar"
-    dest: "/usr/local/bin/drupal"
+    dest: "{{ drupal_console_install_location }}"
     state: link
   sudo: true
   when: drupal_console_file.stat.exists == false
+
+- name: Update Drupal Console to latest version (if configured).
+  shell: php /home/{{ user }}/console.phar self-update
+  register: drupal_console_update
+  changed_when: "'console has been updated' in drupal_console_update.stdout"
+  when: drupal_console_keep_updated
