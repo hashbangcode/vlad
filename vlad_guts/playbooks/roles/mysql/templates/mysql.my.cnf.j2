@@ -25,6 +25,12 @@ innodb_buffer_pool_size={{ innodb_buffer_pool_size }}
 innodb_file_per_table
 {% endif %}
 innodb_log_file_size={{ innodb_log_file_size }}
+{% if innodb_flush_log_at_trx_commit != 1 %}
+innodb_flush_log_at_trx_commit={{ innodb_flush_log_at_trx_commit }}
+{% endif %}
+{% if innodb_flush_method != 'fdatasync' %}
+innodb_flush_method={{ innodb_flush_method }}
+{% endif %}
 
 {% if skip_name_resolve == true %}
 #skip-name-resolve

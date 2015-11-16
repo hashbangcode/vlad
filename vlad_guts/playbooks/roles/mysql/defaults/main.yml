@@ -31,3 +31,9 @@ mysql_slow_query_log_status: 0
 mysql_slow_query_log_location: '/var/log/mysql/mysql-slow.log'
 mysqL_long_query_time: 2
 mysql_log_queries_not_using_indexes: false
+
+# Optional InnoDB settings that can be tweaked for better performance,
+# especially when importing large files. For more details, see:
+# http://bit.ly/20Vp76D
+innodb_flush_log_at_trx_commit: 1
+innodb_flush_method: fdatasync
