@@ -37,3 +37,5 @@
 - include: ssh_config.yml
 
 - include: shell.yml
+
+- include: hosts.yml
