@@ -26,17 +26,17 @@ if [ -f /usr/bin/ansible ] || [ -f /usr/local/bin/ansible ]; then
 	echo "Ansible is installed ($(ansible --version))"
 else
 	echo "Installing Ansible dependencies (OS $VLAD_OS)"
-	if [ "$VLAD_OS" = "centos66" ]; then
+	if [ "$VLAD_OS" = "centos67" ]; then
 		# CentOS 6.6
 		echo "Installing EPEL..."
 		yum -y install epel-release
 		echo "Installing Ansible..."
 		yum -y install ansible
-		echo "Installing PIP..." 
+		echo "Installing PIP..."
 		yum -y install python-pip
 		# Make sure setuptools are installed crrectly.
 		pip install setuptools --upgrade
-		echo "Installing markupsafe..." 
+		echo "Installing markupsafe..."
 		pip install markupsafe
 	else
 		# Ubuntu 12 or Ubuntu 14

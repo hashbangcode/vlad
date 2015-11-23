@@ -169,25 +169,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vagrant_memory = settings_memory
   end
 
-  # VMWare provider settings. These tend to not have good alternatives on atlas, so specify URLS manually
-  config.vm.provider "vmware_fusion" do |vmw, o|
-    if vlad_custom_base_box_name != ""
-      # Add a previously built custom box
-      o.vm.box = vlad_custom_base_box_name
-    else
-      # Add VMWare box.
-      if vlad_os == "centos66"
-        o.vm.box = "opscode_centos-6.6"
-        o.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.6_chef-provisionerless.box"
-      elsif vlad_os == "ubuntu14"
-        o.vm.box = "opscode-ubuntu-14.04"
-        o.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box"
+  #Select the proper base box and configure it for each provider.
+  if vlad_custom_base_box_name != ""
+    # Add a previously built custom box
+    target_box = vlad_custom_base_box_name
+  else
+    target_box = case vlad_os
+      when "centos67" then "bento/centos-6.7"
+      when "ubuntu14" then "bento/ubuntu-14.04"
+      when "ubuntu12" then "bento/ubuntu-12.04"
       else
-        # Add a Ubuntu VirtualBox box. This is the only one that has vmware basebox on Atlas
-        o.vm.box = "hashicorp/precise64"
-      end
+        abort "Unknown basebox! Check your settings file."
     end
+  end
 
+  puts "Debug: running #{target_box}"
+
+  # VMWare provider settings.
+  config.vm.provider "vmware_fusion" do |vmw, o|
+    o.vm.box = target_box
     vmw.gui = false
     vmw.vmx["displayname"] = boxname + "_vlad"
     vmw.vmx["numvcpus"] = vagrant_cpus
@@ -196,22 +196,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Configure Parallels Desktop setup.
   config.vm.provider "parallels" do |p, o|
-    if vlad_custom_base_box_name != ""
-      # Add a previously built custom box
-      o.vm.box = vlad_custom_base_box_name
-    else
-      if vlad_os == "centos66"
-        # Add a CentOS Parallels Desktop box
-        o.vm.box = "parallels/centos-6.6"
-      elsif vlad_os == "ubuntu14"
-        # Add an Ubuntu Parallels Desktop box
-        o.vm.box = "parallels/ubuntu-14.04"
-      else
-        # Add an Ubuntu Parallels Desktop box
-        o.vm.box = "parallels/ubuntu-12.04"
-      end
-    end
-
+    o.vm.box = target_box
     p.name = boxname + "_vlad"
     p.cpus = vagrant_cpus
     p.memory = vagrant_memory
@@ -223,22 +208,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Virtualbox provider settings
   config.vm.provider "virtualbox" do |vb, o|
-    if vlad_custom_base_box_name != ""
-      # Add a previously built custom box
-      o.vm.box = vlad_custom_base_box_name
-    else
-      if vlad_os == "centos66"
-        # Add a CentOS 6 VirtualBox box
-        o.vm.box = "hansode/centos-6.6-x86_64"
-      elsif vlad_os == "ubuntu14"
-        # Add a Ubuntu 14 VirtualBox box
-        o.vm.box = "ubuntu/trusty64"
-      else
-        # Add a Ubuntu 12 VirtualBox box
-        o.vm.box = "ubuntu/precise64"
-      end
-    end
-
+    o.vm.box = target_box
     #
     # Fixed settings
     #
@@ -260,7 +230,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     '--natdnspassdomain1', 'on']
 
     # Configure OS type
-    if vlad_os == "centos66"
+    if vlad_os == "centos67"
       vb.customize ["modifyvm", :id, "--ostype", "RedHat_64"]
     elsif vlad_os == "ubuntu14"
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
