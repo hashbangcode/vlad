@@ -64,9 +64,11 @@
   xhprof_install: false
 
 # Additional Drush modules
-# Coder and Site Audit will be installed by default. List any additional drush modules required here.
-  # drush_install_commands:
-    # - { name: 'registry_rebuild', version: ''}
+# The Coder and Site Audit commands will be installed by default, but you can override this list below.
+#  drush_install_commands:
+#    - { name: 'coder', version: ''}
+#    - { name: 'registry_rebuild', version: ''}
+#    - { name: 'site_audit', version: ''}
 
 # HTTP port for the web server. If you choose to install Varnish then you might want to set this to "8080"
   http_port: 80
