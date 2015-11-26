@@ -17,7 +17,7 @@ mkdir sites/default/files
 mkdir sites/all/modules/contrib
 mkdir sites/all/modules/custom
 
-# Install Drupal using Drush.
+# Install Drupal.
 drush site-install --db-url=mysql://{{ dbuser }}:{{ dbpass }}@localhost/{{ dbname[0] }} --account-name=admin --account-pass=password --yes
 
 # Disable the overlay module.
