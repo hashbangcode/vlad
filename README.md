@@ -14,7 +14,7 @@ This includes the following technologies:
 - Varnish
 - Git
 - Drush
-- Drush commands: Coder, Site Audit & Registry Rebuild
+- Drush commands: Coder & Site Audit
 - Munin
 - Xdebug
 - Ruby

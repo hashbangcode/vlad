@@ -3,11 +3,9 @@
 # Drush commands
 # ------------------------------------------------------------------------------
 
-# TODO: Do we really need to specify this version of Coder still?
 drush_install_commands:
-  - { name: 'coder', version: '-7.x-2.x'}
+  - { name: 'coder', version: ''}
   - { name: 'site_audit', version: ''}
-  - { name: 'registry_rebuild', version: ''}
 
 
 # Drush aliases
