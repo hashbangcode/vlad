@@ -1,5 +1,6 @@
 ---
 - include: php.yml
+- include: composer.yml
 - include: apache.yml
 - include: varnish.yml
 - include: mysql.yml
