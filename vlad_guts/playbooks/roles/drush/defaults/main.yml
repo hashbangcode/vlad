@@ -1,15 +1,32 @@
 ---
 
-drush_composer_path: /usr/local/bin/composer
+# General
+# ------------------------------------------------------------------------------
+
 drush_install_path: /usr/local/share/drush
-drush_keep_updated: no
 drush_path: /usr/local/bin/drush
-# See Drush repo for options:
+drush_prefer_packaged_download: true
+
+# Only applies to installation via Composer
+drush_composer_path: /usr/local/bin/composer
+drush_keep_updated: no
+
+
+# Drush version
+# ------------------------------------------------------------------------------
+
+# Can be a release tag or a branch name.
+
+# See Drush GitHub repo for options:
 # - https://github.com/drush-ops/drush/releases
 # - https://github.com/drush-ops/drush/branches
+
 # Examples:
-# - 6.x
 # - 7.x
-# - 8.0.0-beta14
 # - master
-drush_version: master
+# - 8.0.0
+
+# NOTE: if drush_prefer_packaged_download is set to true, 
+# drush_version will ideally need to be a release tag >= 8.0.0.
+
+drush_version: 8.0.1
