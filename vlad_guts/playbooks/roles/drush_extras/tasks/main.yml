@@ -35,7 +35,7 @@
     recurse: yes
 
 
-# drush init
+# drush init (drush versions >= 8)
 
 - name: Run drush init if installed Drush version >= 8
   shell: drush init -y
