@@ -1,0 +1,9 @@
+---
+
+- name: test | composer is installed
+  shell: /usr/local/bin/composer
+  when: php_install
+  always_run: yes
+  register: composer_result
+  failed_when: "composer_result.rc != 0"
+  changed_when: false

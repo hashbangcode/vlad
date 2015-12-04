@@ -5,6 +5,7 @@ vlad_drupal_install: false
 
 # Available options: 6, 7, 8, 8dev
 # Notes: 
-# - 8dev will include the relevant Git repo.
-# - 8 & 8dev require Drush 8 
+# - 8dev will include the relevant Git repo
+# - 8 & 8dev require Drush 8
+# @TODO: Update default value to 8 when contrib catches up sufficiently.
 vlad_drupal_install_version: 7

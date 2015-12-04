@@ -12,4 +12,4 @@ drush_path: /usr/local/bin/drush
 # - 7.x
 # - 8.0.0-beta14
 # - master
-drush_version: 7.0.0
+drush_version: master

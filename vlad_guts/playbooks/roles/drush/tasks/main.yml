@@ -6,7 +6,6 @@
 # - Doesn't clone the entire Drush repo (depth)
 # - Role dependencies have been removed
 # - Added 'drush_composer_path' var to fill in for missing dependencies
-# - Default Drush version changed (not master).
 #
 # ------------------------------------------------------------------------------
 
