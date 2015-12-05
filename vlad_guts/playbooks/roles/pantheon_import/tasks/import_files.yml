@@ -1,0 +1,22 @@
+---
+
+- name: files | Download latest files backup from Pantheon
+  command: terminus site backups get --site="{{ vlad_pantheon_import_site }}" --env="{{ vlad_pantheon_import_env }}" --element=files --latest --to=/var/www/site/vlad_aux/pantheon_import_files.tar.gz
+  args:
+    creates: /var/www/site/vlad_aux/pantheon_import_files.tar.gz
+
+- name: files | Remove old file directory
+  file: path=/var/www/site/docroot/sites/default/files state=absent recurse=yes
+  when: vlad_pantheon_import_files_stat is defined and vlad_pantheon_import_files_stat.stat.exists == True
+
+- name: files | Expand downloaded archive
+  unarchive:
+    src: /var/www/site/vlad_aux/pantheon_import_files.tar.gz
+    dest: /var/www/site/docroot/sites/default/
+    copy: no # This is an in-VM unarchive operation.
+    creates: /var/www/site/docroot/sites/default/files_{{ vlad_pantheon_import_env }}
+
+- name: files | Rename files_<ENV> directory to just files
+  command: mv '/var/www/site/docroot/sites/default/files_{{ vlad_pantheon_import_env }}' /var/www/site/docroot/sites/default/files
+  args:
+    creates: /var/www/site/docroot/sites/default/files

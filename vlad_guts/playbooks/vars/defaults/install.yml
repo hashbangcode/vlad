@@ -23,7 +23,7 @@ memcached_install: false
 
 munin_install: false
 
-vlad_pantheon_import_site: false
+vlad_pantheon_import: false
 
 mysql_install: true
 

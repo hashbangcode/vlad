@@ -5,5 +5,5 @@
   with_items:
    - "all.yml"
 
-- include: pantheon_import_site.yml
+- include: pantheon_import.yml
   tags: pantheon_import

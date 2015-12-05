@@ -1,0 +1,14 @@
+---
+
+# Pantheon Import settings
+
+vlad_pantheon_import: false
+vlad_pantheon_import_email: ''
+vlad_pantheon_import_password: ''
+vlad_pantheon_import_site: ''
+vlad_pantheon_import_env: ''
+vlad_pantheon_import_include_code: false
+vlad_pantheon_import_include_db: true
+vlad_pantheon_import_include_files: true
+
+# @todo: Figure out an easy way, or document an Ansible command — possibly with tags — to update the imported Pantheon site without having to rebuild the entire VM.
