@@ -8,7 +8,7 @@
   register: vlad_pantheon_import_evdb
   ignore_errors: true
 
-- name: db | Back up existing vladdb.sql.gz
+- name: db | Backup existing vladdb.sql.gz
   command: mv -f /var/www/site/vlad_aux/db_io/halt_destroy/vladdb.sql.gz /var/www/site/vlad_aux/db_io/halt_destroy/vladdb_pantheon_import_backup.sql.gz
   when: vlad_pantheon_import_evdb is defined and vlad_pantheon_import_evdb.stat.exists == True
 
