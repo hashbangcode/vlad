@@ -183,8 +183,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  puts "Debug: running #{target_box}"
-
   # VMWare provider settings.
   config.vm.provider "vmware_fusion" do |vmw, o|
     o.vm.box = target_box
