@@ -2,9 +2,62 @@
 # vi: set ft=ruby :
 
 # Vlad - Vagrant LAMP Ansible Drupal
-# A Drupal development platform in a box, with everything you would need to develop Drupal websites.
-# See the readme file (README.md) for more information.
-# Contribute to this project at : https://github.com/hashbangcode/vlad
+# A Drupal development platform in a box, with everything you would need to
+# develop Drupal websites.
+# See the README file (README.md) for more information.
+# Contribute to this project at: https://github.com/hashbangcode/vlad
+
+VLAD_FALLBACK_SETTINGS = "/vlad_guts/vlad_settings.yml"
+VLAD_SETTINGS = "/settings/vlad_settings.yml"
+VLAD_FALLBACK_LOCAL_SETTINGS = "/vlad_guts/vlad_local_settings.yml"
+VLAD_LOCAL_SETTINGS = "/settings/vlad_local_settings.yml"
+VLAD_MERGED_SETTINGS = "/vlad_guts/merged_user_settings.yml"
+# Identify settings file location
+
+# Find the current vagrant directory & get ancestors
+dir_ancestors = [ File.expand_path(File.dirname(__FILE__)) ]
+(0..3).each do |depth| # Up to great grandparent
+  dir_ancestors.push File.dirname(dir_ancestors[depth])
+end
+# Drop duplicates, which can happen if our starting directory is shallow
+dir_ancestors = dir_ancestors.uniq
+
+settings_files = {
+  "project settings" => [dir_ancestors[0] + VLAD_FALLBACK_SETTINGS] +
+                        dir_ancestors.map {|dir| dir + VLAD_SETTINGS},
+
+  "local overrides" => [dir_ancestors[0] + VLAD_FALLBACK_LOCAL_SETTINGS] +
+                        dir_ancestors.map {|dir| dir + VLAD_LOCAL_SETTINGS}
+}
+
+# Iterate over the settings files and note the first file that is found for
+# each type.
+settings_to_merge = []
+loaded_vlad_settings = false
+settings_files.each do |type, paths|
+ paths.each do |file|
+   if File.exists?(file)
+     puts "Found #{type} file: #{file}"
+     loaded_vlad_settings = true
+     settings_to_merge.push file
+     break
+   end
+ end
+end
+
+if settings_to_merge.empty?
+  # Warn if we didn't find any files to load
+  puts "No #{settings_files.keys.first} or #{settings_files.keys.last} found (will use default settings)."
+elsif ENV['VAGRANT_DOTFILE_PATH'].nil?
+  # We've found a settings file, and VAGRANT_DOTFILE_PATH is unset.
+  # We should set it and restart vagrant so it places the .vagrant directory
+  # appropriately. We will also skip moving the .vagrant directory if the user
+  # has set it manually.
+  dotfile_path = File.join(File.dirname(settings_to_merge[0]), '.vagrant')
+  ENV['VAGRANT_DOTFILE_PATH'] = dotfile_path
+  puts "Adjusting Vagrant environment and re-initializing"
+  exec "vagrant #{ARGV.join(' ')}"
+end
 
 # Minimum Vagrant version required
 Vagrant.require_version ">= 1.6.4"
@@ -24,51 +77,20 @@ required_plugins.each do |plugin|
   exec "vagrant #{ARGV.join(' ')}" if need_restart
 end
 
-# Find the current vagrant directory & create additional vars from it
-vagrant_dir = File.expand_path(File.dirname(__FILE__))
-parent_dir = File.dirname(vagrant_dir)
-grandparent_dir = File.dirname(parent_dir)
-greatgrandparent_dir = File.dirname(grandparent_dir)
-vlad_hosts_file = vagrant_dir + '/vlad_guts/host.ini'
+vlad_hosts_file = dir_ancestors[0] + '/vlad_guts/host.ini'
 
-# Load settings and overrides files
-settings_files = {
-  "project settings" => [
-                          vagrant_dir + "/vlad_guts/vlad_settings.yml",
-                          vagrant_dir + "/settings/vlad_settings.yml",
-                          parent_dir + "/settings/vlad_settings.yml",
-                          grandparent_dir + "/settings/vlad_settings.yml",
-                          greatgrandparent_dir + "/settings/vlad_settings.yml"
-                        ],
-  "local overrides" => [
-                          vagrant_dir + "/vlad_guts/vlad_local_settings.yml",
-                          vagrant_dir + "/settings/vlad_local_settings.yml",
-                          parent_dir + "/settings/vlad_local_settings.yml",
-                          grandparent_dir + "/settings/vlad_local_settings.yml",
-                          greatgrandparent_dir + "/settings/vlad_local_settings.yml"
-                       ]
-}
+# Load base settings
+vconfig = YAML::load_file(dir_ancestors[0] + "/vlad_guts/playbooks/vars/defaults/vagrant.yml")
 
-vconfig = YAML::load_file(vagrant_dir + "/vlad_guts/playbooks/vars/defaults/vagrant.yml")
-
-# Iterate over the settings files and load the first file that is found for each type,
-# then merge them over the base/default settings loaded in vconfig
-loaded_vlad_settings = false
-puts "\nChecking for #{settings_files.keys.first} and #{settings_files.keys.last}..."
-settings_files.each do |type, paths|
-  paths.each do |file|
-    if File.exists?(file)
-      puts "Loading #{type} file: #{file}"
-      loaded_vlad_settings = true
-      settings_to_merge = YAML::load_file(file)
-      vconfig = vconfig.merge settings_to_merge
-      break
-    end
-  end
+# Iterate over each loaded settings file and merge it into the base/default
+# settings loaded in vconfig
+settings_to_merge.each do |settings_file|
+  settings_data = YAML::load_file(settings_file)
+  vconfig = vconfig.merge settings_data
 end
 
 # Handling of merged settings file
-merged_settings_file = vagrant_dir + "/vlad_guts/merged_user_settings.yml"
+merged_settings_file = dir_ancestors[0] + VLAD_MERGED_SETTINGS
 if loaded_vlad_settings
   # Convert merged user settings to YAML and write to file
   merged_settings_yml = vconfig.to_yaml
@@ -76,8 +98,6 @@ if loaded_vlad_settings
 else
   # Wite a placeholder YAML file for Ansible to still load
   File.open(merged_settings_file, "w") {|f| f.write("---\n# This is a placeholder file to keep Ansible happy when using only Vlad default settings.\n") }
-  # Warn if we didn't find any files to load
-  puts "No #{settings_files.keys.first} or #{settings_files.keys.last} found (will use default settings)."
 end
 puts
 
@@ -169,25 +189,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vagrant_memory = settings_memory
   end
 
-  # VMWare provider settings. These tend to not have good alternatives on atlas, so specify URLS manually
-  config.vm.provider "vmware_fusion" do |vmw, o|
-    if vlad_custom_base_box_name != ""
-      # Add a previously built custom box
-      o.vm.box = vlad_custom_base_box_name
-    else
-      # Add VMWare box.
-      if vlad_os == "centos66"
-        o.vm.box = "opscode_centos-6.6"
-        o.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.6_chef-provisionerless.box"
-      elsif vlad_os == "ubuntu14"
-        o.vm.box = "opscode-ubuntu-14.04"
-        o.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box"
+  #Select the proper base box and configure it for each provider.
+  if vlad_custom_base_box_name != ""
+    # Add a previously built custom box
+    target_box = vlad_custom_base_box_name
+  else
+    target_box = case vlad_os
+      when "centos67" then "bento/centos-6.7"
+      when "ubuntu14" then "bento/ubuntu-14.04"
+      when "ubuntu12" then "bento/ubuntu-12.04"
       else
-        # Add a Ubuntu VirtualBox box. This is the only one that has vmware basebox on Atlas
-        o.vm.box = "hashicorp/precise64"
-      end
+        abort "Unknown basebox! Check your settings file."
     end
+  end
 
+  # VMWare provider settings.
+  config.vm.provider "vmware_fusion" do |vmw, o|
+    o.vm.box = target_box
     vmw.gui = false
     vmw.vmx["displayname"] = boxname + "_vlad"
     vmw.vmx["numvcpus"] = vagrant_cpus
@@ -196,22 +214,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Configure Parallels Desktop setup.
   config.vm.provider "parallels" do |p, o|
-    if vlad_custom_base_box_name != ""
-      # Add a previously built custom box
-      o.vm.box = vlad_custom_base_box_name
-    else
-      if vlad_os == "centos66"
-        # Add a CentOS Parallels Desktop box
-        o.vm.box = "parallels/centos-6.6"
-      elsif vlad_os == "ubuntu14"
-        # Add an Ubuntu Parallels Desktop box
-        o.vm.box = "parallels/ubuntu-14.04"
-      else
-        # Add an Ubuntu Parallels Desktop box
-        o.vm.box = "parallels/ubuntu-12.04"
-      end
-    end
-
+    o.vm.box = target_box
     p.name = boxname + "_vlad"
     p.cpus = vagrant_cpus
     p.memory = vagrant_memory
@@ -223,22 +226,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Virtualbox provider settings
   config.vm.provider "virtualbox" do |vb, o|
-    if vlad_custom_base_box_name != ""
-      # Add a previously built custom box
-      o.vm.box = vlad_custom_base_box_name
-    else
-      if vlad_os == "centos66"
-        # Add a CentOS 6 VirtualBox box
-        o.vm.box = "hansode/centos-6.6-x86_64"
-      elsif vlad_os == "ubuntu14"
-        # Add a Ubuntu 14 VirtualBox box
-        o.vm.box = "ubuntu/trusty64"
-      else
-        # Add a Ubuntu 12 VirtualBox box
-        o.vm.box = "ubuntu/precise64"
-      end
-    end
-
+    o.vm.box = target_box
     #
     # Fixed settings
     #
@@ -260,7 +248,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     '--natdnspassdomain1', 'on']
 
     # Configure OS type
-    if vlad_os == "centos66"
+    if vlad_os == "centos67"
       vb.customize ["modifyvm", :id, "--ostype", "RedHat_64"]
     elsif vlad_os == "ubuntu14"
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
@@ -324,7 +312,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # SSH setup
   # Vagrant >= 1.7.0 defaults to using a randomly generated RSA key.
-  # We need to disable this in order to pass the correct identity from host to guest.
+  # We need to disable this in order to pass the correct identity from host
+  # to guest.
   config.ssh.insert_key = false
   # Allow identities to be passed from host to guest.
   config.ssh.forward_agent = true
@@ -353,9 +342,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     info "Executing 'up' setup trigger"
       if is_windows
         info "Creating " + vlad_hosts_file
-        FileUtils.cp(vagrant_dir + "/vlad_guts/playbooks/templates/host.j2 ", vlad_hosts_file)
+        FileUtils.cp(dir_ancestors[0] + "/vlad_guts/playbooks/templates/host.j2 ", vlad_hosts_file)
       else
-        run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad_guts/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        run 'ansible-playbook -i ' + boxipaddress + ', ' + dir_ancestors[0] + '/vlad_guts/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
       end
   end
 
@@ -367,7 +356,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       info "Deleting " + vlad_hosts_file
       File.delete(vlad_hosts_file) if File.exist?(vlad_hosts_file)
     else
-      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad_guts/playbooks/local_halt_destroy.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook -i ' + boxipaddress + ', ' + dir_ancestors[0] + '/vlad_guts/playbooks/local_halt_destroy.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
@@ -376,7 +365,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if is_windows
       run_remote 'ansible-playbook -i ' + boxipaddress + ', /vagrant/vlad_guts/playbooks/local_up_services.yml --extra-vars "is_windows=true local_ip_address=' + boxipaddress + '" --connection=local'
     else
-      run 'ansible-playbook -i ' + boxipaddress + ', ' + vagrant_dir + '/vlad_guts/playbooks/local_up_services.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
+      run 'ansible-playbook -i ' + boxipaddress + ', ' + dir_ancestors[0] + '/vlad_guts/playbooks/local_up_services.yml --private-key=~/.vagrant.d/insecure_private_key --extra-vars "local_ip_address=' + boxipaddress + '"'
     end
   end
 
@@ -390,7 +379,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Workaround to https://github.com/mitchellh/vagrant/issues/1673
   config.vm.provision "shell" do |sh|
-    # if there is a line that only consists of 'mesg n' in /root/.profile, replace it with 'tty -s && mesg n'
+    # if there is a line that only consists of 'mesg n' in /root/.profile,
+    # replace it with 'tty -s && mesg n'
     sh.inline = "(grep -q -E '^mesg n$' /root/.profile && sed -i 's/^mesg n$/tty -s \\&\\& mesg n/g' /root/.profile && echo 'Ignore the previous error about stdin not being a tty. Fixing it now...') || exit 0;"
   end
 
@@ -401,13 +391,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Download required Ansible Galaxy roles
       sh.inline = 'ansible-galaxy install -r vlad_guts/playbooks/requirements.yml --force'
       # Wrapper script for playbooks
-      sh.path = vagrant_dir + "/vlad_guts/scripts/ansible-run-remote.sh"
+      sh.path = dir_ancestors[0] + "/vlad_guts/scripts/ansible-run-remote.sh"
       # run all tags
       sh.args = "/vlad_guts/playbooks/site.yml " + boxipaddress + ', ' + 'all'
     end
   else
     config.vm.provision "ansible" do |ansible|
-      ansible.playbook = vagrant_dir + "/vlad_guts/playbooks/site.yml"
+      ansible.playbook = dir_ancestors[0] + "/vlad_guts/playbooks/site.yml"
       ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       ansible.host_key_checking = false
       ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
@@ -429,7 +419,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       if is_windows
         # Provisioning configuration for shell script.
         config.vm.provision "shell" do |sh|
-          sh.path = vagrant_dir + "/vlad_guts/scripts/ansible-run-remote.sh"
+          sh.path = dir_ancestors[0] + "/vlad_guts/scripts/ansible-run-remote.sh"
           sh.args = custom_play_full_path + ' ' + boxipaddress + ','
         end
       else

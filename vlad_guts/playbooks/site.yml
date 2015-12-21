@@ -76,15 +76,15 @@
 
     - name: Check Pantheon Import dependencies
       fail: msg="The Pantheon CLI and MySQL roles are required to import Pantheon sites."
-      when: vlad_pantheon_import_site and (mysql_install == false or pantheon_cli_install == false)
+      when: vlad_pantheon_import and (mysql_install == false or pantheon_cli_install == false)
 
     - name: Check if Pantheon Import will import the database
       fail:
-        msg: You've chosen to import your Pantheon database, but your db_import_up variable is not configured. If this was unintentional, remove the pantheon_import_site_include_db variable from your Vlad configuration. Otherwise, please configure it to import the "vladdb" database (valid values are ["vladdb"] or true). For more information, see https://vlad-docs.readthedocs.org/en/latest/usage/variables/#mysql
+        msg: You've chosen to import your Pantheon database, but your db_import_up variable is not configured. If this was unintentional, remove the pantheon_import_include_db variable from your Vlad configuration. Otherwise, please configure it to import the "vladdb" database (valid values are ["vladdb"] or true). For more information, see https://vlad-docs.readthedocs.org/en/latest/usage/variables/#mysql
       # Vlad is deliberately hardcoded in this condition because the
       # Pantheon Import role does not yetallow configuration of where it saves
       # the chosen Pantheon DB.
-      when: vlad_pantheon_import_site and db_import_up is not defined
+      when: vlad_pantheon_import and db_import_up is not defined
 
       # Generate variables to be used in playbooks
 
@@ -107,7 +107,7 @@
 
     - { role: pantheon_cli, tags: ["hosting_tools pantheon_cli"], when: "pantheon_cli_install" }
 
-    - { role: pantheon_import_site, tags: ["pantheon_import_site"], when: "vlad_pantheon_import_site" }
+    - { role: pantheon_import, tags: ["pantheon_import"], when: "vlad_pantheon_import" }
 
     - { role: mysql, tags: ["mysql"], when: "mysql_install" }
 
@@ -121,7 +121,7 @@
 
     - { role: drupal, tags: ["drupal"], when: "php_install" }
 
-    - { role: drupal_console, tags: ["drupal_console"], when: "php_install" }
+    # - { role: drupal_console, tags: ["drupal_console"], when: "php_install" }
 
     - { role: adminer, tags: ["adminer"], when: "adminer_install" }
 

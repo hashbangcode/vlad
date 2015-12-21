@@ -1,7 +1,0 @@
----
-
-- name: code | Look up Git URL
-  command: /usr/local/bin/terminus site connection-info --json --site='{{ vlad_pantheon_import_site_site }}' --env='{{ vlad_pantheon_import_site_env }}'
-  register: vlad_pantheon_import_site_connection_info_output
-- set_fact:
-    vlad_pantheon_import_site_site_info: "{{ vlad_pantheon_import_site_connection_info_output.stdout|from_json }}"
