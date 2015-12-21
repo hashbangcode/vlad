@@ -2,9 +2,10 @@
 # vi: set ft=ruby :
 
 # Vlad - Vagrant LAMP Ansible Drupal
-# A Drupal development platform in a box, with everything you would need to develop Drupal websites.
-# See the readme file (README.md) for more information.
-# Contribute to this project at : https://github.com/hashbangcode/vlad
+# A Drupal development platform in a box, with everything you would need to
+# develop Drupal websites.
+# See the README file (README.md) for more information.
+# Contribute to this project at: https://github.com/hashbangcode/vlad
 
 VLAD_FALLBACK_SETTINGS = "/vlad_guts/vlad_settings.yml"
 VLAD_SETTINGS = "/settings/vlad_settings.yml"
@@ -29,7 +30,8 @@ settings_files = {
                         dir_ancestors.map {|dir| dir + VLAD_LOCAL_SETTINGS}
 }
 
-# Iterate over the settings files and note the first file that is found for each type.
+# Iterate over the settings files and note the first file that is found for
+# each type.
 settings_to_merge = []
 loaded_vlad_settings = false
 settings_files.each do |type, paths|
@@ -47,7 +49,7 @@ if settings_to_merge.empty?
   # Warn if we didn't find any files to load
   puts "No #{settings_files.keys.first} or #{settings_files.keys.last} found (will use default settings)."
 elsif ENV['VAGRANT_DOTFILE_PATH'].nil?
-  # We've found a settigns file, and VAGRANT_DOTFILE_PATH is unset.
+  # We've found a settings file, and VAGRANT_DOTFILE_PATH is unset.
   # We should set it and restart vagrant so it places the .vagrant directory
   # appropriately. We will also skip moving the .vagrant directory if the user
   # has set it manually.
@@ -306,7 +308,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # SSH setup
   # Vagrant >= 1.7.0 defaults to using a randomly generated RSA key.
-  # We need to disable this in order to pass the correct identity from host to guest.
+  # We need to disable this in order to pass the correct identity from host
+  # to guest.
   config.ssh.insert_key = false
   # Allow identities to be passed from host to guest.
   config.ssh.forward_agent = true
@@ -368,7 +371,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Workaround to https://github.com/mitchellh/vagrant/issues/1673
   config.vm.provision "shell" do |sh|
-    # if there is a line that only consists of 'mesg n' in /root/.profile, replace it with 'tty -s && mesg n'
+    # if there is a line that only consists of 'mesg n' in /root/.profile,
+    # replace it with 'tty -s && mesg n'
     sh.inline = "(grep -q -E '^mesg n$' /root/.profile && sed -i 's/^mesg n$/tty -s \\&\\& mesg n/g' /root/.profile && echo 'Ignore the previous error about stdin not being a tty. Fixing it now...') || exit 0;"
   end
 
