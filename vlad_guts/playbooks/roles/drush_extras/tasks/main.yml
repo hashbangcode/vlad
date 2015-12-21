@@ -1,5 +1,19 @@
 ---
 
+# Installed Drush version
+
+- name: Get installed Drush version number
+  shell: drush --version --pipe
+  register: vlad_drush_installed_version
+  changed_when: false
+
+- name: Establish installed Drush major version number
+  set_fact:
+    vlad_drush_installed_version_major: "{{ vlad_drush_installed_version.stdout | truncate(1, true, '') | int }}"
+
+- debug: var=vlad_drush_installed_version_major
+
+
 # Directories
 
 - name: Prepare vlad_aux subdirectories
@@ -21,30 +35,41 @@
     recurse: yes
 
 
+# drush init (drush versions >= 8)
+
+- name: Run drush init if installed Drush version >= 8
+  shell: drush init -y
+  when: "{{ vlad_drush_installed_version_major | version_compare('8', '>=') }}"
+
+
+# .drush_bashrc (drush versions < 8)
+
+- name: Copy example .drush_bashrc file to user directory
+  command: >
+    cp {{ drush_install_path }}/examples/example.bashrc /home/{{ user }}/.drush_bashrc
+    creates=/home/{{ user }}/.drush_bashrc
+  when: "{{ vlad_drush_installed_version_major | version_compare('8', '<') }}"
+
+- name: Source user .drush_bashrc from .bashrc
+  lineinfile:
+    dest: /home/{{ user }}/.bashrc
+    line: ". ~/.drush_bashrc"
+  when: "{{ vlad_drush_installed_version_major | version_compare('8', '<') }}"
+
+
 # drushrc.php
 
-- name: Create drushrc.php file
+- name: Add custom drushrc.php file
   template:
     src: drushrc.php.j2
     dest: /home/{{ user }}/.drush/drushrc.php
   notify: drush cc drush
 
 
-# .drush_bashrc
-
-- name: Copy example .drush_bashrc file to user directory
-  command: >
-    cp {{ drush_install_path }}/examples/example.bashrc /home/{{ user }}/.drush_bashrc
-    creates=/home/{{ user }}/.drush_bashrc
-
-- name: Source user .drush_bashrc from .bashrc
-  lineinfile:
-    dest: /home/{{ user }}/.bashrc
-    line: ". ~/.drush_bashrc"
-
-
 # Drush commands
 
+# @TODO This task needs to be aware of which major version of Drupal we'll be using
+# (it could be run outside of the context of an existing codebase).
 - name: Download additional Drush commands
   command: drush dl {{ item.name }}{{ item.version }} --destination=/home/{{ user }}/.drush/commands/{{ item.name }} --yes
     creates=/home/{{ user }}/.drush/commands/{{ item.name }}

@@ -1,28 +1,28 @@
 ---
 
-# This is based on geerlingguy's Drush role [2015/07/27] but with tweaks:
-#
-# - 'sudo' specified at the task level if required
-# - Doesn't clone the entire Drush repo (depth)
-# - Role dependencies have been removed
-# - Added 'drush_composer_path' var to fill in for missing dependencies
-#
+# Attempt to install via packaged download first if preferred.
 # ------------------------------------------------------------------------------
 
-- name: Clone Drush from GitHub
-  git:
-    repo: https://github.com/drush-ops/drush.git
-    dest: "{{ drush_install_path }}"
-    version: "{{ drush_version }}"
-    update: "{{ drush_keep_updated }}"
-    depth: 1
+- name: Prepare install path
+  file:
+    path: "{{ drush_install_path }}"
+    state: directory
+  when: drush_prefer_packaged_download
   sudo: true
 
-- name: Install Drush dependencies with Composer
-  shell: >
-    {{ drush_composer_path }} install --prefer-source --no-interaction
-    chdir={{ drush_install_path }}
-    creates={{ drush_install_path }}/vendor/autoload.php
+- name: Check if requested Drush package file exists for download
+  # Returns HTTP status code (string) of dynamically created file path
+  command: curl -s -o /dev/null -w "%{http_code}" https://github.com/drush-ops/drush/releases/download/{{ drush_version }}/drush.phar
+  register: drush_phar_http_code
+  changed_when: false
+  when: drush_prefer_packaged_download
+
+- name: Download packaged Drush release
+  get_url:
+    url: https://github.com/drush-ops/drush/releases/download/{{ drush_version }}/drush.phar
+    dest: "{{ drush_install_path }}/drush"
+    mode: "a+x"
+  when: drush_prefer_packaged_download and drush_phar_http_code.stdout == "302"
   sudo: true
 
 - name: Create drush symlink
@@ -30,10 +30,13 @@
     src: "{{ drush_install_path }}/drush"
     dest: "{{ drush_path }}"
     state: link
+  when: drush_prefer_packaged_download and drush_phar_http_code.stdout == "302"
   sudo: true
 
-- name: Run drush command to finish setup
-  command: "{{ drush_path }}"
-  register: drush_result
-  changed_when: "'Execute a drush command' not in drush_result.stdout"
+
+# Install via Composer if a packaged download didn't exist or is not preferred.
+# ------------------------------------------------------------------------------
+
+- include: global_drush_via_composer.yml
+  when: drush_prefer_packaged_download == false or drush_phar_http_code.stdout != "302"
   sudo: true
