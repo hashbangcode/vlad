@@ -14,6 +14,12 @@
       fail: msg="The minimum Ansible version required to run Vlad is 1.8.4. To upgrade run 'sudo pip install --upgrade ansible'."
       when: ansible_version.major|int == 1 and ansible_version.minor|int < 9 and ansible_version.revision|int < 4
 
+#    - name: Dump all vars
+#      action: template src=dump.j2 dest=./ansible.all
+#      delegate_to: 127.0.0.1
+#      always_run: yes
+#      tags: test
+
     # Run some tasks to de-provision the box if needed
 
     - name: Ensure Varnish is stopped
