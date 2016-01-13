@@ -14,7 +14,7 @@
     when: local_ip_address is not defined
 
   - name: local actions | create local host.ini file
-    template: src=templates/host.j2 dest=../host.ini
+    template: src=templates/host.j2 dest="{{ inventory_dir }}/host.ini"
     delegate_to: 127.0.0.1
 
   # SSH identities
