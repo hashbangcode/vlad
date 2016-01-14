@@ -61,7 +61,6 @@
     tags: mailcatcher
     sudo: true
     when: mailcatcher_install
-    ignore_errors: yes
 
   - name: kill mailcatcher (via pid)
     shell: pidof ruby | xargs -r sudo kill -9
