@@ -158,6 +158,8 @@
 
     - { role: aberdeencloud_cli, tags: ["hosting_tools aberdeen_cli"], when: "aberdeen_cli_install" }
 
+    - { role: mailhog, tags: ["mailhog"], when: "mailhog_install" }
+
   post_tasks:
 
     - name: get current Vlad version

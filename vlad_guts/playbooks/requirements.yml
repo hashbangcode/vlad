@@ -25,3 +25,7 @@
 - src: https://github.com/hashbangcode/ansible-role-solr
   version: 1.0.0.beta.2
   name: solr
+
+- src: https://github.com/geerlingguy/ansible-role-mailhog
+  version: 1.0.3
+  name: mailhog
