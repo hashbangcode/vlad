@@ -18,7 +18,7 @@
 webserver_hostname: 'drupal.local'
 webserver_hostname_aliases:
 - 'www.drupal.local'
-#  - 'www.example.com'
+# - 'www.example.com'
 
 # Vagrantfile configuration
 boxipaddress: "192.168.100.100"
