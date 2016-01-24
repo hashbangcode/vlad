@@ -53,6 +53,7 @@ vlad_guts/merged_user_settings.yml
 vlad_guts/playbooks/ext_roles
 vlad_guts/vlad_local_settings.yml
 vlad_guts/vlad_settings.yml
+ansible.all
 
 # Default & common shared web root folder names
 docroot/*
