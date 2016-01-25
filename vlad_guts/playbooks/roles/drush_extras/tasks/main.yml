@@ -11,8 +11,6 @@
   set_fact:
     vlad_drush_installed_version_major: "{{ vlad_drush_installed_version.stdout | truncate(1, true, '') | int }}"
 
-- debug: var=vlad_drush_installed_version_major
-
 
 # Directories
 
@@ -75,12 +73,6 @@
     creates=/home/{{ user }}/.drush/commands/{{ item.name }}
   with_items: drush_install_commands
   notify: drush cc drush
-
-
-# Drush aliases
-
-- include: drush_aliases.yml
-  tags: drush_aliases
 
 
 # Drush make
