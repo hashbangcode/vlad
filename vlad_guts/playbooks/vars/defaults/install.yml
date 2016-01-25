@@ -46,3 +46,5 @@ solr_install: false
 varnish_install: false # If you turn this off then make sure you set the http_port to be 80.
 
 xhprof_install: false
+
+vlad_debug: false

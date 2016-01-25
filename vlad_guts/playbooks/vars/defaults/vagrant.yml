@@ -15,7 +15,7 @@ boxipaddress: "192.168.100.100"
 boxname: "vlad"
 
 # vm_cpus can be the number of CPUs, or "auto".
-vm_cpus: 1
+vm_cpus: 2
 
 # vm_memory can be explicit Megs, or "auto".
 vm_memory: 1024
@@ -40,10 +40,6 @@ synced_folder_type: 'nfs'
 # Set the level of verbosity that Ansible will use
 # This can be one of "", "v", "vv", "vvv", or "vvvv"
 ansible_verbosity: ""
-
-# CPUs and memory to be allocated to the guest VM from the host machine
-vm_cpus: 2
-vm_memory: 1024
 
 # The OS that vlad will use. This can be:
 # - "centos67"

@@ -63,6 +63,7 @@ vlad_guts/playbooks/ext_roles
 settings
 vlad_guts/vlad_local_settings.yml
 vlad_guts/vlad_settings.yml
+ansible.all
 
 
 # Remove everything below this point for your own projects

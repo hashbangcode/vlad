@@ -152,10 +152,12 @@
 
     - { role: aberdeencloud_cli, tags: ["hosting_tools aberdeen_cli"], when: "aberdeen_cli_install" }
 
+    - { role: vlad_debug, tags: ["vlad_debug"], when: "vlad_debug" }
+
   post_tasks:
 
     - name: get current Vlad version
-      command: cat ../VERSION.txt
+      command: cat {{ inventory_dir }}/VERSION.txt
       delegate_to: 127.0.0.1
       register: vlad_version
       changed_when: False
