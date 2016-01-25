@@ -330,7 +330,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Run an Ansible playbook on setting the box up
-  config.trigger.before [:up, :resume], :stdout => true, :force => true do
+  config.trigger.before [:up], :stdout => true, :force => true do
     info "Executing 'up' setup trigger"
       if is_windows
         info "Creating " + vlad_hosts_file
