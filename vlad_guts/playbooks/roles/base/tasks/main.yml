@@ -1,5 +1,15 @@
 ---
 
+- name: Combine apt packages
+  set_fact:
+    vlad_all_packages: "{{ vlad_apt_packages + vlad_extra_packages }}"
+  when: ansible_os_family == "Debian"
+
+- name: Combine yum packages
+  set_fact:
+    vlad_all_packages: "{{ vlad_yum_packages + vlad_extra_packages }}"
+  when: ansible_os_family == "RedHat"
+
 - name: Ensure certain required vlad_aux subdirectories exist
   file: path=/var/www/site/vlad_aux/{{ item }} state=directory mode=0777
   sudo: true

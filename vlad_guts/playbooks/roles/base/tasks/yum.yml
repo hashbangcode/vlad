@@ -10,10 +10,4 @@
   yum: pkg={{ item }} state=installed
   tags: yum
   sudo: true
-  with_items:
-    - gcc
-    - gcc-c++
-    - unzip
-    - curl
-    - vim
-    - make
+  with_items: vlad_all_packages
