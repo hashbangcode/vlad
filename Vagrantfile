@@ -336,7 +336,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         info "Creating " + vlad_hosts_file
         FileUtils.cp(dir_ancestors[0] + "/vlad_guts/playbooks/templates/host.j2 ", vlad_hosts_file)
       else
-        run 'ansible-playbook -i ' + boxipaddress + ', ' + dir_ancestors[0] + '/vlad_guts/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        run 'ansible-playbook -i ' + boxipaddress + ', ' + dir_ancestors[0] + '/vlad_guts/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '" --extra-vars "vlad_local_inventory_dir=' + dir_ancestors[0] + '/vlad_guts"'
       end
   end
 
