@@ -17,8 +17,12 @@
     set_fact: inventory_dir=".."
     when: inventory_dir is not defined
 
+  - name: set local inventory directory
+    set_fact: vlad_host_inventory_dir='{{ vlad_local_inventory_dir }}'
+    delegate_to: 127.0.0.1
+
   - name: local actions | create local host.ini file
-    template: src=templates/host.j2 dest="{{ inventory_dir }}/host.ini"
+    template: src=templates/host.j2 dest="{{ vlad_host_inventory_dir }}/host.ini"
     delegate_to: 127.0.0.1
 
   # SSH identities
