@@ -390,7 +390,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   else
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = dir_ancestors[0] + "/vlad_guts/playbooks/site.yml"
-      ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       ansible.host_key_checking = false
       ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
       ansible.inventory_path = 'vlad_guts/host.ini'
@@ -417,7 +416,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       else
         config.vm.provision "ansible" do |ansible|
           ansible.playbook = custom_play_full_path
-          ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
           ansible.host_key_checking = false
           ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
           ansible.inventory_path = 'vlad_guts/host.ini'
