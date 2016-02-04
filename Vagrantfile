@@ -37,7 +37,7 @@ loaded_vlad_settings = false
 settings_files.each do |type, paths|
  paths.each do |file|
    if File.exists?(file)
-     puts "Found #{type} file: #{file}"
+     puts "Found #{type} file: #{file}" unless ENV['SUPPRESS_INITIAL_OUTPUT']
      loaded_vlad_settings = true
      settings_to_merge.push file
      break
@@ -55,7 +55,7 @@ elsif ENV['VAGRANT_DOTFILE_PATH'].nil?
   # has set it manually.
   dotfile_path = File.join(File.dirname(settings_to_merge[0]), '.vagrant')
   ENV['VAGRANT_DOTFILE_PATH'] = dotfile_path
-  puts "Adjusting Vagrant environment and re-initializing"
+  ENV['SUPPRESS_INITIAL_OUTPUT'] = 'TRUE'
   exec "vagrant #{ARGV.join(' ')}"
 end
 
