@@ -13,11 +13,7 @@
     fail: msg="The system may not be provisioned according to the CMDB status."
     when: local_ip_address is not defined
 
-  - name: local actions | define fallback inventory directory
-    set_fact: inventory_dir=".."
-    when: inventory_dir is not defined
-
-  - name: set local inventory directory
+  - name: local actions | set local inventory directory
     set_fact: vlad_host_inventory_dir='{{ vlad_local_inventory_dir }}'
     delegate_to: 127.0.0.1
 
