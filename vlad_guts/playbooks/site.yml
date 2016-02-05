@@ -157,7 +157,7 @@
   post_tasks:
 
     - name: get current Vlad version
-      command: cat vlad_guts/VERSION.txt
+      command: cat {{ inventory_dir }}/VERSION.txt
       delegate_to: 127.0.0.1
       register: vlad_version
       changed_when: False
