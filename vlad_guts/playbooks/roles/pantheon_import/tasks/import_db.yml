@@ -30,5 +30,5 @@
 
 - name: db | Drop vladdb database
   mysql_db: name=vladdb state=absent login_user='{{ dbuser }}' login_password='{{ dbpass }}'
-  sudo: yes
+  become: yes
   when: vlad_pantheon_import_haz_mysql.stat.exists is defined and vlad_pantheon_import_haz_mysql.stat.exists == True

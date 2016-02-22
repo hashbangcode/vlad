@@ -5,69 +5,69 @@
    - apache2
    - apache2-mpm-prefork
    - apache2-utils
-  sudo: true
+  become: true
 
 - name: disable the apache default site
   command: a2dissite default removes=/etc/apache2/sites-enabled/000-default
-  sudo: true
+  become: true
   notify:
     - restart apache2
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
 
 - name: disable the apache default site
   command: a2dissite 000-default.conf removes=/etc/apache2/sites-enabled/000-default.conf
-  sudo: true
+  become: true
   notify:
     - restart apache2
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
 
 - name: add custom configuration for ubuntu 12
   template: src=debian_apache_httpdconf.j2 dest=/etc/apache2/httpd.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
 
 - name: add custom configuration for ubuntu 14 (1/2)
   template: src=debian_apache_httpdconf.j2 dest=/etc/apache2/conf-available/http_servername.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
 
 - name: add custom configuration for ubuntu 14 (2/2)
   command: a2enconf http_servername creates=/etc/apache2/conf-enabled/http_servername.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int >= 14
 
 - name: change port configuration
   template: src=debian_apache_ports.j2 dest=/etc/apache2/ports.conf
-  sudo: true
+  become: true
 
 - name: add vhost for site to sites-available folder
   template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: enable the default site
   command: a2ensite {{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: get iptables rules
   shell: iptables -L
   register: iptablesrules
-  sudo: true
+  become: true
   always_run: true
   changed_when: false
 
 - name: add apache iptable rule
   command: iptables -I INPUT 1 -p tcp --dport {{ http_port }} -j ACCEPT -m comment --comment "webhost"
-  sudo: true
+  become: true
   when: iptablesrules.stdout.find("webhost") == -1
   notify:
    - save iptables
 
 - name: enable mod rewrite module
   command: a2enmod rewrite creates=/etc/apache2/mods-enabled/rewrite.load
-  sudo: true
+  become: true
   notify:
     - restart apache2

@@ -1,5 +1,5 @@
 ---
 - name: restart mysql
   command: service {{ mysql_service_name }} restart
-  sudo: true
+  become: true
   changed_when: false

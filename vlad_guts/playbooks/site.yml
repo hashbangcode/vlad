@@ -20,17 +20,17 @@
       service: name=varnish state=stopped
       when: varnish_install == false
       ignore_errors: yes
-      sudo: true
+      become: true
 
     - name: Ensure Varnish is removed
       apt: pkg=varnish state=absent
       when: varnish_install == false and ansible_os_family == "Debian"
-      sudo: true
+      become: true
 
     - name: Ensure Varnish is removed
       yum: pkg=varnish state=absent
       when: varnish_install == false and ansible_os_family == "RedHat"
-      sudo: true
+      become: true
 
     # Run some pre-provisioning tests to ensure the system will function when provisioned.
 

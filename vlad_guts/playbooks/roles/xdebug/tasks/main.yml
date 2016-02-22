@@ -11,4 +11,4 @@
     path: /tmp/xdebug_profiles
     state: directory
     mode: 777
-  sudo: true
+  become: true

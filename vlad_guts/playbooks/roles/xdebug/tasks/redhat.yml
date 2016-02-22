@@ -3,21 +3,21 @@
   yum: pkg=php-pecl-xdebug state=installed
   register: xdebug_installed
   when: php_version == '5.3'
-  sudo: true
+  become: true
 
 - name: Install Xdebug PHP component
   yum: pkg=php54-pecl-xdebug state=installed
   register: xdebug_installed
   when: php_version == '5.4'
-  sudo: true
+  become: true
 
 - name: Get first two lines of /etc/php.d/xdebug.ini
   command: head -n 2 /etc/php.d/xdebug.ini
   when: xdebug_installed.changed
   register: xdebug_first_line
-  sudo: true
+  become: true
 
 - name: Update Xdebug configuration file
   template: src=php_apache2_xdebug.ini.j2 dest=/etc/php.d/xdebug.ini
   when: xdebug_installed.changed
-  sudo: true
+  become: true

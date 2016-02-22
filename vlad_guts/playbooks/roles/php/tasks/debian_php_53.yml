@@ -1,19 +1,19 @@
 ---
 - name: change php apache2 date_timezone
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?date_timezone =" insertafter="^[#|;]?date_timezone =" line="date_timezone = {{ php_date_timezone }}"
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: change php cli date_timezone
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?date_timezone =" insertafter="^[#|;]?date_timezone =" line="date_timezone = {{ php_date_timezone }}"
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: change APC configuration file apc.ini
   template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/conf.d/apc.ini
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
@@ -24,12 +24,12 @@
 
 - name: install PECL uploadprogress
   command: pecl install uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
-  sudo: true
+  become: true
   when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
 
 - name: add PECL uploadprogress apache php.ini setting
   lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=uploadprogress.so"
-  sudo: true
+  become: true
   when: php_pecl_uploadprogress
   notify:
     - restart apache2

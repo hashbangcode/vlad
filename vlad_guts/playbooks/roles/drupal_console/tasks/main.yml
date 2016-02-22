@@ -12,7 +12,7 @@
     src: "/home/{{ user }}/console.phar"
     dest: "{{ drupal_console_install_location }}"
     state: link
-  sudo: true
+  become: true
   when: drupal_console_file.stat.exists == false
 
 - name: Update Drupal Console to latest version (if configured).

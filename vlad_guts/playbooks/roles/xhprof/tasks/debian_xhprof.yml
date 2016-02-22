@@ -6,7 +6,7 @@
    - gcc
    - make
    - python-mysqldb
-  sudo: true
+  become: true
 
 - name: check that PECL xhprof is installed
   shell: pecl list | grep xhprof | wc -l
@@ -15,38 +15,38 @@
 - name: set pecl preferred state to beta
   command: pecl config-set preferred_state beta creates=/usr/lib/php5/20090626/xhprof.so
   when: php_version == '5.3'
-  sudo: true
+  become: true
 
 - name: install xhprof
   command: pecl install xhprof creates=/usr/lib/php5/20090626/xhprof.so
   when: php_version == '5.3' and pecl_xhprof_installed.stdout == '0'
-  sudo: true
+  become: true
 
 - name: set pecl preferred state to stable
   command: pecl config-set preferred_state stable creates=/usr/lib/php5/20090626/xhprof.so
   when: php_version == '5.3'
-  sudo: true
+  become: true
 
 - name: set pecl preferred state to beta
   command: pecl config-set preferred_state beta creates=/usr/lib/php5/20100525/xhprof.so
   when: php_version != '5.3'
-  sudo: true
+  become: true
 
 - name: install xhprof
   command: pecl install xhprof creates=/usr/lib/php5/20100525/xhprof.so
   when: php_version != '5.3' and pecl_xhprof_installed.stdout == '0'
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: set pecl preferred state to stable
   command: pecl config-set preferred_state stable creates=/usr/lib/php5/20100525/xhprof.so
   when: php_version != '5.3'
-  sudo: true
+  become: true
 
 - name: setup xhprof ini files
   template: src=xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
@@ -57,7 +57,7 @@
     update: no
     depth: 1
     version: master
-  sudo: true
+  become: true
 
 - name: create xhprof_html application database
   mysql_db: name=xhprof state=present login_password={{ mysql_root_password }} login_user=root collation=utf8_general_ci
@@ -71,26 +71,26 @@
 
 - name: ensure directory /var/www/xhprof_html/xhprof_lib exists
   file: path=/var/www/xhprof_html/xhprof_lib state=directory
-  sudo: true
+  become: true
 
 - name: copy SQL install script
   copy: src=install.mysql dest=/var/www/xhprof_html/install.sql
-  sudo: true
+  become: true
 
 - name: copy configuration file
   template: src=xhprof_config_php.j2 dest=/var/www/xhprof_html/xhprof_lib/config.php
-  sudo: true
+  become: true
 
 - name: run SQL install script
   shell: mysql --user={{ dbuser }} --password={{ dbpass }} xhprof < /var/www/xhprof_html/install.sql
-  sudo: true
+  become: true
 
 - name: check virtual host for xhprof include
   command: cat /etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
   register: xhprof_include_present
   changed_when: false
   always_run: yes
-  sudo: true
+  become: true
 
 - name: add virtual server item if include not found
   lineinfile: dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
@@ -98,24 +98,24 @@
     - '  php_value auto_prepend_file /var/www/xhprof_html/external/header.php'
     - '</VirtualHost>'
   when: xhprof_include_present.stdout.find('auto_prepend') == -1
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: add vhost for xhprof.{{ webserver_hostname }}
   template: src=apache_xhprof_vhost.j2 dest=/etc/apache2/sites-available/xhprof.{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
 - name: enable the xhprof site
   command: a2ensite xhprof.{{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/xhprof.{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
 - name: ensure xhprof directory permissions
   file: path=/var/www/xhprof_html mode=0777 recurse=yes
-  sudo: true
+  become: true

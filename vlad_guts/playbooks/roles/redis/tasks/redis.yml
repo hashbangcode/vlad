@@ -1,64 +1,64 @@
 ---
 - name: install redis
   apt: pkg=redis-server state=installed
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
 
 - name: install redis
   yum: pkg=redis state=installed
-  sudo: true
+  become: true
   when: ansible_os_family == "RedHat"
 
 - name: ensure redis is started on ubuntu 12
   service: name=redis state=started
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 12
 
 - name: ensure redis is started on ubuntu 14
   service: name=redis-server state=started
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian" and ansible_lsb.major_release|int <= 14
 
 - name: ensure redis is started on ubuntu 14
   service: name=redis state=started
-  sudo: true
+  become: true
   when: ansible_os_family == "RedHat"
 
 - name: set redis port
   lineinfile: dest=/etc/redis/redis.conf regexp="^port = " insertafter="^port = " line="port {{ redis_port }}"
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
 
 - name: set redis port
   lineinfile: dest=/etc/redis.conf regexp="^port = " insertafter="^port = " line="port {{ redis_port }}"
-  sudo: true
+  become: true
   when: ansible_os_family == "RedHat"
 
 - name: check to see if the PECL Redis extension has been installed
   stat: path=/usr/lib/php5/20121212/redis.so
   register: redis_so_file
-  sudo: yes
+  become: yes
 
 - name: install redis PHP extension (if it hasn't already been done)
   command: pecl install redis
-  sudo: true
+  become: true
   when: redis_so_file.stat.exists == false
 
 - name: add PECL Redis to apache php.ini setting
   lineinfile: dest=/etc/php.ini state=present line="extension=redis.so"
-  sudo: true
+  become: true
   when: ansible_os_family == "RedHat"
   notify:
     - restart httpd
 
 - name: add PECL Redis to apache php.ini setting
   lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=redis.so"
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
 - name: add PECL Redis to apache php.ini setting
   lineinfile: dest=/etc/php5/cli/php.ini state=present line="extension=redis.so"
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"

@@ -2,7 +2,7 @@
 - name: python | apt-get install python and pip
   apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
   tags: python
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
   with_items:
    - python
@@ -11,7 +11,7 @@
 - name: python | yum install python, pip, and selinux bindings
   yum: pkg={{ item }} state=installed
   tags: python
-  sudo: true
+  become: true
   when: ansible_os_family == "RedHat"
   with_items:
    - python

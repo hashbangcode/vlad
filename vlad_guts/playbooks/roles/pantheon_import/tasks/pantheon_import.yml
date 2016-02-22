@@ -39,7 +39,7 @@
   with_items:
     - db_io
     - db_io/halt_destroy
-  sudo: true
+  become: true
 
 - include: import_db.yml
   when: vlad_pantheon_import_include_db is defined and vlad_pantheon_import_include_db and vlad_pantheon_import_db_exists is defined and vlad_pantheon_import_db_exists.stat.exists == false

@@ -19,7 +19,7 @@
     path: /var/www/site/vlad_aux/{{ item }}
     state: directory
     mode: 0777
-  sudo: true
+  become: true
   with_items:
     - drush_backups
     - db_io/drush_dumps

@@ -1,7 +1,7 @@
 ---
 - name: set up directories (with logs directory)
   file: path=/var/www/site/logs state=directory recurse=yes
-  sudo: true
+  become: true
 
 # Include the appropriate OS specific setups.
 - include: debian_apache.yml
@@ -26,4 +26,4 @@
 
 - name: add www-data user to dialout group
   user: name=www-data groups=dialout append=yes
-  sudo: true
+  become: true
