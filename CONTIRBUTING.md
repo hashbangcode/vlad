@@ -10,12 +10,12 @@ Issues
 
 If you find a bug or want to improve Vlad in some way then open up an [issue][issues].
 
+The `dev` branch contains the latest development code, so please test your bug or improvement there first to see if it has already been fixed, before you take the time to investigate it yourself.
+
 Pull Requests
 -------------
 
 Pull requests to the project are welcome but **should not** be done to the `master` branch. All pull requests **must** be created against the `dev` branch. 
-
-The `dev` branch contains the latest development code, so please test your bug there first to see if it has already been fixed, before you take the time to investigate it yourself. 
 
 Tests
 -----
