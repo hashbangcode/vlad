@@ -8,7 +8,7 @@ If you haven't already, please take a look at the [Vlad documentation][vlad-docs
 Issues
 ------
 
-If you find a bug or want to improve Vlad in some way then open up an [issue](https://github.com/hashbangcode/vlad/issues).
+If you find a bug or want to improve Vlad in some way then open up an [issue][issues].
 
 Pull Requests
 -------------
@@ -28,11 +28,11 @@ Standards
 The following is a list of standards that should be adhered to when contributing to Vlad.
 
 - [Task naming convention][naming_convention]
-
 - [Task attribute order convention][order_convention]
 
 
 [vlad-docs]: http://vlad-docs.readthedocs.org/
+[issues]: https://github.com/hashbangcode/vlad/issues
 [naming_convention]: http://vlad-docs.readthedocs.org/en/latest/contributing/naming_convention/
 [order_convention]: http://vlad-docs.readthedocs.org/en/latest/contributing/order_convention/
 
