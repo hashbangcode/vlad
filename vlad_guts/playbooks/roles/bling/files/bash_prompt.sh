@@ -92,7 +92,7 @@ bash_prompt() {
 
    [ $UID -eq "0" ] && UC=$R     # root's color
 
-   PS1="${TITLEBAR}\n${EMK}[${UC}\u${EMK}@${MC}\h ${PC}\${NEW_PWD}${GC}\${GIT_PS1}${DC}\${DRUSH_PS1}${EMK}]\n${UC}\\$ ${NONE}"
+   PS1="${TITLEBAR}\n${EMK}✝ ${UC}\u${EMK}@${MC}\h ${EMK}✝${PC}\${NEW_PWD}${GC}\${GIT_PS1}${DC}\${DRUSH_PS1}\n${UC}\\$ ${NONE}"
    # without colors: PS1="[\u@\h \${NEW_PWD}\${GIT_PS1}\${DRUSH_PS1}]\\$ "
    # extra backslash in front of closing \$ to make bash colorize the prompt
 }
