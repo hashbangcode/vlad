@@ -1,7 +1,14 @@
 ---
 
-- name: Apotropaic shell prompt
+- name: Enable useful bash prompt
   lineinfile:
     dest: /home/{{ user }}/.bashrc
-    line: export PS1="✝ {{ boxname }} ✝ \w $ "
+    line: '[[ -f "${HOME}/.bash_prompt" ]] && . "${HOME}/.bash_prompt"'
+  when: bling_shell_prompt
+
+- name: Copy useful bash prompt
+  copy:
+    src: bash_prompt.sh
+    dest: /home/{{ user }}/.bash_prompt
+    force: no
   when: bling_shell_prompt
