@@ -46,7 +46,7 @@ bash_prompt_command() {
 bash_prompt() {
    case $TERM in
       xterm*|rxvt*)
-         local TITLEBAR='\[\033]0;\u:${NEW_PWD}${GIT_PS1}${DRUSH_PS1}\007\]';
+         local TITLEBAR='\[\033]0;\h:${NEW_PWD}${GIT_PS1}${DRUSH_PS1}\007\]';
          ;;
       *)
          local TITLEBAR="";
