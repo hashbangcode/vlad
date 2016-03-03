@@ -1,3 +1,4 @@
 ---
 
 bling_shell_prompt: true
+bling_shell_prompt_git_upstream: false
