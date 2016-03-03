@@ -1,16 +1,15 @@
 ---
 
-- name: Apotropaic bash prompt
-  lineinfile:
-    dest: /home/{{ user }}/.bashrc
-    line: '[[ -f "${HOME}/.bash_prompt" ]] && . "${HOME}/.bash_prompt"'
-  when: bling_shell_prompt
-
-- name: Copy Apotropaic useful bash prompt
+- name: Copy apotropaic .bash_prompt file
   copy:
     src: bash_prompt.sh
     dest: /home/{{ user }}/.bash_prompt
-    force: no
+  when: bling_shell_prompt
+
+- name: Enable apotropaic bash prompt
+  lineinfile:
+    dest: /home/{{ user }}/.bashrc
+    line: '[[ -f "${HOME}/.bash_prompt" ]] && . "${HOME}/.bash_prompt"'
   when: bling_shell_prompt
 
 - name: Configure bash prompt git hint
