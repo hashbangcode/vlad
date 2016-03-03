@@ -39,6 +39,14 @@
   shell: drush init -y
   when: "{{ vlad_drush_installed_version_major | version_compare('8', '>=') }}"
 
+# drush bash completion and prompt (drush versions < 8)
+
+- name: Enable bash completion and prompt for Drush version < 8
+  command: >
+    cp -T {{ drush_install_path }}/drush.complete.sh /etc/bash_completion.d/drush
+    creates=/etc/bash_completion.d/drush
+  when: "{{ vlad_drush_installed_version_major | version_compare('8', '<') }}"
+  become: true
 
 # .drush_bashrc (drush versions < 8)
 

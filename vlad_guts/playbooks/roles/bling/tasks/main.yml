@@ -1,7 +1,20 @@
 ---
 
-- name: Apotropaic shell prompt
+- name: Apotropaic bash prompt
   lineinfile:
     dest: /home/{{ user }}/.bashrc
-    line: export PS1="✝ {{ boxname }} ✝ \w $ "
+    line: '[[ -f "${HOME}/.bash_prompt" ]] && . "${HOME}/.bash_prompt"'
+  when: bling_shell_prompt
+
+- name: Copy Apotropaic useful bash prompt
+  copy:
+    src: bash_prompt.sh
+    dest: /home/{{ user }}/.bash_prompt
+    force: no
+  when: bling_shell_prompt
+
+- name: Configure bash prompt git hint
+  lineinfile:
+    dest: /home/{{ user }}/.bashrc
+    line: export GIT_PS1_SHOWUPSTREAM={{ bling_shell_prompt_git_upstream | default('', true) }}
   when: bling_shell_prompt
