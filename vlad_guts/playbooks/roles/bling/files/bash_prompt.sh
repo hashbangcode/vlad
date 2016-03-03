@@ -85,16 +85,18 @@ bash_prompt() {
    local BGC="\[\033[46m\]";
    local BGW="\[\033[47m\]";
 
+   local AC=$EMK;  # apotropaic symbol color
    local UC=$G;    # user name's color
    local MC=$C;    # machine name's color
    local PC=$EMB;  # path's color
    local GC=$EMM;  # git information color
    local DC=$EMY;  # Drupal information color
 
+   local APOT='✝'; # apotropaic symbol
 
    [ $UID -eq "0" ] && UC=$R     # root's color
 
-   PS1="${TITLEBAR}\n${EMK}✝ ${UC}\u${EMK}@${MC}\h ${EMK}✝${PC}\${NEW_PWD}${GC}\${GIT_PS1}${DC}\${DRUSH_PS1}\n${UC}\\$ ${NONE}"
+   PS1="${TITLEBAR}\n${AC}${APOT} ${UC}\u${EMK}@${MC}\h ${AC}${APOT} ${PC}\${NEW_PWD}${GC}\${GIT_PS1}${DC}\${DRUSH_PS1}\n${UC}\\$ ${NONE}"
    # without colors: PS1="[\u@\h \${NEW_PWD}\${GIT_PS1}\${DRUSH_PS1}]\\$ "
    # extra backslash in front of closing \$ to make bash colorize the prompt
 }
