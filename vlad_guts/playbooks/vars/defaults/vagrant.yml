@@ -15,10 +15,10 @@ boxipaddress: "192.168.100.100"
 boxname: "vlad"
 
 # vm_cpus can be the number of CPUs, or "auto".
-vm_cpus: 2
+vm_cpus: "auto"
 
-# vm_memory can be explicit Megs, or "auto".
-vm_memory: 1024
+# vm_memory can be explicit Megs (integer), or "auto".
+vm_memory: "auto"
 
 # Chipset
 vm_chipset: 'ich9'
