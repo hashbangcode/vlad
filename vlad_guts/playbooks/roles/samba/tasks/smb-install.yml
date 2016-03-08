@@ -14,11 +14,11 @@
 
 - name: Copy Vlad shared folders into smb-vlad.conf
   template: dest=/etc/samba/smb-vlad.conf src=smb-vlad.j2
-  sudo: true
+  become: true
 
 - name: Include Vlad shared folders in smb.conf
   lineinfile: dest=/etc/samba/smb.conf line="include=/etc/samba/smb-vlad.conf"
-  sudo: true
+  become: true
   notify: restart smbd
 
 - name: Creates docroot directory

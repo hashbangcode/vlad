@@ -4,16 +4,10 @@
 
 - name: install epel
   command: rpm -ivh /home/{{ user }}/epel-release-6-8.noarch.rpm creates=/etc/yum.repos.d/epel.repo
-  sudo: true
+  become: true
 
 - name: yum | yum update and ensure core packages are installed
   yum: pkg={{ item }} state=installed
   tags: yum
-  sudo: true
-  with_items:
-    - gcc
-    - gcc-c++
-    - unzip
-    - curl
-    - vim
-    - make
+  become: true
+  with_items: vlad_all_packages

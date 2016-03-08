@@ -1,13 +1,13 @@
 ---
 - name: test | ensure Apache is running.
   service: name=apache2 state=restarted
-  sudo: true
+  become: true
   when: apache_install and ansible_os_family == "Debian"
   changed_when: false
 
 - name: test | ensure Apache is running.
   service: name=httpd state=restarted
-  sudo: true
+  become: true
   when: apache_install and ansible_os_family == "RedHat"
   changed_when: false
 
@@ -24,4 +24,4 @@
   failed_when: "apache_result.rc != 0"
   changed_when: false
   when: apache_install and ansible_os_family == "RedHat"
-  sudo: true
+  become: true

@@ -15,7 +15,7 @@
     tags: mysql
     when: mysql_install
     ignore_errors: yes
-    sudo: true
+    become: true
 
   - name: local actions destroy | ensure vlad_aux/db_io/halt_destroy/ exists
     file:
@@ -23,7 +23,7 @@
       state: directory
       mode: 0777
     when: vlad_db_dump_on_halt_destroy
-    sudo: true
+    become: true
 
   - name: local actions destroy | dump all databases
     mysql_db:
@@ -35,4 +35,4 @@
     with_items: dbname
     when: mysql_install and vlad_db_dump_on_halt_destroy
     ignore_errors: yes
-    sudo: true
+    become: true

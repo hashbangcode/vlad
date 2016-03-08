@@ -1,4 +1,4 @@
 ---
 - name: restart smbd
   service: name=smbd state=restarted
-  sudo: true
+  become: true

@@ -1,7 +1,7 @@
 ---
 - name: install munin
   apt: pkg={{ item }} state=installed
-  sudo: true
+  become: true
   with_items:
    - munin-common
    - munin-node
@@ -9,7 +9,7 @@
 
 - name: install munin
   yum: pkg={{ item }} state=installed
-  sudo: true
+  become: true
   with_items:
    - munin-common
    - munin-node
@@ -17,32 +17,32 @@
 
 - name: add munin node config
   template: src=munin_node.j2 dest=/etc/munin/munin-node.conf
-  sudo: true
+  become: true
 
 - name: get iptables rules
   shell: iptables -L
   register: iptablesrules
   always_run: yes
-  sudo: true
+  become: true
   changed_when: false
 
 - name: add munin iptables
   command: iptables -A INPUT -p tcp --dport 4949 -s {{ local_ipv4_address.ansible_facts.ansible_default_ipv4.address }} -j ACCEPT -m comment --comment "munin"
-  sudo: true
+  become: true
   when: iptablesrules.stdout.find("munin") == -1
   notify:
    - save iptables
 
 - name: add munin to startup
   command: update-rc.d munin-node defaults creates=/etc/rc0.d/K20munin-node
-  sudo: true
+  become: true
   notify:
    - restart munin-node
   when: ansible_os_family == "Debian"
 
 - name: add munin to startup
   command: chkconfig --add munin-node creates=/etc/rc0.d/K10munin-node
-  sudo: true
+  become: true
   notify:
    - restart munin-node
   when: ansible_os_family == "RedHat"

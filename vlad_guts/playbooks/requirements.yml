@@ -3,25 +3,29 @@
 # Keep these all in Git repo format for now please.
 
 - src: https://github.com/hashbangcode/ansible-role-aberdeencloud-cli
-  version: 1.0.0.beta.1
+  version: 1.0.0.beta.2
   name: aberdeencloud_cli
 
 - src: https://github.com/hashbangcode/ansible-role-pantheon-cli
-  version: 1.0.0.beta.4
+  version: 1.0.0.beta.5
   name: pantheon_cli
 
 - src: https://github.com/hashbangcode/ansible-role-imagemagick
-  version: 1.0.0.beta.1
+  version: 1.0.0.beta.2
   name: imagemagick
 
 - src: https://github.com/hashbangcode/ansible-role-sendmail
-  version: 1.0.0.beta.1
+  version: 1.0.0.beta.2
   name: sendmail
 
 - src: https://github.com/hashbangcode/ansible-role-tomcat
-  version: 1.0.0.beta.1
+  version: 1.0.0.beta.3
   name: tomcat
 
 - src: https://github.com/hashbangcode/ansible-role-solr
-  version: 1.0.0.beta.2
+  version: 1.0.0.beta.4
   name: solr
+
+- src: https://github.com/hashbangcode/ansible-role-drush
+  version: 1.0.0.beta.3
+  name: drush

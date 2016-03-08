@@ -1,34 +1,35 @@
 ---
 - name: apache_ssl | enable ssl module
   command: a2enmod ssl creates=/etc/apache2/mods-enabled/ssl.conf
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: apache_ssl | add vhost for ssl version of the site
   template: src=debian_apache_ssl_vhost.j2 dest=/etc/apache2/sites-available/{{ item.address }}_ssl.conf
   with_items: vlad_webserver_settings
-  sudo: true
+  become: true
+  template: src=debian_apache_ssl_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}_ssl.conf
   notify:
     - restart apache2
 
 - name: apache_ssl | enable the new site
   command: a2ensite {{ item.address }}_ssl.conf creates=/etc/apache2/sites-enabled/{{ item.address }}_ssl.conf
   with_items: vlad_webserver_settings
-  sudo: true
+  become: true
   notify:
     - restart apache2
 
 - name: get iptables rules
   shell: /sbin/iptables -L
   register: iptablesrules
-  sudo: true
+  become: true
   always_run: true
   changed_when: false
 
 - name: add apache iptable rule
   command: /sbin/iptables -I INPUT 1 -p tcp --dport 443 -j ACCEPT -m comment --comment "ssl"
-  sudo: true
+  become: true
   when: iptablesrules.stdout.find("ssl") == -1
   notify:
    - save iptables

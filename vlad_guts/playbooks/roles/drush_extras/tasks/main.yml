@@ -11,8 +11,6 @@
   set_fact:
     vlad_drush_installed_version_major: "{{ vlad_drush_installed_version.stdout | truncate(1, true, '') | int }}"
 
-- debug: var=vlad_drush_installed_version_major
-
 
 # Directories
 
@@ -21,7 +19,7 @@
     path: /var/www/vlad_aux/{{ item }}
     state: directory
     mode: 0777
-  sudo: true
+  become: true
   with_items:
     - drush_backups
     - db_io/drush_dumps
@@ -41,6 +39,14 @@
   shell: drush init -y
   when: "{{ vlad_drush_installed_version_major | version_compare('8', '>=') }}"
 
+# drush bash completion and prompt (drush versions < 8)
+
+- name: Enable bash completion and prompt for Drush version < 8
+  command: >
+    cp -T {{ drush_install_path }}/drush.complete.sh /etc/bash_completion.d/drush
+    creates=/etc/bash_completion.d/drush
+  when: "{{ vlad_drush_installed_version_major | version_compare('8', '<') }}"
+  become: true
 
 # .drush_bashrc (drush versions < 8)
 
@@ -75,12 +81,6 @@
     creates=/home/{{ user }}/.drush/commands/{{ item.name }}
   with_items: drush_install_commands
   notify: drush cc drush
-
-
-# Drush aliases
-
-- include: drush_aliases.yml
-  tags: drush_aliases
 
 
 # Drush make

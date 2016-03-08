@@ -10,7 +10,9 @@ before_install:
 install:
 
   # Install Ansible.
-  - pip install ansible
+  # TODO: Keep this at 1.9.4 until the following issue is resolved:
+  # https://github.com/ansible/ansible-modules-core/issues/2473
+  - pip install ansible==1.9.4
 
   # Install Ansible Lint
   - pip install ansible-lint

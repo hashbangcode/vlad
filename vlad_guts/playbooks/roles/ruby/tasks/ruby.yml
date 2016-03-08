@@ -1,7 +1,7 @@
 ---
 - name: ensure prerequisite packages are installed in RedHat
   yum: pkg={{ item }} state=installed
-  sudo: true
+  become: true
   with_items:
     - openssl-devel
     - readline-devel
@@ -10,7 +10,7 @@
 
 - name: ensure prerequisite packages are installed in Debian
   apt: pkg={{ item }} state=installed
-  sudo: true
+  become: true
   with_items:
     - libcurl4-openssl-dev
     - libreadline-dev

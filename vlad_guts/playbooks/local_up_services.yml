@@ -9,49 +9,49 @@
   tasks:
   - name: Ensure Varnish is running.
     service: name=varnish state=restarted
-    sudo: true
+    become: true
     when: varnish_install
     ignore_errors: yes
 
   - name: Ensure Apache is running.
     service: name=apache2 state=restarted
-    sudo: true
+    become: true
     when: apache_install and ansible_os_family == "Debian"
     ignore_errors: yes
 
   - name: Ensure Apache is running.
     service: name=httpd state=restarted
-    sudo: true
+    become: true
     when: apache_install and ansible_os_family == "RedHat"
     ignore_errors: yes
 
   - name: Ensure MySQL is running.
     command: service mysql restart
-    sudo: true
+    become: true
     when: mysql_install and ansible_os_family == "Debian"
     ignore_errors: yes
 
   - name: Ensure MySQL is running.
     command: service mysqld restart
-    sudo: true
+    become: true
     when: mysql_install and ansible_os_family == "RedHat"
     ignore_errors: yes
 
   - name: Ensure Redis is running.
     service: name=redis-server state=restarted
-    sudo: true
+    become: true
     when: redis_install
     ignore_errors: yes
 
   - name: Ensure Tomcat is running.
     service: name=tomcat6 state=restarted
-    sudo: true
+    become: true
     when: solr_install
     ignore_errors: yes
 
   - name: Ensure Munin Node is running
     service: name=munin-node state=restarted
-    sudo: true
+    become: true
     when: munin_install
     ignore_errors: yes
 
@@ -59,7 +59,7 @@
     command: curl -s -i -v -X DELETE http://127.0.0.1:1080
     ignore_errors: yes
     tags: mailcatcher
-    sudo: true
+    become: true
     when: mailcatcher_install
 
   - name: kill mailcatcher (via pid)
@@ -68,7 +68,7 @@
     register: kill_mailcatcher
     failed_when: "kill_mailcatcher.rc != 0"
     changed_when: false
-    sudo: true
+    become: true
 
   - name: MailCatcher | run MailCatcher with no ip address restrictions
     command: bash -lc "mailcatcher --ip=0.0.0.0"

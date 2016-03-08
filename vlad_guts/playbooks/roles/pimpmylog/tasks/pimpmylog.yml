@@ -5,40 +5,39 @@
     dest: /var/www/pimpmylog
     depth: 1
     version: master
-  sudo: true
+  become: true
 
 - name: ensure that the package isn't effected by mode changes
   command: git config core.filemode false chdir=/var/www/pimpmylog
-  sudo: true
+  become: true
   changed_when: false
 
 - name: add vhost for pimpmylog to sites-available folder (Debian)
   template: src=apache_pimpmylog_vhost.j2 dest=/etc/apache2/sites-available/logs.{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
 - name: enable the pimpmylog site (Debian)
   command: a2ensite logs.{{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/logs.{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "Debian"
   notify:
     - restart apache2
 
 - name: add vhost for pimpmylog to sites-available folder (RedHat)
   template: src=apache_pimpmylog_vhost.j2 dest=/etc/httpd/vhosts/logs.{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   when: ansible_os_family == "RedHat"
   notify:
     - restart httpd
 
 - name: ensure Pimpmylog directory permissions
   file: path=/var/www/pimpmylog mode=0777 recurse=yes state=directory
-  sudo: true
+  become: true
   changed_when: false
 
 - name: add configuration file
-  template: src=pimpmylog_config.j2 dest=/var/www/pimpmylog/config.user.json
-  sudo: true
-
+  copy: src=config.user.json dest=/var/www/pimpmylog/config.user.json
+  become: true

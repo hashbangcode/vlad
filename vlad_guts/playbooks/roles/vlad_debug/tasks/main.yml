@@ -1,8 +1,5 @@
 ---
 
-- name: Dump a wibble
-  debug: msg="Wibble"
-
 - name: Dump all vars
   action: template src=dump.j2 dest=./ansible.all
   delegate_to: 127.0.0.1

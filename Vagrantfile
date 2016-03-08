@@ -37,7 +37,7 @@ loaded_vlad_settings = false
 settings_files.each do |type, paths|
  paths.each do |file|
    if File.exists?(file)
-     puts "Found #{type} file: #{file}"
+     puts "Found #{type} file: #{file}" unless ENV['SUPPRESS_INITIAL_OUTPUT']
      loaded_vlad_settings = true
      settings_to_merge.push file
      break
@@ -55,7 +55,7 @@ elsif ENV['VAGRANT_DOTFILE_PATH'].nil?
   # has set it manually.
   dotfile_path = File.join(File.dirname(settings_to_merge[0]), '.vagrant')
   ENV['VAGRANT_DOTFILE_PATH'] = dotfile_path
-  puts "Adjusting Vagrant environment and re-initializing"
+  ENV['SUPPRESS_INITIAL_OUTPUT'] = 'TRUE'
   exec "vagrant #{ARGV.join(' ')}"
 end
 
@@ -344,7 +344,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         info "Creating " + vlad_hosts_file
         FileUtils.cp(dir_ancestors[0] + "/vlad_guts/playbooks/templates/host.j2 ", vlad_hosts_file)
       else
-        run 'ansible-playbook -i ' + boxipaddress + ', ' + dir_ancestors[0] + '/vlad_guts/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '"'
+        run 'ansible-playbook -i ' + boxipaddress + ', ' + dir_ancestors[0] + '/vlad_guts/playbooks/local_up.yml --extra-vars "local_ip_address=' + boxipaddress + '" --extra-vars "vlad_local_inventory_dir=' + dir_ancestors[0] + '/vlad_guts"'
       end
   end
 
@@ -398,7 +398,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   else
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = dir_ancestors[0] + "/vlad_guts/playbooks/site.yml"
-      ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
       ansible.host_key_checking = false
       ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
       ansible.inventory_path = 'vlad_guts/host.ini'
@@ -425,7 +424,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       else
         config.vm.provision "ansible" do |ansible|
           ansible.playbook = custom_play_full_path
-          ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
           ansible.host_key_checking = false
           ansible.raw_ssh_args = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes'
           ansible.inventory_path = 'vlad_guts/host.ini'

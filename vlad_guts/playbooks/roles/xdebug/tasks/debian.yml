@@ -2,26 +2,26 @@
 - name: Install Xdebug PHP component
   apt: pkg=php5-xdebug state=installed
   register: xdebug_installed
-  sudo: true
+  become: true
 
 - name: Get first line of /etc/php5/apache2/conf.d/xdebug.ini
   command: head -n 1 /etc/php5/apache2/conf.d/xdebug.ini
   when: xdebug_installed.changed and php_version == '5.3'
   register: xdebug_first_line
-  sudo: true
+  become: true
 
 - name: Update Xdebug configuration file
   template: src=php_apache2_xdebug.ini.j2 dest=/etc/php5/apache2/conf.d/xdebug.ini
   when: xdebug_installed.changed and php_version == '5.3'
-  sudo: true
+  become: true
 
 - name: Get first line of /etc/php5/apache2/conf.d/xdebug.ini
   command: head -n 1 /etc/php5/mods-available/xdebug.ini
   when: xdebug_installed.changed and php_version != '5.3'
   register: xdebug_first_line
-  sudo: true
+  become: true
 
 - name: Update Xdebug configuration file
   template: src=php_apache2_xdebug.ini.j2 dest=/etc/php5/mods-available/xdebug.ini
   when: xdebug_installed.changed and php_version != '5.3'
-  sudo: true
+  become: true

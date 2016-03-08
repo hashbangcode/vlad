@@ -1,17 +1,18 @@
 ---
+
 - name: setup main vhosts directory
   file: path="/var/www/vhosts" state=directory recurse=yes
-  sudo: true
+  become: true
 
 - name: set up docroot directory
   file: path="/var/www/vhosts/{{ item.directory }}/docroot" state=directory recurse=yes
   with_items: vlad_webserver_settings
-  sudo: true
+  become: true
 
 - name: set up docroot directory
   file: path="/var/www/vhosts/{{ item.directory }}/logs" state=directory recurse=yes
   with_items: vlad_webserver_settings
-  sudo: true
+  become: true
 
 # Include the appropriate OS specific setups.
 - include: debian_apache.yml
@@ -36,4 +37,4 @@
 
 - name: add www-data user to dialout group
   user: name=www-data groups=dialout append=yes
-  sudo: true
+  become: true

@@ -17,7 +17,7 @@
   with_items:
     - db_io
     - db_io/halt_destroy
-  sudo: true
+  become: true
 
 - include: mysql.yml
 

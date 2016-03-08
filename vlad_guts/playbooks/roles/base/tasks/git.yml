@@ -6,7 +6,7 @@
       - aptget
       - git
   when: ansible_os_family == "Debian"
-  sudo: true
+  become: true
 
 - name: git | install git with yum
   yum: pkg=git state=installed
@@ -14,7 +14,7 @@
       - git
       - yum
   when: ansible_os_family == "RedHat"
-  sudo: true
+  become: true
 
 - name: git | add Git user.name config
   command: git config --global user.name "{{ git_user_name }}"

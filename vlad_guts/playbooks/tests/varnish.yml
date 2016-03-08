@@ -1,7 +1,7 @@
 ---
 - name: test | ensure Varnish has been restarted
   service: name=varnish state=restarted
-  sudo: true
+  become: true
   when: varnish_install
   changed_when: false
 

@@ -11,8 +11,8 @@
   pre_tasks:
 
     - name: Check Ansible version compatibility
-      fail: msg="The minimum Ansible version required to run Vlad is 1.8.4. To upgrade run 'sudo pip install --upgrade ansible'."
-      when: ansible_version.major|int == 1 and ansible_version.minor|int < 9 and ansible_version.revision|int < 4
+      fail: msg="The minimum Ansible version required to run Vlad is 1.9.0. To upgrade run 'sudo pip install --upgrade ansible'."
+      when: ansible_version.major|int == 1 and ansible_version.minor|int < 9
 
     # Run some tasks to de-provision the box if needed
 
@@ -20,17 +20,17 @@
       service: name=varnish state=stopped
       when: varnish_install == false
       ignore_errors: yes
-      sudo: true
+      become: true
 
     - name: Ensure Varnish is removed
       apt: pkg=varnish state=absent
       when: varnish_install == false and ansible_os_family == "Debian"
-      sudo: true
+      become: true
 
     - name: Ensure Varnish is removed
       yum: pkg=varnish state=absent
       when: varnish_install == false and ansible_os_family == "RedHat"
-      sudo: true
+      become: true
 
     # Run some pre-provisioning tests to ensure the system will function when provisioned.
 

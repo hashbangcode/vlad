@@ -4,38 +4,38 @@
   with_items:
    - httpd
    - httpd-devel
-  sudo: true
+  become: true
 
 - name: change port on Apache2 config
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp="^Listen " insertafter="^Listen " line="Listen {{ http_port }}"
-  sudo: true
+  become: true
   notify:
     - restart httpd
 
 - name: set up vhosts include directory
   command: mkdir -p /etc/httpd/vhosts creates=/etc/httpd/vhosts
-  sudo: true
+  become: true
 
 - name: add vhosts include file
   template: src=redhat_apache_vhosts_conf.j2 dest=/etc/httpd/conf.d/vhosts.conf
-  sudo: true
+  become: true
 
 - name: add vhosts file
   template: src=apache_vhost.j2 dest=/etc/httpd/vhosts/{{ webserver_hostname }}.conf
-  sudo: true
+  become: true
   notify:
     - restart httpd
 
 - name: get iptables rules
   shell: iptables -L
   register: iptablesrules
-  sudo: true
+  become: true
   always_run: true
   changed_when: false
 
 - name: add apache iptable rule
   command: iptables -I INPUT 1 -p tcp --dport {{ http_port }} -j ACCEPT -m comment --comment "webhost"
-  sudo: true
+  become: true
   when: iptablesrules.stdout.find("webhost") == -1
   notify:
    - save iptables

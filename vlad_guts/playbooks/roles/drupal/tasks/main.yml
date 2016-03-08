@@ -10,12 +10,12 @@
     - 7
     - 8
     - 8dev
-  sudo: true
+  become: true
 
 - name: Remove anything inside docroot before installing Drupal
   shell: rm -rf /var/www/vhosts/{{ vlad_webserver_settings.0.directory }}/docroot/*
   when: vlad_drupal_install
-  sudo: true
+  become: true
 
 - name: Install Drupal
   shell: /var/www/drupal{{ vlad_drupal_install_version }}_install.sh

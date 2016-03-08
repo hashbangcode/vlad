@@ -2,23 +2,23 @@
 - name: save iptables
   command: iptables-save
   when: ansible_os_family == "Debian"
-  sudo: true
+  become: true
   notify:
    - restart ufw
 
 - name: save iptables
   command: service iptables save
   when: ansible_os_family == "RedHat"
-  sudo: true
+  become: true
   notify:
    - restart iptables
 
 - name: restart ufw
   service: name=ufw state=restarted
   when: ansible_os_family == "Debian"
-  sudo: true
+  become: true
 
 - name: restart iptables
   service: name=iptables state=restarted
   when: ansible_os_family == "RedHat"
-  sudo: true
+  become: true

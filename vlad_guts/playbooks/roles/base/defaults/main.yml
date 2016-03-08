@@ -17,3 +17,25 @@ git_user_email: ""
 # - string: creates vlad_aux/[string]
 
 vlad_private_files_dir: false
+
+vlad_apt_packages:
+  - ssh-import-id
+  - gcc
+  - unzip
+  - curl
+  - atop
+  - vim
+  - make
+  - iptables
+  - language-pack-en
+
+vlad_yum_packages:
+  - gcc
+  - gcc-c++
+  - unzip
+  - curl
+  - vim
+  - make
+
+vlad_extra_packages:
+ - curl
