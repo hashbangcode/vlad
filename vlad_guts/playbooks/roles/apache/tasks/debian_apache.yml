@@ -41,13 +41,13 @@
   become: true
 
 - name: add vhost for site to sites-available folder
-  template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/{{ webserver_hostname }}.conf
+  template: src=apache_vhost.j2 dest=/etc/apache2/sites-available/000-default.conf
   become: true
   notify:
     - restart apache2
 
 - name: enable the default site
-  command: a2ensite {{ webserver_hostname }}.conf creates=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
+  command: a2ensite 000-default.conf creates=/etc/apache2/sites-enabled/000-default.conf
   become: true
   notify:
     - restart apache2
