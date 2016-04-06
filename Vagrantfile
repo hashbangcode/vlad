@@ -136,7 +136,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     config.cache.auto_detect = false
 
-    if vlad_os == "centos66"
+    if vlad_os == "centos67"
       config.cache.enable :yum
     else
       config.cache.enable :apt
