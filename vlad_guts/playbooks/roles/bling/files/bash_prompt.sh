@@ -29,16 +29,14 @@ bash_prompt_command() {
    fi
    # Display git prompt if available.
    GIT_PS1='';
-   if [ $(type -t "__git_ps1") ];
+   if [ $(type -t '__git_ps1') ] && [ -n "${BLING_PS1_SHOWGIT-}" ];
    then
-      GIT_PS1_SHOWCOLORHINTS='';
       GIT_PS1=$(__git_ps1);
    fi
    # Display drush prompt if available.
    DRUSH_PS1='';
-   if [ $(type -t "__drush_ps1") ];
+   if [ $(type -t '__drush_ps1') ] && [ -n "${BLING_PS1_SHOWDRUSH-}" ];
    then
-      DRUSH_PS1_SHOWCOLORHINTS='';
       DRUSH_PS1=$(__drush_ps1 " [%s]");
    fi
 }
@@ -46,7 +44,7 @@ bash_prompt_command() {
 bash_prompt() {
    case $TERM in
       xterm*|rxvt*)
-         local TITLEBAR='\[\033]0;\h:${NEW_PWD}${GIT_PS1}${DRUSH_PS1}\007\]';
+         local TITLEBAR='\[\033]0;\h:${NEW_PWD}${GIT_PS1-}${DRUSH_PS1-}\007\]';
          ;;
       *)
          local TITLEBAR="";
@@ -96,8 +94,8 @@ bash_prompt() {
 
    [ $UID -eq "0" ] && UC=$R     # root's color
 
-   PS1="${TITLEBAR}\n${AC}${APOT} ${UC}\u${EMK}@${MC}\h ${AC}${APOT} ${PC}\${NEW_PWD}${GC}\${GIT_PS1}${DC}\${DRUSH_PS1}\n${UC}\\$ ${NONE}"
-   # without colors: PS1="[\u@\h \${NEW_PWD}\${GIT_PS1}\${DRUSH_PS1}]\\$ "
+   PS1="${TITLEBAR}\n${AC}${APOT} ${UC}\u${EMK}@${MC}\h ${AC}${APOT} ${PC}\${NEW_PWD}${GC}\${GIT_PS1-}${DC}\${DRUSH_PS1-}\n${UC}\\$ ${NONE}"
+   # without colors: PS1="[\u@\h \${NEW_PWD}\${GIT_PS1-}\${DRUSH_PS1-}]\\$ "
    # extra backslash in front of closing \$ to make bash colorize the prompt
 }
 
