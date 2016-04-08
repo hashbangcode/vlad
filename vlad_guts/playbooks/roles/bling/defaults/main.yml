@@ -1,4 +1,8 @@
 ---
 
 bling_shell_prompt: true
-bling_shell_prompt_git_upstream: false
+bling_shell_prompt_hints:
+  - source: git
+    enable: true
+  - source: drush
+    enable: true
