@@ -4,5 +4,23 @@ bling_shell_prompt: true
 bling_shell_prompt_hints:
   - source: git
     enable: true
+    config:
+      - name: showColorHints
+        value: false
+      - name: showUpstream
+        value: false
+      - name: showDirtyState
+        value: false
+      - name: showStashState
+        value: false
+      - name: showUntrackedFiles
+        value: false
+      - name: stateSeparator
+        value: " "
+      - name: describe_style
+        value: false
   - source: drush
     enable: true
+    config:
+      - name: showColorHints
+        value: false

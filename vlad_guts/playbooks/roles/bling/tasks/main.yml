@@ -18,3 +18,12 @@
     line: "export BLING_PS1_SHOW{{ item.source | upper }}='{{ item.enable | default('', true) }}';"
   with_items: "{{ bling_shell_prompt_hints }}"
   when: (bling_shell_prompt and item.source is defined)
+
+- name: Configure bash prompt hints
+  lineinfile:
+    dest: /home/{{ user }}/.bashrc
+    line: "export {{ item.0.source | upper }}_PS1_{{ item.1.name | upper }}='{{ item.1.value | default('', true) }}';"
+  with_subelements:
+    - "{{ bling_shell_prompt_hints }}"
+    - config
+  when: (bling_shell_prompt and item.0.enable)
