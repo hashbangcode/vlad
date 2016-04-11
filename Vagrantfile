@@ -136,7 +136,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     config.cache.auto_detect = false
 
-    if vlad_os == "centos66"
+    if vlad_os == "centos67"
       config.cache.enable :yum
     else
       config.cache.enable :apt
@@ -158,7 +158,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # sysctl returns Bytes and we need to convert to MB
     auto_memory = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
   elsif host =~ /linux/
-    auto_cpus = `nproc`.to_i
+    auto_cpus = `nproc`.to_i / 2
     # meminfo shows KB and we need to convert to MB
     auto_memory = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
   else
