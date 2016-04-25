@@ -35,13 +35,17 @@ dev.settings.php
 #settings.php
 sites.php
 
-# Vagrant specific files
+# Vagrant
 # ------------------------------------------------------------------------------
 *.box
 .vagrant
 vagrant_ansible_inventory_*
 
-# Vlad specific files
+# Ansible
+# ------------------------------------------------------------------------------
+*.retry
+
+# Vlad
 # ------------------------------------------------------------------------------
 
 # General
