@@ -29,3 +29,7 @@
 - src: https://github.com/hashbangcode/ansible-role-drush
   version: 1.0.0.beta.3
   name: drush
+
+- src: https://github.com/hashbangcode/ansible-role-platformsh-cli
+  version: 1.0.0.beta.3
+  name: platformsh_cli

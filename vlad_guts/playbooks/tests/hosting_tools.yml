@@ -16,3 +16,11 @@
   register: pantheon_cli_result
   failed_when: "pantheon_cli_result.rc != 0"
   changed_when: false
+
+- name: test | Platform.sh CLI is installed
+  shell: platform --version
+  when: platformsh_cli_install
+  always_run: yes
+  register: platformsh_cli_result
+  failed_when: "platformsh_cli_result.rc != 0"
+  changed_when: false
