@@ -68,6 +68,6 @@ vlad_custom_base_box_name: ""
 # This affects the "Power" setting within a Parallels VM's own settings under
 # the "Optimization" tab:
 # - "off" equates to "Better performance"
-# - "on" equates to "Longer abttery life"
+# - "on" equates to "Longer battery life"
 # The value must be surrounded by quotes.
 vlad_parallels_longer_battery_life: "off"
