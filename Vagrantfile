@@ -218,6 +218,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     p.name = boxname + "_vlad"
     p.cpus = vagrant_cpus
     p.memory = vagrant_memory
+    p.customize ["set", :id, "--longer-battery-life", vconfig['vlad_parallels_longer_battery_life']]
 
     # Update guest tools if so configured.
     update_guest_tools = vconfig.has_key?('parallels_update_guest_tools') ? vconfig['parallels_update_guest_tools'] : false
