@@ -33,7 +33,7 @@ pantheon_cli_install: false
 
 php_install: true
 
-platformsh_cli_install: false;
+platformsh_cli_install: false
 
 pimpmylog_install: false
 
