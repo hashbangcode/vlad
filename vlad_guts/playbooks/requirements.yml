@@ -27,7 +27,7 @@
   name: solr
 
 - src: https://github.com/hashbangcode/ansible-role-drush
-  version: 1.0.0.beta.3
+  version: 1.0.0.beta.4
   name: drush
 
 - src: https://github.com/hashbangcode/ansible-role-platformsh-cli
