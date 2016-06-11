@@ -82,7 +82,7 @@
       fail:
         msg: You've chosen to import your Pantheon database, but your db_import_up variable is not configured. If this was unintentional, remove the pantheon_import_include_db variable from your Vlad configuration. Otherwise, please configure it to import the "vladdb" database (valid values are ["vladdb"] or true). For more information, see https://vlad-docs.readthedocs.org/en/latest/usage/variables/#mysql
       # Vlad is deliberately hardcoded in this condition because the
-      # Pantheon Import role does not yetallow configuration of where it saves
+      # Pantheon Import role does not yet allow configuration of where it saves
       # the chosen Pantheon DB.
       when: vlad_pantheon_import and db_import_up is not defined
 
@@ -95,7 +95,7 @@
 
   roles:
 
-    - role: base
+    - { role: base, tags: ["base"]}
 
     - { role: ruby, tags: ["ruby"], when: "ruby_install" }
 
@@ -158,11 +158,17 @@
 
   post_tasks:
 
+    - name: set local inventory dir variable
+      set_fact:
+        inventory_dir: "/vagrant/"
+      when: inventory_dir == false and vlad_running_local == false
+
     - name: get current Vlad version
       command: cat {{ inventory_dir }}/VERSION.txt
       delegate_to: 127.0.0.1
       register: vlad_version
       changed_when: False
+      when: inventory_dir
 
     - name: move default index.php file into docroot directory
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no

@@ -10,3 +10,6 @@
 php_version: "5.5"
 
 drupal_solr_package: "apachesolr"
+
+# Used when running Vlad internally or externally to the machine.
+vlad_running_local: true
