@@ -26,10 +26,10 @@ ANSIBLE_TAGS=$1
 
 if [ -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook"
-    ansible-playbook -i "localhost," -c local --extra-vars "vlad_running_local=true" ./vlad_guts/playbooks/site.yml
+    ansible-playbook -i "localhost," --connection=local --extra-vars "vlad_running_local=true" ./vlad_guts/playbooks/site.yml
 fi
 
 if [ ! -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook with the tags '$ANSIBLE_TAGS'"
-    ansible-playbook -i "localhost," -c local --extra-vars "vlad_running_local=true" ./vlad_guts/playbooks/site.yml -t "$ANSIBLE_TAGS"
+    ansible-playbook -i "localhost," --connection=local --extra-vars "vlad_running_local=true" ./vlad_guts/playbooks/site.yml -t "$ANSIBLE_TAGS"
 fi
