@@ -10,9 +10,7 @@ before_install:
 install:
 
   # Install Ansible.
-  # TODO: Keep this at 1.9.4 until the following issue is resolved:
-  # https://github.com/ansible/ansible-modules-core/issues/2473
-  - pip install ansible==1.9.4
+  - pip install ansible==2.1.0
 
   # Install Ansible Lint
   - pip install ansible-lint
@@ -30,5 +28,8 @@ script:
   - ansible-playbook -i localhost, vlad_guts/playbooks/local_up.yml --syntax-check
   - ansible-playbook -i localhost, vlad_guts/playbooks/local_up_services.yml --syntax-check
 
-  # Lint Check on Ansible Playbooks
+  # Lint Check on Ansible Playbooks.
   - ansible-lint -x resources vlad_guts/playbooks/site.yml
+
+  # Test the core Vlad playbook.
+  - vlad_guts/scripts/vlad-play-internal.sh
