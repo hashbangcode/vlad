@@ -26,10 +26,10 @@
 
 - name: Prepare user .drush directory
   file:
-    path: /home/{{ user }}/.drush
+    path: /home/{{ ansible_user_id }}/.drush
     state: directory
-    owner: "{{ user }}"
-    group: "{{ user }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
     recurse: yes
 
 
