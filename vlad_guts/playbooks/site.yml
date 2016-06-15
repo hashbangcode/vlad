@@ -170,6 +170,14 @@
       changed_when: False
       when: inventory_dir
 
+    - name: find out if the docroot directory is present
+      stat: path=/var/www/site/docroot
+      register: vlad_docroot_path
+
+    - name: ensure that the docroot path exists
+      file: path=/var/www/site/docroot state=directory
+      when: vlad_docroot_path.stat.islnk is not defined
+
     - name: move default index.php file into docroot directory
       template: src=templates/index.j2 dest=/var/www/site/docroot/index.php force=no
       when: add_index_file
