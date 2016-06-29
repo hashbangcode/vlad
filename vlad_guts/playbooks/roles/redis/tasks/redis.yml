@@ -40,7 +40,7 @@
   become: yes
 
 - name: install redis PHP extension (if it hasn't already been done)
-  command: pecl install redis
+  command: pecl install redis-2.2.8
   become: true
   when: redis_so_file.stat.exists == false
 
