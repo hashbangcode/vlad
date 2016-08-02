@@ -150,8 +150,6 @@
 
     - { role: bling, tags: ["bling"], when: "bling_install" }
 
-    - { role: aberdeencloud_cli, tags: ["hosting_tools aberdeen_cli"], when: "aberdeen_cli_install" }
-
     - { role: platformsh_cli, tags: ["hosting_tools platformsh_cli"], when: "platformsh_cli_install" }
 
     - { role: vlad_debug, tags: ["vlad_debug"], when: "vlad_debug" }
