@@ -2,10 +2,6 @@
 
 # Keep these all in Git repo format for now please.
 
-- src: https://github.com/hashbangcode/ansible-role-aberdeencloud-cli
-  version: 1.0.0.beta.2
-  name: aberdeencloud_cli
-
 - src: https://github.com/hashbangcode/ansible-role-pantheon-cli
   version: 1.0.0.beta.5
   name: pantheon_cli
