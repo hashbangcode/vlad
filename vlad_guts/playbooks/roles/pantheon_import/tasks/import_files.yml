@@ -5,9 +5,18 @@
   args:
     creates: /var/www/site/vlad_aux/pantheon_import_files.tar.gz
 
+- name: files | Ensure we can write to sites/default
+  file: recurse=no mode=775 path=/var/www/site/docroot/sites/default
+
+- name: Check if there is an old files directory
+  stat: path=/var/www/site/docroot/sites/default/files
+  register: vlad_pantheon_import_files_folder_stat
+  when: vlad_pantheon_import_include_files and vlad_pantheon_auth_success.rc == 0
+  ignore_errors: yes
+
 - name: files | Remove old file directory
-  file: path=/var/www/site/docroot/sites/default/files state=absent recurse=yes
-  when: vlad_pantheon_import_files_stat is defined and vlad_pantheon_import_files_stat.stat.exists == True
+  file: path=/var/www/site/docroot/sites/default/files state=absent
+  when: vlad_pantheon_import_files_folder_stat is defined and vlad_pantheon_import_files_folder_stat.stat.exists == True
 
 - name: files | Expand downloaded archive
   unarchive:
@@ -20,3 +29,6 @@
   command: mv '/var/www/site/docroot/sites/default/files_{{ vlad_pantheon_import_env }}' /var/www/site/docroot/sites/default/files
   args:
     creates: /var/www/site/docroot/sites/default/files
+
+- name: files | Make sites/default read-only again
+  file: recurse=no mode=555 path=/var/www/site/docroot/sites/default
