@@ -3,8 +3,8 @@
 # Authenticate to Pantheon CLI. Don't do anything else if it fails,
 # but do ignore errors (this doesn't need to halt provisioning).
 # @todo: Run a terminus auth whoami first and don't mark anything changed if we are already logged in.
-- name: Log in to Pantheon
-  command: /usr/local/bin/terminus auth login "{{ vlad_pantheon_import_email }}" --password='{{ vlad_pantheon_import_password }}'
+- name: Log in to Pantheon with machine token
+  command: /usr/local/bin/terminus auth login --machine-token="{{ vlad_pantheon_import_machine_key }}"
   register: vlad_pantheon_auth_success
   ignore_errors: yes
 

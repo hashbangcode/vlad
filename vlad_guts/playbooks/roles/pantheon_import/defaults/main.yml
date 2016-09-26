@@ -3,8 +3,7 @@
 # Pantheon Import settings
 
 vlad_pantheon_import: false
-vlad_pantheon_import_email: ''
-vlad_pantheon_import_password: ''
+vlad_pantheon_import_machine_key: ''
 vlad_pantheon_import_site: ''
 vlad_pantheon_import_env: ''
 vlad_pantheon_import_include_code: false
