@@ -3,7 +3,7 @@
 # Keep these all in Git repo format for now please.
 
 - src: https://github.com/hashbangcode/ansible-role-pantheon-cli
-  version: 1.0.0.beta.5
+  version: 1.0.0.beta.7
   name: pantheon_cli
 
 - src: https://github.com/hashbangcode/ansible-role-imagemagick
