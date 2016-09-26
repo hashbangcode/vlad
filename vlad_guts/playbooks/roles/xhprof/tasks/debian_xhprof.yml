@@ -86,18 +86,35 @@
   become: true
 
 - name: check virtual host for xhprof include
-  command: cat /etc/apache2/sites-enabled/{{ webserver_hostname }}.conf
+  command: cat /etc/apache2/sites-enabled/000-default.conf
   register: xhprof_include_present
   changed_when: false
   always_run: yes
   become: true
 
 - name: add virtual server item if include not found
-  lineinfile: dest=/etc/apache2/sites-enabled/{{ webserver_hostname }}.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
+  lineinfile: dest=/etc/apache2/sites-enabled/000-default.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
   with_items:
     - '  php_value auto_prepend_file /var/www/xhprof_html/external/header.php'
     - '</VirtualHost>'
   when: xhprof_include_present.stdout.find('auto_prepend') == -1
+  become: true
+  notify:
+    - restart apache2
+
+- name: check SSL virtual host for xhprof include
+  command: cat /etc/apache2/sites-enabled/000-default_ssl.conf
+  register: xhprof_ssl_include_present
+  changed_when: false
+  always_run: yes
+  become: true
+
+- name: add virtual server item if SSL include not found
+  lineinfile: dest=/etc/apache2/sites-enabled/000-default_ssl.conf regexp="{{ item }}" insertbefore="^\<\/VirtualHost\>" line="{{ item }}"
+  with_items:
+    - '  php_value auto_prepend_file /var/www/xhprof_html/external/header.php'
+    - '</VirtualHost>'
+  when: xhprof_ssl_include_present.stdout.find('auto_prepend') == -1
   become: true
   notify:
     - restart apache2
