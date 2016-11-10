@@ -1,35 +1,251 @@
 ---
-- name: setup php variables for php 5.3
-  when: php_version == "5.3"
-  set_fact:
-    php_flavour: "php_53"
-    php_ppa: "none"
-
 - name: setup php variables for php 5.4
   when: php_version == "5.4"
   set_fact:
-    php_flavour: "php_54"
+    php_package: "php5"
     php_ppa: "php5-oldstable"
 
 - name: setup php variables for php 5.5
   when: php_version == "5.5"
   set_fact:
-    php_flavour: "php_54"
-    php_ppa: "php5"
+    php_package: "php5.5"
+    php_ppa: "php"
 
 - name: setup php variables for php 5.6
   when: php_version == "5.6"
   set_fact:
-    php_flavour: "php_54"
-    php_ppa: "php5-5.6"
+    php_package: "php5.6"
+    php_ppa: "php"
 
-- include: debian_php_common.yml
+- name: setup php variables for php 7.0
+  when: php_version == "7.0"
+  set_fact:
+    php_package: "php7.0"
+    php_ppa: "php"
 
-- include: debian_php_53.yml
-  when: php_flavour == "php_53"
+- name: setup php variables for php 7.1
+  when: php_version == "7.1"
+  set_fact:
+    php_package: "php7.1"
+    php_ppa: "php"
 
-- include: debian_php_54.yml
-  when: php_flavour == "php_54"
+- name: install php prerequisite python packages
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  with_items:
+   - python-pycurl
+   - python-software-properties
+  become: true
+
+- name: add ppa Repository
+  apt_repository: repo=ppa:ondrej/{{ php_ppa }}
+  become: true
+  when: php_ppa != "none"
+
+- name: force update apt cache
+  apt: update_cache=yes
+  become: true
+
+- name: install PHP legacy packages
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+   - php5
+   - php5-cli
+   - php5-common
+   - php5-dev
+   - php5-gd
+   - php5-gmp
+   - php5-mysql
+   - php5-xmlrpc
+   - php-soap
+   - php5-curl
+   - php5-mcrypt
+   - php-apc
+   - php-pear
+  become: true
+  notify:
+    - restart apache2
+  when: php_ppa == "php5-oldstable"
+
+- name: install PHP core package
+  apt: pkg={{ php_package }} state=latest update_cache=yes cache_valid_time=3600
+  become: true
+  notify:
+    - restart apache2
+  when: php_ppa != "php5-oldstable"
+
+- name: install other PHP packages
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+   - php-cli
+   - php-common
+   - php-dev
+   - php-gd
+   - php-gmp
+   - php-mysql
+   - php-xmlrpc
+   - php-soap
+   - php-curl
+   - php-mcrypt
+   - php-pear
+  become: true
+  notify:
+    - restart apache2
+  when: php_ppa != "php5-oldstable"
+
+- name: change php apache2 memory_limit
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli memory_limit
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 max_execution_time
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli max_execution_time
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?max_execution_time =" insertafter="^[#|;]?max_execution_time =" line="max_execution_time = {{ php_max_execution_time }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 max_input_time
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?max_input_time =" insertafter="^[#|;]?max_input_time =" line="max_input_time = {{ php_max_input_time }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli max_input_time
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?max_input_time =" insertafter="^[#|;]?max_input_time =" line="max_input_time = {{ php_max_input_time }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 max_input_vars
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]? ?max_input_vars =" insertafter="^[#|;]? ?max_input_vars =" line="max_input_vars = {{ php_max_input_vars }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli max_input_vars
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]? ?max_input_vars =" insertafter="^[#|;]? ?max_input_vars =" line="max_input_vars = {{ php_max_input_vars }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 post_max_size
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?post_max_size =" insertafter="^[#|;]?post_max_size =" line="post_max_size = {{ php_post_max_size }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli post_max_size
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?post_max_size =" insertafter="^[#|;]?post_max_size =" line="post_max_size = {{ php_post_max_size }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 upload_max_filesize
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?upload_max_filesize =" insertafter="^[#|;]?upload_max_filesize = " line="upload_max_filesize = {{ php_upload_max_filesize }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli upload_max_filesize
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?upload_max_filesize =" insertafter="^[#|;]?upload_max_filesize = " line="upload_max_filesize = {{ php_upload_max_filesize }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 display_errors
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?display_errors =" insertafter="^[#|;]?display_errors =" line="display_errors = {{ php_display_errors }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli display_errors
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?display_errors =" insertafter="^[#|;]?display_errors =" line="display_errors = {{ php_display_errors }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 display_startup_errors
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?display_startup_errors =" insertafter="^[#|;]?display_startup_errors =" line="display_startup_errors = {{ php_display_startup_errors }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli display_startup_errors
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?display_startup_errors =" insertafter="^[#|;]?display_startup_errors =" line="display_startup_errors = {{ php_display_startup_errors }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 html_errors
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?html_errors =" insertafter="^[#|;]?html_errors =" line="html_errors = {{ php_html_errors }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli html_errors
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?html_errors =" insertafter="^[#|;]?html_errors =" line="html_errors = {{ php_html_errors }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: don't expose php
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^(;*)expose_php =" insertafter="^(;*)expose_php =" line="expose_php = Off"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php apache2 date.timezone (php 5.4+)
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change php cli date.timezone (php 5.4+)
+  lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?date.timezone =" insertafter="^[#|;]?date.timezone =" line="date.timezone = {{ php_date_timezone }}"
+  become: true
+  notify:
+    - restart apache2
+
+- name: change APC configuration file apc.ini
+  template: src=debian_php_apache2_apc.ini.j2 dest=/etc/php5/mods-available/apc.ini
+  become: true
+  notify:
+    - restart apache2
+
+- name: check, what PECL uploadprogress is installed
+  command: pecl list | grep uploadprogress | wc -l
+  register: pecl_uploadprogress_installed
+  changed_when: false
+
+- name: install PECL uploadprogress
+  command: pecl install -Z uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
+  become: true
+  when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
+
+- name: add PECL uploadprogress apache php.ini setting
+  lineinfile: dest=/etc/php5/apache2/php.ini state=present line="extension=uploadprogress.so"
+  become: true
+  when: php_pecl_uploadprogress
+  notify:
+    - restart apache2
+
+- name: enable php mcrypt module
+  command: php5enmod mcrypt creates=/etc/php5/cli/conf.d/20-mcrypt.ini
+  become: true
+  notify:
+    - restart apache2
 
 - name: check, what PECL uploadprogress is installed
   command: pecl list | grep uploadprogress | wc -l
