@@ -1,11 +1,18 @@
 ---
-- name: install apache2 packages
+- name: install core apache2 packages
   apt: pkg={{ item }} state=installed
   with_items:
    - apache2
-   - apache2-mpm-prefork
    - apache2-utils
   become: true
+
+- name: install extra apache2 packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+   - apache2-mpm-prefork
+  become: true
+  when: ansible_os_family == "Debian" and ansible_lsb.major_release|int < 16
+
 
 - name: disable the apache default site
   command: a2dissite default removes=/etc/apache2/sites-enabled/000-default
