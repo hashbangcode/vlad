@@ -162,11 +162,11 @@
       when: inventory_dir == false and vlad_running_local == false
 
     - name: get current Vlad version
-      command: cat {{ inventory_dir }}/VERSION.txt
+      command: "cat {{ inventory_dir|quote }}/VERSION.txt"
       delegate_to: 127.0.0.1
       register: vlad_version
       changed_when: False
-      when: inventory_dir
+      when: inventory_dir != false
 
     - name: find out if the docroot directory is present
       stat: path=/var/www/site/docroot
