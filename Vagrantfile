@@ -195,10 +195,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     target_box = vlad_custom_base_box_name
   else
     target_box = case vlad_os
-      when "centos72" then "bento/centos-7.2"
       when "centos67" then "bento/centos-6.7"
-      when "ubuntu16" then "bento/ubuntu-16.04"
+      when "centos72" then "bento/centos-7.2"
       when "ubuntu14" then "bento/ubuntu-14.04"
+      when "ubuntu16" then "bento/ubuntu-16.04"
       else
         abort "Unknown basebox! Check your settings file."
     end
@@ -252,8 +252,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Configure OS type
     if vlad_os == "centos67"
       vb.customize ["modifyvm", :id, "--ostype", "RedHat_64"]
+    elsif vlad_os == "centos72"
+      vb.customize ["modifyvm", :id, "--ostype", "RedHat_64"]
     elsif vlad_os == "ubuntu14"
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+    elsif vlad_os == "ubuntu16"
+      vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+      vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
     else
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
