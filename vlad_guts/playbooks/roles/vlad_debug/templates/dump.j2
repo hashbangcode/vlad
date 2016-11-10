@@ -1,9 +1,11 @@
 {{ ansible_managed }}
 
-Module Variables ("vars"):
+Module Variables ("hostvars"):
 --------------------------------
-{{ vars | to_nice_json }} 
- 
+{% for host in groups['all'] %}
+{{ hostvars[host]|to_nice_json }}
+{% endfor %}
+
 Environment Variables ("environment"):
 --------------------------------
 {{ environment | to_nice_json }}
