@@ -7,7 +7,7 @@
 # which are checked before execution of the roles. They are usually overridden 
 # in settings files but are defined here as sensible and required defaults.
 
-php_version: "5.5"
+php_version: "5.6"
 
 drupal_solr_package: "apachesolr"
 
