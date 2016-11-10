@@ -195,9 +195,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     target_box = vlad_custom_base_box_name
   else
     target_box = case vlad_os
+      when "centos72" then "bento/centos-7.2"
       when "centos67" then "bento/centos-6.7"
+      when "ubuntu16" then "bento/ubuntu-16.04"
       when "ubuntu14" then "bento/ubuntu-14.04"
-      when "ubuntu12" then "bento/ubuntu-12.04"
       else
         abort "Unknown basebox! Check your settings file."
     end

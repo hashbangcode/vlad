@@ -43,9 +43,10 @@ ansible_verbosity: ""
 
 # The OS that vlad will use. This can be:
 # - "centos67"
-# - "ubuntu12"
+# - "centos72"
 # - "ubuntu14"
-vlad_os: "ubuntu14"
+# - "ubuntu16"
+vlad_os: "ubuntu16"
 
 # Provision with custom play
 vlad_custom_play: false
