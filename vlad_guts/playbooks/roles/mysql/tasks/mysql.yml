@@ -3,13 +3,13 @@
   apt: pkg={{ item }} state=installed
   when: ansible_os_family == "Debian"
   become: true
-  with_items: mysql_pkgs
+  with_items: "{{ mysql_pkgs }}"
 
 - name: install mysql packages
   yum: pkg={{ item }} state=installed
   when: ansible_os_family == "RedHat"
   become: true
-  with_items: mysql_pkgs
+  with_items: "{{ mysql_pkgs }}"
 
 - name: make sure mysql starts
   command: chkconfig mysqld on
