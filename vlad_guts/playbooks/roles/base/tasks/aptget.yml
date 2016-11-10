@@ -3,4 +3,4 @@
   apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
   tags: aptget
   become: true
-  with_items: vlad_all_packages
+  with_items: "{{ vlad_all_packages }}"
