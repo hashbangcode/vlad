@@ -108,15 +108,15 @@
 # set up default database(s)
 - name: create application database(s)
   mysql_db: name={{ item }} state=present login_password={{ mysql_root_password }} login_user=root collation=utf8_general_ci
-  with_items: dbname
+  with_items: "{{ dbname }}"
 
 - name: create application database(s) user(s)
   mysql_user: name={{ dbuser }} password={{ dbpass }} priv="{{ item[0] }}.*:ALL,GRANT" host="{{ item[1] }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
   with_nested:
-    - dbname
-    - mysql_hosts
+    - "{{ dbname }}"
+    - "{{ mysql_hosts }}"
   changed_when: False
 
 - name: give default user access to all databases
   mysql_user: name={{ dbuser }} password={{ dbpass }} priv="*.*:ALL,GRANT" host="{{ item }}" state=present login_password={{ mysql_root_password }} login_user=root append_privs=yes
-  with_items: mysql_hosts
+  with_items: "{{ mysql_hosts }}"

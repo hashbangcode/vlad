@@ -17,7 +17,7 @@
     target: /var/www/site/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
     login_user: root
     login_password: "{{ mysql_root_password }}"
-  with_items: dbname
+  with_items: "{{ dbname }}"
   when: db_import_up and mysql_tables.stdout == ""
   ignore_errors: yes
 
