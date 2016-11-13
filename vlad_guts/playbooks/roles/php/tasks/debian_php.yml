@@ -104,6 +104,7 @@
    - "{{ php_package }}-curl"
    - "{{ php_package }}-mcrypt"
    - "{{ php_package }}-mbstring"
+   - "{{ php_package }}-uploadprogress"
   become: true
   notify:
     - restart apache2
@@ -240,31 +241,3 @@
   become: true
   notify:
     - restart apache2
-
-- name: check, what PECL uploadprogress is installed
-  command: pecl list | grep uploadprogress | wc -l
-  register: pecl_uploadprogress_installed
-  changed_when: false
-
-- name: install PECL uploadprogress
-  command: pecl install -Z uploadprogress creates=/usr/lib/php5/20100525/uploadprogress.so
-  become: true
-  when: php_pecl_uploadprogress and pecl_uploadprogress_installed.stdout == '0'
-
-- name: add PECL uploadprogress apache php.ini setting
-  lineinfile: dest=/etc/php/{{ php_version }}/apache2/php.ini state=present line="extension=uploadprogress.so"
-  become: true
-  when: php_pecl_uploadprogress
-  notify:
-    - restart apache2
-
-- name: enable php mcrypt module
-  command: phpenmod mcrypt creates=/etc/php/{{ php_version }}/cli/conf.d/20-mcrypt.ini
-  become: true
-  notify:
-    - restart apache2
-
-- name: check, what PECL uploadprogress is installed
-  command: pecl list | grep uploadprogress | wc -l
-  register: pecl_uploadprogress_installed
-  changed_when: false
