@@ -66,27 +66,23 @@
     - restart apache2
   when: php_ppa == "php5-oldstable"
 
-- name: install PHP core package
-  apt: pkg={{ php_package }} state=latest update_cache=yes cache_valid_time=3600
-  become: true
-  notify:
-    - restart apache2
-  when: php_ppa != "php5-oldstable"
-
-- name: install other PHP packages
+- name: install PHP packages
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
-   - php-cli
-   - php-common
-   - php-dev
-   - php-gd
-   - php-gmp
-   - php-mysql
-   - php-xmlrpc
-   - php-soap
-   - php-curl
-   - php-mcrypt
-   - php-pear
+   - "{{ php_package }}"
+   - "{{ php_package }}-cli"
+   - "{{ php_package }}-common"
+   - "{{ php_package }}-dev"
+   - "{{ php_package }}-gd"
+   - "{{ php_package }}-xml"
+   - "{{ php_package }}-dom"
+   - "{{ php_package }}-gmp"
+   - "{{ php_package }}-mysql"
+   - "{{ php_package }}-xmlrpc"
+   - "{{ php_package }}-soap"
+   - "{{ php_package }}-curl"
+   - "{{ php_package }}-mcrypt"
+   #- "{{ php_package }}-pear"
   become: true
   notify:
     - restart apache2
