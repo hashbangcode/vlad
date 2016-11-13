@@ -82,7 +82,7 @@
    - "{{ php_package }}-soap"
    - "{{ php_package }}-curl"
    - "{{ php_package }}-mcrypt"
-   #- "{{ php_package }}-pear"
+   - "{{ php_package }}-mbstring"
   become: true
   notify:
     - restart apache2
