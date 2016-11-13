@@ -1,7 +1,14 @@
 ---
-- name: Install Xdebug PHP component
+- name: Install Xdebug PHP component (PHP 5.x)
   apt: pkg=php5-xdebug state=installed
   register: xdebug_installed
+  when: php_version != '7.0' and php_version != '7.1'
+  become: true
+
+- name: Install Xdebug PHP component (PHP 7.x)
+  apt: pkg=php-xdebug state=installed
+  register: xdebug_installed
+  when: php_version == '7.0' or php_version == '7.1'
   become: true
 
 - name: Get first line of /etc/php5/apache2/conf.d/xdebug.ini
@@ -10,18 +17,42 @@
   register: xdebug_first_line
   become: true
 
-- name: Update Xdebug configuration file
+- name: Update Xdebug configuration file (PHP 5.3)
   template: src=php_apache2_xdebug.ini.j2 dest=/etc/php5/apache2/conf.d/xdebug.ini
   when: xdebug_installed.changed and php_version == '5.3'
   become: true
 
-- name: Get first line of /etc/php5/apache2/conf.d/xdebug.ini
+- name: Get first line of /etc/php5/mods-available/xdebug.ini
   command: head -n 1 /etc/php5/mods-available/xdebug.ini
-  when: xdebug_installed.changed and php_version != '5.3'
+  when: xdebug_installed.changed and php_version != '5.3' and php_version != '7.0' and php_version != '7.1' and vlad_os != 'ubuntu16'
   register: xdebug_first_line
   become: true
 
-- name: Update Xdebug configuration file
+- name: Get first line of /etc/php/7.0/mods-available/xdebug.ini
+  command: head -n 1 /etc/php/7.0/mods-available/xdebug.ini
+  when: xdebug_installed.changed and (php_version == '7.0' or php_version == '7.1') and vlad_os != 'ubuntu16'
+  register: xdebug_first_line
+  become: true
+
+- name: Get first line of /etc/php/{{ php_version }}/mods-available/xdebug.ini (Ubuntu 16.04)
+  command: head -n 1 /etc/php/7.0/mods-available/xdebug.ini
+  when: xdebug_installed.changed and vlad_os == 'ubuntu16'
+  register: xdebug_first_line
+  become: true
+
+- name: Update Xdebug configuration file (PHP 5.5/5.6)
   template: src=php_apache2_xdebug.ini.j2 dest=/etc/php5/mods-available/xdebug.ini
-  when: xdebug_installed.changed and php_version != '5.3'
+  when: xdebug_installed.changed and php_version != '5.3' and php_version != '7.0' and php_version != '7.1' and vlad_os != 'ubuntu16'
+  become: true
+
+- name: Update Xdebug configuration file (PHP 7.x)
+  template: src=php_apache2_xdebug.ini.j2 dest=/etc/php/{{ php_version }}/mods-available/xdebug.ini
+  when: xdebug_installed.changed and (php_version == '7.0' or php_version == '7.1') and vlad_os != 'ubuntu16'
+  become: true
+
+# Multiple PHP versions are available for Ubuntu 16.04, and the config structure
+# is normalized.
+- name: Update Xdebug configuration file (Ubuntu 16.04)
+  template: src=php_apache2_xdebug.ini.j2 dest=/etc/php/{{ php_version }}/mods-available/xdebug.ini
+  when: xdebug_installed.changed and vlad_os == 'ubuntu16'
   become: true

@@ -66,7 +66,28 @@
     - restart apache2
   when: php_ppa == "php5-oldstable"
 
-- name: install PHP packages
+# Our 16.04 box seems to have php5.6 pre-installed or something. Make sure that
+# PHP 7.0 is the one to get assigned to Apache when configured.
+- name: ensure we only install one version of PHP
+  apt: pkg=php{{ item }}* state=absent autoremove=yes
+  with_items:
+    - '5.5'
+    - '5.6'
+    - '7.0'
+    - '7.1'
+  when:
+    - item != php_version
+    - php_ppa != "php5-oldstable"
+    - vlad_os == 'ubuntu16'
+
+- name: install PHP core package
+  apt: pkg={{ php_package }} state=latest update_cache=yes cache_valid_time=3600
+  become: true
+  notify:
+    - restart apache2
+  when: php_ppa != "php5-oldstable"
+
+- name: install other PHP packages
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
    - "{{ php_package }}"

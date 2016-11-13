@@ -65,6 +65,12 @@
   register: mysql_myconf_file
   become: yes
 
+# http://askubuntu.com/a/801950/36187
+- name: switch root to mysql_native_password plugin
+  command: mysql -e "update mysql.user set Plugin = 'mysql_native_password' where User='root'; FLUSH PRIVILEGES;"
+  become: yes
+  when: vlad_os == 'ubuntu16' and mysql_myconf_file.stat.exists == false
+
 # MySQL database setup, this does the equivalent of mysql_secure_installation.
 - name: set the root password
   mysql_user:
