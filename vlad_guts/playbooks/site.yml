@@ -12,7 +12,7 @@
 
     - name: Check Ansible version compatibility
       fail: msg="The minimum Ansible version required to run Vlad is 2.0. To upgrade run 'sudo pip install --upgrade ansible'."
-      when: ansible_version.major|int == 1
+      when: ansible_version.major < 2 and ansble_version.minor <= 1
 
     # Run some tasks to de-provision the box if needed
 
