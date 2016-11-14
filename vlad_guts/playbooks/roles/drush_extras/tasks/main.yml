@@ -77,9 +77,10 @@
 # @TODO This task needs to be aware of which major version of Drupal we'll be using
 # (it could be run outside of the context of an existing codebase).
 - name: Download additional Drush commands
-  command: drush dl {{ item.name }}{{ item.version }} --destination=/home/{{ user }}/.drush/commands/{{ item.name }} --yes
-    creates=/home/{{ user }}/.drush/commands/{{ item.name }}
-  with_items: drush_install_commands
+  command: "drush dl {{ item.name }}{{ item.version }} --destination=/home/{{ user }}/.drush/commands/{{ item.name }} --yes"
+  args:
+    creates: "/home/{{ user }}/.drush/commands/{{ item.name }}"
+  with_items: "{{ drush_install_commands }}"
   notify: drush cc drush
 
 
