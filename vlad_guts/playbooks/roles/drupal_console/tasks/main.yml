@@ -1,22 +1,31 @@
 ---
 - name: Check to see if the console.phar file is present
-  stat: path=/home/{{ user }}/console.phar
+  stat: path=/home/{{ user }}/drupal.phar
   register: drupal_console_file
 
 - name: Download the latest version of Drupal console
-  shell: curl -LSs http://drupalconsole.com/installer | php
+  shell: curl https://drupalconsole.com/installer -L -o drupal.phar | php
   when: drupal_console_file.stat.exists == false
 
 - name: Create Drupal console symlink
   file:
-    src: "/home/{{ user }}/console.phar"
+    src: "/home/{{ user }}/drupal.phar"
     dest: "{{ drupal_console_install_location }}"
     state: link
+    force: yes
+    mode: "a=rwx"
+    owner: "{{ user }}"
+  become: true
+  when: drupal_console_file.stat.exists == false
+
+# Even though we are creating the execute permission in the previous task we still have to enforce it here.
+- name: Force the Drupal console link to have the correct permissions
+  command: chmod +x "{{ drupal_console_install_location }}"
   become: true
   when: drupal_console_file.stat.exists == false
 
 - name: Update Drupal Console to latest version (if configured).
-  shell: php /home/{{ user }}/console.phar self-update
+  shell: php /home/{{ user }}/drupal.phar self-update
   register: drupal_console_update
   changed_when: "'console has been updated' in drupal_console_update.stdout"
   when: drupal_console_keep_updated
