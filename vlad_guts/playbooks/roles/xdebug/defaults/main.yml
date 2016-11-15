@@ -1,0 +1,3 @@
+---
+# Force the xdebug role to add in the configuration, even if the tool hasn't changed.
+xdebug_force_reconfigure: false
