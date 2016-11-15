@@ -13,11 +13,11 @@
 
 - name: Get first two lines of /etc/php.d/xdebug.ini
   command: head -n 2 /etc/php.d/xdebug.ini
-  when: xdebug_installed.changed
+  when: xdebug_installed.changed or xdebug_force_reconfigure == true
   register: xdebug_first_line
   become: true
 
 - name: Update Xdebug configuration file
   template: src=php_apache2_xdebug.ini.j2 dest=/etc/php.d/xdebug.ini
-  when: xdebug_installed.changed
+  when: xdebug_installed.changed or xdebug_force_reconfigure == true
   become: true
