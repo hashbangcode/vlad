@@ -6,9 +6,6 @@
 # This file should only contain default varables for choosing which "components"
 # are to be installed.
 # ------------------------------------------------------------------------------
-
-aberdeen_cli_install: false
-
 adminer_install: true
 
 apache_install: true
