@@ -18,8 +18,8 @@
   when: drupal_console_file.stat.exists == false
 
 # Even though we are creating the execute permission in the previous task we still have to enforce it here.
-- name: Force the Drupal console link to have the correct permissions
-  command: chmod +x "{{ drupal_console_install_location }}"
+- name: Force the Drupal console to have the correct permissions
+  command: chmod +x "/home/{{ user }}/drupal.phar"
   become: true
   when: drupal_console_file.stat.exists == false
 
