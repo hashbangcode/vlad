@@ -31,7 +31,6 @@
 
 - name: change php apache sendmail_path setting
   lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /home/vagrant/.rbenv/shims/catchmail"
-  when: php_install
   become: true
   notify:
     - restart apache2
@@ -39,7 +38,6 @@
 
 - name: change php apache sendmail_path setting
   lineinfile: dest=/etc/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /home/vagrant/.rbenv/shims/catchmail"
-  when: php_install
   become: true
   notify:
     - restart httpd
@@ -47,7 +45,6 @@
 
 - name: change php cli sendmail_path setting
   lineinfile: dest=/etc/php5/cli/php.ini regexp="^[#|;]?sendmail_path =" insertafter="^[#|;]?sendmail_path =" line="sendmail_path = /home/vagrant/.rbenv/shims/catchmail"
-  when: php_install
   become: true
   when: ansible_os_family == "Debian"
 
