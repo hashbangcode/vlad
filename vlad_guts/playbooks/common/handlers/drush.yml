@@ -3,3 +3,4 @@
   command: drush cc drush
   register: drush_cc_drush_result
   failed_when: "drush_cc_drush_result.rc != 0"
+  changed_when: false

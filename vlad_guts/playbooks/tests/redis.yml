@@ -1,6 +1,6 @@
 ---
 - name: test | redis is installed
-  shell: redis-cli ping
+  command: redis-cli ping
   when: redis_install
   register: redis_result
   failed_when: "redis_result.rc != 0"

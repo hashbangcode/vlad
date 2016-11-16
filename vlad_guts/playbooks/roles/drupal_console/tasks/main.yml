@@ -14,7 +14,6 @@
     state: link
     force: yes
     mode: "a=rwx"
-    owner: "{{ user }}"
   become: true
   when: drupal_console_file.stat.exists == false
 

@@ -1,7 +1,6 @@
 ---
-
 - name: test | Drush is installed
-  shell: drush
+  command: drush
   when: php_install
   always_run: yes
   register: drush_result

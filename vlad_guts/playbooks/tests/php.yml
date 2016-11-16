@@ -1,6 +1,6 @@
 ---
 - name: test | PHP is installed
-  shell: php -v
+  command: php -v
   when: php_install
   always_run: yes
   register: php_result

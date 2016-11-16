@@ -1,6 +1,6 @@
 ---
-# Load variable file based on the OS type, or a default if not found.
-- include_vars: "{{ item }}"
+- name: Load variable file based on the OS type, or a default if not found.
+  include_vars: "{{ item }}"
   with_items:
    - "{{ ansible_os_family }}.yml"
    - "all.yml"
