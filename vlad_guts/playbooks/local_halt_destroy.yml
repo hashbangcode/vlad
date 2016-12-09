@@ -32,7 +32,7 @@
       target: /var/www/site/vlad_aux/db_io/halt_destroy/{{ item }}.sql.gz
       login_user: root
       login_password: "{{ mysql_root_password }}"
-    with_items: dbname
+    with_items: '{{ dbname }}'
     when: mysql_install and vlad_db_dump_on_halt_destroy
     ignore_errors: yes
     become: true
