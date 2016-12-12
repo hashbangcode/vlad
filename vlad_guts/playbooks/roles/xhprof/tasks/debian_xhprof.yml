@@ -44,11 +44,24 @@
   when: php_version != '5.3'
   become: true
 
-- name: setup xhprof ini files
+# The Drupal XHProf module will just near-silently not work if the configured output directory does not exist.
+- name: ensure xhprof.output_dir exists
+  file: state=directory dest=/tmp/xhprof owner=www-data group=www-data
+  become: true
+
+- name: setup xhprof ini files (PHP < 5.5)
   template: src=xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
   become: true
   notify:
     - restart apache2
+  when: php_version == 5.3 or php_version == 5.4
+
+- name: setup xhprof ini files (PHP >= 5.5)
+  template: src=xhprof_ini.j2 dest=/etc/php/{{ php_version }}/apache2/conf.d/xhprof.ini
+  become: true
+  notify:
+    - restart apache2
+  when: php_version != 5.3 and php_version != 5.4
 
 - name: get xhprof_html package
   git:
