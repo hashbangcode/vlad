@@ -53,6 +53,7 @@
 # VM gets restarted).
 - name: add crontab entry to create /tmp/xhprof on reboot
   cron:
+    name: 'ensure /tmp/xhprof gets created'
     special_time: reboot
     job: 'if [ ! -d /tmp/xhprof ]; then mkdir /tmp/xhprof; fi > /dev/null 2>&1'
 
