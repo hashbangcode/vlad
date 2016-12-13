@@ -49,6 +49,14 @@
   file: state=directory dest=/tmp/xhprof owner=www-data group=www-data
   become: true
 
+# Ensure that the temporary directory is created on reboot as well (for when the
+# VM gets restarted).
+- name: add crontab entry to create /tmp/xhprof on reboot
+  cron:
+    name: 'ensure /tmp/xhprof gets created'
+    special_time: reboot
+    job: 'if [ ! -d /tmp/xhprof ]; then mkdir /tmp/xhprof; fi > /dev/null 2>&1'
+
 - name: setup xhprof ini files (PHP < 5.5)
   template: src=xhprof_ini.j2 dest=/etc/php5/apache2/conf.d/xhprof.ini
   become: true
