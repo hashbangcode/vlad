@@ -70,6 +70,7 @@
 # PHP 7.0 is the one to get assigned to Apache when configured.
 - name: ensure we only install one version of PHP
   apt: pkg=php{{ item }}* state=absent autoremove=yes
+  become: true
   with_items:
     - '5.6'
     - '7.0'
