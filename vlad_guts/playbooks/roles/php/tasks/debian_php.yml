@@ -112,6 +112,7 @@
   # php-uploadprogress is tied to PHP 7. For compatibility, build with PECL.
 - name: install uploadprogress from PECL
   pear: name=pecl/uploadprogress state=present
+  become: true
   # Uploadprogress seems to be broken in 7.1.
   when: php_version != "7.1"
 
