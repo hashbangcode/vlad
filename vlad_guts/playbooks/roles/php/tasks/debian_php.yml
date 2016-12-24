@@ -70,8 +70,8 @@
 # PHP 7.0 is the one to get assigned to Apache when configured.
 - name: ensure we only install one version of PHP
   apt: pkg=php{{ item }}* state=absent autoremove=yes
+  become: true
   with_items:
-    - '5.5'
     - '5.6'
     - '7.0'
     - '7.1'
@@ -104,11 +104,17 @@
    - "{{ php_package }}-curl"
    - "{{ php_package }}-mcrypt"
    - "{{ php_package }}-mbstring"
-   - "{{ php_package }}-uploadprogress"
   become: true
   notify:
     - restart apache2
   when: php_ppa != "php5-oldstable"
+
+  # php-uploadprogress is tied to PHP 7. For compatibility, build with PECL.
+- name: install uploadprogress from PECL
+  pear: name=pecl/uploadprogress state=present
+  become: true
+  # Uploadprogress seems to be broken in 7.1.
+  when: php_version != "7.1"
 
 - name: change php apache2 memory_limit
   lineinfile: dest=/etc/php/{{ php_version }}/apache2/php.ini regexp="^[#|;]?memory_limit =" insertafter="^[#|;]?memory_limit =" line="memory_limit = {{ php_memory_limit }}"
