@@ -110,7 +110,6 @@
 
 - name: delete anonymous MySQL server user for server_hostname
   mysql_user: name="" host="{{ server_hostname }}" state="absent" login_user=root login_password="{{ mysql_root_password }}"
-  become: true
 
 - name: delete anonymous MySQL server user for localhost
   mysql_user: name="" state="absent" host="{{ server_hostname }}" login_user="root" login_password="{{ mysql_root_password }}"
