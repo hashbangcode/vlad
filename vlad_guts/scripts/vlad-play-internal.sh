@@ -39,8 +39,6 @@ while getopts "t:u:" opt; do
   esac
 done
 
-echo $VLAD_EXTRA_VARS
-
 if [ -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook"
     ansible-playbook -i "localhost," --connection=local --extra-vars VLAD_EXTRA_VARS ./vlad_guts/playbooks/site.yml
