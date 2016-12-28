@@ -6,6 +6,13 @@ dist: trusty
 sudo: required
 
 before_install:
+  # Remove MySQL.
+  - sudo apt-get remove --purge "^mysql.*"
+  - sudo apt-get autoremove
+  - sudo apt-get autoclean
+  - sudo rm -rf /var/lib/mysql
+  - sudo rm -rf /var/log/mysql
+
   # Make sure everything's up to date.
   - sudo apt-get update -qq
 
