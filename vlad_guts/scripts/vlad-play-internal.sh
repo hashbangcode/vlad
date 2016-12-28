@@ -21,15 +21,32 @@ cd $DIR
 # Now move two directories above, which puts us into the Vagrant directory.
 cd ../../
 
-# Grab any tags that have been sent to the script.
-ANSIBLE_TAGS=$1
+# Setup a variable for possible alteration when we extrac the flags.
+VLAD_EXTRA_VARS="vlad_running_local=true"
+
+# Extract flags.
+while getopts "t:u:" opt; do
+  case $opt in
+    t)
+      # Grab any tags that have been sent to the script.
+      ANSIBLE_TAGS=$OPTARG
+      ;;
+    u)
+      # Grab the user assigned via the -u flag.
+      VLAD_USER=$OPTARG
+      VLAD_EXTRA_VARS="$VLAD_EXTRA_VARS user=$VLAD_USER"
+      ;;
+  esac
+done
+
+echo $VLAD_EXTRA_VARS
 
 if [ -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook"
-    ansible-playbook -i "localhost," --connection=local --extra-vars "vlad_running_local=true" ./vlad_guts/playbooks/site.yml
+    ansible-playbook -i "localhost," --connection=local --extra-vars VLAD_EXTRA_VARS ./vlad_guts/playbooks/site.yml
 fi
 
 if [ ! -z "$ANSIBLE_TAGS" ]; then
     echo "Running Vlad playbook with the tags '$ANSIBLE_TAGS'"
-    ansible-playbook -i "localhost," --connection=local --extra-vars "vlad_running_local=true" ./vlad_guts/playbooks/site.yml -t "$ANSIBLE_TAGS"
+    ansible-playbook -i "localhost," --connection=local --extra-vars VLAD_EXTRA_VARS ./vlad_guts/playbooks/site.yml -t "$ANSIBLE_TAGS"
 fi

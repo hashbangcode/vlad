@@ -41,4 +41,4 @@ script:
   - ansible-lint -x resources vlad_guts/playbooks/site.yml
 
   # Test the core Vlad playbook.
-  - vlad_guts/scripts/vlad-play-internal.sh
+  - vlad_guts/scripts/vlad-play-internal.sh -u travis
