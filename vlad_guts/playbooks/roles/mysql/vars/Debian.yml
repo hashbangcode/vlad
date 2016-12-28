@@ -2,9 +2,9 @@
 # MySQL vars (Debian)
 mysql_pkgs:
   - mysql-common
-  - mysql-client-5.5
-  - mysql-server-core-5.5
-  - mysql-server-5.5
+  - mysql-client
+  - mysql-server-core
+  - mysql-server
   - python-mysqldb
 mysql_service_name: "mysql"
 mysql_socket: "/var/run/mysqld/mysqld.sock"
