@@ -38,7 +38,7 @@ aux_synced_folder: "./vlad_aux"
 synced_folder_type: 'nfs'
 
 # Set additional mount options.
-vlad_synced_folder_mount_options: '[]'
+vlad_synced_folder_mount_options: []
 
 # Set the level of verbosity that Ansible will use
 # This can be one of "", "v", "vv", "vvv", or "vvvv"
