@@ -1,15 +1,31 @@
 ---
+- name: is MySQL installed (Debian)
+  stat: path=/etc/init.d/mysql
+  register: mysql_installed
+  when: ansible_os_family == "Debian"
+
 - name: install mysql packages
   apt: pkg={{ item }} state=installed
   when: ansible_os_family == "Debian"
   become: true
   with_items: "{{ mysql_pkgs }}"
+  when: mysql_installed.stat.exists == false
+
+- name: Install the Python MySQL packages (Debian).
+  apt: pkg=python-mysqldb state=installed
+  when: ansible_os_family == "Debian"
+  become: true
 
 - name: install mysql packages
   yum: pkg={{ item }} state=installed
   when: ansible_os_family == "RedHat"
   become: true
   with_items: "{{ mysql_pkgs }}"
+
+- name: Install the Python MySQL packages (Redhat).
+  yum: pkg=MySQL-python state=installed
+  when: ansible_os_family == "RedHat"
+  become: true
 
 - name: make sure mysql starts
   command: chkconfig mysqld on
