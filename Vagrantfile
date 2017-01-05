@@ -239,6 +239,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Configure CPU number and amount of RAM memory.
     vb.memory = vagrant_memory
     vb.cpus = vagrant_cpus
+    vb.gui = false
 
     # Configure misc settings
     vb.customize ['modifyvm', :id,
